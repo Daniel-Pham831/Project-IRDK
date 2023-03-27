@@ -1,0 +1,13 @@
+﻿using System.Diagnostics.CodeAnalysis;
+using UnityEngine;
+
+// This class is automatically generate when create new AudioInfo. Do NOT change anything here.
+namespace Maniac.AudioSystem
+{
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
+    public static class Audio
+    {
+        //[DON'T DELETE THESE COMMENTS]
+        //[HERE]
+    }
+}
