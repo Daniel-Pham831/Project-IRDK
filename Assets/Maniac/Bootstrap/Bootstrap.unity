@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.3708985, g: 0.3783704, b: 0.35722548, a: 1}
+  m_IndirectSpecularColor: {r: 0.12731749, g: 0.13414757, b: 0.1210787, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -329,15 +329,15 @@ PrefabInstance:
     - target: {fileID: 3120369285993458966, guid: 1c5e0826a0400114cb4c8d8a9a753062, type: 3}
       propertyPath: uiData
       value: 
-      objectReference: {fileID: 11400000, guid: ed9182b0ea746fe44bae4b18f1f6daae, type: 2}
+      objectReference: {fileID: 11400000, guid: 5cb697fe27e7f2d4e896e2dda21fc5cc, type: 2}
     - target: {fileID: 3120369285993458966, guid: 1c5e0826a0400114cb4c8d8a9a753062, type: 3}
       propertyPath: dataBase
       value: 
-      objectReference: {fileID: 11400000, guid: d73678bdb997ec44cb442c01d04c81d9, type: 2}
+      objectReference: {fileID: 11400000, guid: 786295f78fd4fc0439249bd17dacf47f, type: 2}
     - target: {fileID: 3120369285993458966, guid: 1c5e0826a0400114cb4c8d8a9a753062, type: 3}
       propertyPath: audioData
       value: 
-      objectReference: {fileID: 11400000, guid: 7eba2e20f5fe1c04a8d57799fb888489, type: 2}
+      objectReference: {fileID: 11400000, guid: c9af7d2d51fd34c48a05467a79e0cd5c, type: 2}
     - target: {fileID: 3120369285993458966, guid: 1c5e0826a0400114cb4c8d8a9a753062, type: 3}
       propertyPath: testPrefab
       value: 
@@ -345,7 +345,7 @@ PrefabInstance:
     - target: {fileID: 3120369285993458966, guid: 1c5e0826a0400114cb4c8d8a9a753062, type: 3}
       propertyPath: languageTable
       value: 
-      objectReference: {fileID: 11400000, guid: 9a0955d8d4e41ea4ca6e0b2aa78f1edb, type: 2}
+      objectReference: {fileID: 11400000, guid: a10e505728e8ce548979066e82280432, type: 2}
     - target: {fileID: 3120369285993458966, guid: 1c5e0826a0400114cb4c8d8a9a753062, type: 3}
       propertyPath: audioObjectPrefab
       value: 
