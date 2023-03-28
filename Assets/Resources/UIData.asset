@@ -12,6 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 976e1a282777ed84c9cbb2d07f525c41, type: 3}
   m_Name: UIData
   m_EditorClassIdentifier: 
-  uis: []
-  uiLayers: []
+  uis:
+  - {fileID: 3840321108016726176, guid: e916e4cc69d5ef74989574cb67d7629f, type: 3}
+  - {fileID: 4431100475118203382, guid: a7210d3c7c3359a4a88fb438a472805f, type: 3}
+  uiLayers:
+  - Default
+  - Screen
+  - Screen-Above
+  - Dialog
   presets: []

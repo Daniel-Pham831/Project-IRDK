@@ -17,5 +17,6 @@ MonoBehaviour:
   - Vietnamese
   _languageFlags: []
   _defaultLanguage: English
-  items: []
-  languageToDelete: 
+  items:
+  - {fileID: 11400000, guid: bbeee6c647874744aa5ed270babc87e2, type: 2}
+  languageToDelete: English

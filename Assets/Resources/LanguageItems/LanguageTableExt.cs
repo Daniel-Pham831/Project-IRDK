@@ -9,6 +9,7 @@ namespace Maniac.LanguageTableSystem
     {
         //[DON'T DELETE THESE COMMENTS]
         //[HERE]
+		public static readonly string Bootstrap_LoadingProgress = "Bootstrap_LoadingProgress";
 		public static readonly string Vietnamese = "Vietnamese";
 		public static readonly string English = "English";
     }

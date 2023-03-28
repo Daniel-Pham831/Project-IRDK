@@ -8,6 +8,7 @@ using Maniac.Services;
 using Maniac.SpawnerSystem;
 using Maniac.TimeSystem;
 using Maniac.UISystem;
+using Maniac.Utils.Extension;
 using UnityEngine;
 
 namespace Maniac.Bootstrap.Scripts
@@ -35,13 +36,12 @@ namespace Maniac.Bootstrap.Scripts
         private Service CreateBootStrapServiceGroup()
         {
             var essentialServiceGroup = CreateEssentialServiceGroup();
-            var unityServiceGroup = CreateUnityServiceGroup();
-            var gameServiceGroup = CreateGameServiceGroup();
+            var loadingServiceGroup = CreateLoadingServiceGroup();
 
             var bootStrap = new SequenceServiceGroup("BootStrap Service");
             bootStrap.Add(essentialServiceGroup);
-            bootStrap.Add(unityServiceGroup);
-            bootStrap.Add(gameServiceGroup);
+            bootStrap.Add(new ShowSplashBannerService());
+            bootStrap.Add(loadingServiceGroup);
 
             return bootStrap;
         }
@@ -61,24 +61,15 @@ namespace Maniac.Bootstrap.Scripts
 
             return essentialServiceGroup;
         }
-        
-        private Service CreateUnityServiceGroup()
-        {
-            var unityServicesGroup = new SequenceServiceGroup("Unity Services");
 
-            unityServicesGroup.Add(new InitUnityServicesService());
-            unityServicesGroup.Add(new InitRemoteConfigService());
+        private Service CreateLoadingServiceGroup()
+        {
+            var loadingServiceGroup = new BootstrapLoadingServiceGroup("Loading Services");
             
-            return unityServicesGroup;
-        }
-
-        private Service CreateGameServiceGroup()
-        {
-            var subServiceGroup = new SequenceServiceGroup("Game Systems Services");
-
-            // Add your game initialization services here
-            // You should create your own Service to change to your scene
-            return subServiceGroup;
+            loadingServiceGroup.Add(new InitUnityServicesService());
+            loadingServiceGroup.Add(new InitRemoteConfigService());
+            
+            return loadingServiceGroup;
         }
     }
 }
