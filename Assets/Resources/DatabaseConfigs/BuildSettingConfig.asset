@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 998bd4f11afae5a47abb69fee578714b, type: 3}
+  m_Name: BuildSettingConfig
+  m_EditorClassIdentifier: 
+  TargetEnvironmentName: develop
+  BuildEnvironments:
+  - EnvironmentName: production
+    EnvironmentId: e299a1d0-8d0c-409e-b894-8e2200c8b9e7
+  - EnvironmentName: staging
+    EnvironmentId: 40b7b66b-077e-4c79-a76c-ab4934f610b3
+  - EnvironmentName: develop
+    EnvironmentId: 145681a8-ea66-4d15-bc73-a12171b73166

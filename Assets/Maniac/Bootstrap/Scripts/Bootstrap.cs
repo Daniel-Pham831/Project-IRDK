@@ -1,4 +1,6 @@
-﻿using Maniac.AudioSystem;
+﻿using Game.Services;
+using Game.Services.UnityServices;
+using Maniac.AudioSystem;
 using Maniac.DataBaseSystem;
 using Maniac.LanguageTableSystem;
 using Maniac.ProfileSystem;
@@ -33,10 +35,12 @@ namespace Maniac.Bootstrap.Scripts
         private Service CreateBootStrapServiceGroup()
         {
             var essentialServiceGroup = CreateEssentialServiceGroup();
+            var unityServiceGroup = CreateUnityServiceGroup();
             var gameServiceGroup = CreateGameServiceGroup();
 
             var bootStrap = new SequenceServiceGroup("BootStrap Service");
             bootStrap.Add(essentialServiceGroup);
+            bootStrap.Add(unityServiceGroup);
             bootStrap.Add(gameServiceGroup);
 
             return bootStrap;
@@ -56,6 +60,16 @@ namespace Maniac.Bootstrap.Scripts
             essentialServiceGroup.Add(new InitAudioManagerService(audioData,audioObjectPrefab)); //this should be behind InitProfileManagerService
 
             return essentialServiceGroup;
+        }
+        
+        private Service CreateUnityServiceGroup()
+        {
+            var unityServicesGroup = new SequenceServiceGroup("Unity Services");
+
+            unityServicesGroup.Add(new InitUnityServicesService());
+            unityServicesGroup.Add(new InitRemoteConfigService());
+            
+            return unityServicesGroup;
         }
 
         private Service CreateGameServiceGroup()

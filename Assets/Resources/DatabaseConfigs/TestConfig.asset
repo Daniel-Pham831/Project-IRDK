@@ -9,9 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 120f1d67c065a664c8054a10463b55f8, type: 3}
-  m_Name: DataBase
+  m_Script: {fileID: 11500000, guid: 5e607dd0d45faac47ab6db19db416ac5, type: 3}
+  m_Name: TestConfig
   m_EditorClassIdentifier: 
-  configs:
-  - {fileID: 11400000, guid: c80c6a43d51b7854c9f8c649d6b797c7, type: 2}
-  - {fileID: 11400000, guid: 1106a0e8741673c44af8cc840cfcacd6, type: 2}
+  TestBool: 0
+  TestInt: 40
+  TestString: develop
+  TestCustomData:
+    TestLong: 2323
+    TestString2: Moto Hello
