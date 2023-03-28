@@ -3,18 +3,15 @@ using Maniac.DataBaseSystem;
 using Maniac.Services;
 using Maniac.Utils;
 using Maniac.Utils.Extension;
-using Unity.Services.Authentication;
 using Unity.Services.RemoteConfig;
 using UnityEngine;
-using UnityEngine.SocialPlatforms;
 
 namespace Game.Services.UnityServices
 {
     public class InitRemoteConfigService : Service
     {
-        private RemoteConfigService _remoteConfigService;
         private DataBase _dataBase => Locator<DataBase>.Instance;
-        private BuildSettingConfig _buildSettingConfig => _dataBase.Get<BuildSettingConfig>();
+        
         public struct userAttributes {}
         public struct appAttributes {}
 
@@ -23,18 +20,11 @@ namespace Game.Services.UnityServices
 
         public override async UniTask<IService.Result> Execute()
         {
-            if (!AuthenticationService.Instance.IsSignedIn)
-            {
-                await AuthenticationService.Instance.SignInAnonymouslyAsync();
-            }
+            var remoteConfigService = RemoteConfigService.Instance;
 
-            _remoteConfigService = RemoteConfigService.Instance;
-            Locator<RemoteConfigService>.Set(RemoteConfigService.Instance);
+            remoteConfigService.FetchConfigs(new userAttributes(), new appAttributes());
 
-            _remoteConfigService.SetEnvironmentID(_buildSettingConfig.GetTargetEnvironmentID());
-            _remoteConfigService.FetchConfigs(new userAttributes(), new appAttributes());
-
-            _remoteConfigService.FetchCompleted += ApplyRemoteSettings;
+            remoteConfigService.FetchCompleted += ApplyRemoteSettings;
 
             await UniTask.WaitUntil(() => _isCompleted);
             return _result;
@@ -58,7 +48,7 @@ namespace Game.Services.UnityServices
 
         private void OverrideLocalDataBaseConfigs()
         {
-            var runtimeConfig = _remoteConfigService.appConfig;
+            var runtimeConfig = RemoteConfigService.Instance.appConfig;
             var remoteKeys = runtimeConfig.GetKeys();
 
             foreach (var key in remoteKeys)

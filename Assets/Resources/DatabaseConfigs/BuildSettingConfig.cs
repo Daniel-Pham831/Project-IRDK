@@ -23,6 +23,8 @@ namespace Maniac.DataBaseSystem
                 ?.EnvironmentId;
         }
 
+        public string GetTargetEnvironmentName => TargetEnvironmentName;
+
 #if UNITY_EDITOR
         public List<string> FetchAllIds()
         {

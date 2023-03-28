@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e607dd0d45faac47ab6db19db416ac5, type: 3}
   m_Name: TestConfig
   m_EditorClassIdentifier: 
-  TestBool: 0
+  TestBool: 1
   TestInt: 40
-  TestString: develop
+  TestString: Staging
   TestCustomData:
     TestLong: 2323
     TestString2: Moto Hello

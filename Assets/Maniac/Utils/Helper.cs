@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using System.CodeDom.Compiler;
+using Newtonsoft.Json;
 
 namespace Maniac.Utils
 {
@@ -14,6 +15,25 @@ namespace Maniac.Utils
             {
                 if (camera == null) camera = Camera.main;
                 return camera;
+            }
+        }
+
+        private static JsonSerializerSettings _serializerSettings;
+
+        public static JsonSerializerSettings SerializerSettings
+        {
+            get
+            {
+                if (_serializerSettings == null)
+                {
+                    _serializerSettings = new JsonSerializerSettings
+                    {
+                        TypeNameHandling = TypeNameHandling.Auto,
+                        Formatting = Formatting.Indented,
+                    };
+                }
+
+                return _serializerSettings;
             }
         }
 

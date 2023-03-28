@@ -34,7 +34,7 @@ namespace Game
         public void UpdateLoadingProgress(float value)
         {
             progressSlider.value = value;
-            progressText.text = string.Format(_loadingFormatText, value);
+            progressText.text = string.Format(_loadingFormatText, value.ToString("F2"));
         }
     }
 }

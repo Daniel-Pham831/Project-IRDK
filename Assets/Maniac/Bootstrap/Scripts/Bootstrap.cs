@@ -1,4 +1,5 @@
-﻿using Game.Services;
+﻿using Game.Networking;
+using Game.Services;
 using Game.Services.UnityServices;
 using Maniac.AudioSystem;
 using Maniac.DataBaseSystem;
@@ -66,8 +67,11 @@ namespace Maniac.Bootstrap.Scripts
         {
             var loadingServiceGroup = new BootstrapLoadingServiceGroup("Loading Services");
             
+            loadingServiceGroup.Add(new InitLocalSystemService());
             loadingServiceGroup.Add(new InitUnityServicesService());
+            loadingServiceGroup.Add(new InitAuthenticationService());
             loadingServiceGroup.Add(new InitRemoteConfigService());
+            loadingServiceGroup.Add(new InitUpdatePlayerNameService());
             
             return loadingServiceGroup;
         }
