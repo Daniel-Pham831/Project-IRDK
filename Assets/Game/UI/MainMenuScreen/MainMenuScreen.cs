@@ -34,7 +34,7 @@ namespace Game
         {
             await CheckPlayerName();
             SetInteraction(true);
-            await UniTask.Delay(1500); 
+            await UniTask.Delay(1000); 
             await ShowAboveWelcomeDialog();
         }
 
@@ -44,7 +44,7 @@ namespace Game
                 _localSystem.LocalPlayer.DisplayName);
 
             await aboveWelcomeDialog.DOFade(1, 0.4f).AsyncWaitForCompletion();
-            await UniTask.Delay(3500); 
+            await UniTask.Delay(3000); 
             aboveWelcomeDialog.DOFade(0, 0.4f);
         }
 
