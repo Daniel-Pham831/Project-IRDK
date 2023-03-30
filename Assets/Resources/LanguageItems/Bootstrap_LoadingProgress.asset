@@ -15,6 +15,6 @@ MonoBehaviour:
   id: Bootstrap_LoadingProgress
   languageInfos:
   - languageName: English
-    text: 'Loading: {0}%'
+    text: Loading - {0}%
   - languageName: Vietnamese
-    text: "\u0110ang T\u1EA3i: {0}%"
+    text: "\u0110ang T\u1EA3i - {0}%"
