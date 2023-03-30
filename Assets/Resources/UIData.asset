@@ -19,6 +19,7 @@ MonoBehaviour:
   - {fileID: 4204417543018008210, guid: c0b0c68f8b2af4447bf7276b7feb0d14, type: 3}
   - {fileID: 6650560435220826611, guid: 0c76989fc77917c45b21e105ba6aabfd, type: 3}
   - {fileID: 608696964131795202, guid: a15c1d7da68a0114594fa864d895bd57, type: 3}
+  - {fileID: 7632929567319275178, guid: 53a3eb9e975405e4bae6c1a5d1e8b5d2, type: 3}
   uiLayers:
   - Default
   - Screen

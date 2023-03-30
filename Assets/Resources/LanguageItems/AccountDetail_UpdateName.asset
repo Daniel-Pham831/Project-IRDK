@@ -10,13 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3a194ce5ca2345ada61e3398af34c4fa, type: 3}
-  m_Name: UpdateUserName_Welcome
+  m_Name: AccountDetail_UpdateName
   m_EditorClassIdentifier: 
-  id: UpdateUserName_Welcome
+  id: AccountDetail_UpdateName
   languageInfos:
   - languageName: English
-    text: 'Welcome, {0}
-
-      What should I call you ?'
+    text: Update Name
   - languageName: Vietnamese
-    text: "Xin ch\xE0o, {0}\nM\xECnh n\xEAn g\u1ECDi b\u1EA1n l\xE0 g\xEC ?\n"
+    text: "C\u1EADp Nh\u1EADt T\xEAn"

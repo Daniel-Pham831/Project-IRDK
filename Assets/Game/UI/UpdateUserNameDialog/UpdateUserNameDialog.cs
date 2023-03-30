@@ -10,6 +10,7 @@ using Maniac.LanguageTableSystem;
 using Maniac.UISystem;
 using Maniac.Utils;
 using TMPro;
+using UnityEngine.UI;
 
 namespace Game
 {
@@ -22,35 +23,40 @@ namespace Game
 
         [SerializeField] private LanguageItem welcomeLangItem;
         [SerializeField] private LanguageItem unknownLangItem;
-        
+
+        [SerializeField] private Button closeButton;
+
         public override void OnSetup(object parameter = null) //first
         {
+            bool hasUserHaveName = !string.IsNullOrEmpty(_localSystem.LocalPlayer.DisplayName);
+
             welcomeText.text = string.Format(welcomeLangItem.GetCurrentLanguageText(),
-                unknownLangItem.GetCurrentLanguageText());
-            
+                hasUserHaveName ? _localSystem.LocalPlayer.DisplayName : unknownLangItem.GetCurrentLanguageText());
+
+            closeButton.gameObject.SetActive(hasUserHaveName);
             base.OnSetup(parameter);
         }
 
         public async void OnConfirmClicked()
         {
-            var name = nameInput.text.Trim();
-            if (string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name))
+            var trimmedName = nameInput.text.Trim();
+            if (string.IsNullOrEmpty(trimmedName) || string.IsNullOrWhiteSpace(trimmedName))
             {
                 ShowErrorInInputField();
             }
             else
             {
-                await SubmitNameToServer(name);
+                await SubmitNameToServer(trimmedName);
             }
         }
-
-        private async UniTask SubmitNameToServer(string name)
+        
+        private async UniTask SubmitNameToServer(string nameToSubmit)
         {
             await new ShowConnectToServerCommand().Execute();
-            await new SaveCsDataCommand(CloudSaveKey.UserName, name).Execute();
+            await new SaveCsDataCommand(CloudSaveKey.UserName, nameToSubmit).Execute();
             await new HideConnectToServerCommand().Execute();
-            _localSystem.LocalPlayer.DisplayName = name;
-            Close(name);
+            _localSystem.LocalPlayer.DisplayName = nameToSubmit;
+            Close(nameToSubmit);
         }
 
         private void ShowErrorInInputField()

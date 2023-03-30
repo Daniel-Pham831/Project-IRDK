@@ -25,6 +25,7 @@ namespace Game
         public override void OnSetup(object parameter = null)
         {
             aboveWelcomeDialog.alpha = 0;
+            SetInteraction(false);
             
             base.OnSetup(parameter);
         }
@@ -32,6 +33,7 @@ namespace Game
         public override async void OnShow(object parameter = null)
         {
             await CheckPlayerName();
+            SetInteraction(true);
             await UniTask.Delay(1500); 
             await ShowAboveWelcomeDialog();
         }
@@ -62,6 +64,16 @@ namespace Game
         public async void OnPlayMultiClicked()
         {
             
+        }
+
+        public async void OnSettingClicked()
+        {
+            
+        }
+
+        public async void OnShowAccountDetailsClicked()
+        {
+            await _uiManager.Show<AccountDetailsScreen>();
         }
     }
 }
