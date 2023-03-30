@@ -15,7 +15,7 @@ namespace Maniac.LanguageTableSystem
         {
             [HideInInspector]
             public string languageName;
-            [LabelText("$languageName")][TextArea(4,10)]
+            [LabelText("$languageName")][TextArea(5,10)]
             public string text = string.Empty;
         }
 

@@ -18,13 +18,11 @@ namespace Game.Services.UnityServices
         {
             var userName = await new FetchCSDataCommand<string>(CloudSaveKey.UserName).ExecuteAndGetResult();
 
-            if (string.IsNullOrEmpty(userName))
+            if (!string.IsNullOrEmpty(userName))
             {
-                userName = "Denial2";
-                await new SaveCsDataCommand(CloudSaveKey.UserName, userName).Execute();
+                _localSystem.LocalPlayer.DisplayName = userName;
             }
 
-            _localSystem.LocalPlayer.DisplayName = userName;
             return IService.Result.Success;
         }
     }

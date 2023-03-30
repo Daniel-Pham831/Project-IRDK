@@ -15,6 +15,9 @@ MonoBehaviour:
   uis:
   - {fileID: 3840321108016726176, guid: e916e4cc69d5ef74989574cb67d7629f, type: 3}
   - {fileID: 4431100475118203382, guid: a7210d3c7c3359a4a88fb438a472805f, type: 3}
+  - {fileID: 3217845861291486232, guid: 5c9fea59bdd6f2a4dad6c1deec2df98a, type: 3}
+  - {fileID: 4204417543018008210, guid: c0b0c68f8b2af4447bf7276b7feb0d14, type: 3}
+  - {fileID: 6650560435220826611, guid: 0c76989fc77917c45b21e105ba6aabfd, type: 3}
   uiLayers:
   - Default
   - Screen

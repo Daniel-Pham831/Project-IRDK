@@ -19,4 +19,12 @@ MonoBehaviour:
   _defaultLanguage: English
   items:
   - {fileID: 11400000, guid: bbeee6c647874744aa5ed270babc87e2, type: 2}
+  - {fileID: 11400000, guid: 42d6c08490e46a847949ed7329c1dec1, type: 2}
+  - {fileID: 11400000, guid: 0f73ec6304c6f83458e5339b8b5ed4d2, type: 2}
+  - {fileID: 11400000, guid: cb6c6ba4d25c32e4d8a8cc41a0e04d2b, type: 2}
+  - {fileID: 11400000, guid: 7f4b4cf35cf4a3a48989fc4927dc74fd, type: 2}
+  - {fileID: 11400000, guid: b7fa46ffa2403ef47923ca2672a3a7b4, type: 2}
+  - {fileID: 11400000, guid: 8c0a00802a5658343b0d1b663933f03f, type: 2}
+  - {fileID: 11400000, guid: ed681908b8abc0440a5a0b0a8ff2f3f4, type: 2}
+  - {fileID: 11400000, guid: 8455ed42aacb0a441a81b377b25853b4, type: 2}
   languageToDelete: English
