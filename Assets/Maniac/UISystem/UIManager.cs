@@ -10,7 +10,8 @@ namespace Maniac.UISystem
     public class UIManager : MonoBehaviour
     {
         private UIData _uiData => Locator<UIData>.Instance;
-        
+
+        [SerializeField] private Camera _cameraPrefab;
         [SerializeField] private Transform layerRoot;
         [SerializeField] private GameObject layerPrefab;
         [SerializeField] private Canvas canvas;
@@ -24,6 +25,12 @@ namespace Maniac.UISystem
         {
             _uiLayerTransformRoots = new Dictionary<string, Transform>();
             _showedUI = new Dictionary<string, BaseUI>();
+        }
+        
+        public void Init()
+        {
+            InitMainCamera();
+            InitializeUILayer();
         }
 
         public void InitializeUILayer()
@@ -193,9 +200,14 @@ namespace Maniac.UISystem
                 Destroy(ui.gameObject);
         }
 
-        public void UpdateMainCamera()
+        public void InitMainCamera()
         {
-            canvas.worldCamera = Helper.Camera;
+            var mainCamera = Instantiate(_cameraPrefab);
+            mainCamera.name = "Main Camera";
+            DontDestroyOnLoad(mainCamera);
+            _cameraPrefab.transform.position = Vector3.zero;
+
+            canvas.worldCamera = mainCamera;
         }
 
         public Transform GetCorrectLayer(string layerName)
@@ -207,5 +219,6 @@ namespace Maniac.UISystem
 
             return _uiLayerTransformRoots[layerName];
         }
+
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using Cysharp.Threading.Tasks;
 using Game.Networking;
 using Maniac.Services;
@@ -51,19 +52,9 @@ namespace Game.Services.UnityServices
                         break;
                     }
                 }
-                catch (AuthenticationException ex)
+                catch (Exception e)
                 {
-                    // Compare error code to AuthenticationErrorCodes
-                    // Notify the player with the proper error message
-                    Debug.LogError(ex);
-                    authenticationState = AuthState.Error;
-                }
-                catch (RequestFailedException exception)
-                {
-                    // Compare error code to CommonErrorCodes
-                    // Notify the player with the proper error message
-                    Debug.LogError(exception);
-                    authenticationState = AuthState.Error;
+                    // ignored
                 }
 
                 tries++;

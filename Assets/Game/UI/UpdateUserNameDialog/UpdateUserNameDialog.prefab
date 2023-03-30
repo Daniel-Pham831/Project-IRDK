@@ -160,7 +160,7 @@ MonoBehaviour:
     shouldEnableBlackBackGround: 1
     shouldSeparateDuration: 1
     duration: 0.4
-    enterDuration: 0.25
+    enterDuration: 0.4
     exitDuration: 0.4
   uiTransitionPresetName: 
   uiTransitionPreset:

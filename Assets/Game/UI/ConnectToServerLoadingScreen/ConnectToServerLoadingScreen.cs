@@ -14,7 +14,7 @@ namespace Game
         // Use this to init your UI
         public override void OnSetup(object parameter = null) //first
         {
-            loadingImage.DORotate(loadingImage.forward * 540, 1f, RotateMode.FastBeyond360).SetEase(Ease.Linear)
+            loadingImage.DORotate(loadingImage.forward * 360, 1f, RotateMode.FastBeyond360).SetEase(Ease.Linear)
                 .SetLoops(-1);
             
             base.OnSetup(parameter);

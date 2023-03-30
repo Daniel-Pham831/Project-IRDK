@@ -2,6 +2,7 @@ using Cysharp.Threading.Tasks;
 using Maniac.Services;
 using Maniac.Utils;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Maniac.UISystem
 {
@@ -20,11 +21,16 @@ namespace Maniac.UISystem
         {
             var uiManager = Object.Instantiate(_uiManagerPrefab);
             uiManager.name = "UI Manager";
+
+            var unityEventSystem = new GameObject("Unity Event System");
+            unityEventSystem.AddComponent<StandaloneInputModule>();
+            
+            Object.DontDestroyOnLoad(unityEventSystem);
             
             Locator<UIData>.Set(_uiData);
             Locator<UIManager>.Set(uiManager);
             
-            uiManager.InitializeUILayer();
+            uiManager.Init();
             
             Object.DontDestroyOnLoad(uiManager);
             return IService.Result.Success;

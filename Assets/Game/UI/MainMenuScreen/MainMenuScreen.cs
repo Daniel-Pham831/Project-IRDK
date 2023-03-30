@@ -32,6 +32,7 @@ namespace Game
         public override async void OnShow(object parameter = null)
         {
             await CheckPlayerName();
+            await UniTask.Delay(1500); 
             await ShowAboveWelcomeDialog();
         }
 
@@ -41,7 +42,7 @@ namespace Game
                 _localSystem.LocalPlayer.DisplayName);
 
             await aboveWelcomeDialog.DOFade(1, 0.4f).AsyncWaitForCompletion();
-            await UniTask.Delay(3000); 
+            await UniTask.Delay(3500); 
             aboveWelcomeDialog.DOFade(0, 0.4f);
         }
 

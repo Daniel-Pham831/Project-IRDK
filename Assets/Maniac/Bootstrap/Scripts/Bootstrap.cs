@@ -1,4 +1,5 @@
-﻿using Game.Networking;
+﻿using Game.Commands;
+using Game.Networking;
 using Game.Services;
 using Game.Services.UnityServices;
 using Maniac.AudioSystem;
@@ -37,12 +38,12 @@ namespace Maniac.Bootstrap.Scripts
         private Service CreateBootStrapServiceGroup()
         {
             var essentialServiceGroup = CreateEssentialServiceGroup();
-            var loadingServiceGroup = CreateLoadingServiceGroup();
+            var bootstrapLoadingServiceGroup = CreateBootstrapLoadingServiceGroup();
 
             var bootStrap = new SequenceServiceGroup("BootStrap Service");
             bootStrap.Add(essentialServiceGroup);
             bootStrap.Add(new ShowSplashBannerService());
-            bootStrap.Add(loadingServiceGroup);
+            bootStrap.Add(bootstrapLoadingServiceGroup);
 
             return bootStrap;
         }
@@ -63,17 +64,23 @@ namespace Maniac.Bootstrap.Scripts
             return essentialServiceGroup;
         }
 
-        private Service CreateLoadingServiceGroup()
+        private Service CreateBootstrapLoadingServiceGroup()
         {
-            var loadingServiceGroup = new BootstrapLoadingServiceGroup("Loading Services");
+            var bootstrapLoadingServiceGroup = new BootstrapLoadingServiceGroup("Loading Services");
             
-            loadingServiceGroup.Add(new InitLocalSystemService());
-            loadingServiceGroup.Add(new InitUnityServicesService());
-            loadingServiceGroup.Add(new InitAuthenticationService());
-            loadingServiceGroup.Add(new InitRemoteConfigService());
-            loadingServiceGroup.Add(new InitUpdatePlayerNameService());
+            bootstrapLoadingServiceGroup.Add(new InitLocalSystemService());
+            bootstrapLoadingServiceGroup.Add(new InitUnityServicesService());
+            bootstrapLoadingServiceGroup.Add(new InitAuthenticationService());
+            bootstrapLoadingServiceGroup.Add(new InitRemoteConfigService());
+            bootstrapLoadingServiceGroup.Add(new InitUpdatePlayerNameService());
+
+            var commandServiceGroup = new SequenceCommandServiceGroup("Command Service Group");
             
-            return loadingServiceGroup;
+            commandServiceGroup.Add(new LoadEmptySceneCommand());
+            commandServiceGroup.Add(new LoadSceneCommand(new LoadSceneCommand.Param("MainMenu",false)));
+            
+            bootstrapLoadingServiceGroup.Add(commandServiceGroup);
+            return bootstrapLoadingServiceGroup;
         }
     }
 }

@@ -57,12 +57,12 @@ MonoBehaviour:
   shouldUseTransitionPreset: 0
   uiTransition:
     transitionEnter: 0
-    transitionExit: 0
+    transitionExit: 2
     easeEnter: 9
     easeExit: 9
     shouldEnableBlackBackGround: 0
     shouldSeparateDuration: 0
-    duration: 0.3
+    duration: 0.25
     enterDuration: 0
     exitDuration: 0
   uiTransitionPresetName: 
@@ -143,7 +143,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f3281b9ba565094f82503c902256132, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  layer: Screen
+  layer: Loading
   shouldExceptThisUIOnCloseAllUI: 1
   progressSlider: {fileID: 6815316433999749987}
   progressText: {fileID: 4272392280308895911}
