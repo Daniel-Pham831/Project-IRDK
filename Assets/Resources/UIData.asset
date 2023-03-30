@@ -20,9 +20,11 @@ MonoBehaviour:
   - {fileID: 6650560435220826611, guid: 0c76989fc77917c45b21e105ba6aabfd, type: 3}
   - {fileID: 608696964131795202, guid: a15c1d7da68a0114594fa864d895bd57, type: 3}
   - {fileID: 7632929567319275178, guid: 53a3eb9e975405e4bae6c1a5d1e8b5d2, type: 3}
+  - {fileID: 9190953556927235874, guid: 095753b2804b977438dcbb6ab4825cb6, type: 3}
   uiLayers:
   - Default
   - Screen
+  - Screen-Above
   - Dialog
   - Loading
   - Loading-Dialog
