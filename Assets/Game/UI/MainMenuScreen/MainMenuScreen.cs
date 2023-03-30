@@ -6,6 +6,7 @@ using DG.Tweening;
 using Game.Networking;
 using Maniac.LanguageTableSystem;
 using Maniac.UISystem;
+using Maniac.UISystem.Command;
 using Maniac.Utils;
 using TMPro;
 
@@ -31,7 +32,6 @@ namespace Game
         public override async void OnShow(object parameter = null)
         {
             await CheckPlayerName();
-
             await ShowAboveWelcomeDialog();
         }
 
@@ -50,7 +50,7 @@ namespace Game
             bool hasUserHaveName = _localSystem.LocalPlayer.DisplayName != string.Empty;
             if (hasUserHaveName) return;
 
-            await _uiManager.Show<UpdateUserNameDialog>();
+            await ShowScreenCommand.Create<UpdateUserNameDialog>().ExecuteAndReturnResult();
         }
 
         public async void OnPlaySingleClicked()

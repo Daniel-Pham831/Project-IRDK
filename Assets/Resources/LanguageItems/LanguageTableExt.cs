@@ -9,6 +9,7 @@ namespace Maniac.LanguageTableSystem
     {
         //[DON'T DELETE THESE COMMENTS]
         //[HERE]
+		public static readonly string General_WelcomeUser = "General_WelcomeUser";
 		public static readonly string UpdateUserName_EnterYourName = "UpdateUserName_EnterYourName";
 		public static readonly string General_Unknown = "General_Unknown";
 		public static readonly string General_Start = "General_Start";
