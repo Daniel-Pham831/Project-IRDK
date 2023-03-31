@@ -69,7 +69,7 @@ namespace Maniac.Bootstrap.Scripts
         {
             var bootstrapLoadingServiceGroup = new BootstrapLoadingServiceGroup("Loading Services");
             
-            bootstrapLoadingServiceGroup.Add(new InitLocalSystemService());
+            bootstrapLoadingServiceGroup.Add(new InitLocalDataService());
             bootstrapLoadingServiceGroup.Add(new InitUnityServicesService());
             bootstrapLoadingServiceGroup.Add(new InitAuthenticationService());
             bootstrapLoadingServiceGroup.Add(new InitRemoteConfigService());

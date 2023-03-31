@@ -1,6 +1,6 @@
 namespace Game.Networking
 {
-    public class LocalSystem
+    public class LocalData
     {
         public LocalPlayer LocalPlayer { get; private set; } = new LocalPlayer();
     }

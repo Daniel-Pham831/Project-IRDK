@@ -9,8 +9,18 @@ namespace Game.Scripts
     {
         [SerializeField] private List<PlayerItemInLobbyRoomScreen> playerItems;
 
-        public async UniTask Setup(Lobby lobbyInfo)
+        public void UpdateLobbyPlayerItems(Lobby lobbyInfo)
         {
+            for (int i = 0; i < playerItems.Count; i++)
+            {
+                var isContainPlayer = i < lobbyInfo.Players.Count;
+                
+                playerItems[i].gameObject.SetActive(isContainPlayer);
+                if (isContainPlayer)
+                {
+                    playerItems[i].UpdateInfo(lobbyInfo.Players[i], lobbyInfo);
+                }
+            }
         }
     }
 }

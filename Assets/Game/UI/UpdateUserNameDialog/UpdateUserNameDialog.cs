@@ -16,7 +16,7 @@ namespace Game
 {
     public class UpdateUserNameDialog : BaseUI
     {
-        private LocalSystem _localSystem => Locator<LocalSystem>.Instance;
+        private LocalData LocalData => Locator<LocalData>.Instance;
         
         [SerializeField] private TMP_InputField nameInput;
         [SerializeField] private TMP_Text welcomeText;
@@ -28,10 +28,10 @@ namespace Game
 
         public override void OnSetup(object parameter = null) //first
         {
-            bool hasUserHaveName = !string.IsNullOrEmpty(_localSystem.LocalPlayer.DisplayName);
+            bool hasUserHaveName = !string.IsNullOrEmpty(LocalData.LocalPlayer.DisplayName);
 
             welcomeText.text = string.Format(welcomeLangItem.GetCurrentLanguageText(),
-                hasUserHaveName ? _localSystem.LocalPlayer.DisplayName : unknownLangItem.GetCurrentLanguageText());
+                hasUserHaveName ? LocalData.LocalPlayer.DisplayName : unknownLangItem.GetCurrentLanguageText());
 
             closeButton.gameObject.SetActive(hasUserHaveName);
             base.OnSetup(parameter);
@@ -55,7 +55,7 @@ namespace Game
             await new ShowConnectToServerCommand().Execute();
             await new SaveCsDataCommand(CloudSaveKey.UserName, nameToSubmit).Execute();
             await new HideConnectToServerCommand().Execute();
-            _localSystem.LocalPlayer.DisplayName = nameToSubmit;
+            LocalData.LocalPlayer.DisplayName = nameToSubmit;
             Close(nameToSubmit);
         }
 

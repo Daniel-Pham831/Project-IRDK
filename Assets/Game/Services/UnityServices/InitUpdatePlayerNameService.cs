@@ -12,7 +12,7 @@ namespace Game.Services.UnityServices
 {
     public class InitUpdatePlayerNameService : Service
     {
-        private LocalSystem _localSystem => Locator<LocalSystem>.Instance;
+        private LocalData LocalData => Locator<LocalData>.Instance;
 
         public override async UniTask<IService.Result> Execute()
         {
@@ -20,7 +20,7 @@ namespace Game.Services.UnityServices
 
             if (!string.IsNullOrEmpty(userName))
             {
-                _localSystem.LocalPlayer.DisplayName = userName;
+                LocalData.LocalPlayer.DisplayName = userName;
             }
 
             return IService.Result.Success;

@@ -4,11 +4,11 @@ using Maniac.Utils;
 
 namespace Game.Networking
 {
-    public class InitLocalSystemService : Service
+    public class InitLocalDataService : Service
     {
         public override async UniTask<IService.Result> Execute()
         {
-            Locator<LocalSystem>.Set(new LocalSystem());
+            Locator<LocalData>.Set(new LocalData());
 
             return IService.Result.Success;
         }

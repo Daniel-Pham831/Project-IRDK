@@ -12,14 +12,14 @@ namespace Game
 {
     public class AccountDetailsScreen : BaseUI
     {
-        private LocalSystem _localSystem => Locator<LocalSystem>.Instance;
+        private LocalData LocalData => Locator<LocalData>.Instance;
 
         [SerializeField] private TMP_Text userName;
         // This method will be call first, at this point, UI hasn't show up on canvas yet.
         // Use this to init your UI
         public override void OnSetup(object parameter = null) //first
         {
-            userName.text = _localSystem.LocalPlayer.DisplayName;
+            userName.text = LocalData.LocalPlayer.DisplayName;
             base.OnSetup(parameter);
         }
 
@@ -27,7 +27,7 @@ namespace Game
         {
             await ShowScreenCommand.Create<UpdateUserNameDialog>().ExecuteAndReturnResult();
             
-            userName.text = _localSystem.LocalPlayer.DisplayName;
+            userName.text = LocalData.LocalPlayer.DisplayName;
         }
     }
 }

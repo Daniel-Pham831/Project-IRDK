@@ -15,7 +15,7 @@ namespace Game
 {
     public class MainMenuScreen : BaseUI
     {
-        private LocalSystem _localSystem => Locator<LocalSystem>.Instance;
+        private LocalData LocalData => Locator<LocalData>.Instance;
         private UIManager _uiManager => Locator<UIManager>.Instance;
 
         [Header("Welcome Dialog")] 
@@ -42,7 +42,7 @@ namespace Game
         private async UniTask ShowAboveWelcomeDialog()
         {
             welcomeText.text = string.Format(welcomeLangItem.GetCurrentLanguageText(),
-                _localSystem.LocalPlayer.DisplayName);
+                LocalData.LocalPlayer.DisplayName);
 
             await aboveWelcomeDialog.DOFade(1, 0.4f).AsyncWaitForCompletion();
             await UniTask.Delay(3000); 
@@ -51,7 +51,7 @@ namespace Game
 
         public async UniTask CheckPlayerName()
         {
-            bool hasUserHaveName = _localSystem.LocalPlayer.DisplayName != string.Empty;
+            bool hasUserHaveName = LocalData.LocalPlayer.DisplayName != string.Empty;
             if (hasUserHaveName) return;
 
             await ShowScreenCommand.Create<UpdateUserNameDialog>().ExecuteAndReturnResult();

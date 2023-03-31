@@ -12,7 +12,7 @@ namespace Game.Services.UnityServices
 {
     public class InitAuthenticationService : Service
     {
-        private LocalSystem _localSystem => Locator<LocalSystem>.Instance;
+        private LocalData LocalData => Locator<LocalData>.Instance;
 
         public override async UniTask<IService.Result> Execute()
         {
@@ -20,7 +20,7 @@ namespace Game.Services.UnityServices
 
             authenticationService.SignedIn += async () =>
             {
-                _localSystem.LocalPlayer.Id = authenticationService.PlayerId;
+                LocalData.LocalPlayer.Id = authenticationService.PlayerId;
             };
 
             authenticationService.SignInFailed += (err) => { Debug.LogError(err); };
