@@ -16,8 +16,8 @@ namespace Maniac.TimeSystem
 
         public void Start(float duration, Action callback = null)
         {
-            _timeManager.AddActiveTimer(this);
-            
+            _timeManager.AddDependentActiveTimer(this);
+
             this.currentTime = duration;
             this.callback = callback;
 

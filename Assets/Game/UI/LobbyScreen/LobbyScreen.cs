@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
 using Maniac;
@@ -8,50 +9,49 @@ using Game.Scripts;
 using Maniac.UISystem;
 using Maniac.UISystem.Command;
 using Maniac.Utils;
+using TMPro;
+using UniRx.Triggers;
 
 namespace Game
 {
     public class LobbyScreen : BaseUI
     {
-        public enum Result
-        {
-            None,
-            Create,
-            Join,
-            QuickJoin,
-        }
-        
         private LobbySystem _lobbySystem => Locator<LobbySystem>.Instance;
 
         [SerializeField] private LobbyControllerInScreen lobbyController;
+        [SerializeField] private TMP_InputField joinCodeInput;
         
         public async void OnRefreshClicked()
         {
             Debug.Log("OnRefreshClicked");
+            await UpdateLobbiesList();
         }
-        
+
+        private async UniTask UpdateLobbiesList()
+        {
+            var response = await new FetchNewLobbiesListCommand().ExecuteAndGetResult();
+
+            if (response == null) return;
+
+            lobbyController.UpdateLobbies(response.Results);
+        }
+
         public async void OnCreateClicked()
         {
             Debug.Log("OnCreateClicked");
-            Close(Result.Create);
             await new CreateNewLobbyCommand().Execute();
         }
 
-        public async void OnJoinClicked()
+        public async void OnJoinByCodeClicked()
         {
             Debug.Log("OnJoinClicked");
-            Close(Result.Join);
+            if (!string.IsNullOrEmpty(joinCodeInput.text))
+                await new JoinLobbyByCodeCommand(joinCodeInput.text).Execute();
         }
-
+        
         public async void OnQuickJoinClicked()
         {
             Debug.Log("OnQuickJoinClicked");
-            Close(Result.QuickJoin);
-        }
-
-        public override async UniTask Close(object param = null)
-        {
-            await base.Close(Result.None);
         }
     }
 }

@@ -145,7 +145,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 9190953556927235874}
         m_TargetAssemblyTypeName: Game.LobbyScreen, Assembly-CSharp
-        m_MethodName: OnJoinClicked
+        m_MethodName: OnJoinByCodeClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

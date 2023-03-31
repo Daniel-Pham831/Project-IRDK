@@ -1,5 +1,4 @@
-﻿using System;
-using Cysharp.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
 using Maniac.Command;
 using Maniac.UISystem.Command;
 using Maniac.Utils;
@@ -15,8 +14,15 @@ namespace Game.Networking.LobbySystem.Commands
 
             if (lobbyName == null) return;
             
-            await _lobbySystem.CreateLobby(lobbyName);
-            // ShowLobbyRoomDetailScreen
+            var createdLobby = await _lobbySystem.CreateLobby(lobbyName);
+            if (createdLobby != null)
+            {
+                // ShowLobbyRoomDetailScreen
+            }
+            else
+            {
+                // show created fail
+            }
         }
     }
 }

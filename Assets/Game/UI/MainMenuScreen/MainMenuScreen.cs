@@ -64,7 +64,7 @@ namespace Game
 
         public async void OnPlayMultiClicked()
         {
-            await new ShowLobbyScreenCommand().Execute();
+            await _uiManager.Show<LobbyScreen>();
         }
 
         public async void OnSettingClicked()

@@ -13,7 +13,7 @@ namespace Maniac.TimeSystem
         public static float Time { get; private set; }
         private float _timeMultiplier = 1f;
         private Queue<Timer> _freeTimers = new Queue<Timer>();
-        private List<Timer> _activeTimers = new List<Timer>();
+        private List<Timer> _dependentActiveTimers = new List<Timer>();
         private float _previousTimeMultiplier;
 
         public void Init()
@@ -40,9 +40,9 @@ namespace Maniac.TimeSystem
             timer.Start(duration, callback);
         }
 
-        public void AddActiveTimer(Timer timer)
+        public void AddDependentActiveTimer(Timer timer)
         {
-            _activeTimers.Add(timer);
+            _dependentActiveTimers.Add(timer);
         }
 
         public void Update(float dependentGamePlayDeltaTime = 0)
@@ -61,17 +61,17 @@ namespace Maniac.TimeSystem
 
         private void UpdateActiveTimers(float dependentGamePlayDeltaTime)
         {
-            if (_activeTimers.Count == 0)
+            if (_dependentActiveTimers.Count == 0)
                 return;
 
-            for (int i = _activeTimers.Count - 1; i >= 0; i--)
+            for (int i = _dependentActiveTimers.Count - 1; i >= 0; i--)
             {
-                Timer currentTimer = _activeTimers[i];
+                Timer currentTimer = _dependentActiveTimers[i];
                 currentTimer.Update(dependentGamePlayDeltaTime);
 
                 if (!currentTimer.IsTimerActive)
                 {
-                    _activeTimers.Remove(currentTimer);
+                    _dependentActiveTimers.Remove(currentTimer);
                     ReturnFreeTimer(currentTimer);
                 }
             }
@@ -106,7 +106,7 @@ namespace Maniac.TimeSystem
 
         public void RemoveActiveTimer(Timer timer)
         {
-            _activeTimers.Remove(timer);
+            _dependentActiveTimers.Remove(timer);
         }
     }
 }
