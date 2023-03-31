@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Maniac.DataBaseSystem;
 using Maniac.TimeSystem;
@@ -20,8 +21,6 @@ namespace Game.Networking.LobbySystem
         private LobbyConfig _lobbyConfig;
 
         private ILobbyService _lobbyService;
-        private Unity.Services.Lobbies.Models.Lobby _lobbyToPing = null;
-        private Unity.Services.Lobbies.Models.Lobby _joinedLobby = null;
 
         public ReactiveProperty<Unity.Services.Lobbies.Models.Lobby> LobbyToPing { get; private set; } =
             new ReactiveProperty<Unity.Services.Lobbies.Models.Lobby>();
@@ -35,23 +34,44 @@ namespace Game.Networking.LobbySystem
 
             ResetJoinedLobby();
             HandleLobbyHeartBeat();
+            HandleJoinedLobbyUpdate();
             await UniTask.CompletedTask;
+        }
+
+        private void HandleJoinedLobbyUpdate()
+        {
+            _timeManager.OnTimeOut(async () =>
+            {
+                if (JoinedLobby.Value != null)
+                {
+                    try
+                    {
+                        JoinedLobby.Value = await _lobbyService.GetLobbyAsync(JoinedLobby.Value.Id);
+                    }
+                    catch (Exception e)
+                    {
+                        JoinedLobby.Value = null;
+                    }
+                }
+
+                HandleJoinedLobbyUpdate();
+            },_lobbyConfig.LobbyUpdateIntervalInSeconds);
         }
 
         public async UniTask ResetJoinedLobby()
         {
-            _lobbyToPing = null;
-            _joinedLobby = null;
+            LobbyToPing.Value = null;
+            JoinedLobby.Value = null;
         }
 
         private void HandleLobbyHeartBeat()
         {
             _timeManager.OnTimeOut(async () =>
             {
-                if (_lobbyToPing != null)
+                if (LobbyToPing.Value != null)
                 {
-                    await _lobbyService.SendHeartbeatPingAsync(_lobbyToPing.Id);
-                    Debug.Log($"Heartbeat {_lobbyToPing.Name} Sent");
+                    await _lobbyService.SendHeartbeatPingAsync(LobbyToPing.Value.Id);
+                    Debug.Log($"Heartbeat {LobbyToPing.Value.Name} Sent");
                 }
 
                 HandleLobbyHeartBeat();
@@ -69,17 +89,17 @@ namespace Game.Networking.LobbySystem
                     new CreateLobbyOptions { Player = lobbyHostPlayerData });
 
                 Debug.Log($"Lobby {newLobby.Name}-{newLobby.LobbyCode} {"Created".AddColor(Color.yellow)}");
-                _joinedLobby = newLobby;
+                JoinedLobby.Value = newLobby;
             }
             catch (LobbyServiceException e)
             {
                 // ignored
                 Debug.Log(e);
-                _joinedLobby = null;
+                JoinedLobby.Value = null;
             }
 
-            _lobbyToPing = _joinedLobby;
-            return _joinedLobby;
+            LobbyToPing.Value = JoinedLobby.Value;
+            return JoinedLobby.Value;
         }
 
         private Player GetLobbyPlayerData(string name,Color color,bool isReady)
@@ -126,16 +146,16 @@ namespace Game.Networking.LobbySystem
                 var joinLobbyData = GetLobbyPlayerData(_localData.LocalPlayer.DisplayName, Color.gray, false);
                 var joinedLobby = await _lobbyService.JoinLobbyByCodeAsync(lobbyCode,new JoinLobbyByCodeOptions{Player = joinLobbyData});
                 Debug.Log($"Joined Lobby {joinedLobby.Id} {joinedLobby.LobbyCode}");
-                _joinedLobby = joinedLobby;
+                JoinedLobby.Value = joinedLobby;
             }
             catch(LobbyServiceException e)
             {
                 Debug.Log(e);
-                _joinedLobby = null;
+                JoinedLobby.Value = null;
             }
 
-            _lobbyToPing = null;
-            return _joinedLobby;
+            LobbyToPing.Value = null;
+            return JoinedLobby.Value;
         }
         
         public async UniTask<Unity.Services.Lobbies.Models.Lobby> JoinLobbyById(string lobbyId)
@@ -145,16 +165,16 @@ namespace Game.Networking.LobbySystem
                 var joinLobbyData = GetLobbyPlayerData(_localData.LocalPlayer.DisplayName, Color.gray, false);
                 var joinedLobby = await _lobbyService.JoinLobbyByIdAsync(lobbyId,new JoinLobbyByIdOptions{Player = joinLobbyData});
                 Debug.Log($"Joined Lobby {joinedLobby.Id} {joinedLobby.LobbyCode}");
-                _joinedLobby = joinedLobby;
+                JoinedLobby.Value = joinedLobby;
             }
             catch(LobbyServiceException e)
             {
                 Debug.Log(e);
-                _joinedLobby = null;
+                JoinedLobby.Value = null;
             }
             
-            _lobbyToPing = null;
-            return _joinedLobby;
+            LobbyToPing.Value = null;
+            return JoinedLobby.Value;
         }
         
         public async UniTask<Unity.Services.Lobbies.Models.Lobby> QuickJoinLobby(QuickJoinLobbyOptions options = default)
@@ -167,21 +187,16 @@ namespace Game.Networking.LobbySystem
                 options.Player = joinLobbyData;
                 var joinedLobby = await _lobbyService.QuickJoinLobbyAsync(options);
                 Debug.Log($"Joined Lobby {joinedLobby.Id} {joinedLobby.LobbyCode}");
-                _joinedLobby = joinedLobby;
+                JoinedLobby.Value = joinedLobby;
             }
             catch(LobbyServiceException e)
             {
                 Debug.Log(e);
-                _joinedLobby = null;
+                JoinedLobby.Value = null;
             }
 
-            _lobbyToPing = null;
-            return _joinedLobby;
-        }
-
-        public Unity.Services.Lobbies.Models.Lobby GetCorrectLobby()
-        {
-            return _joinedLobby;
+            LobbyToPing.Value = null;
+            return JoinedLobby.Value;
         }
     }
 }

@@ -11,5 +11,6 @@ namespace Maniac.DataBaseSystem
     {
         public List<Color> RoomColors;
         public float HeartBeatIntervalInSeconds = 20f;
+        public float LobbyUpdateIntervalInSeconds = 1.1f;
     }
 }

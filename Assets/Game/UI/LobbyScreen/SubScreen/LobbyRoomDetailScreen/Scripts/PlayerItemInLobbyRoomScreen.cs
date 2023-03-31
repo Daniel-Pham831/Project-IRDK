@@ -1,6 +1,7 @@
 ﻿using Cysharp.Threading.Tasks;
 using Game.Networking;
 using Game.Networking.LobbySystem;
+using Maniac.Utils;
 using TMPro;
 using Unity.Services.Lobbies.Models;
 using UnityEngine;
@@ -10,6 +11,7 @@ namespace Game.Scripts
 {
     public class PlayerItemInLobbyRoomScreen : MonoBehaviour
     {
+        private LocalData _localData => Locator<LocalData>.Instance;
         [SerializeField] private GameObject isHostIcon;
         [SerializeField] private TMP_Text playerName;
         [SerializeField] private GameObject isReadyIcon;
@@ -20,13 +22,13 @@ namespace Game.Scripts
         {
             var isHost = lobbyPlayer.Id == lobby.HostId;
             
-            isHostIcon.gameObject.SetActive(isHost);
-            kickButton.gameObject.SetActive(isHost);
+            isHostIcon.SetActive(isHost);
+            kickButton.SetActive(!isHost);
 
             playerName.text = lobbyPlayer.Data[LobbyDataKey.PlayerName].Value;
             
             var isReady = (lobbyPlayer.Data[LobbyDataKey.PlayerReady] as PlayerDataObject<bool>)?.TValue;
-            isReadyIcon.gameObject.SetActive(isReady != null && isReady.Value);
+            isReadyIcon.SetActive(isReady != null && isReady.Value);
             
             var color = (lobbyPlayer.Data[LobbyDataKey.PlayerReady] as PlayerDataObject<Color>)?.TValue;
             if (color != null)

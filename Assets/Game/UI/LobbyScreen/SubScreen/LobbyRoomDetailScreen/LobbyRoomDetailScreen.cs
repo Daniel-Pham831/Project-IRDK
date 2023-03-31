@@ -11,6 +11,7 @@ using Maniac.LanguageTableSystem;
 using Maniac.UISystem;
 using Maniac.Utils;
 using TMPro;
+using UniRx;
 using Unity.Services.Lobbies.Models;
 using UnityEngine.UI;
 
@@ -34,18 +35,25 @@ namespace Game
         [SerializeField] private LanguageItem startLangItem;
         [SerializeField] private LanguageItem readyLangItem;
         
-        private Lobby _lobby;
 
         public override void OnSetup(object parameter = null)
         {
             _lobbyConfig = _dataBase.Get<LobbyConfig>();
-            _lobby = _lobbySystem.GetCorrectLobby();
 
+            SubscribeLobby();
             SetupAllColorPickerButtons();
             
-            UpdateLobbyRoom();
-            
             base.OnSetup(parameter);
+        }
+
+        private void SubscribeLobby()
+        {
+            _lobbySystem.JoinedLobby.Subscribe(value =>
+            {
+                if (_lobbySystem.JoinedLobby.Value == null)  return;
+                
+                UpdateLobbyRoom();
+            }).AddTo(this);
         }
 
         private void SetupAllColorPickerButtons()
@@ -68,21 +76,15 @@ namespace Game
 
         private void UpdateLobbyRoom()
         {
-            if (_lobby == null)
-            {
-                Debug.LogError("Lobby Room cannot be null. Please Investigate!");
-                return;
-            }
+            roomName.text = _lobbySystem.JoinedLobby.Value.Name;
+            roomCode.text = _lobbySystem.JoinedLobby.Value.LobbyCode;
 
-            roomName.text = _lobby.Name;
-            roomCode.text = _lobby.LobbyCode;
-
-            var isHost = _lobby.HostId == LocalData.LocalPlayer.Id;
+            var isHost = _lobbySystem.JoinedLobby.Value.HostId == LocalData.LocalPlayer.Id;
             startOrReady.text = isHost
                 ? startLangItem.GetCurrentLanguageText()
                 : readyLangItem.GetCurrentLanguageText();
 
-            playerItemController.UpdateLobbyPlayerItems(_lobby);
+            playerItemController.UpdateLobbyPlayerItems(_lobbySystem.JoinedLobby.Value);
         }
 
         public async void OnStartOrReadyClicked()
