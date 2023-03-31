@@ -9,6 +9,8 @@ namespace Maniac.LanguageTableSystem
     {
         //[DON'T DELETE THESE COMMENTS]
         //[HERE]
+		public static readonly string Lobby_Information = "Lobby_Information";
+		public static readonly string Lobby_EnterLobbyName = "Lobby_EnterLobbyName";
 		public static readonly string Lobby_EnterLobbyCode = "Lobby_EnterLobbyCode";
 		public static readonly string Lobby_QuickJoin = "Lobby_QuickJoin";
 		public static readonly string Lobby_Join = "Lobby_Join";

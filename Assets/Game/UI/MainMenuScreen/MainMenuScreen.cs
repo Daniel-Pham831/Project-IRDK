@@ -4,6 +4,7 @@ using Cysharp.Threading.Tasks;
 using Maniac;
 using DG.Tweening;
 using Game.Networking;
+using Game.Networking.LobbySystem.Commands;
 using Maniac.LanguageTableSystem;
 using Maniac.UISystem;
 using Maniac.UISystem.Command;
@@ -63,7 +64,7 @@ namespace Game
 
         public async void OnPlayMultiClicked()
         {
-            
+            await new ShowLobbyScreenCommand().Execute();
         }
 
         public async void OnSettingClicked()

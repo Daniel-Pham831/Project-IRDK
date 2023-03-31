@@ -33,4 +33,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5f1037e24fd62434b945219ff756db07, type: 2}
   - {fileID: 11400000, guid: e71adbba06509b24aa55d63a8072d811, type: 2}
   - {fileID: 11400000, guid: 3719219a7cf312b43af2dd5ca569aa9a, type: 2}
+  - {fileID: 11400000, guid: 4b337f2eb7e367a4abd41f11de47b424, type: 2}
+  - {fileID: 11400000, guid: 26718490d1d20574e96ac8e6b8ae2f25, type: 2}
   languageToDelete: English
