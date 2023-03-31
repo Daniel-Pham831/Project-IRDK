@@ -19,25 +19,33 @@ namespace Game.Networking.LobbySystem
         private LobbyConfig _lobbyConfig;
 
         private ILobbyService _lobbyService;
-        private Unity.Services.Lobbies.Models.Lobby _hostLobby = null;
+        private Unity.Services.Lobbies.Models.Lobby _lobbyToPing = null;
         private Unity.Services.Lobbies.Models.Lobby _joinedLobby = null;
 
         public async UniTask Init()
         {
             _lobbyService = LobbyService.Instance;
             _lobbyConfig = _dataBase.Get<LobbyConfig>();
-            
+
+            ResetJoinedLobby();
             HandleLobbyHeartBeat();
             await UniTask.CompletedTask;
+        }
+
+        public async UniTask ResetJoinedLobby()
+        {
+            _lobbyToPing = null;
+            _joinedLobby = null;
         }
 
         private void HandleLobbyHeartBeat()
         {
             _timeManager.OnTimeOut(async () =>
             {
-                if (_hostLobby != null)
+                if (_lobbyToPing != null)
                 {
-                    await _lobbyService.SendHeartbeatPingAsync(_hostLobby.Id);
+                    await _lobbyService.SendHeartbeatPingAsync(_lobbyToPing.Id);
+                    Debug.Log($"Heartbeat {_lobbyToPing.Name} Sent");
                 }
 
                 HandleLobbyHeartBeat();
@@ -53,16 +61,17 @@ namespace Game.Networking.LobbySystem
                 var newLobby = await _lobbyService.CreateLobbyAsync(lobbyName, maxPlayer);
 
                 Debug.Log($"Lobby {newLobby.Name}-{newLobby.LobbyCode} {"Created".AddColor(Color.yellow)}");
-                _hostLobby = newLobby;
+                _joinedLobby = newLobby;
             }
             catch (LobbyServiceException e)
             {
                 // ignored
                 Debug.Log(e);
-                _hostLobby = null;
+                _joinedLobby = null;
             }
 
-            return _hostLobby;
+            _lobbyToPing = _joinedLobby;
+            return _joinedLobby;
         }
         
         public async UniTask<QueryResponse> FetchLobbiesList(QueryLobbiesOptions options = default)
@@ -97,6 +106,7 @@ namespace Game.Networking.LobbySystem
                 _joinedLobby = null;
             }
 
+            _lobbyToPing = null;
             return _joinedLobby;
         }
         
@@ -114,6 +124,7 @@ namespace Game.Networking.LobbySystem
                 _joinedLobby = null;
             }
             
+            _lobbyToPing = null;
             return _joinedLobby;
         }
         
@@ -130,7 +141,13 @@ namespace Game.Networking.LobbySystem
                 Debug.Log(e);
                 _joinedLobby = null;
             }
-            
+
+            _lobbyToPing = null;
+            return _joinedLobby;
+        }
+
+        public Unity.Services.Lobbies.Models.Lobby GetCorrectLobby()
+        {
             return _joinedLobby;
         }
     }

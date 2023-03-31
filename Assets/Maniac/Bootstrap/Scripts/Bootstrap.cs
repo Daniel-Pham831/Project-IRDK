@@ -1,5 +1,6 @@
 ﻿using Game.Commands;
 using Game.Networking;
+using Game.Networking.Lobby;
 using Game.Services;
 using Game.Services.UnityServices;
 using Maniac.AudioSystem;
@@ -73,6 +74,7 @@ namespace Maniac.Bootstrap.Scripts
             bootstrapLoadingServiceGroup.Add(new InitAuthenticationService());
             bootstrapLoadingServiceGroup.Add(new InitRemoteConfigService());
             bootstrapLoadingServiceGroup.Add(new InitUpdatePlayerNameService());
+            bootstrapLoadingServiceGroup.Add(new InitLobbySystemService());
 
             var commandServiceGroup = new SequenceCommandServiceGroup("Command Service Group");
             

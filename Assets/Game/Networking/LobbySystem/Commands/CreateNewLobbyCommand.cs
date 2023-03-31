@@ -1,4 +1,5 @@
 ﻿using Cysharp.Threading.Tasks;
+using Game.Commands;
 using Maniac.Command;
 using Maniac.UISystem.Command;
 using Maniac.Utils;
@@ -18,6 +19,7 @@ namespace Game.Networking.LobbySystem.Commands
             if (createdLobby != null)
             {
                 // ShowLobbyRoomDetailScreen
+                await new ShowLobbyRoomDetailScreenCommand().Execute();
             }
             else
             {

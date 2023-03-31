@@ -206,6 +206,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lobbyItemPrefab: {fileID: 178323813373176669, guid: 95d47a9d57a58e0499011c878b5cd4db, type: 3}
+  lobbyItemsHolder: {fileID: 0}
 --- !u!1 &1572661106693102954
 GameObject:
   m_ObjectHideFlags: 0
@@ -302,6 +303,7 @@ MonoBehaviour:
   layer: Screen
   shouldExceptThisUIOnCloseAllUI: 0
   lobbyController: {fileID: 8778885611829620787}
+  joinCodeInput: {fileID: 7719774413496648660}
 --- !u!114 &9035646337847375584
 MonoBehaviour:
   m_ObjectHideFlags: 0

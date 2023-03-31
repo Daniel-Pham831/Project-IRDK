@@ -20,7 +20,12 @@ namespace Game
 
         [SerializeField] private LobbyControllerInScreen lobbyController;
         [SerializeField] private TMP_InputField joinCodeInput;
-        
+
+        public override async void OnSetup(object parameter = null)
+        {
+            await _lobbySystem.ResetJoinedLobby();
+        }
+
         public async void OnRefreshClicked()
         {
             Debug.Log("OnRefreshClicked");
@@ -52,6 +57,7 @@ namespace Game
         public async void OnQuickJoinClicked()
         {
             Debug.Log("OnQuickJoinClicked");
+            await new QuickJoinLobbyCommand().Execute();
         }
     }
 }
