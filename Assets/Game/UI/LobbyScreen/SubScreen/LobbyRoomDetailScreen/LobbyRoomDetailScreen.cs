@@ -5,6 +5,8 @@ using Maniac;
 using DG.Tweening;
 using Game.Networking;
 using Game.Networking.LobbySystem;
+using Game.Networking.LobbySystem.Commands;
+using Game.Networking.LobbySystem.Extensions;
 using Game.Scripts;
 using Maniac.DataBaseSystem;
 using Maniac.LanguageTableSystem;
@@ -13,13 +15,14 @@ using Maniac.Utils;
 using TMPro;
 using UniRx;
 using Unity.Services.Lobbies.Models;
+using Unity.VisualScripting;
 using UnityEngine.UI;
 
 namespace Game
 {
     public class LobbyRoomDetailScreen : BaseUI
     {
-        private LocalData LocalData => Locator<LocalData>.Instance;
+        private LocalData _localData => Locator<LocalData>.Instance;
         private LobbySystem _lobbySystem => Locator<LobbySystem>.Instance;
         private DataBase _dataBase => Locator<DataBase>.Instance;
         private LobbyConfig _lobbyConfig;
@@ -34,7 +37,8 @@ namespace Game
 
         [SerializeField] private LanguageItem startLangItem;
         [SerializeField] private LanguageItem readyLangItem;
-        
+        private Lobby _joinedLobby;
+
 
         public override void OnSetup(object parameter = null)
         {
@@ -51,7 +55,8 @@ namespace Game
             _lobbySystem.JoinedLobby.Subscribe(value =>
             {
                 if (_lobbySystem.JoinedLobby.Value == null)  return;
-                
+
+                _joinedLobby = _lobbySystem.JoinedLobby.Value;
                 UpdateLobbyRoom();
             }).AddTo(this);
         }
@@ -62,39 +67,49 @@ namespace Game
             {
                 var newButton = Instantiate(colorButtonPrefab, colorPickerHolder);
                 newButton.GetComponent<Image>().color = color;
-                newButton.onClick.AddListener(()=>
+                newButton.onClick.AddListener(async ()=>
                 {
-                    ApplyColorToLocalPlayer(color);
+                    await ApplyColorToLocalPlayer(color);
                 });
             }
         }
 
-        private void ApplyColorToLocalPlayer(Color color)
+        private async UniTask ApplyColorToLocalPlayer(Color color)
         {
-            throw new System.NotImplementedException();
+            await new UpdatePlayerDataCommand(_joinedLobby.Id, _localData.LocalPlayer.Id,
+                LobbyDataKey.PlayerSlotColor, color).Execute();
         }
 
         private void UpdateLobbyRoom()
         {
-            roomName.text = _lobbySystem.JoinedLobby.Value.Name;
-            roomCode.text = _lobbySystem.JoinedLobby.Value.LobbyCode;
+            roomName.text = _joinedLobby.Name;
+            roomCode.text = _joinedLobby.LobbyCode;
 
-            var isHost = _lobbySystem.JoinedLobby.Value.HostId == LocalData.LocalPlayer.Id;
+            var isHost = _joinedLobby.HostId == _localData.LocalPlayer.Id;
             startOrReady.text = isHost
                 ? startLangItem.GetCurrentLanguageText()
                 : readyLangItem.GetCurrentLanguageText();
 
-            playerItemController.UpdateLobbyPlayerItems(_lobbySystem.JoinedLobby.Value);
+            playerItemController.UpdateLobbyPlayerItems(_joinedLobby);
         }
 
         public async void OnStartOrReadyClicked()
         {
-            Debug.Log("OnStartOrReadyClicked");
-        }
+            bool isLocalPlayerHost = _joinedLobby.HostId == _localData.LocalPlayer.Id;
 
-        public async void OnKickPlayerClicked()
-        {
-            
+            if (isLocalPlayerHost)
+            {
+                
+            }
+            else
+            {
+                var localPlayer = _joinedLobby.GetLocalPlayer();
+                if (localPlayer != null)
+                {
+                    await new UpdatePlayerDataCommand(_joinedLobby.Id, _localData.LocalPlayer.Id,
+                        LobbyDataKey.PlayerSlotReady, !localPlayer.GetData<bool>(LobbyDataKey.PlayerSlotReady)).Execute();
+                }
+            }
         }
     }
 }

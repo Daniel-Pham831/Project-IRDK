@@ -1,6 +1,8 @@
 ﻿using Cysharp.Threading.Tasks;
 using Game.Networking;
 using Game.Networking.LobbySystem;
+using Game.Networking.LobbySystem.Commands;
+using Game.Networking.LobbySystem.Extensions;
 using Maniac.Utils;
 using TMPro;
 using Unity.Services.Lobbies.Models;
@@ -17,22 +19,33 @@ namespace Game.Scripts
         [SerializeField] private GameObject isReadyIcon;
         [SerializeField] private GameObject kickButton;
         [SerializeField] private Image background;
+        [SerializeField] private Image nameBorderColor;
+        
+        private Lobby _lobby;
+        private Player _lobbyPlayer;
 
         public void UpdateInfo(Player lobbyPlayer, Lobby lobby)
         {
-            var isHost = lobbyPlayer.Id == lobby.HostId;
+            _lobbyPlayer = lobbyPlayer;
+            _lobby = lobby;
             
-            isHostIcon.SetActive(isHost);
-            kickButton.SetActive(!isHost);
+            var isHostSlot = lobbyPlayer.Id == lobby.HostId;
+            var isLocalPlayerHost = _localData.LocalPlayer.Id == lobby.HostId;
 
-            playerName.text = lobbyPlayer.Data[LobbyDataKey.PlayerName].Value;
+            isHostIcon.SetActive(isHostSlot);
+            kickButton.SetActive(isLocalPlayerHost && !isHostSlot);
+
+            playerName.text = lobbyPlayer.GetData<string>(LobbyDataKey.PlayerName);
+            isReadyIcon.SetActive(lobbyPlayer.GetData<bool>(LobbyDataKey.PlayerSlotReady));
+            background.color = lobbyPlayer.GetData<Color>(LobbyDataKey.PlayerSlotColor);
             
-            var isReady = (lobbyPlayer.Data[LobbyDataKey.PlayerReady] as PlayerDataObject<bool>)?.TValue;
-            isReadyIcon.SetActive(isReady != null && isReady.Value);
-            
-            var color = (lobbyPlayer.Data[LobbyDataKey.PlayerReady] as PlayerDataObject<Color>)?.TValue;
-            if (color != null)
-                background.color = color.Value;
+            var isLocalPlayer = lobbyPlayer.Id == _localData.LocalPlayer.Id;
+            nameBorderColor.color = isLocalPlayer ? Color.black : Color.white;
+        }
+
+        public async void OnKickPlayerClicked()
+        {
+            await new KickPlayerFromLobbyCommand(_lobby.Id, _lobbyPlayer.Id).Execute();
         }
     }
 }
