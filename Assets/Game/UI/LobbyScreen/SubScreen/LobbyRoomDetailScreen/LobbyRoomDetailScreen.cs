@@ -29,14 +29,13 @@ namespace Game
 
         [SerializeField] private PlayerItemControllerInLobbyRoomScreen playerItemController;
 
-        [SerializeField] private Button colorButtonPrefab;
-        [SerializeField] private Transform colorPickerHolder;
         [SerializeField] private TMP_Text roomName;
         [SerializeField] private TMP_Text roomCode;
+
+        [SerializeField] private GameObject startBtn;
         [SerializeField] private TMP_Text startOrReady;
 
         [SerializeField] private LanguageItem startLangItem;
-        [SerializeField] private LanguageItem readyLangItem;
         private Lobby _joinedLobby;
 
 
@@ -45,7 +44,6 @@ namespace Game
             _lobbyConfig = _dataBase.Get<LobbyConfig>();
 
             SubscribeLobby();
-            SetupAllColorPickerButtons();
             
             base.OnSetup(parameter);
         }
@@ -61,39 +59,20 @@ namespace Game
             }).AddTo(this);
         }
 
-        private void SetupAllColorPickerButtons()
-        {
-            foreach (var color in _lobbyConfig.RoomColors)
-            {
-                var newButton = Instantiate(colorButtonPrefab, colorPickerHolder);
-                newButton.GetComponent<Image>().color = color;
-                newButton.onClick.AddListener(async ()=>
-                {
-                    await ApplyColorToLocalPlayer(color);
-                });
-            }
-        }
-
-        private async UniTask ApplyColorToLocalPlayer(Color color)
-        {
-            await new UpdatePlayerDataCommand(_joinedLobby.Id, _localData.LocalPlayer.Id,
-                LobbyDataKey.PlayerSlotColor, color).Execute();
-        }
-
         private void UpdateLobbyRoom()
         {
             roomName.text = _joinedLobby.Name;
             roomCode.text = _joinedLobby.LobbyCode;
 
             var isHost = _joinedLobby.HostId == _localData.LocalPlayer.Id;
-            startOrReady.text = isHost
-                ? startLangItem.GetCurrentLanguageText()
-                : readyLangItem.GetCurrentLanguageText();
+            
+            startBtn.SetActive(isHost);
+            startOrReady.text = startLangItem.GetCurrentLanguageText();
 
             playerItemController.UpdateLobbyPlayerItems(_joinedLobby);
         }
 
-        public async void OnStartOrReadyClicked()
+        public async void OnStartClicked()
         {
             bool isLocalPlayerHost = _joinedLobby.HostId == _localData.LocalPlayer.Id;
 
@@ -101,15 +80,12 @@ namespace Game
             {
                 
             }
-            else
-            {
-                var localPlayer = _joinedLobby.GetLocalPlayer();
-                if (localPlayer != null)
-                {
-                    await new UpdatePlayerDataCommand(_joinedLobby.Id, _localData.LocalPlayer.Id,
-                        LobbyDataKey.PlayerSlotReady, !localPlayer.GetData<bool>(LobbyDataKey.PlayerSlotReady)).Execute();
-                }
-            }
+        }
+        
+        public override async void Back()
+        {
+            await new LeaveLobbyCommand().Execute();
+            base.Back();
         }
     }
 }

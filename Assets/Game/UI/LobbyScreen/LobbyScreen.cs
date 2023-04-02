@@ -3,6 +3,7 @@ using UnityEngine;
 using Cysharp.Threading.Tasks;
 using Maniac;
 using DG.Tweening;
+using Game.Commands;
 using Game.Networking.LobbySystem;
 using Game.Networking.LobbySystem.Commands;
 using Game.Scripts;
@@ -18,7 +19,6 @@ namespace Game
     {
         private LobbySystem _lobbySystem => Locator<LobbySystem>.Instance;
 
-        [SerializeField] private LobbyControllerInScreen lobbyController;
         [SerializeField] private TMP_InputField joinCodeInput;
 
         public override async void OnSetup(object parameter = null)
@@ -26,38 +26,27 @@ namespace Game
             await _lobbySystem.ResetJoinedLobby();
         }
 
-        public async void OnRefreshClicked()
-        {
-            Debug.Log("OnRefreshClicked");
-            await UpdateLobbiesList();
-        }
-
-        private async UniTask UpdateLobbiesList()
-        {
-            var response = await new FetchNewLobbiesListCommand().ExecuteAndGetResult();
-
-            if (response == null) return;
-
-            lobbyController.UpdateLobbies(response.Results);
-        }
-
         public async void OnCreateClicked()
         {
             Debug.Log("OnCreateClicked");
-            await new CreateNewLobbyCommand().Execute();
+            await new CreateNewLobbyCommand(Back, () => { }).Execute();
         }
 
         public async void OnJoinByCodeClicked()
         {
             Debug.Log("OnJoinClicked");
             if (!string.IsNullOrEmpty(joinCodeInput.text))
-                await new JoinLobbyByCodeCommand(joinCodeInput.text).Execute();
+            {
+                await new JoinLobbyByCodeCommand(joinCodeInput.text, Back, () => { }).Execute();
+            }
         }
-        
+
         public async void OnQuickJoinClicked()
         {
             Debug.Log("OnQuickJoinClicked");
-            await new QuickJoinLobbyCommand().Execute();
+            await new QuickJoinLobbyCommand(Back, () => { }).Execute();
         }
+
+        
     }
 }

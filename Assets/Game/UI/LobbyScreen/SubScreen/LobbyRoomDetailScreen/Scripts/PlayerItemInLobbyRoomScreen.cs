@@ -16,9 +16,7 @@ namespace Game.Scripts
         private LocalData _localData => Locator<LocalData>.Instance;
         [SerializeField] private GameObject isHostIcon;
         [SerializeField] private TMP_Text playerName;
-        [SerializeField] private GameObject isReadyIcon;
         [SerializeField] private GameObject kickButton;
-        [SerializeField] private Image background;
         [SerializeField] private Image nameBorderColor;
         
         private Lobby _lobby;
@@ -35,9 +33,7 @@ namespace Game.Scripts
             isHostIcon.SetActive(isHostSlot);
             kickButton.SetActive(isLocalPlayerHost && !isHostSlot);
 
-            playerName.text = lobbyPlayer.GetData<string>(LobbyDataKey.PlayerName);
-            isReadyIcon.SetActive(lobbyPlayer.GetData<bool>(LobbyDataKey.PlayerSlotReady));
-            background.color = lobbyPlayer.GetData<Color>(LobbyDataKey.PlayerSlotColor);
+            playerName.text = lobbyPlayer.Data[LobbyDataKey.PlayerName].Value;
             
             var isLocalPlayer = lobbyPlayer.Id == _localData.LocalPlayer.Id;
             nameBorderColor.color = isLocalPlayer ? Color.black : Color.white;

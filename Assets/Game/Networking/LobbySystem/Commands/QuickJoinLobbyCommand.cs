@@ -1,3 +1,4 @@
+using System;
 using Cysharp.Threading.Tasks;
 using Game.Commands;
 using Maniac.Command;
@@ -8,27 +9,32 @@ namespace Game.Networking.LobbySystem.Commands
 {
     public class QuickJoinLobbyCommand : Command
     {
-        private readonly QuickJoinLobbyOptions _options;
+        private readonly string _joinCode;
+        private readonly Action _onSuccess;
+        private readonly Action _onFail;
+        
         private LobbySystem _lobbySystem => Locator<LobbySystem>.Instance;
-
-        public QuickJoinLobbyCommand(QuickJoinLobbyOptions options = default)
+        
+        public QuickJoinLobbyCommand(Action onSuccess, Action onFail)
         {
-            _options = options;
+            _onSuccess = onSuccess;
+            _onFail = onFail;
         }
+
 
         public override async UniTask Execute()
         {
-            var joinedLobby = await _lobbySystem.QuickJoinLobby(_options);
+            await new ShowConnectToServerCommand().Execute();
+            var joinedLobby = await _lobbySystem.QuickJoinLobby();
+            await new HideConnectToServerCommand().Execute();
 
             if (joinedLobby != null)
             {
-                // ShowLobbyRoomDetailScreen
                 await new ShowLobbyRoomDetailScreenCommand().Execute();
+                _onSuccess?.Invoke();
             }
             else
-            {
-                // show join fail
-            }
+                _onFail?.Invoke();
         }
     }
 }

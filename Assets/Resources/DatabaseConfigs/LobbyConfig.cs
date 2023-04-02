@@ -9,7 +9,6 @@ namespace Maniac.DataBaseSystem
 {
     public class LobbyConfig : DataBaseConfig
     {
-        public List<Color> RoomColors;
         public float HeartBeatIntervalInSeconds = 20f;
         public float LobbyUpdateIntervalInSeconds = 1.1f;
     }
