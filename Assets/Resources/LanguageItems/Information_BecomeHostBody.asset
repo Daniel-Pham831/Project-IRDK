@@ -15,6 +15,6 @@ MonoBehaviour:
   id: Information_BecomeHostBody
   languageInfos:
   - languageName: English
-    text: You are not the Host of the Lobby
+    text: You now are the Lobby's Host
   - languageName: Vietnamese
     text: "B\u1EA1n hi\u1EC7n t\u1EA1i l\xE0 Host c\u1EE7a Lobby"
