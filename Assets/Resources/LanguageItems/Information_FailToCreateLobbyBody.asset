@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a194ce5ca2345ada61e3398af34c4fa, type: 3}
+  m_Name: Information_FailToCreateLobbyBody
+  m_EditorClassIdentifier: 
+  id: Information_FailToCreateLobbyBody
+  languageInfos:
+  - languageName: English
+    text: 'Cannot create new Lobby
+
+      Please try again'
+  - languageName: Vietnamese
+    text: "Kh\xF4ng th\u1EC3 t\u1EA1o Lobby m\u1EDBi\nXin h\xE3y th\u1EED l\u1EA1i"
