@@ -56,13 +56,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shouldUseTransitionPreset: 0
   uiTransition:
-    transitionEnter: 5
-    transitionExit: 6
+    transitionEnter: 3
+    transitionExit: 2
     easeEnter: 9
     easeExit: 9
     shouldEnableBlackBackGround: 1
     shouldSeparateDuration: 0
-    duration: 0.5
+    duration: 0.35
     enterDuration: 0
     exitDuration: 0
   uiTransitionPresetName: 
