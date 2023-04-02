@@ -33,7 +33,7 @@ namespace Game.Scripts
             isHostIcon.SetActive(isHostSlot);
             kickButton.SetActive(isLocalPlayerHost && !isHostSlot);
 
-            playerName.text = lobbyPlayer.Data[LobbyDataKey.PlayerName].Value;
+            playerName.text = lobbyPlayer.GetPlayerName();
             
             var isLocalPlayer = lobbyPlayer.Id == _localData.LocalPlayer.Id;
             nameBorderColor.color = isLocalPlayer ? Color.black : Color.white;

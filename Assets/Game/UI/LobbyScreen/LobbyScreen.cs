@@ -7,6 +7,7 @@ using Game.Commands;
 using Game.Networking.LobbySystem;
 using Game.Networking.LobbySystem.Commands;
 using Game.Scripts;
+using Maniac.LanguageTableSystem;
 using Maniac.UISystem;
 using Maniac.UISystem.Command;
 using Maniac.Utils;
@@ -18,6 +19,7 @@ namespace Game
     public class LobbyScreen : BaseUI
     {
         private LobbySystem _lobbySystem => Locator<LobbySystem>.Instance;
+        private LanguageTable _languageTable => Locator<LanguageTable>.Instance;
 
         [SerializeField] private TMP_InputField joinCodeInput;
 
@@ -29,7 +31,10 @@ namespace Game
         public async void OnCreateClicked()
         {
             Debug.Log("OnCreateClicked");
-            await new CreateNewLobbyCommand(Back, () => { }).Execute();
+            await new CreateNewLobbyCommand(Back, async () =>
+            {
+                await ShowCreateLobbyFail();
+            }).Execute();
         }
 
         public async void OnJoinByCodeClicked()
@@ -37,16 +42,36 @@ namespace Game
             Debug.Log("OnJoinClicked");
             if (!string.IsNullOrEmpty(joinCodeInput.text))
             {
-                await new JoinLobbyByCodeCommand(joinCodeInput.text, Back, () => { }).Execute();
+                await new JoinLobbyByCodeCommand(joinCodeInput.text, Back, async () =>
+                {
+                    await ShowJoinFail();
+                }).Execute();
+            }
+            else
+            {
+                joinCodeInput.transform.DOPunchScale(Vector3.one * 0.1f, 0.1f);
             }
         }
 
         public async void OnQuickJoinClicked()
         {
             Debug.Log("OnQuickJoinClicked");
-            await new QuickJoinLobbyCommand(Back, () => { }).Execute();
+            await new QuickJoinLobbyCommand(Back, async () =>
+            {
+                await ShowJoinFail();
+            }).Execute();
         }
 
+        private async UniTask ShowCreateLobbyFail()
+        {
+            await new ShowInformationDialogCommand(LanguageTable.Information_FailToCreateLobbyHeader,
+                LanguageTable.Information_FailToCreateLobbyBody).Execute();
+        }
         
+        private async UniTask ShowJoinFail()
+        {
+            await new ShowInformationDialogCommand(LanguageTable.Information_FailToJoinLobbyHeader,
+                LanguageTable.Information_FailToJoinLobbyBody).Execute();
+        }
     }
 }

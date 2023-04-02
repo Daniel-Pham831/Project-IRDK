@@ -6,7 +6,7 @@ using Maniac.Utils;
 
 namespace Game.Commands
 {
-    public class ShowConfirmationDialogCommand : Command
+    public class ShowConfirmationDialogCommand : ResultCommand<bool>
     {
         protected LanguageTable _languageTable => Locator<LanguageTable>.Instance;
 
@@ -14,8 +14,6 @@ namespace Game.Commands
         protected string _body;
         protected string _confirm;
         protected string _cancel;
-
-        protected ConfirmationDialog.Result _result = ConfirmationDialog.Result.Cancel;
 
         public ShowConfirmationDialogCommand(string header, string body, string confirm = "", string cancel = "")
         {
@@ -47,15 +45,9 @@ namespace Game.Commands
                 cancel = cancelLanguageItem != null ? cancelLanguageItem.GetCurrentLanguageText() : _cancel,
             };
 
-            _result =(ConfirmationDialog.Result) await ShowScreenCommand.Create<ConfirmationDialog>(confirmParam).ExecuteAndReturnResult();
+            _result = (bool)await ShowScreenCommand.Create<ConfirmationDialog>(confirmParam).ExecuteAndReturnResult();
 
             await UniTask.CompletedTask;
-        }
-
-        public async UniTask<ConfirmationDialog.Result> ExecuteAndReturnResult()
-        {
-            await Execute();
-            return _result;
         }
     }
 }

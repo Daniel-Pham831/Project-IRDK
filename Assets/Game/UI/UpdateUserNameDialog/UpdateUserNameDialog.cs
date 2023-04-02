@@ -61,7 +61,7 @@ namespace Game
 
         private void ShowErrorInInputField()
         {
-            nameInput.transform.DOPunchScale(Vector3.one * 0.05f, 0.1f);
+            nameInput.transform.DOPunchScale(Vector3.one * 0.1f, 0.1f);
         }
     }
 }

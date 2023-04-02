@@ -25,6 +25,8 @@ namespace Game.Networking.LobbySystem
         private LobbyConfig _lobbyConfig;
 
         private ILobbyService _lobbyService;
+        private HandleLocalPlayerBecomeHostCommand _handleBecomeHostCommand;
+        private HandleBeingKickedCommand _handleBeingKickCommand;
 
         public ReactiveProperty<Unity.Services.Lobbies.Models.Lobby> HostLobbyToPing { get; private set; } =
             new ReactiveProperty<Unity.Services.Lobbies.Models.Lobby>();
@@ -37,10 +39,18 @@ namespace Game.Networking.LobbySystem
             _lobbyService = LobbyService.Instance;
             _lobbyConfig = _dataBase.Get<LobbyConfig>();
 
+            InitCommands();
+            
             ResetJoinedLobby();
             HandleLobbyHeartBeat();
             HandleJoinedLobbyUpdate();
             await UniTask.CompletedTask;
+        }
+
+        private void InitCommands()
+        {
+            _handleBecomeHostCommand = new HandleLocalPlayerBecomeHostCommand();
+            _handleBeingKickCommand = new HandleBeingKickedCommand();
         }
 
         private void HandleJoinedLobbyUpdate()
@@ -52,41 +62,17 @@ namespace Game.Networking.LobbySystem
                     try
                     {
                         JoinedLobby.Value = await _lobbyService.GetLobbyAsync(JoinedLobby.Value.Id);
-
-                        HandleLocalPlayerBecomeHost();
+                        await _handleBecomeHostCommand.Execute();
                     }
-                    catch (Exception e)
+                    catch
                     {
                         JoinedLobby.Value = null;
-                        await HandleBeingKicked();
+                        await _handleBeingKickCommand.Execute();
                     }
                 }
 
                 HandleJoinedLobbyUpdate();
             },_lobbyConfig.LobbyUpdateIntervalInSeconds);
-        }
-
-        private async UniTask HandleBeingKicked()
-        {
-            bool isBeingKicked = JoinedLobby.Value == null;
-            if (isBeingKicked)
-            {
-                Debug.Log("You have been KICKED");
-                
-            }
-        }
-
-        private void HandleLocalPlayerBecomeHost()
-        {
-            if(HostLobbyToPing.Value == null)
-            {
-                bool isLocalPlayerBecomeJoinedLobbyHost = JoinedLobby.Value.HostId == _localData.LocalPlayer.Id;
-                if (isLocalPlayerBecomeJoinedLobbyHost)
-                {
-                    HostLobbyToPing.Value = JoinedLobby.Value;
-                    Debug.Log("I become the host");
-                }
-            }
         }
 
         public async UniTask ResetJoinedLobby()
@@ -119,7 +105,7 @@ namespace Game.Networking.LobbySystem
                     await _lobbyService.RemovePlayerAsync(lobbyId, playerId);
                     return true;
                 }
-                catch (Exception e)
+                catch
                 {
                     // ignored
                 }
@@ -144,10 +130,8 @@ namespace Game.Networking.LobbySystem
                 Debug.Log($"Lobby {newLobby.Name}-{newLobby.LobbyCode} {"Created".AddColor(Color.yellow)}");
                 JoinedLobby.Value = newLobby;
             }
-            catch (LobbyServiceException e)
+            catch
             {
-                // ignored
-                Debug.Log(e);
                 JoinedLobby.Value = null;
             }
 
@@ -168,6 +152,16 @@ namespace Game.Networking.LobbySystem
             };
         }
 
+        public Player GetPlayerInJoinedLobby(string playerId)
+        {
+            if (JoinedLobby.Value != null)
+            {
+                return JoinedLobby.Value.GetPlayer(playerId);
+            }
+
+            return null;
+        }
+
         public async UniTask<Unity.Services.Lobbies.Models.Lobby> JoinLobbyByCode(string lobbyCode)
         {
             try
@@ -177,9 +171,8 @@ namespace Game.Networking.LobbySystem
                 Debug.Log($"Joined Lobby {joinedLobby.Id} {joinedLobby.LobbyCode}");
                 JoinedLobby.Value = joinedLobby;
             }
-            catch(LobbyServiceException e)
+            catch
             {
-                Debug.Log(e);
                 JoinedLobby.Value = null;
             }
 
@@ -199,9 +192,8 @@ namespace Game.Networking.LobbySystem
                 Debug.Log($"Joined Lobby {joinedLobby.Id} {joinedLobby.LobbyCode}");
                 JoinedLobby.Value = joinedLobby;
             }
-            catch(LobbyServiceException e)
+            catch
             {
-                Debug.Log(e);
                 JoinedLobby.Value = null;
             }
 

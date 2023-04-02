@@ -42,6 +42,11 @@ namespace Maniac.LanguageTableSystem
         {
             return languageInfos.FirstOrDefault(x => x.languageName == _languageTable.CurrentLanguage)?.text;
         }
+
+        public string Format(params object[] args)
+        {
+            return string.Format(GetCurrentLanguageText(), args);
+        }
         
         #if UNITY_EDITOR
         [Button]

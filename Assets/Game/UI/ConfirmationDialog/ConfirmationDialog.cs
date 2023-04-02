@@ -9,12 +9,6 @@ namespace Game
 {
     public class ConfirmationDialog : BaseUI
     {
-        public enum Result
-        {
-            Confirm,
-            Cancel
-        }
-
         public class Param
         {
             public string header;
@@ -44,12 +38,12 @@ namespace Game
 
         public async void OnConfirmClicked()
         {
-            await Close(Result.Confirm);
+            await Close(true);
         }
 
         public async void OnCancelClicked()
         {
-            await Close(Result.Cancel);
+            await Close(false);
         }
     }
 }

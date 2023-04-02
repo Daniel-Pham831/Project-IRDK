@@ -9,6 +9,10 @@ namespace Maniac.LanguageTableSystem
     {
         //[DON'T DELETE THESE COMMENTS]
         //[HERE]
+		public static readonly string Information_KickSuccessBody = "Information_KickSuccessBody";
+		public static readonly string Information_KickSuccessHeader = "Information_KickSuccessHeader";
+		public static readonly string Information_KickFailBody = "Information_KickFailBody";
+		public static readonly string Information_KickFailHeader = "Information_KickFailHeader";
 		public static readonly string Confirmation_KickPlayerBody = "Confirmation_KickPlayerBody";
 		public static readonly string Confirmation_KickPlayerHeader = "Confirmation_KickPlayerHeader";
 		public static readonly string Information_BeingKickedBody = "Information_BeingKickedBody";
