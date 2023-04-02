@@ -23,6 +23,8 @@ MonoBehaviour:
   - {fileID: 9190953556927235874, guid: 095753b2804b977438dcbb6ab4825cb6, type: 3}
   - {fileID: 9002383644399311768, guid: a928b8c401232d246acdda81d0aa3eea, type: 3}
   - {fileID: 1614614202282488927, guid: f2e337086d55f6d4e95912bca23afbd6, type: 3}
+  - {fileID: 5551893814852246147, guid: 78ec31ec326f96049ba49c93314a5257, type: 3}
+  - {fileID: 5328350878279555824, guid: 40071b89ab8b5e140ac6143416a8674c, type: 3}
   uiLayers:
   - Default
   - Screen

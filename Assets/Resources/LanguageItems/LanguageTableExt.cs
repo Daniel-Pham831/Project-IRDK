@@ -9,6 +9,7 @@ namespace Maniac.LanguageTableSystem
     {
         //[DON'T DELETE THESE COMMENTS]
         //[HERE]
+		public static readonly string General_Cancel = "General_Cancel";
 		public static readonly string General_Ready = "General_Ready";
 		public static readonly string Lobby_Information = "Lobby_Information";
 		public static readonly string Lobby_EnterLobbyName = "Lobby_EnterLobbyName";
