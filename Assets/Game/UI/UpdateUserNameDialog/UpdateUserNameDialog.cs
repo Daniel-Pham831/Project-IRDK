@@ -3,6 +3,7 @@ using UnityEngine;
 using Cysharp.Threading.Tasks;
 using Maniac;
 using DG.Tweening;
+using Game.CloudProfileSystem;
 using Game.Commands;
 using Game.Networking;
 using Game.Services.UnityServices;
@@ -16,7 +17,8 @@ namespace Game
 {
     public class UpdateUserNameDialog : BaseUI
     {
-        private LocalData LocalData => Locator<LocalData>.Instance;
+        private CloudProfileManager _cloudProfileManager => Locator<CloudProfileManager>.Instance;
+        private UserProfile _userProfile;
         
         [SerializeField] private TMP_InputField nameInput;
         [SerializeField] private TMP_Text welcomeText;
@@ -26,12 +28,14 @@ namespace Game
 
         [SerializeField] private Button closeButton;
 
-        public override void OnSetup(object parameter = null) //first
+        public override async void OnSetup(object parameter = null) //first
         {
-            bool hasUserHaveName = !string.IsNullOrEmpty(LocalData.LocalPlayer.DisplayName);
+            _userProfile = await _cloudProfileManager.Get<UserProfile>();
+            
+            bool hasUserHaveName = !string.IsNullOrEmpty(_userProfile.DisplayName);
 
             welcomeText.text = string.Format(welcomeLangItem.GetCurrentLanguageText(),
-                hasUserHaveName ? LocalData.LocalPlayer.DisplayName : unknownLangItem.GetCurrentLanguageText());
+                hasUserHaveName ? _userProfile.DisplayName : unknownLangItem.GetCurrentLanguageText());
 
             closeButton.gameObject.SetActive(hasUserHaveName);
             base.OnSetup(parameter);
@@ -53,9 +57,9 @@ namespace Game
         private async UniTask SubmitNameToServer(string nameToSubmit)
         {
             await new ShowConnectToServerCommand().Execute();
-            await new SaveCsDataCommand(CloudSaveKey.UserName, nameToSubmit).Execute();
+            _userProfile.DisplayName = nameToSubmit;
+            await _userProfile.Save();
             await new HideConnectToServerCommand().Execute();
-            LocalData.LocalPlayer.DisplayName = nameToSubmit;
             Close(nameToSubmit);
         }
 

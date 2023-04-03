@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using Maniac.Utils;
 using Maniac.Utils.Extension;
-using Newtonsoft.Json;
 using UnityEditor;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
@@ -32,7 +32,7 @@ namespace Maniac.ProfileSystem
             return Load<T>();
         }
 
-        public bool Save(ProfileRecord record)
+        public bool Save(ProfileRecord record,string json = "")
         {
             bool result = false;
             try
@@ -40,9 +40,10 @@ namespace Maniac.ProfileSystem
                 string typeName = record.GetType().Name;
                 string savePath = $"{GetProfileFolderPath()}/{typeName}.{PROFILE_DATA_FILE_NAME_SUFFIX}";
 
-                string json = JsonConvert.SerializeObject(record, Formatting.Indented);
+                if (json == string.Empty)
+                    json = record.ToJson();
+                
                 File.WriteAllText(savePath, json);
-
                 SaveCache(record);
                 result = true;
             }
@@ -53,6 +54,8 @@ namespace Maniac.ProfileSystem
 
             return result;
         }
+        
+        
 
         public T Load<T>() where T : ProfileRecord
         {
@@ -61,7 +64,7 @@ namespace Maniac.ProfileSystem
             if (File.Exists(savePath))
             {
                 string json = File.ReadAllText(savePath);
-                record = JsonConvert.DeserializeObject(json, typeof(T)) as T;
+                record = JsonUtility.FromJson<T>(json);
             }
             else
             {
@@ -99,7 +102,7 @@ namespace Maniac.ProfileSystem
                 {
                     if (typeList[fileType] == null) continue;
 
-                    ProfileRecord record = JsonConvert.DeserializeObject(json, typeList[fileType]) as ProfileRecord;
+                    ProfileRecord record =  JsonUtility.FromJson(json,typeList[fileType]) as ProfileRecord;
                     recordsCache.Add(record.GetType().Name, record);
                 }
                 catch (Exception e)

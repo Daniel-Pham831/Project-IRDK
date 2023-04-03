@@ -1,4 +1,5 @@
-﻿using Game.Commands;
+﻿using Game.CloudProfileSystem;
+using Game.Commands;
 using Game.Networking;
 using Game.Networking.Lobby;
 using Game.Services;
@@ -69,11 +70,10 @@ namespace Maniac.Bootstrap.Scripts
         {
             var bootstrapLoadingServiceGroup = new BootstrapLoadingServiceGroup("Loading Services");
             
-            bootstrapLoadingServiceGroup.Add(new InitLocalDataService());
             bootstrapLoadingServiceGroup.Add(new InitUnityServicesService());
             bootstrapLoadingServiceGroup.Add(new InitAuthenticationService());
             bootstrapLoadingServiceGroup.Add(new InitRemoteConfigService());
-            bootstrapLoadingServiceGroup.Add(new InitUpdatePlayerNameService());
+            bootstrapLoadingServiceGroup.Add(new InitCloudProfileManagerService());
             bootstrapLoadingServiceGroup.Add(new InitLobbySystemService());
 
             var commandServiceGroup = new SequenceCommandServiceGroup("Command Service Group");

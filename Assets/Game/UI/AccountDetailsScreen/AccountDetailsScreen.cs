@@ -2,6 +2,7 @@ using UnityEngine;
 using Cysharp.Threading.Tasks;
 using Maniac;
 using DG.Tweening;
+using Game.CloudProfileSystem;
 using Game.Networking;
 using Maniac.UISystem;
 using Maniac.UISystem.Command;
@@ -12,14 +13,17 @@ namespace Game
 {
     public class AccountDetailsScreen : BaseUI
     {
-        private LocalData LocalData => Locator<LocalData>.Instance;
+        private CloudProfileManager _cloudProfileManager => Locator<CloudProfileManager>.Instance;
+        private UserProfile _userProfile;
 
         [SerializeField] private TMP_Text userName;
         // This method will be call first, at this point, UI hasn't show up on canvas yet.
         // Use this to init your UI
-        public override void OnSetup(object parameter = null) //first
+        public override async void OnSetup(object parameter = null) //first
         {
-            userName.text = LocalData.LocalPlayer.DisplayName;
+            _userProfile = await _cloudProfileManager.Get<UserProfile>();
+            
+            userName.text = _userProfile.DisplayName;
             base.OnSetup(parameter);
         }
 
@@ -27,7 +31,7 @@ namespace Game
         {
             await ShowScreenCommand.Create<UpdateUserNameDialog>().ExecuteAndReturnResult();
             
-            userName.text = LocalData.LocalPlayer.DisplayName;
+            userName.text = _userProfile.DisplayName;
         }
     }
 }

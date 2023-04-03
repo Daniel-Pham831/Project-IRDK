@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
+using Game.CloudProfileSystem;
 using Game.Networking.LobbySystem.Commands;
 using Game.Networking.LobbySystem.Extensions;
 using Maniac.DataBaseSystem;
@@ -9,6 +10,7 @@ using Maniac.TimeSystem;
 using Maniac.Utils;
 using Maniac.Utils.Extension;
 using UniRx;
+using Unity.Services.Authentication;
 using Unity.Services.Lobbies;
 using Unity.Services.Lobbies.Models;
 using Unity.VisualScripting;
@@ -19,7 +21,8 @@ namespace Game.Networking.LobbySystem
 {
     public class LobbySystem
     {
-        private LocalData _localData => Locator<LocalData>.Instance;
+        private CloudProfileManager _cloudProfileManager => Locator<CloudProfileManager>.Instance;
+        private UserProfile _userProfile;
         private TimeManager _timeManager => Locator<TimeManager>.Instance;
         private DataBase _dataBase => Locator<DataBase>.Instance;
         private LobbyConfig _lobbyConfig;
@@ -32,10 +35,10 @@ namespace Game.Networking.LobbySystem
             new ReactiveProperty<Unity.Services.Lobbies.Models.Lobby>();
         public ReactiveProperty<Unity.Services.Lobbies.Models.Lobby> JoinedLobby { get; private set; } =
             new ReactiveProperty<Unity.Services.Lobbies.Models.Lobby>();
-
         
         public async UniTask Init()
         {
+            _userProfile = await _cloudProfileManager.Get<UserProfile>();
             _lobbyService = LobbyService.Instance;
             _lobbyConfig = _dataBase.Get<LobbyConfig>();
 
@@ -97,7 +100,7 @@ namespace Game.Networking.LobbySystem
 
         public async UniTask<bool> KickPlayerFromLobby(string lobbyId,string playerId)
         {
-            var isLocalPlayerHost = JoinedLobby.Value != null && JoinedLobby.Value.HostId == _localData.LocalPlayer.Id;
+            var isLocalPlayerHost = JoinedLobby.Value != null && JoinedLobby.Value.HostId == AuthenticationService.Instance.PlayerId;
             if(isLocalPlayerHost)
             {
                 try
@@ -123,7 +126,7 @@ namespace Game.Networking.LobbySystem
                 
                 lobbyName += $" #{UnityEngine.Random.Range(0, 10000)}";
 
-                var lobbyHostPlayerData = GetLobbyPlayerDataWithName(_localData.LocalPlayer.DisplayName);
+                var lobbyHostPlayerData = GetLobbyPlayerDataWithName(_userProfile.DisplayName);
                 var newLobby = await _lobbyService.CreateLobbyAsync(lobbyName, maxPlayer,
                     new CreateLobbyOptions { Player = lobbyHostPlayerData });
 
@@ -166,7 +169,7 @@ namespace Game.Networking.LobbySystem
         {
             try
             {
-                var joinLobbyData = GetLobbyPlayerDataWithName(_localData.LocalPlayer.DisplayName);
+                var joinLobbyData = GetLobbyPlayerDataWithName(_userProfile.DisplayName);
                 var joinedLobby = await _lobbyService.JoinLobbyByCodeAsync(lobbyCode,new JoinLobbyByCodeOptions{Player = joinLobbyData});
                 Debug.Log($"Joined Lobby {joinedLobby.Id} {joinedLobby.LobbyCode}");
                 JoinedLobby.Value = joinedLobby;
@@ -186,7 +189,7 @@ namespace Game.Networking.LobbySystem
             {
                 options ??= new QuickJoinLobbyOptions();
                 
-                var joinLobbyData = GetLobbyPlayerDataWithName(_localData.LocalPlayer.DisplayName);
+                var joinLobbyData = GetLobbyPlayerDataWithName(_userProfile.DisplayName);
                 options.Player = joinLobbyData;
                 var joinedLobby = await _lobbyService.QuickJoinLobbyAsync(options);
                 Debug.Log($"Joined Lobby {joinedLobby.Id} {joinedLobby.LobbyCode}");
@@ -207,7 +210,7 @@ namespace Game.Networking.LobbySystem
             {
                 if (JoinedLobby.Value != null)
                 {
-                    _lobbyService.RemovePlayerAsync(JoinedLobby.Value.Id, _localData.LocalPlayer.Id);
+                    _lobbyService.RemovePlayerAsync(JoinedLobby.Value.Id, AuthenticationService.Instance.PlayerId);
                     JoinedLobby.Value = null;
                 }
             }

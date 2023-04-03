@@ -3,6 +3,7 @@ using UnityEngine;
 using Cysharp.Threading.Tasks;
 using Maniac;
 using DG.Tweening;
+using Game.CloudProfileSystem;
 using Game.Networking;
 using Game.Networking.LobbySystem.Commands;
 using Maniac.LanguageTableSystem;
@@ -15,7 +16,8 @@ namespace Game
 {
     public class MainMenuScreen : BaseUI
     {
-        private LocalData LocalData => Locator<LocalData>.Instance;
+        private CloudProfileManager _cloudProfileManager => Locator<CloudProfileManager>.Instance;
+        private UserProfile _userProfile;
         private UIManager _uiManager => Locator<UIManager>.Instance;
 
         [Header("Welcome Dialog")] 
@@ -23,8 +25,10 @@ namespace Game
         [SerializeField] private CanvasGroup aboveWelcomeDialog;
         [SerializeField] private LanguageItem welcomeLangItem;
 
-        public override void OnSetup(object parameter = null)
+        public override async void OnSetup(object parameter = null)
         {
+            _userProfile = await _cloudProfileManager.Get<UserProfile>();
+            
             aboveWelcomeDialog.alpha = 0;
             SetInteraction(false);
             
@@ -42,7 +46,7 @@ namespace Game
         private async UniTask ShowAboveWelcomeDialog()
         {
             welcomeText.text = string.Format(welcomeLangItem.GetCurrentLanguageText(),
-                LocalData.LocalPlayer.DisplayName);
+                _userProfile.DisplayName);
 
             await aboveWelcomeDialog.DOFade(1, 0.4f).AsyncWaitForCompletion();
             await UniTask.Delay(3000); 
@@ -51,7 +55,7 @@ namespace Game
 
         public async UniTask CheckPlayerName()
         {
-            bool hasUserHaveName = LocalData.LocalPlayer.DisplayName != string.Empty;
+            bool hasUserHaveName = _userProfile.DisplayName != string.Empty;
             if (hasUserHaveName) return;
 
             await ShowScreenCommand.Create<UpdateUserNameDialog>().ExecuteAndReturnResult();

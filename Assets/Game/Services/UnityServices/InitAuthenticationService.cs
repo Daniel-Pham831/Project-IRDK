@@ -12,23 +12,8 @@ namespace Game.Services.UnityServices
 {
     public class InitAuthenticationService : Service
     {
-        private LocalData LocalData => Locator<LocalData>.Instance;
-
         public override async UniTask<IService.Result> Execute()
         {
-            var authenticationService = AuthenticationService.Instance;
-
-            authenticationService.SignedIn += async () =>
-            {
-                LocalData.LocalPlayer.Id = authenticationService.PlayerId;
-            };
-
-            authenticationService.SignInFailed += (err) => { Debug.LogError(err); };
-
-            authenticationService.SignedOut += () => { Debug.Log("Player signed out."); };
-
-            authenticationService.Expired += () => { Debug.Log("Player session could not be refreshed and expired."); };
-
             await SignInAnonymouslyAsync();
 
             return IService.Result.Success;

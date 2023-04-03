@@ -3,6 +3,7 @@ using UnityEngine;
 using Cysharp.Threading.Tasks;
 using Maniac;
 using DG.Tweening;
+using Game.CloudProfileSystem;
 using Game.Networking;
 using Game.Networking.LobbySystem;
 using Game.Networking.LobbySystem.Commands;
@@ -14,6 +15,7 @@ using Maniac.UISystem;
 using Maniac.Utils;
 using TMPro;
 using UniRx;
+using Unity.Services.Authentication;
 using Unity.Services.Lobbies.Models;
 using Unity.VisualScripting;
 using UnityEngine.UI;
@@ -22,7 +24,6 @@ namespace Game
 {
     public class LobbyRoomDetailScreen : BaseUI
     {
-        private LocalData _localData => Locator<LocalData>.Instance;
         private LobbySystem _lobbySystem => Locator<LobbySystem>.Instance;
         private DataBase _dataBase => Locator<DataBase>.Instance;
         private LobbyConfig _lobbyConfig;
@@ -39,7 +40,7 @@ namespace Game
         private Lobby _joinedLobby;
 
 
-        public override void OnSetup(object parameter = null)
+        public override async void OnSetup(object parameter = null)
         {
             _lobbyConfig = _dataBase.Get<LobbyConfig>();
 
@@ -64,7 +65,7 @@ namespace Game
             roomName.text = _joinedLobby.Name;
             roomCode.text = _joinedLobby.LobbyCode;
 
-            var isHost = _joinedLobby.HostId == _localData.LocalPlayer.Id;
+            var isHost = _joinedLobby.HostId == AuthenticationService.Instance.PlayerId;
             
             startBtn.SetActive(isHost);
             startOrReady.text = startLangItem.GetCurrentLanguageText();
@@ -74,7 +75,7 @@ namespace Game
 
         public async void OnStartClicked()
         {
-            bool isLocalPlayerHost = _joinedLobby.HostId == _localData.LocalPlayer.Id;
+            bool isLocalPlayerHost = _joinedLobby.HostId == AuthenticationService.Instance.PlayerId;
 
             if (isLocalPlayerHost)
             {
