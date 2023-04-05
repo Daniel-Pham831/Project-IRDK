@@ -14,6 +14,8 @@ namespace Maniac.DataBaseSystem
         public float LobbyUpdateIntervalInSeconds = 1.1f;
         public int MaxPlayersPerLobby = 4;
 
+        public float LobbiesQueryIntervalInSeconds = 5f;
+        public float RefreshIntervelInSeconds = 1.1f;
         public int NumOfLobbyPerQuery = 15;
     }
 }

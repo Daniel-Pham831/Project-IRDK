@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using Game.CloudProfileSystem;
 using Game.Networking.Lobby.Commands;
@@ -70,7 +71,7 @@ namespace Game.Networking.Lobby
                 }
 
                 HandleQueryLobbiesUpdate();
-            }, _lobbyConfig.LobbyUpdateIntervalInSeconds);
+            }, _lobbyConfig.LobbiesQueryIntervalInSeconds);
         }
 
         public async UniTask StartQuery()
@@ -83,7 +84,7 @@ namespace Game.Networking.Lobby
             QueryResponse.Value = null;
         }
         
-        private async UniTask QueryLobbies()
+        public async UniTask QueryLobbies()
         {
             try
             {
@@ -291,6 +292,40 @@ namespace Game.Networking.Lobby
         public bool AmITheHost()
         {
             return JoinedLobby.Value != null && JoinedLobby.Value.HostId == AuthenticationService.Instance.PlayerId;
+        }
+
+        public async UniTask<Unity.Services.Lobbies.Models.Lobby> JoinLobbyById(string lobbyId)
+        {
+            try
+            {
+                var joinedLobby = await _lobbyService.JoinLobbyByIdAsync(lobbyId);
+                Debug.Log($"Joined Lobby {joinedLobby.Name}");
+                JoinedLobby.Value = joinedLobby;
+            }
+            catch
+            {
+                JoinedLobby.Value = null;
+            }
+            
+            HostLobbyToPing.Value = null;
+            return JoinedLobby.Value;
+        }
+
+        public async UniTask<Unity.Services.Lobbies.Models.Lobby> JoinLobbyByCode(string joinCode)
+        {
+            try
+            {
+                var joinedLobby = await _lobbyService.JoinLobbyByCodeAsync(joinCode);
+                Debug.Log($"Joined Lobby {joinedLobby.Name}");
+                JoinedLobby.Value = joinedLobby;
+            }
+            catch
+            {
+                JoinedLobby.Value = null;
+            }
+            
+            HostLobbyToPing.Value = null;
+            return JoinedLobby.Value;
         }
     }
 }

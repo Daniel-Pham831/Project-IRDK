@@ -7,13 +7,16 @@ using Game.Commands;
 using Game.Networking.Lobby;
 using Game.Networking.Lobby.Commands;
 using Game.Scripts;
+using Maniac.DataBaseSystem;
 using Maniac.LanguageTableSystem;
+using Maniac.TimeSystem;
 using Maniac.UISystem;
 using Maniac.UISystem.Command;
 using Maniac.Utils;
 using TMPro;
 using UniRx.Triggers;
 using Unity.Services.Lobbies.Models;
+using UnityEngine.UI;
 
 namespace Game
 {
@@ -21,19 +24,36 @@ namespace Game
     {
         private LobbySystem _lobbySystem => Locator<LobbySystem>.Instance;
         private LanguageTable _languageTable => Locator<LanguageTable>.Instance;
+        private TimeManager _timeManager => Locator<TimeManager>.Instance;
+        private DataBase _dataBase => Locator<DataBase>.Instance;
+        private LobbyConfig _lobbyConfig;
 
         [SerializeField] private TMP_InputField joinCodeInput;
         [SerializeField] private LobbyItemControllerInLobbyScreen lobbyItemController;
+        [SerializeField] private Button refreshButton;
 
         public override async void OnSetup(object parameter = null)
         {
+            _lobbyConfig = _dataBase.Get<LobbyConfig>();
             await _lobbySystem.Reset();
             lobbyItemController.Init(OnJoinLobbyClicked);
+            
+            refreshButton.onClick.AddListener(async () =>
+            {
+                refreshButton.interactable = false;
+                await OnRefreshClicked();
+                _timeManager.OnTimeOut(() =>
+                {
+                    if (this == null || refreshButton == null) return;
+                    
+                    refreshButton.interactable = true;
+                },_lobbyConfig.RefreshIntervelInSeconds);
+            });
         }
 
         private async void OnJoinLobbyClicked(Lobby lobbyToJoin)
         {
-            await new JoinLobbyByCodeCommand(lobbyToJoin.LobbyCode, Back, async () =>
+            await new JoinLobbyByIdCommand(lobbyToJoin.Id, Back, async () =>
             {
                 await ShowJoinFail();
             }).Execute();
@@ -61,15 +81,12 @@ namespace Game
             }
         }
 
-        public async void OnQuickJoinClicked()
+        private async UniTask OnRefreshClicked()
         {
-            Debug.Log("OnQuickJoinClicked");
-            await new QuickJoinLobbyCommand(Back, async () =>
-            {
-                await ShowJoinFail();
-            }).Execute();
+            await new ShowConnectToServerCommand().Execute();
+            await _lobbySystem.QueryLobbies();
+            await new HideConnectToServerCommand().Execute();
         }
-
         
         private async UniTask ShowJoinFail()
         {

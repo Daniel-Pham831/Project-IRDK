@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Cysharp.Threading.Tasks;
 using Game.Commands;
 using Maniac.Command;
@@ -6,7 +6,7 @@ using Maniac.Utils;
 
 namespace Game.Networking.Lobby.Commands
 {
-    public class JoinLobbyByCodeCommand : Command
+    public class JoinLobbyByIdCommand : Command
     {
         private readonly string _lobbyId;
         private readonly Action _onSuccess;
@@ -14,7 +14,7 @@ namespace Game.Networking.Lobby.Commands
         
         private LobbySystem _lobbySystem => Locator<LobbySystem>.Instance;
 
-        public JoinLobbyByCodeCommand(string lobbyId, Action onSuccess, Action onFail)
+        public JoinLobbyByIdCommand(string lobbyId, Action onSuccess, Action onFail)
         {
             _lobbyId = lobbyId;
             _onSuccess = onSuccess;
@@ -24,7 +24,7 @@ namespace Game.Networking.Lobby.Commands
         public override async UniTask Execute()
         {
             await new ShowConnectToServerCommand().Execute();
-            var joinedLobby = await _lobbySystem.JoinLobbyByCode(_lobbyId);
+            var joinedLobby = await _lobbySystem.JoinLobbyById(_lobbyId);
             await new HideConnectToServerCommand().Execute();
             
             if (joinedLobby != null)
