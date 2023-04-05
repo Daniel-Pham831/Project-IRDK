@@ -248,7 +248,7 @@ MonoBehaviour:
   shouldExceptThisUIOnCloseAllUI: 1
   progressBarSlider: {fileID: 2997421305299238914}
   loadingText: {fileID: 5960735011002826573}
-  languageItem: {fileID: 0}
+  languageItem: {fileID: 11400000, guid: bbeee6c647874744aa5ed270babc87e2, type: 2}
 --- !u!114 &8964308936508853463
 MonoBehaviour:
   m_ObjectHideFlags: 0

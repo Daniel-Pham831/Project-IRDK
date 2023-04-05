@@ -2,6 +2,7 @@
 using Cysharp.Threading.Tasks;
 using Game.Networking.Lobby;
 using Maniac.LanguageTableSystem;
+using Maniac.Utils.Extension;
 using TMPro;
 using Unity.Services.Lobbies.Models;
 using UnityEngine;
@@ -15,7 +16,7 @@ namespace Game.Scripts
         [SerializeField] private LanguageItem isPlayingLangItem;
         [SerializeField] private LanguageItem lobbyRoomLangItem;
         
-        private readonly string _roomStateFormat = "{0}/{1} {2}";
+        private readonly string _roomStateFormat = "{0}/{1} {2} {3}";
         private Action<Lobby> _joinLobbyCallBack;
         private Lobby _lobby;
 
@@ -26,11 +27,12 @@ namespace Game.Scripts
             
             roomName.text = lobby.Name;
             var roomState = lobby.Data[LobbyDataKey.IsPlaying]?.Value == "true"
-                ? isPlayingLangItem.GetCurrentLanguageText()
-                : lobbyRoomLangItem.GetCurrentLanguageText();
+                ? isPlayingLangItem.GetCurrentLanguageText().AddColor(Color.red)
+                : lobbyRoomLangItem.GetCurrentLanguageText().AddColor(Color.cyan);
 
+            var regionText = lobby.Data[LobbyDataKey.LobbyRegion]?.Value.AddColor(Color.yellow);
             roomData.text = string.Format(_roomStateFormat, lobby.MaxPlayers - lobby.AvailableSlots, lobby.MaxPlayers,
-                roomState);
+                roomState,regionText);
         }
 
         public async void OnJoinClicked()

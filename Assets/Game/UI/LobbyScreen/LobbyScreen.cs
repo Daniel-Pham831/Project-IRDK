@@ -31,19 +31,18 @@ namespace Game
             lobbyItemController.Init(OnJoinLobbyClicked);
         }
 
-        private void OnJoinLobbyClicked(Lobby lobbyToJoin)
+        private async void OnJoinLobbyClicked(Lobby lobbyToJoin)
         {
-            throw new System.NotImplementedException();
+            await new JoinLobbyByCodeCommand(lobbyToJoin.LobbyCode, Back, async () =>
+            {
+                await ShowJoinFail();
+            }).Execute();
         }
 
         public async void OnCreateClicked()
         {
             Debug.Log("OnCreateClicked");
-            await new CreateNewLobbyCommand(Back, async () =>
-            {
-                await ShowCreateLobbyFail();
-            }).Execute();
-            
+            await new CreateNewLobbyCommand().Execute();
         }
 
         public async void OnJoinByCodeClicked()
@@ -71,11 +70,6 @@ namespace Game
             }).Execute();
         }
 
-        private async UniTask ShowCreateLobbyFail()
-        {
-            await new ShowInformationDialogCommand(LanguageTable.Information_FailToCreateLobbyHeader,
-                LanguageTable.Information_FailToCreateLobbyBody).Execute();
-        }
         
         private async UniTask ShowJoinFail()
         {

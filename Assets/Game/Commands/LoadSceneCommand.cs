@@ -39,6 +39,7 @@ namespace Game.Commands
                 await UniTask.WaitUntil(() => mainGameScene.progress >= 0.9f);
             }
 
+            await UniTask.Delay(2000);
             mainGameScene.allowSceneActivation = true;
             if (loadingScreen != null)
                 await loadingScreen.Close();
