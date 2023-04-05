@@ -20,7 +20,7 @@ namespace Game.CloudProfileSystem
         
         public async UniTask Init()
         {
-            PreLoadAllCloudProfileRecordsIntoCache();
+            await PreLoadAllCloudProfileRecordsIntoCache();
         }
         
         private async UniTask PreLoadAllCloudProfileRecordsIntoCache()

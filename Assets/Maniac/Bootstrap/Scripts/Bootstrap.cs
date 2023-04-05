@@ -1,5 +1,6 @@
 ﻿using Game.CloudProfileSystem;
 using Game.Commands;
+using Game.MazeSystem;
 using Game.Networking;
 using Game.Networking.Lobby;
 using Game.Services;
@@ -8,6 +9,7 @@ using Maniac.AudioSystem;
 using Maniac.DataBaseSystem;
 using Maniac.LanguageTableSystem;
 using Maniac.ProfileSystem;
+using Maniac.RandomSystem;
 using Maniac.Services;
 using Maniac.SpawnerSystem;
 using Maniac.TimeSystem;
@@ -33,7 +35,6 @@ namespace Maniac.Bootstrap.Scripts
         private async void Start()
         {
             var bootStrapService = CreateBootStrapServiceGroup();
-
             await bootStrapService.Run();
         }
 
@@ -54,6 +55,7 @@ namespace Maniac.Bootstrap.Scripts
         {
             var essentialServiceGroup = new SequenceServiceGroup("Maniac Essential Services");
             
+            essentialServiceGroup.Add(new InitRandomerService());
             essentialServiceGroup.Add(new InitDotweenService());
             essentialServiceGroup.Add(new InitTimeManagerService());
             essentialServiceGroup.Add(new InitDataBaseService(dataBase));
