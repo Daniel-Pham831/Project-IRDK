@@ -40,6 +40,7 @@ namespace Game
                 _model.MaxPlayers = (int)value;
                 numOfPlayerOnSlider.text = value.ToString();
             });
+            totalPlayersSlider.value = 1;
             totalPlayersSlider.value = _lobbyConfig.MaxPlayersPerLobby;
         }
 

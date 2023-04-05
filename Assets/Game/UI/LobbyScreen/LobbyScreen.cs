@@ -13,6 +13,7 @@ using Maniac.UISystem.Command;
 using Maniac.Utils;
 using TMPro;
 using UniRx.Triggers;
+using Unity.Services.Lobbies.Models;
 
 namespace Game
 {
@@ -22,10 +23,17 @@ namespace Game
         private LanguageTable _languageTable => Locator<LanguageTable>.Instance;
 
         [SerializeField] private TMP_InputField joinCodeInput;
+        [SerializeField] private LobbyItemControllerInLobbyScreen lobbyItemController;
 
         public override async void OnSetup(object parameter = null)
         {
-            await _lobbySystem.ResetJoinedLobby();
+            await _lobbySystem.Reset();
+            lobbyItemController.Init(OnJoinLobbyClicked);
+        }
+
+        private void OnJoinLobbyClicked(Lobby lobbyToJoin)
+        {
+            throw new System.NotImplementedException();
         }
 
         public async void OnCreateClicked()

@@ -3,6 +3,7 @@ using Game.Commands;
 using Game.Networking.Lobby;
 using Game.Networking.Network;
 using Game.Networking.Relay;
+using Game.Scenes;
 using Game.Services;
 using Game.Services.UnityServices;
 using Maniac.AudioSystem;
@@ -78,10 +79,9 @@ namespace Maniac.Bootstrap.Scripts
             bootstrapLoadingServiceGroup.Add(new InitLobbySystemService());
             bootstrapLoadingServiceGroup.Add(new InitRelaySystemService());
 
-            
             var commandServiceGroup = new SequenceCommandServiceGroup("Command Service Group");
             commandServiceGroup.Add(new LoadEmptySceneCommand());
-            commandServiceGroup.Add(new LoadSceneCommand(new LoadSceneCommand.Param("MainMenu",false)));
+            commandServiceGroup.Add(new LoadSceneCommand(new LoadSceneCommand.Param(SceneName.MainMenu,false)));
             
             bootstrapLoadingServiceGroup.Add(commandServiceGroup);
             return bootstrapLoadingServiceGroup;

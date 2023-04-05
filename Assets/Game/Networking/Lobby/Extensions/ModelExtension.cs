@@ -1,5 +1,7 @@
-﻿using Game.Networking.Lobby.Models;
+﻿using System.Collections.Generic;
+using Game.Networking.Lobby.Models;
 using Unity.Services.Lobbies;
+using Unity.Services.Lobbies.Models;
 
 namespace Game.Networking.Lobby.Extensions
 {
@@ -9,7 +11,11 @@ namespace Game.Networking.Lobby.Extensions
         {
             var result = new CreateLobbyOptions
             {
-                IsPrivate = model.IsPrivateLobby
+                IsPrivate = model.IsPrivateLobby,
+                Data = new Dictionary<string, DataObject>()
+                {
+                    {LobbyDataKey.IsPlaying,new DataObject(DataObject.VisibilityOptions.Public,"false")}
+                }
             };
             return result;
         }

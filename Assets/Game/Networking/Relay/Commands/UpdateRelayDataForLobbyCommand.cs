@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using Game.Networking.Lobby;
 using Maniac.Command;
 using Maniac.Utils;
 using Unity.Services.Lobbies.Models;
 using Unity.Services.Relay.Models;
 
-namespace Game.Networking.Lobby.Commands
+namespace Game.Networking.Relay.Commands
 {
     public class UpdateRelayDataForLobbyCommand : ResultCommand<bool>
     {

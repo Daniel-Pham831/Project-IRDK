@@ -9,12 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a194ce5ca2345ada61e3398af34c4fa, type: 3}
-  m_Name: Lobby_QuickJoin
+  m_Script: {fileID: 11500000, guid: 33589defd568f834faccf6445426f7e3, type: 3}
+  m_Name: NetConfig
   m_EditorClassIdentifier: 
-  id: Lobby_QuickJoin
-  languageInfos:
-  - languageName: English
-    text: Quick Join
-  - languageName: Vietnamese
-    text: "V\xE0o Nhanh"
+  PlayerPrefab: {fileID: 2665090631079955805, guid: a66e421727bdebc4984c5e2be4d9b34b, type: 3}

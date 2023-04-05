@@ -9,6 +9,8 @@ namespace Maniac.LanguageTableSystem
     {
         //[DON'T DELETE THESE COMMENTS]
         //[HERE]
+		public static readonly string Lobby_IsWaiting = "Lobby_IsWaiting";
+		public static readonly string Lobby_IsPlaying = "Lobby_IsPlaying";
 		public static readonly string Lobby_Public = "Lobby_Public";
 		public static readonly string Lobby_Private = "Lobby_Private";
 		public static readonly string Lobby_IsPrivate = "Lobby_IsPrivate";
@@ -34,7 +36,7 @@ namespace Maniac.LanguageTableSystem
 		public static readonly string Lobby_Information = "Lobby_Information";
 		public static readonly string Lobby_EnterLobbyName = "Lobby_EnterLobbyName";
 		public static readonly string Lobby_EnterLobbyCode = "Lobby_EnterLobbyCode";
-		public static readonly string Lobby_QuickJoin = "Lobby_QuickJoin";
+		public static readonly string Lobby_Refresh = "Lobby_Refresh";
 		public static readonly string Lobby_Join = "Lobby_Join";
 		public static readonly string Lobby_Create = "Lobby_Create";
 		public static readonly string AccountDetail_UpdateName = "AccountDetail_UpdateName";

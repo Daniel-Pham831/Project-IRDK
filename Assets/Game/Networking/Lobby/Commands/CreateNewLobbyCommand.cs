@@ -4,6 +4,8 @@ using Game.Commands;
 using Game.Networking.Lobby.Models;
 using Game.Networking.Network;
 using Game.Networking.Relay;
+using Game.Networking.Relay.Commands;
+using Game.Scenes;
 using Maniac.Command;
 using Maniac.UISystem.Command;
 using Maniac.Utils;
@@ -46,7 +48,8 @@ namespace Game.Networking.Lobby.Commands
             }
 
             await new HideConnectToServerCommand().Execute();
-            // Move to room scene
+            await new LoadEmptySceneCommand().Execute();
+            await new LoadSceneCommand(new LoadSceneCommand.Param(SceneName.LobbyRoom,true)).Execute();
         }
 
         private async UniTask FailToCreateError()

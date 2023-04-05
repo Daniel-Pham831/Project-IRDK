@@ -37,6 +37,8 @@ namespace Game.Networking.Lobby
         public ReactiveProperty<Unity.Services.Lobbies.Models.Lobby> JoinedLobby { get; private set; } =
             new ReactiveProperty<Unity.Services.Lobbies.Models.Lobby>();
 
+        public ReactiveProperty<QueryResponse> QueryResponse { get; set; } = new ReactiveProperty<QueryResponse>();
+
         public async UniTask Init()
         {
             _userProfile = await _cloudProfileManager.Get<UserProfile>();
@@ -45,9 +47,10 @@ namespace Game.Networking.Lobby
 
             InitCommands();
 
-            ResetJoinedLobby();
+            Reset();
             HandleLobbyHeartBeat();
             HandleJoinedLobbyUpdate();
+            HandleQueryLobbiesUpdate();
             await UniTask.CompletedTask;
         }
 
@@ -55,6 +58,41 @@ namespace Game.Networking.Lobby
         {
             _handleBecomeHostCommand = new HandleLocalPlayerBecomeHostCommand();
             _handleBeingKickCommand = new HandleBeingKickedCommand();
+        }
+        
+        private void HandleQueryLobbiesUpdate()
+        {
+            _timeManager.OnTimeOut(async () =>
+            {
+                if (QueryResponse.Value != null)
+                {
+                    await QueryLobbies();
+                }
+
+                HandleQueryLobbiesUpdate();
+            }, _lobbyConfig.LobbyUpdateIntervalInSeconds);
+        }
+
+        public async UniTask StartQuery()
+        {
+            await QueryLobbies();
+        }
+
+        public async UniTask StopQuery()
+        {
+            QueryResponse.Value = null;
+        }
+        
+        private async UniTask QueryLobbies()
+        {
+            try
+            {
+                QueryResponse.Value = await _lobbyService.QueryLobbiesAsync(LobbyHelper.QueryLobbiesOptions);
+            }
+            catch
+            {
+                QueryResponse.Value = null;
+            }
         }
 
         private void HandleJoinedLobbyUpdate()
@@ -79,7 +117,7 @@ namespace Game.Networking.Lobby
             }, _lobbyConfig.LobbyUpdateIntervalInSeconds);
         }
 
-        public async UniTask ResetJoinedLobby()
+        public async UniTask Reset()
         {
             HostLobbyToPing.Value = null;
             JoinedLobby.Value = null;
