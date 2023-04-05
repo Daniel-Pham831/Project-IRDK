@@ -1,12 +1,9 @@
 using System;
 using Cysharp.Threading.Tasks;
-using Game.Commands;
 using Maniac.Command;
-using Maniac.UISystem;
 using Maniac.Utils;
-using UnityEngine;
 
-namespace Game.Networking.LobbySystem.Commands
+namespace Game.Networking.Lobby.Commands
 {
     public class JoinLobbyByCodeCommand : Command
     {

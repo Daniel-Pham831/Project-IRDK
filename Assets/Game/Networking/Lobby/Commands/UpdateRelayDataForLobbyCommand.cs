@@ -5,7 +5,7 @@ using Maniac.Utils;
 using Unity.Services.Lobbies.Models;
 using Unity.Services.Relay.Models;
 
-namespace Game.Networking.LobbySystem.Commands
+namespace Game.Networking.Lobby.Commands
 {
     public class UpdateRelayDataForLobbyCommand : ResultCommand<bool>
     {

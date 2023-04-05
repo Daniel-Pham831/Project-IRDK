@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 
-namespace Game.Networking.LobbySystem.Models
+namespace Game.Networking.Lobby.Models
 {
     [Serializable]
     public class LobbyModel

@@ -2,7 +2,7 @@
 using Maniac.Command;
 using Maniac.Utils;
 
-namespace Game.Networking.LobbySystem.Commands
+namespace Game.Networking.Lobby.Commands
 {
     public class LeaveLobbyCommand : Command
     {

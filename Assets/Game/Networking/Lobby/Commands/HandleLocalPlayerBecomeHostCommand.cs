@@ -5,7 +5,7 @@ using Maniac.LanguageTableSystem;
 using Maniac.Utils;
 using Unity.Services.Authentication;
 
-namespace Game.Networking.LobbySystem.Commands
+namespace Game.Networking.Lobby.Commands
 {
     public class HandleLocalPlayerBecomeHostCommand : Command
     {

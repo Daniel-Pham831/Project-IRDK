@@ -1,11 +1,9 @@
 using System;
 using Cysharp.Threading.Tasks;
-using Game.Commands;
 using Maniac.Command;
 using Maniac.Utils;
-using Unity.Services.Lobbies;
 
-namespace Game.Networking.LobbySystem.Commands
+namespace Game.Networking.Lobby.Commands
 {
     public class QuickJoinLobbyCommand : Command
     {

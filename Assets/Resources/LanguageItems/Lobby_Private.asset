@@ -9,9 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 120f1d67c065a664c8054a10463b55f8, type: 3}
-  m_Name: DataBase
+  m_Script: {fileID: 11500000, guid: 3a194ce5ca2345ada61e3398af34c4fa, type: 3}
+  m_Name: Lobby_Private
   m_EditorClassIdentifier: 
-  configs:
-  - {fileID: 11400000, guid: 1106a0e8741673c44af8cc840cfcacd6, type: 2}
-  - {fileID: 11400000, guid: 49541ae221d703446824c4e7311c6230, type: 2}
+  id: Lobby_Private
+  languageInfos:
+  - languageName: English
+    text: Private Lobby
+  - languageName: Vietnamese
+    text: "Lobby Ri\xEAng"

@@ -1,14 +1,10 @@
 ﻿using Cysharp.Threading.Tasks;
 using Game.Commands;
-using Game.Networking.LobbySystem.Extensions;
 using Maniac.Command;
 using Maniac.LanguageTableSystem;
 using Maniac.Utils;
-using Maniac.Utils.Extension;
-using Unity.Services.Lobbies.Models;
-using UnityEngine;
 
-namespace Game.Networking.LobbySystem.Commands
+namespace Game.Networking.Lobby.Commands
 {
     public class KickPlayerFromLobbyCommand : Command
     {

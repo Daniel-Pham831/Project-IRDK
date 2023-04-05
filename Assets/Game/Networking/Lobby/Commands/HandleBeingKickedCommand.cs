@@ -5,7 +5,7 @@ using Maniac.LanguageTableSystem;
 using Maniac.UISystem;
 using Maniac.Utils;
 
-namespace Game.Networking.LobbySystem.Commands
+namespace Game.Networking.Lobby.Commands
 {
     public class HandleBeingKickedCommand : Command
     {

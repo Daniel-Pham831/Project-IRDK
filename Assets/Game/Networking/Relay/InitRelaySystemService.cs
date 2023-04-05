@@ -2,7 +2,7 @@
 using Maniac.Services;
 using Maniac.Utils;
 
-namespace Game.Networking.RelaySystem
+namespace Game.Networking.Relay
 {
     public class InitRelaySystemService : Service
     {

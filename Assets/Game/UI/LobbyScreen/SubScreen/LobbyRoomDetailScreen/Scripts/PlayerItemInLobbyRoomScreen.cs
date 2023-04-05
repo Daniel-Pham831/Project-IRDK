@@ -1,8 +1,6 @@
 ﻿using Cysharp.Threading.Tasks;
 using Game.Networking;
-using Game.Networking.LobbySystem;
-using Game.Networking.LobbySystem.Commands;
-using Game.Networking.LobbySystem.Extensions;
+using Game.Networking.Lobby.Commands;
 using Maniac.Utils;
 using TMPro;
 using Unity.Services.Authentication;

@@ -12,20 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 469c24fdb3bd6431b92cc1465bd9166b, type: 3}
   m_Name: RemoteConfigDataStoreAsset
   m_EditorClassIdentifier: 
-  _rsKeyList: "[\r\n  {\r\n    \"metadata\": {\r\n      \"entityId\": \"6a428fb3-02e4-48ca-a68d-ae8ee3adb549\"\r\n   
-    },\r\n    \"rs\": {\r\n      \"key\": \"TestConfig\",\r\n      \"type\": \"json\",\r\n     
-    \"schemaId\": null,\r\n      \"value\": \"{\\n    \\\"TestBool\\\": false,\\n   
-    \\\"TestInt\\\": 40,\\n    \\\"TestString\\\": \\\"develop\\\",\\n    \\\"TestCustomData\\\":
-    {\\n        \\\"TestLong\\\": 2323,\\n        \\\"TestString2\\\": \\\"Moto Hello\\\"\\n   
-    },\\n    \\\"name\\\": \\\"TestConfig\\\",\\n    \\\"hideFlags\\\": 0\\n}\"\r\n   
-    }\r\n  }\r\n]"
-  _rsLastCachedKeyList: "[\r\n  {\r\n    \"metadata\": {\r\n      \"entityId\": \"6a428fb3-02e4-48ca-a68d-ae8ee3adb549\"\r\n   
-    },\r\n    \"rs\": {\r\n      \"key\": \"TestConfig\",\r\n      \"type\": \"json\",\r\n     
-    \"schemaId\": null,\r\n      \"value\": \"{\\n    \\\"TestBool\\\": false,\\n   
-    \\\"TestInt\\\": 40,\\n    \\\"TestString\\\": \\\"develop\\\",\\n    \\\"TestCustomData\\\":
-    {\\n        \\\"TestLong\\\": 2323,\\n        \\\"TestString2\\\": \\\"Moto Hello\\\"\\n   
-    },\\n    \\\"name\\\": \\\"TestConfig\\\",\\n    \\\"hideFlags\\\": 0\\n}\"\r\n   
-    }\r\n  }\r\n]"
+  _rsKeyList: '[]'
+  _rsLastCachedKeyList: '[]'
   _environments: "[\r\n  {\r\n    \"projectId\": \"86cb6e8b-9e66-44a7-b7ec-513fa796fa5f\",\r\n   
     \"name\": \"production\",\r\n    \"id\": \"e299a1d0-8d0c-409e-b894-8e2200c8b9e7\",\r\n   
     \"isDefault\": true,\r\n    \"createdAt\": \"2023-03-28T03:09:37Z\",\r\n    \"updatedAt\":

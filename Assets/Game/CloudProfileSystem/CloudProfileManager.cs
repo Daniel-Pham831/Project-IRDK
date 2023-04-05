@@ -105,7 +105,7 @@ namespace Game.CloudProfileSystem
                 
                 try
                 {
-                    result = JsonUtility.FromJson(json,type) as CloudProfileRecord;
+                    result = JsonConvert.DeserializeObject(json,type) as CloudProfileRecord;
                 }
                 catch
                 {

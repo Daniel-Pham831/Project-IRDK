@@ -8,6 +8,13 @@ using Sirenix.OdinInspector;
 
 namespace Maniac.DataBaseSystem
 {
+    public class Environment
+    {
+        public const string Production = "production";
+        public const string Staging = "staging";
+        public const string Develop = "develop";
+    }
+    
     public class BuildSettingConfig : DataBaseConfig
     {
         [SerializeField]

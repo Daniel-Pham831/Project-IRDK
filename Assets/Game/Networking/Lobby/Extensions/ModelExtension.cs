@@ -1,11 +1,7 @@
-﻿using System.Collections.Generic;
-using Game.Networking.LobbySystem.Models;
-using Maniac.Utils;
-using Newtonsoft.Json;
+﻿using Game.Networking.Lobby.Models;
 using Unity.Services.Lobbies;
-using Unity.Services.Lobbies.Models;
 
-namespace Game.Networking.LobbySystem.Extensions
+namespace Game.Networking.Lobby.Extensions
 {
     public static class ModelExtension
     {

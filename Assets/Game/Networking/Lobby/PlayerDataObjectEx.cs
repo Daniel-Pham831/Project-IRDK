@@ -1,6 +1,6 @@
 ﻿using Unity.Services.Lobbies.Models;
 
-namespace Game.Networking.LobbySystem
+namespace Game.Networking.Lobby
 {
     public class PlayerDataObjectEx<T> :PlayerDataObject
     {

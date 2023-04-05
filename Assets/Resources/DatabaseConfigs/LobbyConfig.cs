@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
 using Maniac;
+using Range = Maniac.Utils.Range;
 
 namespace Maniac.DataBaseSystem
 {
@@ -11,5 +12,6 @@ namespace Maniac.DataBaseSystem
     {
         public float HeartBeatIntervalInSeconds = 20f;
         public float LobbyUpdateIntervalInSeconds = 1.1f;
+        public int MaxPlayersPerLobby = 4;
     }
 }

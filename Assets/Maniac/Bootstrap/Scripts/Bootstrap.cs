@@ -1,9 +1,8 @@
 ﻿using Game.CloudProfileSystem;
 using Game.Commands;
-using Game.MazeSystem;
-using Game.Networking;
 using Game.Networking.Lobby;
-using Game.Networking.RelaySystem;
+using Game.Networking.Network;
+using Game.Networking.Relay;
 using Game.Services;
 using Game.Services.UnityServices;
 using Maniac.AudioSystem;
@@ -15,7 +14,6 @@ using Maniac.Services;
 using Maniac.SpawnerSystem;
 using Maniac.TimeSystem;
 using Maniac.UISystem;
-using Maniac.Utils.Extension;
 using UnityEngine;
 
 namespace Maniac.Bootstrap.Scripts
@@ -76,6 +74,7 @@ namespace Maniac.Bootstrap.Scripts
             bootstrapLoadingServiceGroup.Add(new InitAuthenticationService());
             bootstrapLoadingServiceGroup.Add(new InitRemoteConfigService());
             bootstrapLoadingServiceGroup.Add(new InitCloudProfileManagerService());
+            bootstrapLoadingServiceGroup.Add(new InitNetworkSystemService());
             bootstrapLoadingServiceGroup.Add(new InitLobbySystemService());
             bootstrapLoadingServiceGroup.Add(new InitRelaySystemService());
 

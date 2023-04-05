@@ -9,6 +9,10 @@ namespace Maniac.LanguageTableSystem
     {
         //[DON'T DELETE THESE COMMENTS]
         //[HERE]
+		public static readonly string Lobby_Public = "Lobby_Public";
+		public static readonly string Lobby_Private = "Lobby_Private";
+		public static readonly string Lobby_IsPrivate = "Lobby_IsPrivate";
+		public static readonly string Lobby_Name = "Lobby_Name";
 		public static readonly string Information_KickSuccessBody = "Information_KickSuccessBody";
 		public static readonly string Information_KickSuccessHeader = "Information_KickSuccessHeader";
 		public static readonly string Information_KickFailBody = "Information_KickFailBody";

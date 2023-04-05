@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using Game.CloudProfileSystem;
-using Game.Networking.LobbySystem.Commands;
-using Game.Networking.LobbySystem.Extensions;
-using Game.Networking.LobbySystem.Models;
+using Game.Networking.Lobby.Commands;
+using Game.Networking.Lobby.Extensions;
+using Game.Networking.Lobby.Models;
 using Maniac.DataBaseSystem;
 using Maniac.TimeSystem;
 using Maniac.Utils;
@@ -14,12 +13,11 @@ using UniRx;
 using Unity.Services.Authentication;
 using Unity.Services.Lobbies;
 using Unity.Services.Lobbies.Models;
-using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 
-namespace Game.Networking.LobbySystem
+namespace Game.Networking.Lobby
 {
     public class LobbySystem
     {

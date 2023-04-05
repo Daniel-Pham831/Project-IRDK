@@ -5,7 +5,6 @@ using Maniac;
 using DG.Tweening;
 using Game.CloudProfileSystem;
 using Game.Networking;
-using Game.Networking.LobbySystem.Commands;
 using Maniac.LanguageTableSystem;
 using Maniac.UISystem;
 using Maniac.UISystem.Command;

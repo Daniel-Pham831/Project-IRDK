@@ -1,8 +1,7 @@
-﻿using Maniac.Utils;
-using Unity.Services.Authentication;
+﻿using Unity.Services.Authentication;
 using Unity.Services.Lobbies.Models;
 
-namespace Game.Networking.LobbySystem.Extensions
+namespace Game.Networking.Lobby.Extensions
 {
     public static class LobbyExtension
     {

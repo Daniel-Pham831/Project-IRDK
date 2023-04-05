@@ -8,8 +8,8 @@ namespace Game.Networking.Lobby
     {
         public override async UniTask<IService.Result> Execute()
         {
-            var lobbySystem = new LobbySystem.LobbySystem();
-            Locator<LobbySystem.LobbySystem>.Set(lobbySystem);
+            var lobbySystem = new LobbySystem();
+            Locator<LobbySystem>.Set(lobbySystem);
             await lobbySystem.Init();
 
             return IService.Result.Success;

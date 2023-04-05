@@ -1,4 +1,4 @@
-﻿namespace Game.Networking.LobbySystem
+﻿namespace Game.Networking.Lobby
 {
     public static class LobbyDataKey
     {
