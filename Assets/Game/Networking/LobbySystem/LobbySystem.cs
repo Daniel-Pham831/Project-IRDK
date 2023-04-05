@@ -5,6 +5,7 @@ using Cysharp.Threading.Tasks;
 using Game.CloudProfileSystem;
 using Game.Networking.LobbySystem.Commands;
 using Game.Networking.LobbySystem.Extensions;
+using Game.Networking.LobbySystem.Models;
 using Maniac.DataBaseSystem;
 using Maniac.TimeSystem;
 using Maniac.Utils;
@@ -15,6 +16,7 @@ using Unity.Services.Lobbies;
 using Unity.Services.Lobbies.Models;
 using Unity.VisualScripting;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 
 namespace Game.Networking.LobbySystem
@@ -33,9 +35,10 @@ namespace Game.Networking.LobbySystem
 
         public ReactiveProperty<Unity.Services.Lobbies.Models.Lobby> HostLobbyToPing { get; private set; } =
             new ReactiveProperty<Unity.Services.Lobbies.Models.Lobby>();
+
         public ReactiveProperty<Unity.Services.Lobbies.Models.Lobby> JoinedLobby { get; private set; } =
             new ReactiveProperty<Unity.Services.Lobbies.Models.Lobby>();
-        
+
         public async UniTask Init()
         {
             _userProfile = await _cloudProfileManager.Get<UserProfile>();
@@ -43,7 +46,7 @@ namespace Game.Networking.LobbySystem
             _lobbyConfig = _dataBase.Get<LobbyConfig>();
 
             InitCommands();
-            
+
             ResetJoinedLobby();
             HandleLobbyHeartBeat();
             HandleJoinedLobbyUpdate();
@@ -75,7 +78,7 @@ namespace Game.Networking.LobbySystem
                 }
 
                 HandleJoinedLobbyUpdate();
-            },_lobbyConfig.LobbyUpdateIntervalInSeconds);
+            }, _lobbyConfig.LobbyUpdateIntervalInSeconds);
         }
 
         public async UniTask ResetJoinedLobby()
@@ -95,13 +98,13 @@ namespace Game.Networking.LobbySystem
                 }
 
                 HandleLobbyHeartBeat();
-            },_lobbyConfig.HeartBeatIntervalInSeconds);
+            }, _lobbyConfig.HeartBeatIntervalInSeconds);
         }
 
-        public async UniTask<bool> KickPlayerFromLobby(string lobbyId,string playerId)
+        public async UniTask<bool> KickPlayerFromLobby(string lobbyId, string playerId)
         {
-            var isLocalPlayerHost = JoinedLobby.Value != null && JoinedLobby.Value.HostId == AuthenticationService.Instance.PlayerId;
-            if(isLocalPlayerHost)
+            var isHost = AmITheHost();
+            if (isHost)
             {
                 try
                 {
@@ -116,19 +119,32 @@ namespace Game.Networking.LobbySystem
 
             return false;
         }
-        
-        public async UniTask<Unity.Services.Lobbies.Models.Lobby> CreateLobby(string lobbyName = "",int maxPlayer = 4)
+
+        public async UniTask UpdatePlayerData(string key, string data)
         {
             try
             {
-                if (lobbyName == string.Empty)
-                    lobbyName = "Room";
-                
-                lobbyName += $" #{UnityEngine.Random.Range(0, 10000)}";
+                if (JoinedLobby.Value == null) return;
+                //
+                // await _lobbyService.UpdatePlayerAsync(JoinedLobby.Value.Id,AuthenticationService.Instance.PlayerId, new UpdatePlayerOptions(){})
+            }
+            catch
+            {
+                // ignored
+            }
+        }
 
-                var lobbyHostPlayerData = GetLobbyPlayerDataWithName(_userProfile.DisplayName);
-                var newLobby = await _lobbyService.CreateLobbyAsync(lobbyName, maxPlayer,
-                    new CreateLobbyOptions { Player = lobbyHostPlayerData });
+        public async UniTask<Unity.Services.Lobbies.Models.Lobby> CreateLobby(LobbyModel model)
+        {
+            try
+            {
+                if (model.LobbyName == string.Empty)
+                {
+                    model.LobbyName = $"Room #{Random.Range(0, 100000)}";
+                }
+
+                var newLobby = await _lobbyService.CreateLobbyAsync(model.LobbyName, model.MaxPlayers,
+                    model.ToCreateLobbyOptions());
 
                 Debug.Log($"Lobby {newLobby.Name}-{newLobby.LobbyCode} {"Created".AddColor(Color.yellow)}");
                 JoinedLobby.Value = newLobby;
@@ -142,19 +158,6 @@ namespace Game.Networking.LobbySystem
             return JoinedLobby.Value;
         }
 
-        private Player GetLobbyPlayerDataWithName(string name)
-        {
-            return new Player
-            {
-                Data = new Dictionary<string, PlayerDataObject>
-                {
-                    {
-                        LobbyDataKey.PlayerName, new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, name)
-                    }
-                }
-            };
-        }
-
         public Player GetPlayerInJoinedLobby(string playerId)
         {
             if (JoinedLobby.Value != null)
@@ -165,44 +168,46 @@ namespace Game.Networking.LobbySystem
             return null;
         }
 
-        public async UniTask<Unity.Services.Lobbies.Models.Lobby> JoinLobbyByCode(string lobbyCode)
-        {
-            try
-            {
-                var joinLobbyData = GetLobbyPlayerDataWithName(_userProfile.DisplayName);
-                var joinedLobby = await _lobbyService.JoinLobbyByCodeAsync(lobbyCode,new JoinLobbyByCodeOptions{Player = joinLobbyData});
-                Debug.Log($"Joined Lobby {joinedLobby.Id} {joinedLobby.LobbyCode}");
-                JoinedLobby.Value = joinedLobby;
-            }
-            catch
-            {
-                JoinedLobby.Value = null;
-            }
-
-            HostLobbyToPing.Value = null;
-            return JoinedLobby.Value;
-        }
-        
-        public async UniTask<Unity.Services.Lobbies.Models.Lobby> QuickJoinLobby(QuickJoinLobbyOptions options = default)
-        {
-            try
-            {
-                options ??= new QuickJoinLobbyOptions();
-                
-                var joinLobbyData = GetLobbyPlayerDataWithName(_userProfile.DisplayName);
-                options.Player = joinLobbyData;
-                var joinedLobby = await _lobbyService.QuickJoinLobbyAsync(options);
-                Debug.Log($"Joined Lobby {joinedLobby.Id} {joinedLobby.LobbyCode}");
-                JoinedLobby.Value = joinedLobby;
-            }
-            catch
-            {
-                JoinedLobby.Value = null;
-            }
-
-            HostLobbyToPing.Value = null;
-            return JoinedLobby.Value;
-        }
+        // public async UniTask<Unity.Services.Lobbies.Models.Lobby> JoinLobbyByCode(string lobbyCode)
+        // {
+        //     try
+        //     {
+        //         var joinLobbyData = GetLobbyPlayerDataWithName(_userProfile.DisplayName);
+        //         var joinedLobby = await _lobbyService.JoinLobbyByCodeAsync(lobbyCode,
+        //             new JoinLobbyByCodeOptions { Player = joinLobbyData });
+        //         Debug.Log($"Joined Lobby {joinedLobby.Id} {joinedLobby.LobbyCode}");
+        //         JoinedLobby.Value = joinedLobby;
+        //     }
+        //     catch
+        //     {
+        //         JoinedLobby.Value = null;
+        //     }
+        //
+        //     HostLobbyToPing.Value = null;
+        //     return JoinedLobby.Value;
+        // }
+        //
+        // public async UniTask<Unity.Services.Lobbies.Models.Lobby> QuickJoinLobby(
+        //     QuickJoinLobbyOptions options = default)
+        // {
+        //     try
+        //     {
+        //         options ??= new QuickJoinLobbyOptions();
+        //
+        //         var joinLobbyData = GetLobbyPlayerDataWithName(_userProfile.DisplayName);
+        //         options.Player = joinLobbyData;
+        //         var joinedLobby = await _lobbyService.QuickJoinLobbyAsync(options);
+        //         Debug.Log($"Joined Lobby {joinedLobby.Id} {joinedLobby.LobbyCode}");
+        //         JoinedLobby.Value = joinedLobby;
+        //     }
+        //     catch
+        //     {
+        //         JoinedLobby.Value = null;
+        //     }
+        //
+        //     HostLobbyToPing.Value = null;
+        //     return JoinedLobby.Value;
+        // }
 
         public async UniTask LeaveLobby()
         {
@@ -218,6 +223,38 @@ namespace Game.Networking.LobbySystem
             {
                 // ignored
             }
+        }
+        
+        public async UniTask<bool> UpdateLobbyData(List<(string key,string data,DataObject.VisibilityOptions visibility)> listOfData)
+        {
+            try
+            {
+                var isHost = AmITheHost();
+                if (isHost)
+                {
+                    var updateLobbyOptions = new UpdateLobbyOptions();
+                    updateLobbyOptions.Data = new Dictionary<string, DataObject>();
+                    foreach (var (key,data,visibility) in listOfData)
+                    {
+                        updateLobbyOptions.Data.Add(key,new DataObject(visibility,data));
+                    }
+
+                    JoinedLobby.Value = await _lobbyService.UpdateLobbyAsync(JoinedLobby.Value.Id, updateLobbyOptions);
+
+                    return true;
+                }
+            }
+            catch
+            {
+                // ignored
+            }
+
+            return false;
+        }
+
+        public bool AmITheHost()
+        {
+            return JoinedLobby.Value != null && JoinedLobby.Value.HostId == AuthenticationService.Instance.PlayerId;
         }
     }
 }

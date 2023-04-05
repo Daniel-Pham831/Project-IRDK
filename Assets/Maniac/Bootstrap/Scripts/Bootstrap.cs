@@ -3,6 +3,7 @@ using Game.Commands;
 using Game.MazeSystem;
 using Game.Networking;
 using Game.Networking.Lobby;
+using Game.Networking.RelaySystem;
 using Game.Services;
 using Game.Services.UnityServices;
 using Maniac.AudioSystem;
@@ -71,15 +72,15 @@ namespace Maniac.Bootstrap.Scripts
         private Service CreateBootstrapLoadingServiceGroup()
         {
             var bootstrapLoadingServiceGroup = new BootstrapLoadingServiceGroup("Loading Services");
-            
             bootstrapLoadingServiceGroup.Add(new InitUnityServicesService());
             bootstrapLoadingServiceGroup.Add(new InitAuthenticationService());
             bootstrapLoadingServiceGroup.Add(new InitRemoteConfigService());
             bootstrapLoadingServiceGroup.Add(new InitCloudProfileManagerService());
             bootstrapLoadingServiceGroup.Add(new InitLobbySystemService());
+            bootstrapLoadingServiceGroup.Add(new InitRelaySystemService());
 
-            var commandServiceGroup = new SequenceCommandServiceGroup("Command Service Group");
             
+            var commandServiceGroup = new SequenceCommandServiceGroup("Command Service Group");
             commandServiceGroup.Add(new LoadEmptySceneCommand());
             commandServiceGroup.Add(new LoadSceneCommand(new LoadSceneCommand.Param("MainMenu",false)));
             

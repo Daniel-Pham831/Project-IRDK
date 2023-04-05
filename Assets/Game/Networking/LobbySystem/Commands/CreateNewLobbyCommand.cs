@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using Game.Commands;
+using Game.Networking.LobbySystem.Models;
 using Maniac.Command;
 using Maniac.UISystem.Command;
 using Maniac.Utils;
@@ -12,6 +14,7 @@ namespace Game.Networking.LobbySystem.Commands
         private readonly Action _onSuccess;
         private readonly Action _onFail;
         private LobbySystem _lobbySystem => Locator<LobbySystem>.Instance;
+        private RelaySystem.RelaySystem _relaySystem => Locator<RelaySystem.RelaySystem>.Instance;
 
         public CreateNewLobbyCommand(Action onSuccess, Action onFail)
         {
@@ -21,19 +24,29 @@ namespace Game.Networking.LobbySystem.Commands
 
         public override async UniTask Execute()
         {
-            var lobbyName = (string)await ShowScreenCommand.Create<CreateLobbyScreen>().ExecuteAndReturnResult();
+            var model = (LobbyModel)await ShowScreenCommand.Create<CreateLobbyScreen>().ExecuteAndReturnResult();
 
             await new ShowConnectToServerCommand().Execute();
-            var createdLobby = await _lobbySystem.CreateLobby(lobbyName);
-            await new HideConnectToServerCommand().Execute();
+            
+            var lobby = await _lobbySystem.CreateLobby(model);
+            var relayData = await _relaySystem.CreateRelay(model.MaxPlayers);
+            var updateSuccess = await new UpdateRelayDataForLobbyCommand(relayData).ExecuteAndGetResult();
+            
 
-            if (createdLobby != null)
+            if (lobby == null || relayData == (null, string.Empty) || !updateSuccess)
             {
-                await new ShowLobbyRoomDetailScreenCommand().Execute();
-                _onSuccess?.Invoke();
+                await FailToCreateError();
+                return;
             }
-            else
-                _onFail?.Invoke();
+
+            await new HideConnectToServerCommand().Execute();
+            // Move to room scene
+        }
+
+        private async UniTask FailToCreateError()
+        {
+            await new HideConnectToServerCommand().Execute();
+            _onFail?.Invoke();
         }
     }
 }

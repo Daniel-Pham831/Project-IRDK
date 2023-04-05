@@ -25,17 +25,17 @@ namespace Game.Networking.LobbySystem.Commands
 
         public override async UniTask Execute()
         {
-            await new ShowConnectToServerCommand().Execute();
-            var joinedLobby = await _lobbySystem.JoinLobbyByCode(_joinCode);
-            await new HideConnectToServerCommand().Execute();
-
-            if (joinedLobby != null)
-            {
-                await new ShowLobbyRoomDetailScreenCommand().Execute();
-                _onSuccess?.Invoke();
-            }
-            else
-                _onFail?.Invoke();
+            // await new ShowConnectToServerCommand().Execute();
+            // var joinedLobby = await _lobbySystem.JoinLobbyByCode(_joinCode);
+            // await new HideConnectToServerCommand().Execute();
+            //
+            // if (joinedLobby != null)
+            // {
+            //     await new ShowLobbyRoomDetailScreenCommand().Execute();
+            //     _onSuccess?.Invoke();
+            // }
+            // else
+            //     _onFail?.Invoke();
         }
     }
 }

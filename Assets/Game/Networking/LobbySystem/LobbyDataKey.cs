@@ -2,8 +2,8 @@
 {
     public static class LobbyDataKey
     {
-        public static readonly string PlayerName = "player_name";
-        public static readonly string PlayerSlotReady = "player_slot_ready";
-        public static readonly string PlayerSlotColor = "player_slot_color";
+        public static readonly string RelayJoinCode = "relay_join_code";
+        public static readonly string KickedPlayer = "kicked_players";
+        public static readonly string LobbyRegion = "lobby_Region";
     }
 }

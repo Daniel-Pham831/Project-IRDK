@@ -35,6 +35,7 @@ namespace Game
             {
                 await ShowCreateLobbyFail();
             }).Execute();
+            
         }
 
         public async void OnJoinByCodeClicked()
