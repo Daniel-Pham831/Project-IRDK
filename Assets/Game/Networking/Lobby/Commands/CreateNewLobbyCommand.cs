@@ -54,6 +54,5 @@ namespace Game.Networking.Lobby.Commands
             await new ShowInformationDialogCommand(LanguageTable.Information_FailToCreateLobbyHeader,
                 LanguageTable.Information_FailToCreateLobbyBody).Execute();
         }
-
     }
 }

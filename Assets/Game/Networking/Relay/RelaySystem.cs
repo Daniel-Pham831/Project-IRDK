@@ -1,4 +1,7 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Cysharp.Threading.Tasks;
 using Game.CloudProfileSystem;
 using Maniac.DataBaseSystem;
 using Maniac.Utils;
@@ -14,12 +17,21 @@ namespace Game.Networking.Relay
         private UserProfile _userProfile;
         private LobbyConfig _lobbyConfig;
         private IRelayService _relayService;
+        public List<Region> Regions { get; private set; }
 
         public async UniTask Init()
         {
             _userProfile = await _cloudProfileManager.Get<UserProfile>();
             _lobbyConfig = _dataBase.Get<LobbyConfig>();
             _relayService = RelayService.Instance;
+            try
+            {
+                Regions = await _relayService.ListRegionsAsync();
+            }
+            catch
+            {
+                Regions = new List<Region>();
+            }
 
             await UniTask.CompletedTask;
         }
@@ -38,6 +50,25 @@ namespace Game.Networking.Relay
             }
 
             return result;
+        }
+
+        public async UniTask<JoinAllocation> JoinRelay(string relayJoinCode)
+        {
+            try
+            {
+                return await _relayService.JoinAllocationAsync(relayJoinCode);
+            }
+            catch
+            {
+                // ignored
+            }
+
+            return null;
+        }
+
+        public Region GetRegion(string id)
+        {
+            return Regions.FirstOrDefault(x => x.Id == id);
         }
     }
 }

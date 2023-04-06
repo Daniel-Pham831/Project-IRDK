@@ -53,10 +53,7 @@ namespace Game
 
         private async void OnJoinLobbyClicked(Lobby lobbyToJoin)
         {
-            await new JoinLobbyByIdCommand(lobbyToJoin.Id, Back, async () =>
-            {
-                await ShowJoinFail();
-            }).Execute();
+            await new JoinLobbyCommand(lobbyToJoin.Id,true).Execute();
         }
 
         public async void OnCreateClicked()
@@ -70,10 +67,7 @@ namespace Game
             Debug.Log("OnJoinClicked");
             if (!string.IsNullOrEmpty(joinCodeInput.text))
             {
-                await new JoinLobbyByCodeCommand(joinCodeInput.text, Back, async () =>
-                {
-                    await ShowJoinFail();
-                }).Execute();
+                await new JoinLobbyCommand(joinCodeInput.text,false).Execute();
             }
             else
             {
@@ -87,11 +81,6 @@ namespace Game
             await _lobbySystem.QueryLobbies();
             await new HideConnectToServerCommand().Execute();
         }
-        
-        private async UniTask ShowJoinFail()
-        {
-            await new ShowInformationDialogCommand(LanguageTable.Information_FailToJoinLobbyHeader,
-                LanguageTable.Information_FailToJoinLobbyBody).Execute();
-        }
+
     }
 }

@@ -1,7 +1,9 @@
 ﻿using System;
 using Cysharp.Threading.Tasks;
 using Game.Networking.Lobby;
+using Game.Networking.Relay;
 using Maniac.LanguageTableSystem;
+using Maniac.Utils;
 using Maniac.Utils.Extension;
 using TMPro;
 using Unity.Services.Lobbies.Models;
@@ -11,6 +13,8 @@ namespace Game.Scripts
 {
     public class LobbyItemInLobbyScreen : MonoBehaviour
     {
+        private RelaySystem _relaySystem => Locator<RelaySystem>.Instance;
+
         [SerializeField] private TMP_Text roomName;
         [SerializeField] private TMP_Text roomData;
         [SerializeField] private LanguageItem isPlayingLangItem;
@@ -30,9 +34,10 @@ namespace Game.Scripts
                 ? isPlayingLangItem.GetCurrentLanguageText().AddColor(Color.red)
                 : lobbyRoomLangItem.GetCurrentLanguageText().AddColor(Color.cyan);
 
-            var regionText = lobby.Data[LobbyDataKey.LobbyRegion]?.Value.AddColor(Color.yellow);
+            var regionId = lobby.Data[LobbyDataKey.LobbyRegion]?.Value;
+            var region = _relaySystem.GetRegion(regionId);
             roomData.text = string.Format(_roomStateFormat, lobby.MaxPlayers - lobby.AvailableSlots, lobby.MaxPlayers,
-                roomState,regionText);
+                roomState, region != null ? region.Description.AddColor(Color.yellow) : "");
         }
 
         public async void OnJoinClicked()
