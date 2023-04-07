@@ -17,7 +17,6 @@ namespace Game
     {
         private CloudProfileManager _cloudProfileManager => Locator<CloudProfileManager>.Instance;
         private UserProfile _userProfile;
-        private UIManager _uiManager => Locator<UIManager>.Instance;
 
         [Header("Welcome Dialog")] 
         [SerializeField] private TMP_Text welcomeText;

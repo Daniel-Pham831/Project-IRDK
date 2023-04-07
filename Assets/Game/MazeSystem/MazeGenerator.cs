@@ -24,7 +24,6 @@ namespace Game.MazeSystem
             var maze = new Maze(new Vector2Int(3, 5));
             var visitedCells = new List<Vector2Int>();
             await GenerateMazeRecursively(new Vector2Int(0,0),maze,visitedCells);
-            ExportToJSON(maze);
         }
 
         private async UniTask GenerateMazeRecursively(Vector2Int currentPosition, Maze maze, List<Vector2Int> visitedCells)

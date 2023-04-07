@@ -3,7 +3,9 @@ using Cysharp.Threading.Tasks;
 using Maniac.DataBaseSystem;
 using Maniac.Services;
 using Maniac.Utils;
+#if UNITY_EDITOR
 using ParrelSync;
+#endif
 using Unity.Services.Authentication;
 using Unity.Services.Core;
 using Unity.Services.Core.Environments;

@@ -6,9 +6,11 @@ using Maniac.Utils;
 using Maniac.Utils.Extension;
 using Newtonsoft.Json;
 using Sirenix.OdinInspector;
+#if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEditor.Compilation;
+#endif
 using UnityEngine;
 using UnityEngine.UIElements;
 

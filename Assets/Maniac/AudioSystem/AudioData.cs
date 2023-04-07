@@ -5,8 +5,10 @@ using System.Text;
 using Maniac.Utils;
 using Maniac.Utils.Extension;
 using Sirenix.OdinInspector;
+#if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.Compilation;
+#endif
 using UnityEngine;
 
 namespace Maniac.AudioSystem

@@ -1,4 +1,6 @@
-﻿using Maniac.AudioSystem;
+﻿#if UNITY_EDITOR
+
+using Maniac.AudioSystem;
 using Maniac.DataBaseSystem;
 using Maniac.LanguageTableSystem;
 using Maniac.UISystem;
@@ -39,3 +41,5 @@ namespace Maniac.Bootstrap.Scripts
         }
     }
 }
+
+#endif
