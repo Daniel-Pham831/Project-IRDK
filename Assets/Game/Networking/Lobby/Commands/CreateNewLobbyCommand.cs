@@ -6,6 +6,7 @@ using Game.Networking.Network;
 using Game.Networking.Relay;
 using Game.Networking.Relay.Commands;
 using Game.Scenes;
+using Game.Scenes.LobbyRoom.Commands;
 using Maniac.Command;
 using Maniac.LanguageTableSystem;
 using Maniac.UISystem;
@@ -24,7 +25,7 @@ namespace Game.Networking.Lobby.Commands
 
         public override async UniTask Execute()
         {
-            var model = (LobbyModel)await ShowScreenCommand.Create<CreateLobbyScreen>().ExecuteAndReturnResult();
+            var model = (LobbyModel)await new ShowScreenCommand<CreateLobbyScreen>().ExecuteAndReturnResult();
             if (model == null) return;
 
             await new ShowConnectToServerCommand().Execute();
@@ -44,8 +45,7 @@ namespace Game.Networking.Lobby.Commands
             }
 
             await new HideConnectToServerCommand().Execute();
-            await new LoadEmptySceneCommand().Execute();
-            await new LoadSceneCommand(new LoadSceneCommand.Param(SceneName.LobbyRoom,true)).Execute();
+            await new LoadLobbyRoomSceneCommand().Execute();
         }
 
         private async UniTask ShowCreateLobbyFail()

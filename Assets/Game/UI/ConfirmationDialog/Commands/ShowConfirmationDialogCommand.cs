@@ -45,7 +45,7 @@ namespace Game.Commands
                 cancel = cancelLanguageItem != null ? cancelLanguageItem.GetCurrentLanguageText() : _cancel,
             };
 
-            _result = (bool)await ShowScreenCommand.Create<ConfirmationDialog>(confirmParam).ExecuteAndReturnResult();
+            _result = (bool)await new ShowScreenCommand<ConfirmationDialog>(confirmParam).ExecuteAndReturnResult();
 
             await UniTask.CompletedTask;
         }

@@ -38,7 +38,7 @@ namespace Game.Commands
                 confirm = confirmLanguageItem != null ? confirmLanguageItem.GetCurrentLanguageText() : _confirm,
             };
 
-            await ShowScreenCommand.Create<InformationDialog>(confirmParam).ExecuteAndReturnResult();
+            await new ShowScreenCommand<InformationDialog>(confirmParam).ExecuteAndReturnResult();
             await UniTask.CompletedTask;
         }
     }

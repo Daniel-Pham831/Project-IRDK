@@ -18,7 +18,7 @@ namespace Game.Commands
         public override async UniTask Execute()
         {
             _uiManager.CloseAllCurrentShowed();
-            await new LoadSceneCommand(new LoadSceneCommand.Param(SceneName.EmptyScene, _loadWithLoadingScreen)).Execute();
+            await new LoadSceneCommand(SceneName.EmptyScene).Execute();
             await UniTask.CompletedTask;
         }
     }

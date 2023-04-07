@@ -3014,14 +3014,14 @@ MonoBehaviour:
   m_text: Enter Lobby Name
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d85a302cd98b532419fd4a4964d36347, type: 2}
-  m_sharedMaterial: {fileID: 2100000, guid: a4cdd497b1f83844295f5feedebe6fa1, type: 2}
+  m_sharedMaterial: {fileID: -6405342206341352587, guid: d85a302cd98b532419fd4a4964d36347, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 3007858760
+  m_fontColor: {r: 0.2830189, g: 0.2830189, b: 0.2830189, a: 0.7019608}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -3044,7 +3044,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 2
+  m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535

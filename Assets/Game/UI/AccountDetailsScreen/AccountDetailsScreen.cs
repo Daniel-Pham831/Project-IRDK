@@ -29,7 +29,7 @@ namespace Game
 
         public async void ShowUpdateUserNameClicked()
         {
-            await ShowScreenCommand.Create<UpdateUserNameDialog>().ExecuteAndReturnResult();
+            await new ShowScreenCommand<UpdateUserNameDialog>().ExecuteAndReturnResult();
             
             userName.text = _userProfile.DisplayName;
         }

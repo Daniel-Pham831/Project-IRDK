@@ -57,7 +57,7 @@ namespace Game
             bool hasUserHaveName = _userProfile.DisplayName != string.Empty;
             if (hasUserHaveName) return;
 
-            await ShowScreenCommand.Create<UpdateUserNameDialog>().ExecuteAndReturnResult();
+            await new ShowScreenCommand<UpdateUserNameDialog>().ExecuteAndReturnResult();
         }
 
         public async void OnPlaySingleClicked()

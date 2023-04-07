@@ -8,54 +8,20 @@ namespace Game.Commands
 {
     public class LoadSceneCommand: Command
     {
-        private readonly Param param;
-        private LoadingScreen loadingScreen;
+        private readonly string _sceneName;
 
-        public LoadSceneCommand(Param param)
+        public LoadSceneCommand(string sceneName)
         {
-            this.param = param;
+            _sceneName = sceneName;
         }
-
-        private UIManager uiManager => Locator<UIManager>.Instance;
 
         public override async UniTask Execute()
         {
-            var mainGameScene = SceneManager.LoadSceneAsync(param.sceneName);
-            mainGameScene.allowSceneActivation = false;
-
-            if (param.shouldLoadWithLoadingScreen)
-            {
-                loadingScreen = await uiManager.Show<LoadingScreen>() as LoadingScreen;
-                do
-                {
-                    await UniTask.Delay(100);
-                    loadingScreen.UpdateProgressBar(mainGameScene.progress);
-                } while (mainGameScene.progress < 0.9f);
-
-                loadingScreen.UpdateProgressBar(1);
-            }
-            else
-            {
-                await UniTask.WaitUntil(() => mainGameScene.progress >= 0.9f);
-            }
-
-            mainGameScene.allowSceneActivation = true;
-            if (loadingScreen != null)
-                await loadingScreen.Close();
-
+            var loadedScene = SceneManager.LoadSceneAsync(_sceneName);
+            loadedScene.allowSceneActivation = false;
+            await UniTask.WaitUntil(() => loadedScene.progress >= 0.9f);
+            loadedScene.allowSceneActivation = true;
             await UniTask.CompletedTask;
-        }
-
-        public class Param
-        {
-            public string sceneName;
-            public bool shouldLoadWithLoadingScreen;
-
-            public Param(string sceneName, bool shouldLoadWithLoadingScreen)
-            {
-                this.sceneName = sceneName;
-                this.shouldLoadWithLoadingScreen = shouldLoadWithLoadingScreen;
-            }
         }
     }
 }

@@ -18,9 +18,9 @@ namespace Maniac.Services
             _commandQueue = new Queue<Command.Command>();
         }
 
-        public void Add(Command.Command newService)
+        public void Add(Command.Command newCommand)
         {
-            _commandQueue.Enqueue(newService);
+            _commandQueue.Enqueue(newCommand);
         }
 
         public override async UniTask<IService.Result> Execute()

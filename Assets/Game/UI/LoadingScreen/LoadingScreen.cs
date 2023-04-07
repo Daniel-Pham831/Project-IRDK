@@ -6,6 +6,7 @@ using Maniac.LanguageTableSystem;
 using Maniac.UISystem;
 using Maniac.Utils;
 using TMPro;
+using UniRx;
 using UnityEngine.UI;
 
 namespace Game
@@ -16,31 +17,23 @@ namespace Game
         [SerializeField] private TMP_Text loadingText;
         [SerializeField] private LanguageItem languageItem;
         private string _loadingFormat;
+        private FloatReactiveProperty _progress;
 
         public override void OnSetup(object parameter)
         {
             base.OnSetup(parameter);
-
+            _progress = (FloatReactiveProperty)parameter;
+            
             _loadingFormat = languageItem.GetCurrentLanguageText();
             progressBarSlider.value = 0;
-            UpdateLoadingText(0f);
+            UpdateLoadingProgress(0f);
+            _progress.Subscribe(UpdateLoadingProgress).AddTo(this);
         }
 
-        private void UpdateLoadingText(float value)
+        private void UpdateLoadingProgress(float value)
         {
-            loadingText.text = string.Format(_loadingFormat, value);
-        }
-
-        public override async UniTask Close(object param = null)
-        {
-            await UniTask.Delay(300);
-            await base.Close(param);
-        }
-
-        public void UpdateProgressBar(float percent)
-        {
-            progressBarSlider.DOValue(percent, 0.05f);
-            UpdateLoadingText((percent * 100));
+            progressBarSlider.value = value;
+            loadingText.text = string.Format(_loadingFormat, (value * 100f).ToString("F1"));
         }
     }
 }

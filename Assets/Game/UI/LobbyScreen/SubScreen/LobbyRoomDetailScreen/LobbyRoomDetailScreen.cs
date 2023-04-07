@@ -7,6 +7,7 @@ using Game.CloudProfileSystem;
 using Game.Networking;
 using Game.Networking.Lobby;
 using Game.Networking.Lobby.Commands;
+using Game.Networking.Relay;
 using Game.Scripts;
 using Maniac.DataBaseSystem;
 using Maniac.LanguageTableSystem;
@@ -23,21 +24,23 @@ namespace Game
 {
     public class LobbyRoomDetailScreen : BaseUI
     {
+        private RelaySystem _relaySystem => Locator<RelaySystem>.Instance;
         private LobbySystem _lobbySystem => Locator<LobbySystem>.Instance;
         private DataBase _dataBase => Locator<DataBase>.Instance;
         private LobbyConfig _lobbyConfig;
 
-        [SerializeField] private PlayerItemControllerInLobbyRoomScreen playerItemController;
+        [SerializeField] private TMP_Text lobbyNameTxt;
+        [SerializeField] private TMP_Text lobbyStateTxt;
+        [SerializeField] private TMP_Text lobbyPlayerCountTxt;
+        [SerializeField] private TMP_Text lobbyRegionTxt;
+        [SerializeField] private TMP_Text lobbyCodeTxt;
+        [SerializeField] private TMP_Text lobbyPingTxt;
 
-        [SerializeField] private TMP_Text roomName;
-        [SerializeField] private TMP_Text roomCode;
+        [SerializeField] private LanguageItem privateLangItem;
+        [SerializeField] private LanguageItem publicLangItem;
 
-        [SerializeField] private GameObject startBtn;
-        [SerializeField] private TMP_Text startOrReady;
-
-        [SerializeField] private LanguageItem startLangItem;
+        private readonly string _playerCountFormat = "{0}/{1}";
         private Lobby _joinedLobby;
-
 
         public override async void OnSetup(object parameter = null)
         {
@@ -61,15 +64,18 @@ namespace Game
 
         private void UpdateLobbyRoom()
         {
-            roomName.text = _joinedLobby.Name;
-            roomCode.text = _joinedLobby.LobbyCode;
-
-            var isHost = _joinedLobby.HostId == AuthenticationService.Instance.PlayerId;
+            lobbyNameTxt.text = _joinedLobby.Name;
+            lobbyPlayerCountTxt.text =
+                string.Format(_playerCountFormat, _joinedLobby.Players.Count, _joinedLobby.MaxPlayers);
+            lobbyCodeTxt.text = $"CODE\n{_joinedLobby.LobbyCode}";
+            lobbyStateTxt.text = _joinedLobby.IsPrivate
+                ? privateLangItem.GetCurrentLanguageText()
+                : publicLangItem.GetCurrentLanguageText();
             
-            startBtn.SetActive(isHost);
-            startOrReady.text = startLangItem.GetCurrentLanguageText();
-
-            playerItemController.UpdateLobbyPlayerItems(_joinedLobby);
+            var regionId = _joinedLobby.Data[LobbyDataKey.LobbyRegion]?.Value;
+            var region = _relaySystem.GetRegion(regionId);
+            lobbyRegionTxt.text = region.Description;
+            // lobbyPingTxt.text =
         }
 
         public async void OnStartClicked()
@@ -86,6 +92,16 @@ namespace Game
         {
             await new LeaveLobbyCommand().Execute();
             base.Back();
+        }
+
+        public async void OnSettingClicked()
+        {
+            
+        }
+
+        public async void OnAccountClicked()
+        {
+            
         }
     }
 }

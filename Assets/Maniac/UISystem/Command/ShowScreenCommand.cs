@@ -5,47 +5,42 @@ using UnityEngine;
 
 namespace Maniac.UISystem.Command
 {
-    public class ShowScreenCommand : Maniac.Command.Command
+    public class ShowScreenCommand<T> : Maniac.Command.Command where T : BaseUI
     {
         private UIManager uiManager => Locator<UIManager>.Instance;
-        private object parameter;
-        private object result;
-        private Type uiType;
+        private object _parameter;
+        private object _result;
         private BaseUI ui;
 
+        public ShowScreenCommand(object parameter = null)
+        {
+            _parameter = parameter;
+        }
+        
         public override async UniTask Execute()
         {
-            ui = await uiManager.Show(uiType, parameter);
+            ui = await uiManager.Show<T>(_parameter);
             if (ui == null)
             {
-                Debug.Log($"Something wrong with {uiType} UI.");
+                Debug.Log($"Something wrong with {typeof(T)} UI.");
                 return;
             }
-            ui.OnClose += (param) => result = param;
-            await WaitCompletion();
+            ui.OnClose += (param) => _result = param;
         }
 
         public async UniTask<object> ExecuteAndReturnResult()
         {
             await Execute();
+            await WaitCompletion();
             if (HasValidResult())
-                return result;
+                return _result;
             else
                 return default;
         }
 
         private bool HasValidResult()
         {
-            return result != null;
-        }
-
-        public static ShowScreenCommand Create<T>(object parameter = null) where T : BaseUI
-        {
-            return new ShowScreenCommand()
-            {
-                parameter = parameter,
-                uiType = typeof(T)
-            };
+            return _result != null;
         }
 
         private async UniTask WaitCompletion()

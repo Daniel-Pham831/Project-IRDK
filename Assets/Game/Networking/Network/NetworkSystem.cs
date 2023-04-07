@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Game.Networking.Network
 {
-    public class NetworkSystem
+    public class NetworkSystem : NetworkBehaviour
     {
         private DataBase _dataBase => Locator<DataBase>.Instance;
         private BuildSettingConfig _buildSettingConfig;
