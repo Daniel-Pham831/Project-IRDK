@@ -37,7 +37,6 @@ namespace Game.Networking.Lobby.Commands
                 
                 var  joinAllocation = await new JoinRelayWithLobbyCommand(joinedLobby).ExecuteAndGetResult();
                 _networkSystem.SetRelayServerData(new RelayServerData(joinAllocation, "dtls"));
-                _networkSystem.NetworkManager.StartClient();
             }
             catch
             {

@@ -1,17 +1,22 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using Maniac.DataBaseSystem;
 using Maniac.Utils;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
 using Unity.Networking.Transport.Relay;
 using UnityEngine;
+using Environment = Maniac.DataBaseSystem.Environment;
+using Object = UnityEngine.Object;
 
 namespace Game.Networking.Network
 {
-    public class NetworkSystem : NetworkBehaviour
+    public class NetworkSystem
     {
         private DataBase _dataBase => Locator<DataBase>.Instance;
         private BuildSettingConfig _buildSettingConfig;
+        private NetConfig _netConfig;
         
         public NetworkManager NetworkManager { get; private set; }
         public UnityTransport UnityTransport { get; private set; }
@@ -19,6 +24,7 @@ namespace Game.Networking.Network
         public async UniTask Init()
         {
             _buildSettingConfig = _dataBase.Get<BuildSettingConfig>();
+            _netConfig = _dataBase.Get<NetConfig>();
             
             var newObj = new GameObject("NetworkSystem");
             Object.DontDestroyOnLoad(newObj);
@@ -26,6 +32,7 @@ namespace Game.Networking.Network
             UnityTransport = newObj.AddComponent<UnityTransport>();
             NetworkManager.NetworkConfig ??= new NetworkConfig();
             NetworkManager.NetworkConfig.NetworkTransport = UnityTransport;
+            await AddAllNetworkPrefabs();
             NetworkManager.NetworkConfig.NetworkTransport.Initialize(NetworkManager);
             
             if (_buildSettingConfig.GetTargetEnvironmentName == Environment.Develop ||
@@ -36,6 +43,17 @@ namespace Game.Networking.Network
             else
             {
                 NetworkManager.LogLevel = LogLevel.Nothing;
+            }
+            
+            Locator<NetworkManager>.Set(NetworkManager);
+        }
+
+        private async UniTask AddAllNetworkPrefabs()
+        {
+            NetworkManager.NetworkConfig.PlayerPrefab = _netConfig.NetPlayer.gameObject;
+            foreach (var prefab in _netConfig.NetworkPrefabs)
+            {
+                NetworkManager.AddNetworkPrefab(prefab.gameObject);
             }
         }
 

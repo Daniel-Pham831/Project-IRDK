@@ -17,10 +17,7 @@ namespace Game.Commands
 
         public override async UniTask Execute()
         {
-            var loadedScene = SceneManager.LoadSceneAsync(_sceneName);
-            loadedScene.allowSceneActivation = false;
-            await UniTask.WaitUntil(() => loadedScene.progress >= 0.9f);
-            loadedScene.allowSceneActivation = true;
+            await SceneManager.LoadSceneAsync(_sceneName);
             await UniTask.CompletedTask;
         }
     }

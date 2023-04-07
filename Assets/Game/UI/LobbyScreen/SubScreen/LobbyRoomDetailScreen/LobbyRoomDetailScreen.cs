@@ -7,7 +7,9 @@ using Game.CloudProfileSystem;
 using Game.Networking;
 using Game.Networking.Lobby;
 using Game.Networking.Lobby.Commands;
+using Game.Networking.Network;
 using Game.Networking.Relay;
+using Game.Networking.Scripts;
 using Game.Scripts;
 using Maniac.DataBaseSystem;
 using Maniac.LanguageTableSystem;
@@ -27,6 +29,7 @@ namespace Game
         private RelaySystem _relaySystem => Locator<RelaySystem>.Instance;
         private LobbySystem _lobbySystem => Locator<LobbySystem>.Instance;
         private DataBase _dataBase => Locator<DataBase>.Instance;
+        private NetPlayer _netPlayer => Locator<NetPlayer>.Instance;
         private LobbyConfig _lobbyConfig;
 
         [SerializeField] private TMP_Text lobbyNameTxt;
@@ -46,12 +49,12 @@ namespace Game
         {
             _lobbyConfig = _dataBase.Get<LobbyConfig>();
 
-            SubscribeLobby();
+            SubscribeEvents();
             
             base.OnSetup(parameter);
         }
 
-        private void SubscribeLobby()
+        private void SubscribeEvents()
         {
             _lobbySystem.JoinedLobby.Subscribe(value =>
             {
@@ -59,6 +62,11 @@ namespace Game
 
                 _joinedLobby = _lobbySystem.JoinedLobby.Value;
                 UpdateLobbyRoom();
+            }).AddTo(this);
+
+            _netPlayer.PingInMilliSeconds.Subscribe(value =>
+            {
+                lobbyPingTxt.text = $"{value:F1} ms";
             }).AddTo(this);
         }
 
@@ -75,7 +83,6 @@ namespace Game
             var regionId = _joinedLobby.Data[LobbyDataKey.LobbyRegion]?.Value;
             var region = _relaySystem.GetRegion(regionId);
             lobbyRegionTxt.text = region.Description;
-            // lobbyPingTxt.text =
         }
 
         public async void OnStartClicked()

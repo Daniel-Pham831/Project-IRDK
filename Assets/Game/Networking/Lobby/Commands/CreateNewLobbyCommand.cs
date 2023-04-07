@@ -36,7 +36,6 @@ namespace Game.Networking.Lobby.Commands
                 var relayData = await _relaySystem.CreateRelay(model.MaxPlayers);
                 await new UpdateRelayDataForLobbyCommand(relayData).ExecuteAndGetResult();
                 _networkSystem.SetRelayServerData(new RelayServerData(relayData.Item1, "dtls"));
-                _networkSystem.NetworkManager.StartHost();
             }
             catch
             {

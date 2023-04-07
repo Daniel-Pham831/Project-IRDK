@@ -1,5 +1,7 @@
 ﻿using Cysharp.Threading.Tasks;
 using Game.Commands;
+using Game.Networking.Network;
+using Game.Networking.Network.Commands;
 using Maniac.Command;
 using Maniac.Services;
 using Maniac.UISystem;
@@ -18,6 +20,7 @@ namespace Game.Scenes.LobbyRoom.Commands
             
             lobbyRoomCommandsGroup.Add(new LoadEmptySceneCommand());
             lobbyRoomCommandsGroup.Add(new LoadSceneCommand(SceneName.LobbyRoom));
+            lobbyRoomCommandsGroup.Add(new StartNetworkSessionCommand());
             lobbyRoomCommandsGroup.Add(new ShowScreenCommand<LobbyRoomDetailScreen>());
 
             var loadingScreen = await _uiManager.Show<LoadingScreen>(lobbyRoomCommandsGroup.Progress);

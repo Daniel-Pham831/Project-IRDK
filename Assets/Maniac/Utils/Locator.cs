@@ -33,5 +33,10 @@ namespace Maniac.Utils
                 else instance = default(T);
             }
         }
+        
+        public static void Remove()
+        {
+            instance = default;
+        }
     }
 }

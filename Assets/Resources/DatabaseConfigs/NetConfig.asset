@@ -12,4 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33589defd568f834faccf6445426f7e3, type: 3}
   m_Name: NetConfig
   m_EditorClassIdentifier: 
-  PlayerPrefab: {fileID: 2665090631079955805, guid: a66e421727bdebc4984c5e2be4d9b34b, type: 3}
+  SendPingInterval: 0.5
+  NetPlayer: {fileID: 262476580604540945, guid: 7b059d8c43283c14891fdbd97e358945, type: 3}
+  NetworkPrefabs: []
