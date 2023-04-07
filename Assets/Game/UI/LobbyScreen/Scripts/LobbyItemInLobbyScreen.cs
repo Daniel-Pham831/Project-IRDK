@@ -30,7 +30,7 @@ namespace Game.Scripts
             _lobby = lobby;
             
             roomName.text = lobby.Name;
-            var roomState = lobby.Data[LobbyDataKey.IsPlaying]?.Value == "true"
+            var roomState = lobby.Data?[LobbyDataKey.IsPlaying]?.Value == "true"
                 ? isPlayingLangItem.GetCurrentLanguageText().AddColor(Color.red)
                 : lobbyRoomLangItem.GetCurrentLanguageText().AddColor(Color.cyan);
 
