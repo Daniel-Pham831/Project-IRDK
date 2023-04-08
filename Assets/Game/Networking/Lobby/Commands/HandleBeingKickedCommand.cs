@@ -21,7 +21,7 @@ namespace Game.Networking.Lobby.Commands
                 _lobbySystem.HostLobbyToPing.Value = null;
                 
                 await new ShowInformationDialogCommand(LanguageTable.Information_BeingKickedHeader, LanguageTable.Information_BeingKickedBody).Execute();
-                await _uiManager.Close<LobbyRoomDetailScreen>();
+                await new LeaveLobbyCommand().Execute();
             }
         }
     }

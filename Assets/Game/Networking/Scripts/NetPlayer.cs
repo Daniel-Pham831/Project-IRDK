@@ -1,8 +1,12 @@
 ﻿using System;
+using Game.Networking.NetMessages;
 using Maniac.DataBaseSystem;
+using Maniac.MessengerSystem.Base;
+using Maniac.MessengerSystem.Messages;
 using Maniac.TimeSystem;
 using Maniac.Utils;
 using UniRx;
+using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -20,13 +24,12 @@ namespace Game.Networking.Scripts
 
         public FloatReactiveProperty PingInMilliSeconds { get; private set; } = new FloatReactiveProperty();
         private float _lastSendPingTime;
-        public NetworkVariable<float> LastSendPingTime { get; private set; } = new NetworkVariable<float>();
         
         // Shared
         private float timer;
         private int currentTick;
         private float minTimeBetweenTicks;
-
+        
         private void Awake()
         {
             _config = _dataBase.Get<NetConfig>();
@@ -37,14 +40,8 @@ namespace Game.Networking.Scripts
             if (!IsOwner) return;
 
             Locator<NetPlayer>.Set(this);
-            LastSendPingTime.OnValueChanged += UpdatePingInMilliSeconds;
             HandlePingMessage();
             base.OnNetworkSpawn();
-        }
-
-        private void UpdatePingInMilliSeconds(float previousvalue, float newvalue)
-        {
-            PingInMilliSeconds.Value = (Time.realtimeSinceStartup - _lastSendPingTime)*1000;
         }
 
         public override void OnNetworkDespawn()
@@ -62,24 +59,40 @@ namespace Game.Networking.Scripts
                 if (this == null) return;
                 
                 _lastSendPingTime = Time.realtimeSinceStartup;
-                SendPingServerRpc();
+                SendPingToServerRpc();
                 HandlePingMessage();
             },_config.SendPingInterval);
         }
 
         [ServerRpc]
-        private void SendPingServerRpc(ServerRpcParams serverRpcParams = default)
+        private void SendPingToServerRpc(ServerRpcParams serverRpcParams = default)
         {
             if (OwnerClientId == serverRpcParams.Receive.SenderClientId)
             {
-                LastSendPingTime.Value = Time.realtimeSinceStartup;
+                SendPingToClientRpc();
             }
         }
 
         [ClientRpc]
-        private void SendPingClientRpc(ClientRpcParams clientRpcParams = default)
+        private void SendPingToClientRpc(ClientRpcParams clientRpcParams = default)
         {
             PingInMilliSeconds.Value = (Time.realtimeSinceStartup - _lastSendPingTime)*1000;
         }
+
+        //
+        // [ServerRpc]
+        // public void SendDataToServerRpc(string key, object data, ServerRpcParams serverRpcParams = default)
+        // {
+        //     if (OwnerClientId == serverRpcParams.Receive.SenderClientId)
+        //     {
+        //         SendDataToClientRpc(key,data);
+        //     }
+        // }
+        //
+        // [ClientRpc]
+        // private void SendDataToClientRpc(string key, object data, ClientRpcParams clientRpcParams = default)
+        // {
+        //     Messenger.SendMessage(new ServerMessage(key,data));
+        // }
     }
 }

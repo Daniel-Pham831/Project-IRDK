@@ -157,20 +157,6 @@ namespace Game.Networking.Lobby
             return false;
         }
 
-        public async UniTask UpdatePlayerData(string key, string data)
-        {
-            try
-            {
-                if (JoinedLobby.Value == null) return;
-                //
-                // await _lobbyService.UpdatePlayerAsync(JoinedLobby.Value.Id,AuthenticationService.Instance.PlayerId, new UpdatePlayerOptions(){})
-            }
-            catch
-            {
-                // ignored
-            }
-        }
-
         public async UniTask<Unity.Services.Lobbies.Models.Lobby> CreateLobby(LobbyModel model)
         {
             try
@@ -253,13 +239,15 @@ namespace Game.Networking.Lobby
                 if (JoinedLobby.Value != null)
                 {
                     _lobbyService.RemovePlayerAsync(JoinedLobby.Value.Id, AuthenticationService.Instance.PlayerId);
-                    JoinedLobby.Value = null;
                 }
             }
             catch (Exception e)
             {
                 // ignored
             }
+            
+            JoinedLobby.Value = null;
+            HostLobbyToPing.Value = null;
         }
         
         public async UniTask<bool> UpdateLobbyData(List<(string key,string data,DataObject.VisibilityOptions visibility)> listOfData)

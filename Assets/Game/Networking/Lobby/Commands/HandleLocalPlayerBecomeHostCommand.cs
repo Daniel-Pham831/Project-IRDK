@@ -15,11 +15,11 @@ namespace Game.Networking.Lobby.Commands
         {
             if(_lobbySystem.HostLobbyToPing.Value == null)
             {
-                bool isLocalPlayerBecomeJoinedLobbyHost = _lobbySystem.JoinedLobby.Value.HostId == AuthenticationService.Instance.PlayerId;
+                bool isLocalPlayerBecomeJoinedLobbyHost = _lobbySystem.JoinedLobby?.Value.HostId == AuthenticationService.Instance.PlayerId;
                 if (isLocalPlayerBecomeJoinedLobbyHost)
                 {
-                    _lobbySystem.HostLobbyToPing.Value = _lobbySystem.JoinedLobby.Value;
-                    await new ShowInformationDialogCommand(LanguageTable.Information_BecomeHostHeader, LanguageTable.Information_BecomeHostBody).Execute();
+                    await new ShowInformationDialogCommand(LanguageTable.Information_ConnectionTimeOutHeader, LanguageTable.Information_ConnectionTimeOutBody).Execute();
+                    await new LeaveLobbyCommand().Execute();
                 }
             }
         }

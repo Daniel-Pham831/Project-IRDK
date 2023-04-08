@@ -98,7 +98,6 @@ namespace Game
         public override async void Back()
         {
             await new LeaveLobbyCommand().Execute();
-            base.Back();
         }
 
         public async void OnSettingClicked()
