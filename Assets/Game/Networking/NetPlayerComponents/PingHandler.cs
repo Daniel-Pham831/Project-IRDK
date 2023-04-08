@@ -1,36 +1,23 @@
-﻿using System;
-using Game.Networking.NetMessages;
+﻿using Game.CloudProfileSystem;
 using Maniac.DataBaseSystem;
-using Maniac.MessengerSystem.Base;
-using Maniac.MessengerSystem.Messages;
 using Maniac.TimeSystem;
 using Maniac.Utils;
 using UniRx;
-using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
 
-namespace Game.Networking.Scripts
+namespace Game.Networking.NetPlayerComponents
 {
-    public class NetPlayer : NetworkBehaviour
+    public class PingHandler: NetworkBehaviour
     {
-        public const float GameTick = 30f;
-        public const int BufferSize = 1024;
-        
         private DataBase _dataBase => Locator<DataBase>.Instance;
         private TimeManager _timeManager => Locator<TimeManager>.Instance;
-
         private NetConfig _config;
-
+        
         public FloatReactiveProperty PingInMilliSeconds { get; private set; } = new FloatReactiveProperty();
         private float _lastSendPingTime;
         
-        // Shared
-        private float timer;
-        private int currentTick;
-        private float minTimeBetweenTicks;
-        
-        private void Awake()
+        private async void Awake()
         {
             _config = _dataBase.Get<NetConfig>();
         }
@@ -38,16 +25,16 @@ namespace Game.Networking.Scripts
         public override void OnNetworkSpawn()
         {
             if (!IsOwner) return;
-
-            Locator<NetPlayer>.Set(this);
+            
+            Locator<PingHandler>.Set(this);
             HandlePingMessage();
             base.OnNetworkSpawn();
         }
-
+        
         public override void OnNetworkDespawn()
         {
             if(IsOwner)
-                Locator<NetPlayer>.Remove();
+                Locator<PingHandler>.Remove();
             
             base.OnNetworkDespawn();
         }
@@ -78,21 +65,5 @@ namespace Game.Networking.Scripts
         {
             PingInMilliSeconds.Value = (Time.realtimeSinceStartup - _lastSendPingTime)*1000;
         }
-
-        //
-        // [ServerRpc]
-        // public void SendDataToServerRpc(string key, object data, ServerRpcParams serverRpcParams = default)
-        // {
-        //     if (OwnerClientId == serverRpcParams.Receive.SenderClientId)
-        //     {
-        //         SendDataToClientRpc(key,data);
-        //     }
-        // }
-        //
-        // [ClientRpc]
-        // private void SendDataToClientRpc(string key, object data, ClientRpcParams clientRpcParams = default)
-        // {
-        //     Messenger.SendMessage(new ServerMessage(key,data));
-        // }
     }
 }

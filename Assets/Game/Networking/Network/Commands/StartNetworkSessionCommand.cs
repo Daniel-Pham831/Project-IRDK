@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using Game.Networking.Lobby;
-using Game.Networking.Scripts;
+using Game.Networking.NetPlayerComponents;
 using Maniac.Command;
 using Maniac.Utils;
 using Unity.Services.Lobbies.Models;

@@ -4,12 +4,13 @@ using Cysharp.Threading.Tasks;
 using Maniac;
 using DG.Tweening;
 using Game.CloudProfileSystem;
+using Game.Commands;
 using Game.Networking;
 using Game.Networking.Lobby;
 using Game.Networking.Lobby.Commands;
+using Game.Networking.NetPlayerComponents;
 using Game.Networking.Network;
 using Game.Networking.Relay;
-using Game.Networking.Scripts;
 using Game.Scripts;
 using Maniac.DataBaseSystem;
 using Maniac.LanguageTableSystem;
@@ -29,7 +30,7 @@ namespace Game
         private RelaySystem _relaySystem => Locator<RelaySystem>.Instance;
         private LobbySystem _lobbySystem => Locator<LobbySystem>.Instance;
         private DataBase _dataBase => Locator<DataBase>.Instance;
-        private NetPlayer _netPlayer => Locator<NetPlayer>.Instance;
+        private PingHandler _pingHandler => Locator<PingHandler>.Instance;
         private LobbyConfig _lobbyConfig;
 
         [SerializeField] private TMP_Text lobbyNameTxt;
@@ -64,7 +65,7 @@ namespace Game
                 UpdateLobbyRoom();
             }).AddTo(this);
 
-            _netPlayer.PingInMilliSeconds.Subscribe(value =>
+            _pingHandler.PingInMilliSeconds.Subscribe(value =>
             {
                 lobbyPingTxt.text = $"{value:F1} ms";
             }).AddTo(this);
@@ -101,7 +102,11 @@ namespace Game
         
         public override async void Back()
         {
-            await new LeaveLobbyCommand().Execute();
+            var yes = await new ShowConfirmationDialogCommand(LanguageTable.Confirmation_LeaveRoomHeader,
+                LanguageTable.Confirmation_LeaveRoomBody).ExecuteAndGetResult();
+            
+            if(yes)
+                await new LeaveLobbyCommand().Execute();
         }
 
         public async void OnSettingClicked()
@@ -110,6 +115,11 @@ namespace Game
         }
 
         public async void OnAccountClicked()
+        {
+            
+        }
+
+        public async void OnLobbyPlayersDetailsClicked()
         {
             
         }

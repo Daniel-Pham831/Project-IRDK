@@ -9,6 +9,8 @@ namespace Maniac.LanguageTableSystem
     {
         //[DON'T DELETE THESE COMMENTS]
         //[HERE]
+		public static readonly string Confirmation_LeaveRoomBody = "Confirmation_LeaveRoomBody";
+		public static readonly string Confirmation_LeaveRoomHeader = "Confirmation_LeaveRoomHeader";
 		public static readonly string Information_ConnectionTimeOutBody = "Information_ConnectionTimeOutBody";
 		public static readonly string Information_ConnectionTimeOutHeader = "Information_ConnectionTimeOutHeader";
 		public static readonly string Lobby_IsWaiting = "Lobby_IsWaiting";

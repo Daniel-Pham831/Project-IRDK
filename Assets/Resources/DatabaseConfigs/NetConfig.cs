@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
+using Game.Networking.NetPlayerComponents;
 using Game.Networking.Network;
-using Game.Networking.Scripts;
 using Maniac;
 using Unity.Netcode;
 
