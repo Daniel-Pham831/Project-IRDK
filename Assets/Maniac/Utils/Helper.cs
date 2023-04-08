@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using System.CodeDom.Compiler;
+using System.IO;
+using BinaryPack;
 using Newtonsoft.Json;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
@@ -52,7 +54,18 @@ namespace Maniac.Utils
 
             return _waitForSecondsMap[seconds];
         }
-        
+
+        public static byte[] Serialize<T>(T objectToSerialize) where T : new()
+        {
+            using var ms = new MemoryStream();
+            BinaryConverter.Serialize(objectToSerialize, ms);
+            return ms.ToArray();
+        }
+
+        public static T Deserialize<T>(byte[] bytesData) where T : new()
+        {
+            return BinaryConverter.Deserialize<T>(bytesData);
+        }
         
         public static bool IsOverUI()
         {

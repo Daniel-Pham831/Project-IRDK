@@ -155,7 +155,7 @@ PlayerSettings:
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
-    Android: com.DefaultCompany.ProjectIRDK
+    Android: com.TheManiacs.ProjectIRDK
     Standalone: com.TheManiacs.Project-IRDK
   buildNumber:
     Standalone: 0
@@ -811,7 +811,9 @@ PlayerSettings:
     Standalone: ODIN_INSPECTOR
   additionalCompilerArguments: {}
   platformArchitecture: {}
-  scriptingBackend: {}
+  scriptingBackend:
+    Server: 1
+    Standalone: 1
   il2cppCompilerConfiguration: {}
   managedStrippingLevel: {}
   incrementalIl2cppBuild: {}
@@ -902,7 +904,7 @@ PlayerSettings:
   luminVersion:
     m_VersionCode: 1
     m_VersionName: 
-  apiCompatibilityLevel: 6
+  apiCompatibilityLevel: 3
   activeInputHandler: 0
   windowsGamepadBackendHint: 0
   cloudProjectId: 86cb6e8b-9e66-44a7-b7ec-513fa796fa5f

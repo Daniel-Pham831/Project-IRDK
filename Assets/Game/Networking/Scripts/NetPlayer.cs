@@ -10,6 +10,9 @@ namespace Game.Networking.Scripts
 {
     public class NetPlayer : NetworkBehaviour
     {
+        public const float GameTick = 30f;
+        public const int BufferSize = 1024;
+        
         private DataBase _dataBase => Locator<DataBase>.Instance;
         private TimeManager _timeManager => Locator<TimeManager>.Instance;
 
@@ -17,6 +20,12 @@ namespace Game.Networking.Scripts
 
         public FloatReactiveProperty PingInMilliSeconds { get; private set; } = new FloatReactiveProperty();
         private float _lastSendPingTime;
+        public NetworkVariable<float> LastSendPingTime { get; private set; } = new NetworkVariable<float>();
+        
+        // Shared
+        private float timer;
+        private int currentTick;
+        private float minTimeBetweenTicks;
 
         private void Awake()
         {
@@ -28,8 +37,14 @@ namespace Game.Networking.Scripts
             if (!IsOwner) return;
 
             Locator<NetPlayer>.Set(this);
+            LastSendPingTime.OnValueChanged += UpdatePingInMilliSeconds;
             HandlePingMessage();
             base.OnNetworkSpawn();
+        }
+
+        private void UpdatePingInMilliSeconds(float previousvalue, float newvalue)
+        {
+            PingInMilliSeconds.Value = (Time.realtimeSinceStartup - _lastSendPingTime)*1000;
         }
 
         public override void OnNetworkDespawn()
@@ -57,7 +72,7 @@ namespace Game.Networking.Scripts
         {
             if (OwnerClientId == serverRpcParams.Receive.SenderClientId)
             {
-                SendPingClientRpc();
+                LastSendPingTime.Value = Time.realtimeSinceStartup;
             }
         }
 
