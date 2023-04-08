@@ -79,10 +79,14 @@ namespace Game
             lobbyStateTxt.text = _joinedLobby.IsPrivate
                 ? privateLangItem.GetCurrentLanguageText()
                 : publicLangItem.GetCurrentLanguageText();
+
+            var regionDescription = string.Empty;
+            if (_joinedLobby.Data.TryGetValue(LobbyDataKey.LobbyRegion, out var dataObject))
+            {
+                regionDescription = _relaySystem.GetRegion(dataObject.Value)?.Description;
+            }
             
-            var regionId = _joinedLobby.Data[LobbyDataKey.LobbyRegion]?.Value;
-            var region = _relaySystem.GetRegion(regionId);
-            lobbyRegionTxt.text = region.Description;
+            lobbyRegionTxt.text = regionDescription;
         }
 
         public async void OnStartClicked()

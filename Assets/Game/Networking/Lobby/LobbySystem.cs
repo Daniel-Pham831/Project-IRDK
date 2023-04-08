@@ -191,47 +191,6 @@ namespace Game.Networking.Lobby
             return null;
         }
 
-        // public async UniTask<Unity.Services.Lobbies.Models.Lobby> JoinLobbyByCode(string lobbyCode)
-        // {
-        //     try
-        //     {
-        //         var joinLobbyData = GetLobbyPlayerDataWithName(_userProfile.DisplayName);
-        //         var joinedLobby = await _lobbyService.JoinLobbyByCodeAsync(lobbyCode,
-        //             new JoinLobbyByCodeOptions { Player = joinLobbyData });
-        //         Debug.Log($"Joined Lobby {joinedLobby.Id} {joinedLobby.LobbyCode}");
-        //         JoinedLobby.Value = joinedLobby;
-        //     }
-        //     catch
-        //     {
-        //         JoinedLobby.Value = null;
-        //     }
-        //
-        //     HostLobbyToPing.Value = null;
-        //     return JoinedLobby.Value;
-        // }
-        //
-        // public async UniTask<Unity.Services.Lobbies.Models.Lobby> QuickJoinLobby(
-        //     QuickJoinLobbyOptions options = default)
-        // {
-        //     try
-        //     {
-        //         options ??= new QuickJoinLobbyOptions();
-        //
-        //         var joinLobbyData = GetLobbyPlayerDataWithName(_userProfile.DisplayName);
-        //         options.Player = joinLobbyData;
-        //         var joinedLobby = await _lobbyService.QuickJoinLobbyAsync(options);
-        //         Debug.Log($"Joined Lobby {joinedLobby.Id} {joinedLobby.LobbyCode}");
-        //         JoinedLobby.Value = joinedLobby;
-        //     }
-        //     catch
-        //     {
-        //         JoinedLobby.Value = null;
-        //     }
-        //
-        //     HostLobbyToPing.Value = null;
-        //     return JoinedLobby.Value;
-        // }
-
         public async UniTask LeaveLobby()
         {
             try
@@ -245,9 +204,8 @@ namespace Game.Networking.Lobby
             {
                 // ignored
             }
-            
-            JoinedLobby.Value = null;
-            HostLobbyToPing.Value = null;
+
+            await Reset();
         }
         
         public async UniTask<bool> UpdateLobbyData(List<(string key,string data,DataObject.VisibilityOptions visibility)> listOfData)

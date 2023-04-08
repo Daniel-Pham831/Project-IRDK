@@ -34,8 +34,8 @@ namespace Game.Scripts
                 ? isPlayingLangItem.GetCurrentLanguageText().AddColor(Color.red)
                 : lobbyRoomLangItem.GetCurrentLanguageText().AddColor(Color.cyan);
 
-            var regionId = lobby.Data[LobbyDataKey.LobbyRegion]?.Value;
-            var region = _relaySystem.GetRegion(regionId);
+            lobby.Data.TryGetValue(LobbyDataKey.LobbyRegion,out var regionLobbyData);
+            var region = regionLobbyData != null ? _relaySystem.GetRegion(regionLobbyData.Value) : null;
             roomData.text = string.Format(_roomStateFormat, lobby.MaxPlayers - lobby.AvailableSlots, lobby.MaxPlayers,
                 roomState, region != null ? region.Description.AddColor(Color.yellow) : "");
         }
