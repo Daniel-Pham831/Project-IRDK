@@ -6,7 +6,10 @@ using Game.CloudProfileSystem;
 using Game.Networking.Lobby.Commands;
 using Game.Networking.Lobby.Extensions;
 using Game.Networking.Lobby.Models;
+using Game.Scripts;
 using Maniac.DataBaseSystem;
+using Maniac.MessengerSystem.Base;
+using Maniac.MessengerSystem.Messages;
 using Maniac.TimeSystem;
 using Maniac.Utils;
 using Maniac.Utils.Extension;
@@ -20,7 +23,7 @@ using Random = UnityEngine.Random;
 
 namespace Game.Networking.Lobby
 {
-    public class LobbySystem
+    public class LobbySystem : IMessageListener , IDisposable
     {
         private CloudProfileManager _cloudProfileManager => Locator<CloudProfileManager>.Instance;
         private UserProfile _userProfile;
@@ -52,6 +55,8 @@ namespace Game.Networking.Lobby
             HandleLobbyHeartBeat();
             HandleJoinedLobbyUpdate();
             HandleQueryLobbiesUpdate();
+            
+            Messenger.Register<ApplicationQuitMessage>(this);
             await UniTask.CompletedTask;
         }
 
@@ -193,11 +198,12 @@ namespace Game.Networking.Lobby
 
         public async UniTask LeaveLobby()
         {
+            Debug.Log($"LeaveLobby");
             try
             {
                 if (JoinedLobby.Value != null)
                 {
-                    _lobbyService.RemovePlayerAsync(JoinedLobby.Value.Id, AuthenticationService.Instance.PlayerId);
+                    await _lobbyService.RemovePlayerAsync(JoinedLobby.Value.Id, AuthenticationService.Instance.PlayerId);
                 }
             }
             catch (Exception e)
@@ -272,6 +278,21 @@ namespace Game.Networking.Lobby
             
             HostLobbyToPing.Value = null;
             return JoinedLobby.Value;
+        }
+
+        public async void OnMessagesReceived(Message receivedMessage)
+        {
+            if (receivedMessage is ApplicationQuitMessage)
+            {
+                await LeaveLobby();
+            }
+        }
+
+        public void Dispose()
+        {
+            HostLobbyToPing?.Dispose();
+            JoinedLobby?.Dispose();
+            QueryResponse?.Dispose();
         }
     }
 }

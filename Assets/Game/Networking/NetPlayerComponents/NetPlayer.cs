@@ -2,9 +2,7 @@
 using Maniac.DataBaseSystem;
 using Maniac.TimeSystem;
 using Maniac.Utils;
-using UniRx;
 using Unity.Netcode;
-using UnityEngine;
 
 namespace Game.Networking.NetPlayerComponents
 {
@@ -17,18 +15,11 @@ namespace Game.Networking.NetPlayerComponents
         private UserProfile _userProfile;
         private NetConfig _config;
 
-        public FloatReactiveProperty PingInMilliSeconds { get; private set; } = new FloatReactiveProperty();
-        private float _lastSendPingTime;
-        
-        // Shared
-        private float timer;
-        private int currentTick;
-        private float minTimeBetweenTicks;
-
-        public NetworkList<NetPlayerModel> NetPlayerModels { get; private set; } = new NetworkList<NetPlayerModel>();
+        public NetworkList<NetPlayerModel> NetPlayerModels;
 
         private async void Awake()
         {
+            NetPlayerModels = new NetworkList<NetPlayerModel>();
             _config = _dataBase.Get<NetConfig>();
             _userProfile = await _cloudProfileManager.Get<UserProfile>();
         }
@@ -61,6 +52,13 @@ namespace Game.Networking.NetPlayerComponents
                 Locator<NetPlayer>.Remove();
             
             base.OnNetworkDespawn();
+        }
+
+        public override void OnDestroy()
+        {
+            NetPlayerModels.Dispose();
+            
+            base.OnDestroy();
         }
     }
 }

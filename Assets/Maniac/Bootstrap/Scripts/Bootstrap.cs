@@ -5,6 +5,7 @@ using Game.Networking.Network;
 using Game.Networking.Relay;
 using Game.Scenes;
 using Game.Scenes.MainMenu.Commands;
+using Game.Scripts;
 using Game.Services;
 using Game.Services.UnityServices;
 using Maniac.AudioSystem;
@@ -72,6 +73,7 @@ namespace Maniac.Bootstrap.Scripts
         private Service CreateBootstrapLoadingServiceGroup()
         {
             var bootstrapLoadingServiceGroup = new BootstrapLoadingServiceGroup("Loading Services");
+            bootstrapLoadingServiceGroup.Add(new InitUnityEventSenderService());
             bootstrapLoadingServiceGroup.Add(new InitUnityServicesService());
             bootstrapLoadingServiceGroup.Add(new InitAuthenticationService());
             bootstrapLoadingServiceGroup.Add(new InitRemoteConfigService());

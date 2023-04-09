@@ -24,6 +24,20 @@ namespace Maniac.MessengerSystem.Base
             }
         }
 
+        public static void Register<T>(IMessageListener messageListener)
+        {
+            var type = typeof(T);
+            
+            Register(messageListener, type);
+        }
+
+        public static void Unregister<T>(IMessageListener messageListener)
+        {
+            var type = typeof(T);
+
+            Unregister(messageListener, type);
+        }
+
         public static void Unregister(IMessageListener messageListener, Type typeToRemove)
         {
             if (Messenger.messagesMap.ContainsKey(typeToRemove))

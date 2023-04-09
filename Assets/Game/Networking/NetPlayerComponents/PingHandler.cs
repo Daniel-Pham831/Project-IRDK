@@ -65,5 +65,12 @@ namespace Game.Networking.NetPlayerComponents
         {
             PingInMilliSeconds.Value = (Time.realtimeSinceStartup - _lastSendPingTime)*1000;
         }
+
+        public override void OnDestroy()
+        {
+            PingInMilliSeconds.Dispose();
+
+            base.OnDestroy();
+        }
     }
 }
