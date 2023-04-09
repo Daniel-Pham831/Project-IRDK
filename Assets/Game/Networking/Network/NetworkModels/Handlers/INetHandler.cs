@@ -67,7 +67,7 @@ namespace Game.Networking.Network.NetworkModels.Handlers
                 if (value == null) return;
                 
                 UpdateToAllClientsModels(value);
-                SendModel(value);
+                SendModelToAll(value);
             }).AddTo(this);
 
             OtherClientModels.Subscribe(v =>
@@ -88,6 +88,8 @@ namespace Game.Networking.Network.NetworkModels.Handlers
                 clientModelsValue.Add(value.ClientId, value);
 
             clientModelsValue[value.ClientId] = value;
+            
+            AllClientModels.SetValueAndForceNotify(AllClientModels.Value);
         }
 
         protected virtual void RegisterMessages(bool shouldRegister)
@@ -111,9 +113,9 @@ namespace Game.Networking.Network.NetworkModels.Handlers
             RegisterMessages(false);
         }
 
-        private void SendModel(T modelToSend)
+        private void SendModelToAll(T modelToSend)
         {
-            Hub.SendModel(HandlerKey, Helper.Serialize(modelToSend));
+            Hub.SendModelToAll(HandlerKey, Helper.Serialize(modelToSend));
         }
 
         public virtual void ReceiveModel(byte[] modelReceiveInBytes)
@@ -134,15 +136,31 @@ namespace Game.Networking.Network.NetworkModels.Handlers
 
                 baseNetModelsDict[model.ClientId] = model;
             }
+            
+            OtherClientModels.SetValueAndForceNotify(OtherClientModels.Value);
         }
 
         public virtual void OnMessagesReceived(Message receivedMessage)
         {
             switch (receivedMessage)
             {
+                case ClientConnectedMessage message:
+                    HandleClientConnected(message);
+                    break;
+                
                 case ClientDisconnectedMessage message:
                     HandleClientDisconnected(message);
                     break;
+            }
+        }
+
+        private void HandleClientConnected(ClientConnectedMessage message)
+        {
+            var connectedClientId = message.ClientId;
+
+            foreach (var clientModel in AllClientModels.Value.Values)
+            {
+                SendModelToClients(clientModel, new List<ulong>() { connectedClientId });
             }
         }
 
@@ -155,8 +173,13 @@ namespace Game.Networking.Network.NetworkModels.Handlers
                 ClientId = receivedMessage.ClientId,
                 ShouldRemove = true,
             };
-            
-            SendModel(removeModel);
+
+            SendModelToAll(removeModel);
+        }
+
+        private void SendModelToClients(T removeModel,List<ulong> toClientIds)
+        {
+            Hub.SendModelToClients(HandlerKey, Helper.Serialize(removeModel), Helper.Serialize(toClientIds));
         }
 
         public void Dispose()

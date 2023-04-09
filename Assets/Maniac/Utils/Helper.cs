@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using System.CodeDom.Compiler;
 using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using BinaryPack;
 using Newtonsoft.Json;
 using Object = UnityEngine.Object;
@@ -55,16 +56,24 @@ namespace Maniac.Utils
             return _waitForSecondsMap[seconds];
         }
 
-        public static byte[] Serialize<T>(T objectToSerialize) where T : new()
+        public static byte[] Serialize<T>(T objectToSerialize) where T :  class, new()
         {
+            // using var ms = new MemoryStream();
+            // BinaryConverter.Serialize(objectToSerialize, ms);
+            // return ms.ToArray();
+            
             using var ms = new MemoryStream();
-            BinaryConverter.Serialize(objectToSerialize, ms);
+            BinaryFormatter bf = new BinaryFormatter();
+            bf.Serialize(ms,objectToSerialize);
             return ms.ToArray();
         }
 
-        public static T Deserialize<T>(byte[] bytesData) where T : new()
+        public static T Deserialize<T>(byte[] bytesData) where T : class, new()
         {
-            return BinaryConverter.Deserialize<T>(bytesData);
+            using var ms = new MemoryStream(bytesData);
+            BinaryFormatter bf = new BinaryFormatter();
+            return bf.Deserialize(ms) as T;
+            // return BinaryConverter.Deserialize<T>(bytesData);
         }
         
         public static bool IsOverUI()

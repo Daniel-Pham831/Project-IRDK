@@ -5,6 +5,7 @@ using Cysharp.Threading.Tasks;
 using Game.Networking.NetMessages;
 using Game.Networking.NetPlayerComponents;
 using Game.Networking.Network.NetworkModels.Handlers;
+using Game.Networking.Network.NetworkModels.Models;
 using Maniac.MessengerSystem.Base;
 using Maniac.MessengerSystem.Messages;
 using Maniac.Utils;
@@ -34,11 +35,13 @@ namespace Game.Networking.Network.NetworkModels
 
         private void Awake()
         {
+            Messenger.Register<LeaveLobbyMessage>(this);
             Locator<NetModelHub>.Set(this);
         }
 
         private void OnDestroy()
         {
+            Messenger.Unregister<LeaveLobbyMessage>(this);
             Locator<NetModelHub>.Remove();
         }
 
@@ -71,13 +74,27 @@ namespace Game.Networking.Network.NetworkModels
             await UniTask.WhenAll(tasks);
         }
 
-        public void SendModel(string handlerKey, byte[] modelToSendInBytes)
+        public void SendModelToAll(string handlerKey, byte[] modelToSendInBytes)
         {
-            _netPlayer.SendNetModelServerRpc(new HubModel()
-            {
-                HandlerKey = handlerKey,
-                Data = modelToSendInBytes
-            });
+            _netPlayer.SendNetModelServerRpc(
+                new HubModel()
+                {
+                    HandlerKey = handlerKey,
+                    Data = modelToSendInBytes
+                }
+            );
+        }
+        
+        public void SendModelToClients(string handlerKey, byte[] modelToSendInBytes, byte[] toClientIds)
+        {
+            _netPlayer.SendNetModelServerRpc(
+                new HubModel()
+                {
+                    HandlerKey = handlerKey,
+                    Data = modelToSendInBytes
+                }
+                ,toClientIds
+            );
         }
 
         public void ReceiveHubModel(HubModel hubModel)

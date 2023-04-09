@@ -1,11 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using BinaryPack.Attributes;
 using BinaryPack.Enums;
 
 namespace Game.Networking.Network.NetworkModels.Models
 {
     [Serializable]
-    [BinarySerialization]
     public class BaseNetModel
     {
         public bool ShouldRemove { get; set; }

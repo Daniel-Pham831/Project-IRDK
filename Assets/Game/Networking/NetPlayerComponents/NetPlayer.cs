@@ -6,8 +6,10 @@ using Game.CloudProfileSystem;
 using Game.Networking.Lobby;
 using Game.Networking.NetMessages;
 using Game.Networking.Network.NetworkModels;
+using Game.Networking.Network.NetworkModels.Models;
 using Maniac.DataBaseSystem;
 using Maniac.MessengerSystem.Base;
+using Maniac.MessengerSystem.Messages;
 using Maniac.TimeSystem;
 using Maniac.Utils;
 using UniRx;
@@ -17,7 +19,7 @@ using UnityEngine;
 
 namespace Game.Networking.NetPlayerComponents
 {
-    public class NetPlayer : NetworkBehaviour
+    public class NetPlayer : NetworkBehaviour , IMessageListener
     {
         private DataBase _dataBase => Locator<DataBase>.Instance;
         private TimeManager _timeManager => Locator<TimeManager>.Instance;
@@ -43,6 +45,7 @@ namespace Game.Networking.NetPlayerComponents
             this.gameObject.name = "NetPlayer - Owner" + (IsServer ? " - Server" : "Client");
             RegisterNetworkEvents(true);
             Locator<NetPlayer>.Set(this);
+            Messenger.Register<LeaveLobbyMessage>(this);
             Messenger.SendMessage(new LocalClientNetworkSpawn());
             base.OnNetworkSpawn();
         }
@@ -71,7 +74,10 @@ namespace Game.Networking.NetPlayerComponents
         public override void OnNetworkDespawn()
         {
             if(IsOwner)
+            {
                 Locator<NetPlayer>.Remove();
+                Messenger.Register<LeaveLobbyMessage>(this);
+            }
 
             RegisterNetworkEvents(false);
             
@@ -102,9 +108,36 @@ namespace Game.Networking.NetPlayerComponents
         }
 
         [ServerRpc]
-        public void SendNetModelServerRpc(HubModel hubModelToSend, ServerRpcParams param = default)
+        public void SendNetModelServerRpc(HubModel hubModelToSend, byte[] sendToClientIds = null,
+            ServerRpcParams param = default)
         {
-            SendNetModelClientRpc(hubModelToSend,param.Receive.SenderClientId);
+            List<ulong> toClientIdsNetworkList = new List<ulong>();
+            if (sendToClientIds != null)
+                toClientIdsNetworkList = Helper.Deserialize<List<ulong>>(sendToClientIds);
+            
+            if (toClientIdsNetworkList.Count != 0)
+            {
+                // send to specific clients
+                SendNetModelClientRpc(
+                    hubModelToSend,
+                    param.Receive.SenderClientId,
+                    new ClientRpcParams()
+                    {
+                        Send = new ClientRpcSendParams()
+                        {
+                            TargetClientIds = toClientIdsNetworkList
+                        }
+                    }
+                );
+            }
+            else
+            {
+                // send to all clients
+                SendNetModelClientRpc(
+                    hubModelToSend,
+                    param.Receive.SenderClientId
+                );
+            }
         }
 
         [ClientRpc]
@@ -113,6 +146,16 @@ namespace Game.Networking.NetPlayerComponents
             if (NetworkManager.Singleton.LocalClientId == senderClientId) return;
             
             _hub.ReceiveHubModel(hubModelReceived);
+        }
+        
+        public void OnMessagesReceived(Message receivedMessage)
+        {
+            switch (receivedMessage)
+            {
+                case LeaveLobbyMessage:
+                    Destroy(gameObject);
+                    break;
+            }
         }
     }
 }
