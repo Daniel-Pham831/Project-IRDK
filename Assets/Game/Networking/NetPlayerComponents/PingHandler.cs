@@ -1,4 +1,5 @@
-﻿using Game.CloudProfileSystem;
+﻿using System;
+using Game.CloudProfileSystem;
 using Maniac.DataBaseSystem;
 using Maniac.TimeSystem;
 using Maniac.Utils;
@@ -8,7 +9,7 @@ using UnityEngine;
 
 namespace Game.Networking.NetPlayerComponents
 {
-    public class PingHandler: NetworkBehaviour
+    public class PingHandler: NetworkBehaviour,IDisposable
     {
         private DataBase _dataBase => Locator<DataBase>.Instance;
         private TimeManager _timeManager => Locator<TimeManager>.Instance;
@@ -66,11 +67,9 @@ namespace Game.Networking.NetPlayerComponents
             PingInMilliSeconds.Value = (Time.realtimeSinceStartup - _lastSendPingTime)*1000;
         }
 
-        public override void OnDestroy()
+        public void Dispose()
         {
-            PingInMilliSeconds.Dispose();
-
-            base.OnDestroy();
+            PingInMilliSeconds?.Dispose();
         }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
 using Maniac;
@@ -10,7 +11,7 @@ using UnityEngine.UI;
 
 namespace Game
 {
-    public class BootstrapLoadingScreen : BaseUI
+    public class BootstrapLoadingScreen : BaseUI , IDisposable
     {
         [SerializeField] private Slider progressSlider;
         [SerializeField] private TMP_Text progressText;
@@ -35,6 +36,11 @@ namespace Game
         {
             progressSlider.value = value;
             progressText.text = string.Format(_loadingFormatText, (value * 100f).ToString("F1"));
+        }
+
+        public void Dispose()
+        {
+            _progress?.Dispose();
         }
     }
 }

@@ -9,7 +9,7 @@ using Object = UnityEngine.Object;
 
 namespace Maniac.AudioSystem
 {
-    public class AudioManager
+    public class AudioManager : IDisposable
     {
         private AudioData _audioData => Locator<AudioData>.Instance;
         private SpawnerManager _spawnerManager => Locator<SpawnerManager>.Instance;
@@ -56,6 +56,12 @@ namespace Maniac.AudioSystem
             value = Mathf.Clamp01(value);
 
             SoundVolume.Value = value;
+        }
+
+        public void Dispose()
+        {
+            MusicVolume?.Dispose();
+            SoundVolume?.Dispose();
         }
     }
 }

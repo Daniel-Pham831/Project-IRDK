@@ -1,10 +1,11 @@
+using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UniRx;
 
 namespace Maniac.Services
 {
-    public class SequenceCommandServiceGroup : Service
+    public class SequenceCommandServiceGroup : Service , IDisposable
     {
         private readonly string _groupName;
         private readonly Queue<Command.Command> _commandQueue;
@@ -36,6 +37,11 @@ namespace Maniac.Services
 
             Progress.Value = 1;
             return IService.Result.Success;
+        }
+
+        public void Dispose()
+        {
+            Progress?.Dispose();
         }
     }
 }
