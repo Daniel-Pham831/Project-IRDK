@@ -1,27 +1,18 @@
-using System.Collections.Generic;
 using UnityEngine;
-using Cysharp.Threading.Tasks;
-using Maniac;
-using DG.Tweening;
-using Game.CloudProfileSystem;
 using Game.Commands;
-using Game.Networking;
 using Game.Networking.Lobby;
 using Game.Networking.Lobby.Commands;
 using Game.Networking.NetPlayerComponents;
-using Game.Networking.Network;
 using Game.Networking.Relay;
-using Game.Scripts;
 using Maniac.DataBaseSystem;
 using Maniac.LanguageTableSystem;
 using Maniac.UISystem;
+using Maniac.UISystem.Command;
 using Maniac.Utils;
 using TMPro;
 using UniRx;
 using Unity.Services.Authentication;
 using Unity.Services.Lobbies.Models;
-using Unity.VisualScripting;
-using UnityEngine.UI;
 
 namespace Game
 {
@@ -116,12 +107,11 @@ namespace Game
 
         public async void OnAccountClicked()
         {
-            
         }
 
         public async void OnLobbyPlayersDetailsClicked()
         {
-            
+            await new ShowScreenCommand<LobbyPlayersDetailsScreen>().Execute();
         }
     }
 }

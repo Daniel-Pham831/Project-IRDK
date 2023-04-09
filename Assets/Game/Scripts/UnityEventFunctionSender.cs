@@ -1,4 +1,5 @@
 ﻿using System;
+using Game.Networking.NetMessages;
 using Maniac.MessengerSystem.Base;
 using Maniac.MessengerSystem.Messages;
 using UnityEngine;
@@ -12,6 +13,4 @@ namespace Game.Scripts
             Messenger.SendMessage(new ApplicationQuitMessage());
         }
     }
-    
-    public class ApplicationQuitMessage : Message{}
 }

@@ -5,6 +5,7 @@ using Game.Networking.NetPlayerComponents;
 using Maniac.Command;
 using Maniac.Utils;
 using Unity.Services.Lobbies.Models;
+using UnityEngine;
 
 namespace Game.Networking.Network.Commands
 {

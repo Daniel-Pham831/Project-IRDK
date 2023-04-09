@@ -20,6 +20,7 @@ namespace Game.Scenes.LobbyRoom.Commands
             
             lobbyRoomCommandsGroup.Add(new LoadEmptySceneCommand());
             lobbyRoomCommandsGroup.Add(new LoadSceneCommand(SceneName.LobbyRoom));
+            lobbyRoomCommandsGroup.Add(new InitNetworkModelHubCommand());
             lobbyRoomCommandsGroup.Add(new StartNetworkSessionCommand());
             lobbyRoomCommandsGroup.Add(new ShowScreenCommand<LobbyRoomDetailScreen>());
 

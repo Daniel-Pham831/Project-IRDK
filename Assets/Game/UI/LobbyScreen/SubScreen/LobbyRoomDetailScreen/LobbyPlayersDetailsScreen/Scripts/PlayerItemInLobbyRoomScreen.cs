@@ -2,6 +2,8 @@
 using Cysharp.Threading.Tasks;
 using Game.Networking;
 using Game.Networking.Lobby.Commands;
+using Game.Networking.NetPlayerComponents;
+using Game.Networking.Network.NetworkModels.Handlers;
 using Maniac.Utils;
 using TMPro;
 using Unity.Services.Authentication;
@@ -13,6 +15,8 @@ namespace Game.Scripts
 {
     public class PlayerItemInLobbyRoomScreen : MonoBehaviour
     {
+        private NetPlayerModelHandler _NetPlayerModelHandler => Locator<NetPlayerModelHandler>.Instance;
+
         [SerializeField] private TMP_Text playerName;
         [SerializeField] private GameObject kickButton;
         [SerializeField] private Image playerSlotImage;
@@ -33,10 +37,11 @@ namespace Game.Scripts
 
             kickButton.SetActive(isLocalPlayerHost && !isHostSlot);
             playerSlotImage.color = isHostSlot ? hostColor : normalColor;
-            // playerName.text = lobbyPlayer.GetPlayerName();
-            
+
+            var netPlayerModel = _NetPlayerModelHandler.GetModelByPlayerId(lobbyPlayer.Id);
+
+            playerName.text = (netPlayerModel?.Name ?? "").ToString();
             var isLocalPlayer = lobbyPlayer.Id == AuthenticationService.Instance.PlayerId ;
-            // nameBorderColor.color = isLocalPlayer ? Color.black : Color.white;
         }
 
         public async void OnKickPlayerClicked()

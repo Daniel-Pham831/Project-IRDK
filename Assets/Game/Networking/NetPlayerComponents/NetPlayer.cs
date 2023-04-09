@@ -4,80 +4,68 @@ using System.Linq;
 using Cysharp.Threading.Tasks;
 using Game.CloudProfileSystem;
 using Game.Networking.Lobby;
+using Game.Networking.NetMessages;
+using Game.Networking.Network.NetworkModels;
 using Maniac.DataBaseSystem;
+using Maniac.MessengerSystem.Base;
 using Maniac.TimeSystem;
 using Maniac.Utils;
 using UniRx;
 using Unity.Netcode;
+using Unity.Services.Authentication;
 using UnityEngine;
 
 namespace Game.Networking.NetPlayerComponents
 {
-    public class NetPlayer : NetworkBehaviour ,IDisposable
+    public class NetPlayer : NetworkBehaviour
     {
         private DataBase _dataBase => Locator<DataBase>.Instance;
         private TimeManager _timeManager => Locator<TimeManager>.Instance;
+        private NetModelHub _hub => Locator<NetModelHub>.Instance;
         private CloudProfileManager _cloudProfileManager => Locator<CloudProfileManager>.Instance;
         private LobbySystem _lobbySystem => Locator<LobbySystem>.Instance;
 
         private UserProfile _userProfile;
         private NetConfig _config;
 
-        public NetworkList<NetPlayerModel> NetPlayerModels;
 
         private async void Awake()
         {
             _config = _dataBase.Get<NetConfig>();
             _userProfile = await _cloudProfileManager.Get<UserProfile>();
-            NetPlayerModels = new NetworkList<NetPlayerModel>();
+            _hub.SetNetPlayer(this);
         }
-        
+
         public override void OnNetworkSpawn()
         {
             if (!IsOwner) return;
 
-            SendNetPlayerModelToServerRpc(
-                new NetPlayerModel()
-                {
-                    ClientId = NetworkManager.Singleton.LocalClientId,
-                    Name = _userProfile.DisplayName
-                }
-            );
-
+            this.gameObject.name = "NetPlayer - Owner" + (IsServer ? " - Server" : "Client");
             RegisterNetworkEvents(true);
             Locator<NetPlayer>.Set(this);
+            Messenger.SendMessage(new LocalClientNetworkSpawn());
             base.OnNetworkSpawn();
         }
         
         private void OnClientConnectedCallback(ulong clientId)
-        {
-          // do nothing
+        {   
+            Messenger.SendMessage(new ClientConnectedMessage()
+            {
+                ClientId = clientId
+            });
         }
 
         private void OnClientDisconnectCallback(ulong clientId)
         {
-            for (int i = 0; i < NetPlayerModels.Count; i++)
+            Messenger.SendMessage(new ClientDisconnectedMessage()
             {
-                if(NetPlayerModels[i].ClientId == clientId)
-                {
-                    NetPlayerModels.RemoveAt(i);
-                    break;
-                }
-            }
+                ClientId = clientId
+            });
         }
 
         private async void OnTransportFailure()
         {
-            await _lobbySystem.LeaveLobby();
-        }
-
-        [ServerRpc]
-        private void SendNetPlayerModelToServerRpc(NetPlayerModel netPlayerModel,ServerRpcParams param = default)
-        {
-            if (!NetPlayerModels.Contains(netPlayerModel))
-            {
-                NetPlayerModels.Add(netPlayerModel);
-            }
+            Messenger.SendMessage(new TransportFailureMessage());
         }
 
         public override void OnNetworkDespawn()
@@ -113,9 +101,18 @@ namespace Game.Networking.NetPlayerComponents
             }
         }
 
-        public void Dispose()
+        [ServerRpc]
+        public void SendNetModelServerRpc(HubModel hubModelToSend, ServerRpcParams param = default)
         {
-            NetPlayerModels?.Dispose();
+            SendNetModelClientRpc(hubModelToSend,param.Receive.SenderClientId);
+        }
+
+        [ClientRpc]
+        private void SendNetModelClientRpc(HubModel hubModelReceived,ulong senderClientId,ClientRpcParams param = default)
+        {
+            if (NetworkManager.Singleton.LocalClientId == senderClientId) return;
+            
+            _hub.ReceiveHubModel(hubModelReceived);
         }
     }
 }

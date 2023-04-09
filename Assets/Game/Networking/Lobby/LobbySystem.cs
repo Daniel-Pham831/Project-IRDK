@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using Game.CloudProfileSystem;
 using Game.Networking.Lobby.Commands;
 using Game.Networking.Lobby.Extensions;
 using Game.Networking.Lobby.Models;
+using Game.Networking.NetMessages;
 using Game.Scripts;
 using Maniac.DataBaseSystem;
 using Maniac.MessengerSystem.Base;
@@ -57,6 +57,7 @@ namespace Game.Networking.Lobby
             HandleQueryLobbiesUpdate();
             
             Messenger.Register<ApplicationQuitMessage>(this);
+            Messenger.Register<TransportFailureMessage>(this);
             await UniTask.CompletedTask;
         }
 
@@ -211,6 +212,7 @@ namespace Game.Networking.Lobby
                 // ignored
             }
 
+            Messenger.SendMessage(new LeaveLobbyMessage());
             await Reset();
         }
         
@@ -282,9 +284,12 @@ namespace Game.Networking.Lobby
 
         public async void OnMessagesReceived(Message receivedMessage)
         {
-            if (receivedMessage is ApplicationQuitMessage)
+            switch (receivedMessage)
             {
-                await LeaveLobby();
+                case ApplicationQuitMessage:
+                case TransportFailureMessage:
+                    await LeaveLobby();
+                    break;
             }
         }
 
