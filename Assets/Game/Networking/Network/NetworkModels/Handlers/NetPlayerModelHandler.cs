@@ -4,11 +4,13 @@ using Game.Networking.Network.NetworkModels.Models;
 using Maniac.MessengerSystem.Base;
 using Maniac.MessengerSystem.Messages;
 using Maniac.Utils;
+using MemoryPack;
 using UniRx;
 
 namespace Game.Networking.Network.NetworkModels.Handlers
 {
-    public class NetPlayerModel : BaseNetModel
+    [MemoryPackable]
+    public partial class NetPlayerModel : BaseNetModel
     {
         public string Name { get; set; }
     }

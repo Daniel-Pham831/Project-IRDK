@@ -158,7 +158,8 @@ namespace Game.Networking.Network.NetworkModels.Handlers
         {
             var connectedClientId = message.ClientId;
 
-            foreach (var clientModel in AllClientModels.Value.Values)
+            var baseNetModels = AllClientModels.Value.Values.ToList();
+            foreach (var clientModel in baseNetModels)
             {
                 SendModelToClients(clientModel, new List<ulong>() { connectedClientId });
             }

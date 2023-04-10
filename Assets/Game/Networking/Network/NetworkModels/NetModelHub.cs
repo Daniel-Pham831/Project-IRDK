@@ -76,6 +76,8 @@ namespace Game.Networking.Network.NetworkModels
 
         public void SendModelToAll(string handlerKey, byte[] modelToSendInBytes)
         {
+            Debug.Log($"Send To Server + {gameObject.name}");
+
             _netPlayer.SendNetModelServerRpc(
                 new HubModel()
                 {
@@ -87,6 +89,8 @@ namespace Game.Networking.Network.NetworkModels
         
         public void SendModelToClients(string handlerKey, byte[] modelToSendInBytes, byte[] toClientIds)
         {
+            Debug.Log($"Send To Server + {gameObject.name}");
+            
             _netPlayer.SendNetModelServerRpc(
                 new HubModel()
                 {

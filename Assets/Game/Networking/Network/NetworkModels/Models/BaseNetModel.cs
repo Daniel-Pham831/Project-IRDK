@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using BinaryPack.Attributes;
-using BinaryPack.Enums;
+using MemoryPack;
 
 namespace Game.Networking.Network.NetworkModels.Models
 {
     [Serializable]
-    public class BaseNetModel
+    [MemoryPackable()]
+    public partial class BaseNetModel
     {
         public bool ShouldRemove { get; set; }
         public ulong ClientId { get; set; }

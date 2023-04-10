@@ -19,7 +19,7 @@ using UnityEngine;
 
 namespace Game.Networking.NetPlayerComponents
 {
-    public class NetPlayer : NetworkBehaviour , IMessageListener
+    public class NetPlayer : NetworkBehaviour
     {
         private DataBase _dataBase => Locator<DataBase>.Instance;
         private TimeManager _timeManager => Locator<TimeManager>.Instance;
@@ -35,7 +35,6 @@ namespace Game.Networking.NetPlayerComponents
         {
             _config = _dataBase.Get<NetConfig>();
             _userProfile = await _cloudProfileManager.Get<UserProfile>();
-            _hub.SetNetPlayer(this);
         }
 
         public override void OnNetworkSpawn()
@@ -43,9 +42,9 @@ namespace Game.Networking.NetPlayerComponents
             if (!IsOwner) return;
 
             this.gameObject.name = "NetPlayer - Owner" + (IsServer ? " - Server" : "Client");
+            _hub.SetNetPlayer(this);
             RegisterNetworkEvents(true);
             Locator<NetPlayer>.Set(this);
-            Messenger.Register<LeaveLobbyMessage>(this);
             Messenger.SendMessage(new LocalClientNetworkSpawn());
             base.OnNetworkSpawn();
         }
@@ -76,7 +75,6 @@ namespace Game.Networking.NetPlayerComponents
             if(IsOwner)
             {
                 Locator<NetPlayer>.Remove();
-                Messenger.Register<LeaveLobbyMessage>(this);
             }
 
             RegisterNetworkEvents(false);
@@ -111,6 +109,8 @@ namespace Game.Networking.NetPlayerComponents
         public void SendNetModelServerRpc(HubModel hubModelToSend, byte[] sendToClientIds = null,
             ServerRpcParams param = default)
         {
+            Debug.Log($"Received On Server + {gameObject.name}");
+            
             List<ulong> toClientIdsNetworkList = new List<ulong>();
             if (sendToClientIds != null)
                 toClientIdsNetworkList = Helper.Deserialize<List<ulong>>(sendToClientIds);
@@ -143,19 +143,9 @@ namespace Game.Networking.NetPlayerComponents
         [ClientRpc]
         private void SendNetModelClientRpc(HubModel hubModelReceived,ulong senderClientId,ClientRpcParams param = default)
         {
-            if (NetworkManager.Singleton.LocalClientId == senderClientId) return;
+            if (senderClientId == NetworkManager.Singleton.LocalClientId) return;
             
             _hub.ReceiveHubModel(hubModelReceived);
-        }
-        
-        public void OnMessagesReceived(Message receivedMessage)
-        {
-            switch (receivedMessage)
-            {
-                case LeaveLobbyMessage:
-                    Destroy(gameObject);
-                    break;
-            }
         }
     }
 }
