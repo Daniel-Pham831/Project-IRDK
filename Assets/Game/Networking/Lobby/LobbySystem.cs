@@ -111,12 +111,12 @@ namespace Game.Networking.Lobby
                     try
                     {
                         JoinedLobby.Value = await _lobbyService.GetLobbyAsync(JoinedLobby.Value.Id);
+                        await _handleBeingKickCommand.Execute();
                         await _handleBecomeHostCommand.Execute();
                     }
                     catch
                     {
                         JoinedLobby.Value = null;
-                        await _handleBeingKickCommand.Execute();
                     }
                 }
 
@@ -288,7 +288,8 @@ namespace Game.Networking.Lobby
             {
                 case ApplicationQuitMessage:
                 case TransportFailureMessage:
-                    await LeaveLobby();
+                    if (JoinedLobby.Value != null || HostLobbyToPing != null)
+                        await LeaveLobby();
                     break;
             }
         }

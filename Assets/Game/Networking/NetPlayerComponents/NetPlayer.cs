@@ -30,7 +30,6 @@ namespace Game.Networking.NetPlayerComponents
         private UserProfile _userProfile;
         private NetConfig _config;
 
-
         private async void Awake()
         {
             _config = _dataBase.Get<NetConfig>();

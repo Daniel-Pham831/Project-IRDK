@@ -1,9 +1,11 @@
+using System.Linq;
 using Cysharp.Threading.Tasks;
 using Game.Commands;
 using Maniac.Command;
 using Maniac.LanguageTableSystem;
 using Maniac.UISystem;
 using Maniac.Utils;
+using Unity.Services.Authentication;
 
 namespace Game.Networking.Lobby.Commands
 {
@@ -14,7 +16,7 @@ namespace Game.Networking.Lobby.Commands
         
         public override async UniTask Execute()
         {
-            bool isBeingKicked = _lobbySystem.JoinedLobby.Value == null;
+            bool isBeingKicked = _lobbySystem.JoinedLobby.Value == null && IsContainLocalPlayerInLobby();
             if (isBeingKicked)
             {
                 _lobbySystem.JoinedLobby.Value = null;
@@ -23,6 +25,12 @@ namespace Game.Networking.Lobby.Commands
                 await new ShowInformationDialogCommand(LanguageTable.Information_BeingKickedHeader, LanguageTable.Information_BeingKickedBody).Execute();
                 await new LeaveLobbyCommand().Execute();
             }
+        }
+
+        private bool IsContainLocalPlayerInLobby()
+        {
+            return _lobbySystem.JoinedLobby.Value.Players.FirstOrDefault(x =>
+                x.Id == AuthenticationService.Instance.PlayerId) != null;
         }
     }
 }

@@ -8,6 +8,7 @@ namespace Game.Networking.NetMessages
 
     public class ApplicationQuitMessage : Message { }
     
+    // Lobby
     public class LeaveLobbyMessage : NetMessage{}
 
     public class ClientConnectedMessage : NetMessage

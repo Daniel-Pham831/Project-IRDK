@@ -1,8 +1,11 @@
 ﻿using Cysharp.Threading.Tasks;
 using Game.Commands;
+using Game.Networking.Network.NetworkModels.Handlers;
 using Maniac.Command;
 using Maniac.LanguageTableSystem;
 using Maniac.Utils;
+using Maniac.Utils.Extension;
+using UnityEngine;
 
 namespace Game.Networking.Lobby.Commands
 {
@@ -12,6 +15,7 @@ namespace Game.Networking.Lobby.Commands
         private readonly string _playerId;
         private LobbySystem _lobbySystem => Locator<LobbySystem>.Instance;
         private LanguageTable _LanguageTable => Locator<LanguageTable>.Instance;
+        private NetPlayerModelHandler _netPlayerModelHandler => Locator<NetPlayerModelHandler>.Instance;
 
         public KickPlayerFromLobbyCommand(string lobbyId, string playerId)
         {
@@ -21,28 +25,30 @@ namespace Game.Networking.Lobby.Commands
 
         public override async UniTask Execute()
         {
-            // var playerToKick = _lobbySystem.GetPlayerInJoinedLobby(_playerId);
-            // if (playerToKick == null) return;
-            //
-            // var header = _LanguageTable.Get(LanguageTable.Confirmation_KickPlayerHeader);
-            // var body = _LanguageTable.Get(LanguageTable.Confirmation_KickPlayerBody);
-            // var playerNameWithColor = playerToKick.GetPlayerName().AddColor(Color.red);
-            //
-            // var shouldKick = await new ShowConfirmationDialogCommand(
-            //         header.Format(playerNameWithColor),
-            //         body.Format(playerNameWithColor))
-            //     .ExecuteAndGetResult();
-            // if (!shouldKick) return;
-            //
-            // var success = await _lobbySystem.KickPlayerFromLobby(_lobbyId, _playerId);
-            // if (success)
-            // {
-            //     await ShowKickSuccess(playerNameWithColor);
-            // }
-            // else
-            // {
-            //     await ShowKickFail(playerNameWithColor);
-            // }
+            var playerToKick = _lobbySystem.GetPlayerInJoinedLobby(_playerId);
+            if (playerToKick == null) return;
+            
+            var header = _LanguageTable.Get(LanguageTable.Confirmation_KickPlayerHeader);
+            var body = _LanguageTable.Get(LanguageTable.Confirmation_KickPlayerBody);
+            var model = _netPlayerModelHandler.GetModelByPlayerId(_playerId);
+            
+            var playerNameWithColor = (model != null ? model.Name : $"player").AddColor(Color.red);
+            
+            var shouldKick = await new ShowConfirmationDialogCommand(
+                    header.Format(playerNameWithColor),
+                    body.Format(playerNameWithColor))
+                .ExecuteAndGetResult();
+            if (!shouldKick) return;
+            
+            var success = await _lobbySystem.KickPlayerFromLobby(_lobbyId, _playerId);
+            if (success)
+            {
+                await ShowKickSuccess(playerNameWithColor);
+            }
+            else
+            {
+                await ShowKickFail(playerNameWithColor);
+            }
         }
 
         private async UniTask ShowKickSuccess(string playerName)
