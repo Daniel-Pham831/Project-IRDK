@@ -137,7 +137,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15a537a8199bb334fb21d894fdd8008b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _cameraPrefab: {fileID: 9072309517694856126, guid: e3ae0d917b4d4ff42b25e2d14da0f2d5, type: 3}
+  _cameraPrefab: {fileID: 6907234037366433925, guid: 861d3e6408a24464ba3491758b07c04f, type: 3}
   layerRoot: {fileID: 2168798217122327222}
   layerPrefab: {fileID: 8885066983459653322, guid: 59d9036595a1dbf4b9d63006a87d8b96, type: 3}
   canvas: {fileID: 2168798217559244453}

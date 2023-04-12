@@ -21,7 +21,7 @@ namespace Game.Scripts
         [SerializeField] private GameObject kickButton;
         [SerializeField] private Image playerSlotImage;
 
-        [SerializeField] private Color hostColor;
+        [SerializeField] private Color localColor;
         [SerializeField] private Color normalColor;
         
         private Lobby _lobby;
@@ -32,16 +32,15 @@ namespace Game.Scripts
             _lobbyPlayer = lobbyPlayer;
             _lobby = lobby;
             
-            var isHostSlot = lobbyPlayer.Id == lobby.HostId;
+            var isLocalPlayerSlot = lobbyPlayer.Id == AuthenticationService.Instance.PlayerId;
             var isLocalPlayerHost = AuthenticationService.Instance.PlayerId == lobby.HostId;
 
-            kickButton.SetActive(isLocalPlayerHost && !isHostSlot);
-            playerSlotImage.color = isHostSlot ? hostColor : normalColor;
+            kickButton.SetActive(isLocalPlayerHost && !isLocalPlayerSlot);
+            playerSlotImage.color = isLocalPlayerSlot ? localColor : normalColor;
 
             var netPlayerModel = _NetPlayerModelHandler.GetModelByPlayerId(lobbyPlayer.Id);
 
-            playerName.text = (netPlayerModel?.Name ?? "").ToString();
-            var isLocalPlayer = lobbyPlayer.Id == AuthenticationService.Instance.PlayerId ;
+            playerName.text = netPlayerModel?.Name ?? "";
         }
 
         public async void OnKickPlayerClicked()

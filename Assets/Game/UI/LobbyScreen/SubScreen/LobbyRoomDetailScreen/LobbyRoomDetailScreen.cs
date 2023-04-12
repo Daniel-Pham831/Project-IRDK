@@ -30,7 +30,7 @@ namespace Game
         [SerializeField] private TMP_Text lobbyRegionTxt;
         [SerializeField] private TMP_Text lobbyCodeTxt;
         [SerializeField] private TMP_Text lobbyPingTxt;
-
+        
         [SerializeField] private LanguageItem privateLangItem;
         [SerializeField] private LanguageItem publicLangItem;
 

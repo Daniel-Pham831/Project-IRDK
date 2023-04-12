@@ -11,7 +11,7 @@ namespace Maniac.UISystem
     {
         private UIData _uiData => Locator<UIData>.Instance;
 
-        [SerializeField] private Camera _cameraPrefab;
+        [SerializeField] private GameObject _cameraPrefab;
         [SerializeField] private Transform layerRoot;
         [SerializeField] private GameObject layerPrefab;
         [SerializeField] private Canvas canvas;
@@ -207,7 +207,7 @@ namespace Maniac.UISystem
             DontDestroyOnLoad(mainCamera);
             _cameraPrefab.transform.position = Vector3.zero;
 
-            canvas.worldCamera = mainCamera;
+            canvas.worldCamera = mainCamera.GetComponentInChildren<Camera>();
         }
 
         public Transform GetCorrectLayer(string layerName)
