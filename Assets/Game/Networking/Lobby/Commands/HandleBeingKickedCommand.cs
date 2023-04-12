@@ -16,7 +16,8 @@ namespace Game.Networking.Lobby.Commands
         
         public override async UniTask Execute()
         {
-            bool isBeingKicked = _lobbySystem.JoinedLobby.Value == null || !IsContainLocalPlayerInLobby();
+            var isContainLocalPlayerInLobby = IsContainLocalPlayerInLobby();
+            bool isBeingKicked = _lobbySystem.JoinedLobby.Value == null || !isContainLocalPlayerInLobby;
             if (isBeingKicked)
             {
                 _lobbySystem.JoinedLobby.Value = null;

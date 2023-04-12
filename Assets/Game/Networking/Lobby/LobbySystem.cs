@@ -47,7 +47,7 @@ namespace Game.Networking.Lobby
         {
             _userProfile = await _cloudProfileManager.Get<UserProfile>();
             _lobbyService = LobbyService.Instance;
-            _lobbyConfig = _dataBase.Get<LobbyConfig>();
+            _lobbyConfig = _dataBase.GetConfig<LobbyConfig>();
 
             InitCommands();
 

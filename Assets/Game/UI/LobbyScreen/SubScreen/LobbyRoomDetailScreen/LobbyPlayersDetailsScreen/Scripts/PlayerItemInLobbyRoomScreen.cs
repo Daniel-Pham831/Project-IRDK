@@ -2,7 +2,7 @@
 using Cysharp.Threading.Tasks;
 using Game.Networking;
 using Game.Networking.Lobby.Commands;
-using Game.Networking.NetPlayerComponents;
+using Game.Networking.Network.NetworkModels;
 using Game.Networking.Network.NetworkModels.Handlers;
 using Maniac.Utils;
 using TMPro;
@@ -15,7 +15,8 @@ namespace Game.Scripts
 {
     public class PlayerItemInLobbyRoomScreen : MonoBehaviour
     {
-        private NetPlayerModelHandler _NetPlayerModelHandler => Locator<NetPlayerModelHandler>.Instance;
+        private NetModelHub _netModelHub => Locator<NetModelHub>.Instance;
+        private NetPlayerModelHandler _NetPlayerModelHandler;
 
         [SerializeField] private TMP_Text playerName;
         [SerializeField] private GameObject kickButton;
@@ -29,6 +30,7 @@ namespace Game.Scripts
 
         public void UpdateInfo(Player lobbyPlayer, Lobby lobby)
         {
+            _NetPlayerModelHandler ??= _netModelHub.GetHandler<NetPlayerModelHandler>();
             _lobbyPlayer = lobbyPlayer;
             _lobby = lobby;
             

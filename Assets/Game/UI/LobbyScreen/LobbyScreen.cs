@@ -34,7 +34,7 @@ namespace Game
 
         public override async void OnSetup(object parameter = null)
         {
-            _lobbyConfig = _dataBase.Get<LobbyConfig>();
+            _lobbyConfig = _dataBase.GetConfig<LobbyConfig>();
             await _lobbySystem.Reset();
             lobbyItemController.Init(OnJoinLobbyClicked);
             

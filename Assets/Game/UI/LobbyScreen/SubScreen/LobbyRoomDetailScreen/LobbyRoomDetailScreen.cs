@@ -2,7 +2,7 @@ using UnityEngine;
 using Game.Commands;
 using Game.Networking.Lobby;
 using Game.Networking.Lobby.Commands;
-using Game.Networking.NetPlayerComponents;
+using Game.Networking.NetDataTransmitterComponents;
 using Game.Networking.Relay;
 using Maniac.DataBaseSystem;
 using Maniac.LanguageTableSystem;
@@ -39,7 +39,7 @@ namespace Game
 
         public override async void OnSetup(object parameter = null)
         {
-            _lobbyConfig = _dataBase.Get<LobbyConfig>();
+            _lobbyConfig = _dataBase.GetConfig<LobbyConfig>();
 
             SubscribeEvents();
             

@@ -9,7 +9,7 @@ namespace Game.Networking.Lobby
     public static class LobbyHelper
     {
         private static DataBase _dataBase => Locator<DataBase>.Instance;
-        private static LobbyConfig _lobbyConfig => _dataBase.Get<LobbyConfig>();
+        private static LobbyConfig _lobbyConfig => _dataBase.GetConfig<LobbyConfig>();
         private static QueryLobbiesOptions _queryLobbiesOptions;
         
         public static QueryLobbiesOptions QueryLobbiesOptions

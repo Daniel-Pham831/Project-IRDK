@@ -391,7 +391,7 @@ MonoBehaviour:
     transitionExit: 2
     easeEnter: 27
     easeExit: 9
-    shouldEnableBlackBackGround: 1
+    shouldEnableBlackBackGround: 0
     shouldSeparateDuration: 0
     duration: 0.35
     enterDuration: 0

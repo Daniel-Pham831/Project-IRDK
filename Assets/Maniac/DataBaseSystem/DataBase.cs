@@ -50,7 +50,7 @@ namespace Maniac.DataBaseSystem
             Locator<DataBase>.Set(this);
         }
         
-        public DataBaseConfig Get(string id)
+        public DataBaseConfig GetConfig(string id)
         {
             if (!configCache.ContainsKey(id))
             {
@@ -72,7 +72,7 @@ namespace Maniac.DataBaseSystem
                     TypeNameHandling = TypeNameHandling.Auto,
                     Formatting = Formatting.Indented,
                 };
-                var gameConfig = Get(key);
+                var gameConfig = GetConfig(key);
                 JsonConvert.PopulateObject(json, gameConfig,serializerSettings);
             }
             catch (Exception e)
@@ -84,10 +84,10 @@ namespace Maniac.DataBaseSystem
             return isSuccess;
         }
 
-        public T Get<T>() where T : DataBaseConfig
+        public T GetConfig<T>() where T : DataBaseConfig
         {
             string type = typeof(T).Name;
-            return Get(type) as T;
+            return GetConfig(type) as T;
         }
         
         public void Add(DataBaseConfig config)

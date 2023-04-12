@@ -1,5 +1,6 @@
 ﻿using Cysharp.Threading.Tasks;
 using Game.Commands;
+using Game.Networking.Network.NetworkModels;
 using Game.Networking.Network.NetworkModels.Handlers;
 using Maniac.Command;
 using Maniac.LanguageTableSystem;
@@ -15,7 +16,8 @@ namespace Game.Networking.Lobby.Commands
         private readonly string _playerId;
         private LobbySystem _lobbySystem => Locator<LobbySystem>.Instance;
         private LanguageTable _LanguageTable => Locator<LanguageTable>.Instance;
-        private NetPlayerModelHandler _netPlayerModelHandler => Locator<NetPlayerModelHandler>.Instance;
+        private NetModelHub _netModelHub => Locator<NetModelHub>.Instance;
+        private NetPlayerModelHandler _netPlayerModelHandler;
 
         public KickPlayerFromLobbyCommand(string lobbyId, string playerId)
         {
@@ -25,6 +27,8 @@ namespace Game.Networking.Lobby.Commands
 
         public override async UniTask Execute()
         {
+            _netPlayerModelHandler = _netModelHub.GetHandler<NetPlayerModelHandler>();
+            
             var playerToKick = _lobbySystem.GetPlayerInJoinedLobby(_playerId);
             if (playerToKick == null) return;
             

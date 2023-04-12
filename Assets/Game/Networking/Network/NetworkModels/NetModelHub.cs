@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
+using Game.Networking.NetDataTransmitterComponents;
 using Game.Networking.NetMessages;
-using Game.Networking.NetPlayerComponents;
 using Game.Networking.Network.NetworkModels.Handlers;
 using Game.Networking.Network.NetworkModels.Models;
 using Maniac.MessengerSystem.Base;
 using Maniac.MessengerSystem.Messages;
 using Maniac.Utils;
+using Maniac.Utils.Extension;
 using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
@@ -31,12 +32,23 @@ namespace Game.Networking.Network.NetworkModels
     {
         // private readonly List<INetHandler> _handlers = new List<INetHandler>();
         private readonly Dictionary<string, INetHandler> _handlers = new Dictionary<string, INetHandler>();
-        private NetPlayer _netPlayer;
+        private NetDataTransmitter _netDataTransmitter;
 
         private void Awake()
         {
             Messenger.Register<LeaveLobbyMessage>(this);
             Locator<NetModelHub>.Set(this);
+        }
+
+        public T GetHandler<T>() where T : INetHandler
+        {
+            var handlerKey = typeof(T).Name;
+            if (_handlers.TryGetValue(handlerKey, out var handler))
+            {
+                return handler is T value ? value : default;
+            }
+
+            throw new Exception($"Cannot find {handlerKey}. Please check!");
         }
 
         private void OnDestroy()
@@ -51,16 +63,22 @@ namespace Game.Networking.Network.NetworkModels
             await InitAllHandlerAsync();
         }
 
-        public void SetNetPlayer(NetPlayer netPlayer)
+        public void SetNetDataTransmitter(NetDataTransmitter netDataTransmitter)
         {
-            _netPlayer = netPlayer;
+            _netDataTransmitter = netDataTransmitter;
         }
 
         private void AddHandlers()
         {
-            var netPlayerModelHandler = gameObject.AddComponent<NetPlayerModelHandler>();
-            
-            _handlers.Add(netPlayerModelHandler.HandlerKey,netPlayerModelHandler);
+            var handlerTypes = new List<Type>();
+            handlerTypes.Add(typeof(NetPlayerModelHandler));
+            handlerTypes.Add(typeof(NetLobbyModelHandler));
+
+            foreach (var handlerType in handlerTypes)
+            {
+                if (gameObject.AddComponent(handlerType) is INetHandler handler)
+                    _handlers.Add(handler.HandlerKey, handler);
+            }
         }
 
         private async UniTask InitAllHandlerAsync()
@@ -78,7 +96,7 @@ namespace Game.Networking.Network.NetworkModels
         {
             Debug.Log($"Send To Server + {gameObject.name}");
 
-            _netPlayer.SendNetModelServerRpc(
+            _netDataTransmitter.SendNetModelServerRpc(
                 new HubModel()
                 {
                     HandlerKey = handlerKey,
@@ -91,7 +109,7 @@ namespace Game.Networking.Network.NetworkModels
         {
             Debug.Log($"Send To Server + {gameObject.name}");
             
-            _netPlayer.SendNetModelServerRpc(
+            _netDataTransmitter.SendNetModelServerRpc(
                 new HubModel()
                 {
                     HandlerKey = handlerKey,

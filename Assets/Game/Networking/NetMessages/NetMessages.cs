@@ -1,5 +1,4 @@
 ﻿using System;
-using Game.Networking.NetPlayerComponents;
 using Maniac.MessengerSystem.Messages;
 
 namespace Game.Networking.NetMessages

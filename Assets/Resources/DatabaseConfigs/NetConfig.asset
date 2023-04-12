@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: NetConfig
   m_EditorClassIdentifier: 
   SendPingInterval: 0.5
-  NetPlayer: {fileID: 262476580604540945, guid: 7b059d8c43283c14891fdbd97e358945, type: 3}
-  NetworkPrefabs: []
+  NetDataTransmitter: {fileID: 262476580604540945, guid: 7b059d8c43283c14891fdbd97e358945, type: 3}
+  NetworkPrefabs:
+  - {fileID: 645212661033786949, guid: c3a883c1a2d697a45bac29a8fb34db7c, type: 3}

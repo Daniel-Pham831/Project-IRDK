@@ -1,5 +1,4 @@
 ﻿using System;
-using Game.CloudProfileSystem;
 using Maniac.DataBaseSystem;
 using Maniac.TimeSystem;
 using Maniac.Utils;
@@ -7,7 +6,7 @@ using UniRx;
 using Unity.Netcode;
 using UnityEngine;
 
-namespace Game.Networking.NetPlayerComponents
+namespace Game.Networking.NetDataTransmitterComponents
 {
     public class PingHandler: NetworkBehaviour,IDisposable
     {
@@ -20,12 +19,16 @@ namespace Game.Networking.NetPlayerComponents
         
         private async void Awake()
         {
-            _config = _dataBase.Get<NetConfig>();
+            _config = _dataBase.GetConfig<NetConfig>();
         }
         
         public override void OnNetworkSpawn()
         {
-            if (!IsOwner) return;
+            if (!IsOwner)
+            {
+                enabled = false;
+                return;
+            }
             
             Locator<PingHandler>.Set(this);
             HandlePingMessage();

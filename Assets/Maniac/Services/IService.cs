@@ -21,6 +21,7 @@ namespace Maniac.Services
         private float _startTime;
         protected virtual string Name => GetType().Name;
         public abstract UniTask<IService.Result> Execute();
+        public Action OnFailed;
 
         public virtual async UniTask Run()
         {
@@ -52,6 +53,7 @@ namespace Maniac.Services
             else
             {
                 Debug.Log($"{Name.AddColor("#009FDD")} {"Fail".AddColor(Color.red)}");
+                OnFailed?.Invoke();
             }
         }
     }

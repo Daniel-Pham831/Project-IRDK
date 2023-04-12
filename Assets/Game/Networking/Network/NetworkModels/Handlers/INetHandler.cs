@@ -35,17 +35,17 @@ namespace Game.Networking.Network.NetworkModels.Handlers
 
         protected virtual async void Awake()
         {
-            _config = _dataBase.Get<NetConfig>();
+            _config = _dataBase.GetConfig<NetConfig>();
             _userProfile = await _cloudProfileManager.Get<UserProfile>();
         }
 
         public ReactiveProperty<T> LocalClientModel { get; set; } = new ReactiveProperty<T>();
 
-        public ReactiveProperty<Dictionary<ulong, T>> OtherClientModels { get; set; } =
-            new ReactiveProperty<Dictionary<ulong, T>>();
+        public ReactiveProperty<Dictionary<ulong, ReactiveProperty<T>>> OtherClientReactiveModels { get; set; } =
+            new ReactiveProperty<Dictionary<ulong, ReactiveProperty<T>>>();
 
-        public ReactiveProperty<Dictionary<ulong, T>> AllClientModels { get; set; } =
-            new ReactiveProperty<Dictionary<ulong, T>>();
+        public ReactiveProperty<Dictionary<ulong, ReactiveProperty<T>>> AllClientReactiveModels { get; set; } =
+            new ReactiveProperty<Dictionary<ulong, ReactiveProperty<T>>>();
 
         public string HandlerKey => GetType().Name;
         public NetModelHub Hub { get; private set; }
@@ -55,13 +55,15 @@ namespace Game.Networking.Network.NetworkModels.Handlers
             Hub = hub;
             SubscribeReactiveProperty();
             RegisterMessages(true);
+            GetOtherHandlers(hub);
         }
+
+        protected virtual void GetOtherHandlers(NetModelHub hub){}
 
         private void SubscribeReactiveProperty()
         {
-            OtherClientModels.Value = new Dictionary<ulong, T>();
-            AllClientModels.Value = new Dictionary<ulong, T>();
-            
+            InitAllReactiveData();
+
             LocalClientModel.Subscribe(value =>
             {
                 if (value == null) return;
@@ -70,26 +72,34 @@ namespace Game.Networking.Network.NetworkModels.Handlers
                 SendModelToAll(value);
             }).AddTo(this);
 
-            OtherClientModels.Subscribe(v =>
+            OtherClientReactiveModels.Subscribe(v =>
             {
                 foreach (var value in v.Values)
                 {
-                    if (value == null) continue;
+                    if (value?.Value == null) continue;
                     
-                    UpdateToAllClientsModels(value);
+                    UpdateToAllClientsModels(value.Value);
                 }
             }).AddTo(this);
         }
 
+        private void InitAllReactiveData()
+        {
+            OtherClientReactiveModels.Value = new Dictionary<ulong, ReactiveProperty<T>>();
+            AllClientReactiveModels.Value = new Dictionary<ulong, ReactiveProperty<T>>();
+        }
+
         private void UpdateToAllClientsModels(T value)
         {
-            var clientModelsValue = AllClientModels.Value;
-            if (!clientModelsValue.ContainsKey(value.ClientId))
-                clientModelsValue.Add(value.ClientId, value);
-
-            clientModelsValue[value.ClientId] = value;
+            var clientReactiveModelsDict = AllClientReactiveModels.Value;
+            if (!clientReactiveModelsDict.ContainsKey(value.ClientId))
+            {
+                var reactiveProperty = new ReactiveProperty<T>();
+                clientReactiveModelsDict.Add(value.ClientId, reactiveProperty);
+            }
             
-            AllClientModels.SetValueAndForceNotify(AllClientModels.Value);
+            clientReactiveModelsDict[value.ClientId].Value = value;
+            AllClientReactiveModels.SetValueAndForceNotify(AllClientReactiveModels.Value);
         }
 
         protected virtual void RegisterMessages(bool shouldRegister)
@@ -99,12 +109,14 @@ namespace Game.Networking.Network.NetworkModels.Handlers
                 Messenger.Register<ClientConnectedMessage>(this);
                 Messenger.Register<ClientDisconnectedMessage>(this);
                 Messenger.Register<TransportFailureMessage>(this);
+                Messenger.Register<LocalClientNetworkSpawn>(this);
             }
             else
             {
                 Messenger.Unregister<ClientConnectedMessage>(this);
                 Messenger.Unregister<ClientDisconnectedMessage>(this);
                 Messenger.Unregister<TransportFailureMessage>(this);
+                Messenger.Unregister<LocalClientNetworkSpawn>(this);
             }
         }
 
@@ -123,21 +135,24 @@ namespace Game.Networking.Network.NetworkModels.Handlers
             var model = Helper.Deserialize<T>(modelReceiveInBytes);
             if (model == null) return;
 
-            var baseNetModelsDict = OtherClientModels.Value;
+            var otherClientReactiveModelDict = OtherClientReactiveModels.Value;
             if (model.ShouldRemove)
             {
-                if (baseNetModelsDict.ContainsKey(model.ClientId))
-                    baseNetModelsDict.Remove(model.ClientId);
+                if (otherClientReactiveModelDict.ContainsKey(model.ClientId))
+                    otherClientReactiveModelDict.Remove(model.ClientId);
             }
             else
             {
-                if (!baseNetModelsDict.ContainsKey(model.ClientId))
-                    baseNetModelsDict.Add(model.ClientId, model);
-
-                baseNetModelsDict[model.ClientId] = model;
+                if (!otherClientReactiveModelDict.ContainsKey(model.ClientId))
+                {
+                    var reactiveProperty = new ReactiveProperty<T>();
+                    otherClientReactiveModelDict.Add(model.ClientId, reactiveProperty);
+                }
+                
+                otherClientReactiveModelDict[model.ClientId].Value = model;
             }
             
-            OtherClientModels.SetValueAndForceNotify(OtherClientModels.Value);
+            OtherClientReactiveModels.SetValueAndForceNotify(OtherClientReactiveModels.Value);
         }
 
         public virtual void OnMessagesReceived(Message receivedMessage)
@@ -151,20 +166,30 @@ namespace Game.Networking.Network.NetworkModels.Handlers
                 case ClientDisconnectedMessage message:
                     HandleClientDisconnected(message);
                     break;
+                
+                case LocalClientNetworkSpawn:
+                    HandleLocalClientNetworkSpawn();
+                    break;
             }
         }
 
+        protected virtual void HandleLocalClientNetworkSpawn(){}
+
+        // Only for server
         private void HandleClientConnected(ClientConnectedMessage message)
         {
+            //Sync all the clients data to the connected client
             var connectedClientId = message.ClientId;
 
-            var baseNetModels = AllClientModels.Value.Values.ToList();
+            var baseNetModels = AllClientReactiveModels.Value.Values.ToList();
             foreach (var clientModel in baseNetModels)
             {
-                SendModelToClients(clientModel, new List<ulong>() { connectedClientId });
+                if (clientModel.Value != null)
+                    SendModelToClients(clientModel.Value, new List<ulong>() { connectedClientId });
             }
         }
 
+        // Only for server
         // This method will be called on server-side
         // We need to sync data to all the other connected clients
         private void HandleClientDisconnected(ClientDisconnectedMessage receivedMessage)
@@ -186,16 +211,16 @@ namespace Game.Networking.Network.NetworkModels.Handlers
         public void Dispose()
         {
             LocalClientModel?.Dispose();
-            OtherClientModels?.Dispose();
-            AllClientModels?.Dispose();
+            OtherClientReactiveModels?.Dispose();
+            AllClientReactiveModels?.Dispose();
         }
         
         public T GetModelByPlayerId(string playerId)
         {
-            foreach (var netPlayerModel in AllClientModels.Value.Values)
+            foreach (var netPlayerModel in AllClientReactiveModels.Value.Values)
             {
-                if (netPlayerModel.PlayerId == playerId)
-                    return netPlayerModel;
+                if (netPlayerModel.Value?.PlayerId == playerId)
+                    return netPlayerModel.Value;
             }
 
             return null;
@@ -203,9 +228,31 @@ namespace Game.Networking.Network.NetworkModels.Handlers
         
         public T GetModelByClientId(ulong clientId)
         {
-            foreach (var netPlayerModel in AllClientModels.Value.Values)
+            foreach (var netPlayerModel in AllClientReactiveModels.Value.Values)
             {
-                if (netPlayerModel.ClientId == clientId)
+                if (netPlayerModel.Value?.ClientId == clientId)
+                    return netPlayerModel.Value;
+            }
+
+            return null;
+        }
+
+        public ReactiveProperty<T> GetReactiveModelByPlayerId(string playerId)
+        {
+            foreach (var netPlayerModel in AllClientReactiveModels.Value.Values)
+            {
+                if (netPlayerModel.Value?.PlayerId == playerId)
+                    return netPlayerModel;
+            }
+
+            return null;
+        }
+
+        public ReactiveProperty<T> GetReactiveModelByClientId(ulong clientId)
+        {
+            foreach (var netPlayerModel in AllClientReactiveModels.Value.Values)
+            {
+                if (netPlayerModel.Value?.ClientId == clientId)
                     return netPlayerModel;
             }
 

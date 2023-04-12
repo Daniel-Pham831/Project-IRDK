@@ -6,8 +6,11 @@ namespace Maniac.Utils
     {
         private static T instance;
         public static T Instance { get { return instance; } }
-        public static void Set(T ins)
+        public static void Set(T ins,bool shouldClearBeforeSet = false)
         {
+            if(shouldClearBeforeSet)
+                Remove();
+            
             if (ins == null)
             {
                 Debug.LogError($"{typeof(T).Name} is null!");

@@ -16,7 +16,7 @@ namespace Game.Services.UnityServices
     public class InitUnityServicesService : Service
     {
         private DataBase _dataBase => Locator<DataBase>.Instance;
-        private BuildSettingConfig _buildSettingConfig => _dataBase.Get<BuildSettingConfig>();
+        private BuildSettingConfig _buildSettingConfig => _dataBase.GetConfig<BuildSettingConfig>();
         
         public override async UniTask<IService.Result> Execute()
         {

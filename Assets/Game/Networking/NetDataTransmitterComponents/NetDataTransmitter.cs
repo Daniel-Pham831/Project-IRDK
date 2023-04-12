@@ -1,25 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Cysharp.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Game.CloudProfileSystem;
 using Game.Networking.Lobby;
 using Game.Networking.NetMessages;
 using Game.Networking.Network.NetworkModels;
-using Game.Networking.Network.NetworkModels.Models;
 using Maniac.DataBaseSystem;
 using Maniac.MessengerSystem.Base;
 using Maniac.MessengerSystem.Messages;
 using Maniac.TimeSystem;
 using Maniac.Utils;
-using UniRx;
 using Unity.Netcode;
 using Unity.Services.Authentication;
-using UnityEngine;
 
-namespace Game.Networking.NetPlayerComponents
+namespace Game.Networking.NetDataTransmitterComponents
 {
-    public class NetPlayer : NetworkBehaviour
+    public class NetDataTransmitter : NetworkBehaviour
     {
         private DataBase _dataBase => Locator<DataBase>.Instance;
         private TimeManager _timeManager => Locator<TimeManager>.Instance;
@@ -32,20 +26,24 @@ namespace Game.Networking.NetPlayerComponents
 
         private async void Awake()
         {
-            _config = _dataBase.Get<NetConfig>();
+            _config = _dataBase.GetConfig<NetConfig>();
             _userProfile = await _cloudProfileManager.Get<UserProfile>();
         }
 
         public override void OnNetworkSpawn()
         {
-            if (!IsOwner) return;
+            if (!IsOwner)
+            {
+                enabled = false;
+                return;
+            }
 
-            this.gameObject.name = "NetPlayer - Owner" + (IsServer ? " - Server" : "Client");
-            _hub.SetNetPlayer(this);
+            this.gameObject.name = "NetDataTransmitter - Owner" + (IsServer ? " - Server" : "Client");
+            _hub.SetNetDataTransmitter(this);
             RegisterNetworkEvents(true);
-            Locator<NetPlayer>.Set(this);
+            Locator<NetDataTransmitter>.Set(this);
             Messenger.SendMessage(new LocalClientNetworkSpawn());
-            base.OnNetworkSpawn();
+            NetworkObject.DestroyWithScene = false;
         }
         
         private void OnClientConnectedCallback(ulong clientId)
@@ -67,13 +65,14 @@ namespace Game.Networking.NetPlayerComponents
         private async void OnTransportFailure()
         {
             Messenger.SendMessage(new TransportFailureMessage());
+            Destroy(gameObject);
         }
 
         public override void OnNetworkDespawn()
         {
             if(IsOwner)
             {
-                Locator<NetPlayer>.Remove();
+                Locator<NetDataTransmitter>.Remove();
             }
 
             RegisterNetworkEvents(false);
@@ -108,8 +107,6 @@ namespace Game.Networking.NetPlayerComponents
         public void SendNetModelServerRpc(HubModel hubModelToSend, byte[] sendToClientIds = null,
             ServerRpcParams param = default)
         {
-            Debug.Log($"Received On Server + {gameObject.name}");
-            
             List<ulong> toClientIdsNetworkList = new List<ulong>();
             if (sendToClientIds != null)
                 toClientIdsNetworkList = Helper.Deserialize<List<ulong>>(sendToClientIds);

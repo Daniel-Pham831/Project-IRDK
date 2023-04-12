@@ -23,8 +23,8 @@ namespace Game.Networking.Network
 
         public async UniTask Init()
         {
-            _buildSettingConfig = _dataBase.Get<BuildSettingConfig>();
-            _netConfig = _dataBase.Get<NetConfig>();
+            _buildSettingConfig = _dataBase.GetConfig<BuildSettingConfig>();
+            _netConfig = _dataBase.GetConfig<NetConfig>();
             
             var newObj = new GameObject("NetworkSystem");
             Object.DontDestroyOnLoad(newObj);
@@ -50,7 +50,7 @@ namespace Game.Networking.Network
 
         private async UniTask AddAllNetworkPrefabs()
         {
-            NetworkManager.NetworkConfig.PlayerPrefab = _netConfig.NetPlayer.gameObject;
+            NetworkManager.NetworkConfig.PlayerPrefab = _netConfig.NetDataTransmitter.gameObject;
             foreach (var prefab in _netConfig.NetworkPrefabs)
             {
                 NetworkManager.AddNetworkPrefab(prefab.gameObject);

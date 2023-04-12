@@ -24,7 +24,7 @@ namespace Game
 
         public override void OnSetup(object parameter = null)
         {
-            _lobbyConfig = _dataBase.Get<LobbyConfig>();
+            _lobbyConfig = _dataBase.GetConfig<LobbyConfig>();
             _model = new LobbyModel();
             isPrivateToggle.onValueChanged.AddListener(value =>
             {

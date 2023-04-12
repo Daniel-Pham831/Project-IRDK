@@ -22,7 +22,7 @@ namespace Game.Networking.Relay
         public async UniTask Init()
         {
             _userProfile = await _cloudProfileManager.Get<UserProfile>();
-            _lobbyConfig = _dataBase.Get<LobbyConfig>();
+            _lobbyConfig = _dataBase.GetConfig<LobbyConfig>();
             _relayService = RelayService.Instance;
             try
             {

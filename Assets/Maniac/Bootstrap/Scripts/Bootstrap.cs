@@ -57,6 +57,7 @@ namespace Maniac.Bootstrap.Scripts
         {
             var essentialServiceGroup = new SequenceServiceGroup("Maniac Essential Services");
             
+            essentialServiceGroup.Add(new LimitFrameRateService());
             essentialServiceGroup.Add(new InitRandomerService());
             essentialServiceGroup.Add(new InitDotweenService());
             essentialServiceGroup.Add(new InitTimeManagerService());
