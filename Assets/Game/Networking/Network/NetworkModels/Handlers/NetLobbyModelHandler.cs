@@ -33,6 +33,9 @@ namespace Game.Networking.Network.NetworkModels.Handlers
 
         public bool IsAllClientsNetLobbyModelReady()
         {
+            if (AllClientReactiveModels.Value.Values.Count == 0)
+                return false;
+            
             foreach (var netLobbyModel in AllClientReactiveModels.Value.Values.ToList())
             {
                 if (!netLobbyModel.Value.IsReady) return false;

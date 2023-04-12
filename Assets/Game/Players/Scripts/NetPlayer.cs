@@ -1,8 +1,10 @@
 using System;
+using Cysharp.Threading.Tasks;
 using Game.Networking.Network.NetworkModels;
 using Game.Networking.Network.NetworkModels.Handlers;
 using Maniac.DataBaseSystem;
 using Maniac.Utils;
+using Maniac.Utils.Extension;
 using TMPro;
 using UniRx;
 using Unity.Netcode;
@@ -29,11 +31,24 @@ namespace Game.Players.Scripts
             _netPlayerModelHandler = _hub.GetHandler<NetPlayerModelHandler>();
         }
 
-        public override void OnNetworkSpawn()
+        public override async void OnNetworkSpawn()
         {
-            var thisClientNetPlayerModel = _netPlayerModelHandler.GetReactiveModelByClientId(OwnerClientId);
+            var thisClientNetPlayerModel = await GetReactiveModel();
 
             thisClientNetPlayerModel.Subscribe(UpdateNetPlayer).AddTo(this);
+        }
+
+        private async UniTask<ReactiveProperty<NetPlayerModel>> GetReactiveModel()
+        {
+            ReactiveProperty<NetPlayerModel> result = null;
+            while (result == null)
+            {
+                result = _netPlayerModelHandler.GetReactiveModelByClientId(OwnerClientId);
+
+                await UniTask.Delay(100);
+            }
+
+            return result;
         }
 
         private void UpdateNetPlayer(NetPlayerModel value)
@@ -41,7 +56,7 @@ namespace Game.Players.Scripts
             if (value.Name != null && oldName != value.Name)
             {
                 oldName = value.Name;
-                playerName.text = oldName;
+                playerName.text = oldName.AddColor(OwnerClientId == NetworkManager.Singleton.LocalClientId ? Color.yellow : Color.white);
             }
 
             if (value.CharacterGraphicsId != null && oldCharacterId != value.CharacterGraphicsId)

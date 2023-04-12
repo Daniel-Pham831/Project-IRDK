@@ -569,5 +569,5 @@ MonoBehaviour:
   playerName: {fileID: 4694168803611583539}
   kickButton: {fileID: 5202691766822179265}
   playerSlotImage: {fileID: 8858308808641873746}
-  hostColor: {r: 0.5882353, g: 0.75294125, b: 0.7372549, a: 1}
+  localColor: {r: 0.5882353, g: 0.75294125, b: 0.7372549, a: 1}
   normalColor: {r: 0.5058824, g: 0.44705886, b: 0.5176471, a: 1}

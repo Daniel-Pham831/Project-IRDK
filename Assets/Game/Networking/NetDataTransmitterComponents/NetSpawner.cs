@@ -44,12 +44,12 @@ namespace Game.Networking.NetDataTransmitterComponents
             FixedString64Bytes spawnObjectTypeName = typeof(T).FullName;
             RequestToSpawnServerRpc(spawnObjectTypeName, position);
         }
-
+        
         [ServerRpc]
         private void RequestToSpawnServerRpc(FixedString64Bytes spawnTypeName, Vector3 spawnPosition,ServerRpcParams param = default)
         {
             var prefab = _netConfig.GetNetPrefab(spawnTypeName.ToString());
-
+        
             var spawnedObject = Instantiate(prefab, spawnPosition, Quaternion.identity);
             spawnedObject.NetworkObject.SpawnWithOwnership(param.Receive.SenderClientId);
         }
