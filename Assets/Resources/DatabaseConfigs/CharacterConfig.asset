@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a165630edfffd4a4eaa41f87d9037a17, type: 3}
+  m_Name: CharacterConfig
+  m_EditorClassIdentifier: 
+  CharacterInfos:
+  - Id: C1
+    sprite: {fileID: 21300000, guid: 4ad9829ab837a6343a8817266cc6965f, type: 3}
+  - Id: C2
+    sprite: {fileID: 21300000, guid: 25464140b1d345e4bbd67a8d678e9eb5, type: 3}
+  - Id: C3
+    sprite: {fileID: 21300000, guid: 8be0c8b2bfc558a44a9d1402dd664770, type: 3}
+  - Id: C4
+    sprite: {fileID: 21300000, guid: 12834cfbad3b8d24d88f616748d29a35, type: 3}
+  - Id: C5
+    sprite: {fileID: 21300000, guid: 0d6caed4de9849d48b078bbc95a284ac, type: 3}
+  - Id: C6
+    sprite: {fileID: 21300000, guid: a1da901f885cd6242885d291b34c8b9d, type: 3}
+  - Id: C7
+    sprite: {fileID: 21300000, guid: b2e405b2a1368cf47b6e4a28cebdbd46, type: 3}
+  - Id: C8
+    sprite: {fileID: 21300000, guid: d5590e494db9ca84aa439d10d7d6c946, type: 3}
+  - Id: C9
+    sprite: {fileID: 21300000, guid: 6fe229a9c86b75c45bf2f6166d4ea072, type: 3}
+  - Id: C10
+    sprite: {fileID: 21300000, guid: 2505c058702e1254ca73b48eae1d30fb, type: 3}
+  - Id: C11
+    sprite: {fileID: 21300000, guid: 5fe08f2955c8b8f429a4aa1b8c065776, type: 3}
+  - Id: C12
+    sprite: {fileID: 21300000, guid: 0b8c070f69040474fbba61648580f7da, type: 3}
+  - Id: C13
+    sprite: {fileID: 21300000, guid: ab6201dbe48f174448aedd98a60d18b1, type: 3}
+  - Id: C14
+    sprite: {fileID: 21300000, guid: 33a49a8f0a5fa484f87fe409fad2e94c, type: 3}
+  - Id: C15
+    sprite: {fileID: 21300000, guid: 63c2860f42c4bf541a9afac58e95afd1, type: 3}
+  - Id: C16
+    sprite: {fileID: 21300000, guid: e6d8b859893ba30448f5b224acbacc1b, type: 3}
+  - Id: C17
+    sprite: {fileID: 21300000, guid: c1205d67148c4c846a403ffd0ea7c4f8, type: 3}
+  - Id: C18
+    sprite: {fileID: 21300000, guid: fb73b4ac006a84f4aaae8bb7673c2c54, type: 3}
+  - Id: C19
+    sprite: {fileID: 21300000, guid: 00cc9e05283aae54a9c8dbfff87310a7, type: 3}
+  - Id: C20
+    sprite: {fileID: 21300000, guid: 77399666fc0e5464b87130cb7947342e, type: 3}
