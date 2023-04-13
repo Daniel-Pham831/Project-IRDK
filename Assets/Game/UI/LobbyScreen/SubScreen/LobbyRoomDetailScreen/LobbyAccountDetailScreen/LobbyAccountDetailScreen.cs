@@ -1,36 +1,66 @@
+using System;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
 using Maniac;
 using DG.Tweening;
+using Game.Networking.Network.NetworkModels;
+using Game.Networking.Network.NetworkModels.Handlers;
+using Maniac.DataBaseSystem;
 using Maniac.UISystem;
+using Maniac.Utils;
+using UniRx;
+using UnityEngine.UI;
 
 namespace Game
 {
     public class LobbyAccountDetailScreen : BaseUI
     {
-        // This method will be call first, at this point, UI hasn't show up on canvas yet.
-        // Use this to init your UI
-        public override void OnSetup(object parameter = null) //first
+        private NetModelHub _netModelHub => Locator<NetModelHub>.Instance;
+        private DataBase _dataBase => Locator<DataBase>.Instance;
+        private CharacterConfig _characterConfig;
+
+        [SerializeField] private Image mainCharacterImage;
+        [SerializeField] private CharacterChooserItemInLobbyAccount chooserItemPrefab;
+        [SerializeField] private Transform content;
+        private readonly StringReactiveProperty chosenCharacterId = new StringReactiveProperty();
+        private string _localClientCharacter;
+        private NetPlayerModelHandler _netPlayerModelHandler;
+
+        public override async void OnSetup(object parameter = null)
         {
+            _characterConfig = _dataBase.GetConfig<CharacterConfig>();
+            _netPlayerModelHandler = _netModelHub.GetHandler<NetPlayerModelHandler>();
+            chosenCharacterId.Subscribe(UpdateMainCharacterImage).AddTo(this);
+            _localClientCharacter = _netPlayerModelHandler.LocalClientModel.Value.CharacterGraphicsId;
+            chosenCharacterId.Value = _localClientCharacter;
+            await SetupAllCharacterChoosers();
             base.OnSetup(parameter);
         }
 
-        // This method is called during the UI transition. You can make custom transition after base.OnTransitionEnter(parameter);
-        public override async UniTask OnTransitionEnter(object parameter = null) //second
+        private async UniTask SetupAllCharacterChoosers()
         {
-            await base.OnTransitionEnter(parameter);
+            foreach (var characterInfo in _characterConfig.CharacterInfos)
+            {
+                var newItem = Instantiate(chooserItemPrefab, content);
+                newItem.Setup(characterInfo, UpdateMainCharacterImage);
+            }
         }
 
-        // This method is called when TransitionEnter finished all of it transitions
-        public override void OnShow(object parameter = null) // last
+        private void UpdateMainCharacterImage(string characterId)
         {
-            base.OnShow(parameter);
+            var characterInfo = _characterConfig.GetCharacterInfo(characterId);
+            mainCharacterImage.sprite = characterInfo.sprite;
+            _localClientCharacter = characterId;
         }
 
-        // This method is called during TransitionExit
-        public override async UniTask OnTransitionExit()
+        public async void OnChooseClicked()
         {
-            await base.OnTransitionExit();
+            Close(_localClientCharacter);
+        }
+
+        public override async void Back()
+        {
+            await Close(_localClientCharacter);
         }
     }
 }

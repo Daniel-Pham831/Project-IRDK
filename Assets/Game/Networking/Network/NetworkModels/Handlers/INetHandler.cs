@@ -98,7 +98,7 @@ namespace Game.Networking.Network.NetworkModels.Handlers
                 clientReactiveModelsDict.Add(value.ClientId, reactiveProperty);
             }
             
-            clientReactiveModelsDict[value.ClientId].Value = value;
+            clientReactiveModelsDict[value.ClientId].SetValueAndForceNotify(value);
             AllClientReactiveModels.SetValueAndForceNotify(AllClientReactiveModels.Value);
         }
 
@@ -149,7 +149,7 @@ namespace Game.Networking.Network.NetworkModels.Handlers
                     otherClientReactiveModelDict.Add(model.ClientId, reactiveProperty);
                 }
                 
-                otherClientReactiveModelDict[model.ClientId].Value = model;
+                otherClientReactiveModelDict[model.ClientId].SetValueAndForceNotify(model);
             }
             
             OtherClientReactiveModels.SetValueAndForceNotify(OtherClientReactiveModels.Value);
@@ -217,6 +217,8 @@ namespace Game.Networking.Network.NetworkModels.Handlers
         
         public T GetModelByPlayerId(string playerId)
         {
+            if (LocalClientModel.Value?.PlayerId == playerId) return LocalClientModel.Value;
+            
             foreach (var netPlayerModel in AllClientReactiveModels.Value.Values)
             {
                 if (netPlayerModel.Value?.PlayerId == playerId)
@@ -228,6 +230,8 @@ namespace Game.Networking.Network.NetworkModels.Handlers
         
         public T GetModelByClientId(ulong clientId)
         {
+            if (LocalClientModel.Value?.ClientId == clientId) return LocalClientModel.Value;
+            
             foreach (var netPlayerModel in AllClientReactiveModels.Value.Values)
             {
                 if (netPlayerModel.Value?.ClientId == clientId)
@@ -239,6 +243,8 @@ namespace Game.Networking.Network.NetworkModels.Handlers
 
         public ReactiveProperty<T> GetReactiveModelByPlayerId(string playerId)
         {
+            if (LocalClientModel.Value?.PlayerId == playerId) return LocalClientModel;
+            
             foreach (var netPlayerModel in AllClientReactiveModels.Value.Values)
             {
                 if (netPlayerModel.Value?.PlayerId == playerId)
@@ -250,6 +256,8 @@ namespace Game.Networking.Network.NetworkModels.Handlers
 
         public ReactiveProperty<T> GetReactiveModelByClientId(ulong clientId)
         {
+            if (LocalClientModel.Value?.ClientId == clientId) return LocalClientModel;
+            
             foreach (var netPlayerModel in AllClientReactiveModels.Value.Values)
             {
                 if (netPlayerModel.Value?.ClientId == clientId)

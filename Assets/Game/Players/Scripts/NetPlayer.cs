@@ -40,12 +40,12 @@ namespace Game.Players.Scripts
 
         private async UniTask<ReactiveProperty<NetPlayerModel>> GetReactiveModel()
         {
-            ReactiveProperty<NetPlayerModel> result = null;
+            ReactiveProperty<NetPlayerModel> result = _netPlayerModelHandler.GetReactiveModelByClientId(OwnerClientId);
+            
             while (result == null)
             {
-                result = _netPlayerModelHandler.GetReactiveModelByClientId(OwnerClientId);
-
                 await UniTask.Delay(100);
+                result = _netPlayerModelHandler.GetReactiveModelByClientId(OwnerClientId);
             }
 
             return result;

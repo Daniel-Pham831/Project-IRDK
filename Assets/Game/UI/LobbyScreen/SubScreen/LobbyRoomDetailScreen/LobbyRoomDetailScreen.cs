@@ -107,6 +107,7 @@ namespace Game
 
         public async void OnAccountClicked()
         {
+            await new ShowLobbyAccountDetailCommand().Execute();
         }
 
         public async void OnLobbyPlayersDetailsClicked()

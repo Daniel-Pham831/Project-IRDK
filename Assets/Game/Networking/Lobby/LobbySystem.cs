@@ -111,8 +111,8 @@ namespace Game.Networking.Lobby
                     try
                     {
                         JoinedLobby.Value = await _lobbyService.GetLobbyAsync(JoinedLobby.Value.Id);
-                        await _handleBeingKickCommand.Execute();
                         await _handleBecomeHostCommand.Execute();
+                        await _handleBeingKickCommand.Execute();
                     }
                     catch
                     {
