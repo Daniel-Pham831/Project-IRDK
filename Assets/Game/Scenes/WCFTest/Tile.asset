@@ -74,10 +74,45 @@ MonoBehaviour:
   - Id: Tile-Dungeon_2
     MainSprite: {fileID: -2137249697, guid: e1487e686b4cf054e869cea79be05cbd, type: 3}
     AdjacentTileDatas:
-    - PossibleSprites: []
-    - PossibleSprites: []
-    - PossibleSprites: []
-    - PossibleSprites: []
+    - PossibleSprites:
+      - Tile-Dungeon_0
+      - Tile-Dungeon_12
+      - Tile-Dungeon_24
+      - Tile-Dungeon_25
+      - Tile-Dungeon_26
+      - Tile-Dungeon_27
+    - PossibleSprites:
+      - Tile-Dungeon_2
+      - Tile-Dungeon_3
+      - Tile-Dungeon_6
+      - Tile-Dungeon_17
+    - PossibleSprites:
+      - Tile-Dungeon_7
+      - Tile-Dungeon_8
+      - Tile-Dungeon_9
+      - Tile-Dungeon_10
+      - Tile-Dungeon_11
+      - Tile-Dungeon_14
+      - Tile-Dungeon_19
+      - Tile-Dungeon_20
+      - Tile-Dungeon_21
+      - Tile-Dungeon_22
+      - Tile-Dungeon_23
+      - Tile-Dungeon_28
+      - Tile-Dungeon_29
+      - Tile-Dungeon_33
+      - Tile-Dungeon_34
+      - Tile-Dungeon_35
+      - Tile-Dungeon_37
+      - Tile-Dungeon_40
+      - Tile-Dungeon_45
+      - Tile-Dungeon_46
+      - Tile-Dungeon_47
+    - PossibleSprites:
+      - Tile-Dungeon_1
+      - Tile-Dungeon_16
+      - Tile-Dungeon_2
+      - Tile-Dungeon_6
   - Id: Tile-Dungeon_3
     MainSprite: {fileID: 2056661501, guid: e1487e686b4cf054e869cea79be05cbd, type: 3}
     AdjacentTileDatas:
