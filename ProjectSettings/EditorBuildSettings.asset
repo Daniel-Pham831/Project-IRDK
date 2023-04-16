@@ -20,4 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Game/Scenes/EmptyScene.unity
     guid: d53ee20ab9df5f8459fedb2e42efa6fe
+  - enabled: 1
+    path: Assets/Game/Scenes/WCFTest/WCFTest.unity
+    guid: 583da116aa6a9a74eb1a7301e75fac1a
   m_configObjects: {}
