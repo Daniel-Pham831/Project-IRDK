@@ -18,12 +18,33 @@ MonoBehaviour:
     AdjacentTileDatas:
     - PossibleSprites:
       - Tile-Dungeon_0
+      - Tile-Dungeon_12
+      - Tile-Dungeon_24
+      - Tile-Dungeon_25
+      - Tile-Dungeon_26
+      - Tile-Dungeon_27
     - PossibleSprites:
       - Tile-Dungeon_0
+      - Tile-Dungeon_1
+      - Tile-Dungeon_12
+      - Tile-Dungeon_13
+      - Tile-Dungeon_24
+      - Tile-Dungeon_25
     - PossibleSprites:
       - Tile-Dungeon_0
+      - Tile-Dungeon_1
+      - Tile-Dungeon_2
+      - Tile-Dungeon_3
+      - Tile-Dungeon_6
+      - Tile-Dungeon_12
+      - Tile-Dungeon_24
     - PossibleSprites:
       - Tile-Dungeon_0
+      - Tile-Dungeon_3
+      - Tile-Dungeon_12
+      - Tile-Dungeon_15
+      - Tile-Dungeon_24
+      - Tile-Dungeon_27
   - Id: Tile-Dungeon_1
     MainSprite: {fileID: -493576327, guid: e1487e686b4cf054e869cea79be05cbd, type: 3}
     AdjacentTileDatas:

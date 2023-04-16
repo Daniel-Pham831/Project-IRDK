@@ -103,6 +103,16 @@ namespace Game.Scenes.WCFTest
             _direction = direction;
         }
         
+        [Button]
+        public void AddNewTilesData(List<Sprite> sprites)
+        {
+            foreach (var sprite in sprites)
+            {
+                if(!PossibleSprites.Contains(sprite.name))
+                    PossibleSprites.Add(sprite.name);
+            }
+        }
+        
 #if UNITY_EDITOR
         public IEnumerable<string> FetchAllTileData()
         {
