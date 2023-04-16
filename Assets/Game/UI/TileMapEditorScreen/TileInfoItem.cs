@@ -10,19 +10,19 @@ namespace Game
         [SerializeField] private Image mainImage;
         [SerializeField] private GameObject border;
 
-        private ReactiveProperty<bool> isSelected = new ReactiveProperty<bool>();
+        private ReactiveProperty<bool> _isSelected = new ReactiveProperty<bool>();
         private Action<Sprite,bool> _onClickCallBack;
         private Sprite _sprite;
         public Sprite MainSprite => _sprite;
 
         private void Awake()
         {
-            isSelected.Subscribe(value =>
+            _isSelected.Subscribe(value =>
             {
                 border.SetActive(value);
             }).AddTo(this);
 
-            isSelected.Value = false;
+            _isSelected.Value = false;
         }
 
         public void Setup(Sprite sprite, Action<Sprite,bool> onClickCallBack = null)
@@ -37,9 +37,14 @@ namespace Game
         {
             if (_onClickCallBack == null) return;
             
-            Debug.Log($"Clicked: {this.name} - {isSelected.Value}");
-            isSelected.Value = !isSelected.Value;
-            _onClickCallBack?.Invoke(_sprite,isSelected.Value);
+            Debug.Log($"Clicked: {this.name} - {_isSelected.Value}");
+            _isSelected.Value = !_isSelected.Value;
+            _onClickCallBack?.Invoke(_sprite,_isSelected.Value);
+        }
+
+        public void SetIsSelected(bool isSelected)
+        {
+            _isSelected.Value = isSelected;
         }
     }
 }

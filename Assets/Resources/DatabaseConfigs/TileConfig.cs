@@ -11,6 +11,25 @@ namespace Maniac.DataBaseSystem
     public class TileConfig : DataBaseConfig
     {
         public List<TileData> tileDatas;
+        private Dictionary<string, TileData> _tileDatasCache = new Dictionary<string, TileData>();
+
+        public TileData Find(string id)
+        {
+            if (!_tileDatasCache.ContainsKey(id))
+            {
+                var tileData = tileDatas.FirstOrDefault(x=>x.Id == id);
+                if (tileData != null)
+                {
+                    _tileDatasCache.Add(id, tileData);
+                }
+                else
+                {
+                    throw new Exception("Could not find");
+                }
+            }
+            
+            return _tileDatasCache[id];
+        }
     }
     
     [Serializable]
@@ -42,6 +61,15 @@ namespace Maniac.DataBaseSystem
             AdjacentTileDatas.Add(new AdjacentTileData(Direction.Right));
             AdjacentTileDatas.Add(new AdjacentTileData(Direction.Bot));
             AdjacentTileDatas.Add(new AdjacentTileData(Direction.Left));
+        }
+
+        public void AddAdjacentTileData(Direction direction, List<string> possibleSpriteNames)
+        {
+            var adjacentTileData = AdjacentTileDatas.FirstOrDefault(x => x.Direction == direction);
+            if (adjacentTileData != null)
+            {
+                adjacentTileData.PossibleSprites = possibleSpriteNames;
+            }
         }
     }
 
