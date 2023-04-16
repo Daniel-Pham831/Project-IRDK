@@ -78,5 +78,10 @@ namespace Game
         {
             await _uiManager.Show<AccountDetailsScreen>();
         }
+
+        public async void OnTileEditorClicked()
+        {
+            await _uiManager.Show<TileMapEditorScreen>();
+        }
     }
 }
