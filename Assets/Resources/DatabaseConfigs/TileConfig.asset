@@ -12,4 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fd0053dbc23e134aab9ea10d11cc8c3, type: 3}
   m_Name: TileConfig
   m_EditorClassIdentifier: 
-  tileDatas: []
+  tileDatas:
+  - Id: 
+    MainSprite: {fileID: 0}
+    AdjacentTileDatas: []
