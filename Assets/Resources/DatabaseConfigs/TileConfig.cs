@@ -24,11 +24,16 @@ namespace Maniac.DataBaseSystem
                 }
                 else
                 {
-                    throw new Exception("Could not find");
+                    return null;
                 }
             }
             
             return _tileDatasCache[id];
+        }
+
+        public bool Contains(string id)
+        {
+            return Find(id)?.Id == id;
         }
     }
     

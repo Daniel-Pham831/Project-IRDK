@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -8,140 +7,17 @@ using DG.Tweening;
 using Maniac.DataBaseSystem;
 using Maniac.UISystem;
 using Maniac.Utils;
-using Maniac.Utils.Extension;
 using UnityEngine.Tilemaps;
-using UnityEngine.UI;
 using TileData = Maniac.DataBaseSystem.TileData;
 
 namespace Game
 {
-    public class AdjacentEditorPanel : MonoBehaviour
-    {
-        private DataBase _dataBase => Locator<DataBase>.Instance;
-        private TileConfig _tileConfig;
-        
-        [SerializeField] private Transform _tileHolder;
-        [SerializeField] private TileInfoItem _tileInfoItemPrefab;
-        private List<TileInfoItem> _tilesInConfig = new List<TileInfoItem>();
-
-        [SerializeField] private Transform _adjacentPickerHolder;
-
-        [SerializeField] private Image mainImage;
-        [SerializeField] private Transform _topAdjacentHolder;
-        [SerializeField] private Transform _rightAdjacentHolder;
-        [SerializeField] private Transform _botAdjacentHolder;
-        [SerializeField] private Transform _leftAdjacentHolder;
-        [SerializeField] private Image chosenAdjacentItemPrefab;
-
-        private void Awake()
-        {
-            _tileConfig = _dataBase.GetConfig<TileConfig>();
-        }
-
-        public void Setup()
-        {
-            _tileHolder.ClearAllChildren();
-            _tilesInConfig.Clear();
-            
-            foreach (var tileData in _tileConfig.tileDatas)
-            {
-                var newTile = Instantiate(_tileInfoItemPrefab, _tileHolder);
-                newTile.Setup(tileData.MainSprite,OnTileInConfigChosen);
-                _tilesInConfig.Add(newTile);
-            }
-        }
-
-        private void OnTileInConfigChosen(Sprite sprite, bool isSelected)
-        {
-            foreach (var item in _tilesInConfig)
-            {
-                item.SetIsSelected(item.name == sprite.name);
-            }
-
-            if(isSelected)
-                SetupTileAdjacent(sprite);
-        }
-
-        private void SetupTileAdjacent(Sprite sprite)
-        {
-            var tileData = _tileConfig.Find(sprite.name);
-            if (tileData != null)
-            {
-                mainImage.sprite = tileData.MainSprite;
-                mainImage.name = tileData.Id;
-                foreach (var adjacentTileData in tileData.AdjacentTileDatas)
-                {
-                    SetupAdjacentTile(adjacentTileData);
-                }
-            }
-        }
-
-        private void SetupAdjacentTile(AdjacentTileData adjacentTileData)
-        {
-            Transform holder;
-            switch(adjacentTileData.Direction)
-            {
-                case Direction.Top:
-                    holder = _topAdjacentHolder;
-                    break;
-                case Direction.Right:
-                    holder = _rightAdjacentHolder;
-                    break;
-                case Direction.Bot:
-                    holder = _botAdjacentHolder;
-                    break;
-                case Direction.Left:
-                    holder = _leftAdjacentHolder;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-
-            holder.ClearAllChildren();
-
-            foreach (var possibleSpriteName in adjacentTileData.PossibleSprites)
-            {
-                var newImage = Instantiate(chosenAdjacentItemPrefab, holder);
-                newImage.gameObject.name = possibleSpriteName;
-                newImage.sprite = _tileConfig.Find(possibleSpriteName).MainSprite;
-            }
-        }
-
-        public void OnSaveAdjacentToTilesClicked()
-        {
-            var tileToSave = _tileConfig.Find(mainImage.name);
-            if (tileToSave != null)
-            {
-                var topPossibleNames = GetAllChildNamesOfHolder(_topAdjacentHolder);
-                var rightPossibleNames = GetAllChildNamesOfHolder(_rightAdjacentHolder);
-                var botPossibleNames = GetAllChildNamesOfHolder(_botAdjacentHolder);
-                var leftPossibleNames = GetAllChildNamesOfHolder(_leftAdjacentHolder);
-                
-                tileToSave.AddAdjacentTileData(Direction.Top,topPossibleNames);
-                tileToSave.AddAdjacentTileData(Direction.Right,rightPossibleNames);
-                tileToSave.AddAdjacentTileData(Direction.Bot,botPossibleNames);
-                tileToSave.AddAdjacentTileData(Direction.Left,leftPossibleNames);
-            }
-        }
-
-        private List<string> GetAllChildNamesOfHolder(Transform topAdjacentHolder)
-        {
-            var result = new List<string>();
-            if (transform.childCount == 0) return result;
-
-            foreach (Transform child in transform)
-            {
-                result.Add(child.gameObject.name);
-            }
-            return result;
-        }
-    }
-    
     public class TileMapEditorScreen : BaseUI
     {
         private DataBase _dataBase => Locator<DataBase>.Instance;
         private TileConfig _tileConfig;
-
+        [SerializeField] private AdjacentEditorPanel _adjacentEditorPanel;
+        
         [SerializeField] private List<Sprite> _tilemap;
 
         [SerializeField] private Transform chooserHolder;
@@ -160,9 +36,15 @@ namespace Game
             {
                 var newTile = Instantiate(tileItemPrefab, chooserHolder);
                 newTile.Setup(tileSprite,OnTileClicked);
+
+                if (_tileConfig.Contains(newTile.name))
+                {
+                    newTile.SetIsSelected(true);
+                    OnTileClicked(tileSprite, true);
+                }
             }
         }
-
+        
         private void OnTileClicked(Sprite spriteClicked, bool isSelected)
         {
             if(isSelected)
@@ -194,6 +76,11 @@ namespace Game
             {
                 _tileConfig.tileDatas.Add(new TileData(chosenTile.MainSprite));
             }
+        }
+
+        public void OnOpenAdjacentEditorClicked()
+        {
+            _adjacentEditorPanel.ShowAndSetup();
         }
     }
 }
