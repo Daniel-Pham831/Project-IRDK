@@ -57,6 +57,7 @@ namespace Maniac.DataBaseSystem
         {
             Id = sprite.name;
             MainSprite = sprite;
+            CreateAllDirections();
         }
 
         public void CreateAllDirections()

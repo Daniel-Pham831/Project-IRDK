@@ -20,6 +20,7 @@ namespace Game
         private List<TileInfoItem> _tilesInConfig = new List<TileInfoItem>();
 
         [SerializeField] private Transform _adjacentPickerHolder;
+        private List<TileInfoItem> _tilesForAdjacentSelection = new List<TileInfoItem>();
 
         [SerializeField] private Image mainImage;
         [SerializeField] private Transform _topAdjacentHolder;
@@ -59,14 +60,31 @@ namespace Game
         private void Setup()
         {
             _tileHolder.ClearAllChildren();
+            _adjacentPickerHolder.ClearAllChildren();
             _tilesInConfig.Clear();
+            _tilesForAdjacentSelection.Clear();
             
             foreach (var tileData in _tileConfig.tileDatas)
             {
                 var newTile = Instantiate(_tileInfoItemPrefab, _tileHolder);
                 newTile.Setup(tileData.MainSprite,OnTileInConfigChosen);
                 _tilesInConfig.Add(newTile);
+                
+                var newTileForAdjacent = Instantiate(_tileInfoItemPrefab, _adjacentPickerHolder);
+                newTileForAdjacent.Setup(tileData.MainSprite,OnTileForAdjacentChosen);
+                _tilesForAdjacentSelection.Add(newTileForAdjacent);
             }
+        }
+
+        private void OnTileForAdjacentChosen(Sprite sprite, bool isSelected)
+        {
+            if (isSelected)
+            {
+                
+                // _tilesForAdjacentSelection.Add(sprite);
+            }
+            else
+                // _tilesForAdjacentSelection.Remove(sprite);
         }
 
         private void OnTileInConfigChosen(Sprite sprite, bool isSelected)
@@ -152,6 +170,13 @@ namespace Game
                 result.Add(child.gameObject.name);
             }
             return result;
+        }
+
+        public void OnAdjacentTypeClicked(Direction direction)
+        {
+            foreach (var tileSprite in _tilesForAdjacentSelection)
+            {
+            }
         }
     }
 }
