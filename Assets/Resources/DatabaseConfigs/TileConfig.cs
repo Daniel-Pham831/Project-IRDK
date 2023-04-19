@@ -42,6 +42,21 @@ namespace Maniac.DataBaseSystem
         {
             return Find(id)?.Id == id;
         }
+
+        [Button]
+        public void ResetDirection()
+        {
+            foreach (var tileData in tileDatas)
+            {
+                tileData.AdjacentTileDatas[0].SetDirection(Direction.Top);
+                tileData.AdjacentTileDatas[1].SetDirection(Direction.Right);
+                tileData.AdjacentTileDatas[2].SetDirection(Direction.Bot);
+                tileData.AdjacentTileDatas[3].SetDirection(Direction.Left);
+            }
+            
+            //set this ScriptableObject as dirty
+            EditorUtility.SetDirty(this);
+        }
     }
     
     [Serializable]
@@ -94,13 +109,18 @@ namespace Maniac.DataBaseSystem
     public class AdjacentTileData
     {
         [Sirenix.OdinInspector.ReadOnly]
-        [ShowInInspector]
+        [SerializeField]
         private Direction _direction;
         
         public List<string> PossibleSprites;
         public Direction Direction => _direction;
         
         public AdjacentTileData(Direction direction)
+        {
+            _direction = direction;
+        }
+        
+        public void SetDirection(Direction direction)
         {
             _direction = direction;
         }
