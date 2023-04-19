@@ -212,17 +212,99 @@ MonoBehaviour:
   - Id: Tile-Dungeon_7
     MainSprite: {fileID: 1655394928, guid: e1487e686b4cf054e869cea79be05cbd, type: 3}
     AdjacentTileDatas:
-    - PossibleSprites: []
-    - PossibleSprites: []
-    - PossibleSprites: []
-    - PossibleSprites: []
+    - PossibleSprites:
+      - Tile-Dungeon_14
+      - Tile-Dungeon_28
+      - Tile-Dungeon_29
+      - Tile-Dungeon_40
+      - Tile-Dungeon_2
+    - PossibleSprites:
+      - Tile-Dungeon_7
+      - Tile-Dungeon_8
+      - Tile-Dungeon_14
+      - Tile-Dungeon_18
+      - Tile-Dungeon_19
+      - Tile-Dungeon_20
+      - Tile-Dungeon_28
+      - Tile-Dungeon_40
+      - Tile-Dungeon_29
+      - Tile-Dungeon_55
+      - Tile-Dungeon_15
+      - Tile-Dungeon_53
+      - Tile-Dungeon_16
+      - Tile-Dungeon_54
+      - Tile-Dungeon_45
+      - Tile-Dungeon_46
+      - Tile-Dungeon_47
+    - PossibleSprites:
+      - Tile-Dungeon_43
+      - Tile-Dungeon_31
+    - PossibleSprites:
+      - Tile-Dungeon_7
+      - Tile-Dungeon_8
+      - Tile-Dungeon_14
+      - Tile-Dungeon_13
+      - Tile-Dungeon_17
+      - Tile-Dungeon_18
+      - Tile-Dungeon_19
+      - Tile-Dungeon_20
+      - Tile-Dungeon_28
+      - Tile-Dungeon_29
+      - Tile-Dungeon_40
+      - Tile-Dungeon_45
+      - Tile-Dungeon_46
+      - Tile-Dungeon_47
+      - Tile-Dungeon_55
+      - Tile-Dungeon_54
+      - Tile-Dungeon_53
   - Id: Tile-Dungeon_8
     MainSprite: {fileID: 562232789, guid: e1487e686b4cf054e869cea79be05cbd, type: 3}
     AdjacentTileDatas:
-    - PossibleSprites: []
-    - PossibleSprites: []
-    - PossibleSprites: []
-    - PossibleSprites: []
+    - PossibleSprites:
+      - Tile-Dungeon_14
+      - Tile-Dungeon_28
+      - Tile-Dungeon_29
+      - Tile-Dungeon_40
+      - Tile-Dungeon_2
+    - PossibleSprites:
+      - Tile-Dungeon_7
+      - Tile-Dungeon_8
+      - Tile-Dungeon_14
+      - Tile-Dungeon_18
+      - Tile-Dungeon_19
+      - Tile-Dungeon_20
+      - Tile-Dungeon_28
+      - Tile-Dungeon_40
+      - Tile-Dungeon_29
+      - Tile-Dungeon_55
+      - Tile-Dungeon_15
+      - Tile-Dungeon_53
+      - Tile-Dungeon_16
+      - Tile-Dungeon_54
+      - Tile-Dungeon_45
+      - Tile-Dungeon_46
+      - Tile-Dungeon_47
+    - PossibleSprites:
+      - Tile-Dungeon_32
+      - Tile-Dungeon_44
+    - PossibleSprites:
+      - Tile-Dungeon_7
+      - Tile-Dungeon_8
+      - Tile-Dungeon_14
+      - Tile-Dungeon_13
+      - Tile-Dungeon_17
+      - Tile-Dungeon_18
+      - Tile-Dungeon_19
+      - Tile-Dungeon_20
+      - Tile-Dungeon_28
+      - Tile-Dungeon_29
+      - Tile-Dungeon_40
+      - Tile-Dungeon_45
+      - Tile-Dungeon_46
+      - Tile-Dungeon_47
+      - Tile-Dungeon_55
+      - Tile-Dungeon_54
+      - Tile-Dungeon_53
   - Id: Tile-Dungeon_12
     MainSprite: {fileID: 1513029318, guid: e1487e686b4cf054e869cea79be05cbd, type: 3}
     AdjacentTileDatas:
