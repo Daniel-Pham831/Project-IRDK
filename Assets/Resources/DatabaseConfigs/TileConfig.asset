@@ -381,68 +381,285 @@ MonoBehaviour:
     MainSprite: {fileID: -2093753325, guid: e1487e686b4cf054e869cea79be05cbd, type: 3}
     AdjacentTileDatas:
     - _direction: 0
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_5
+      - Tile-Dungeon_17
+      - Tile-Dungeon_1
+      - Tile-Dungeon_13
     - _direction: 1
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_14
+      - Tile-Dungeon_7
+      - Tile-Dungeon_8
+      - Tile-Dungeon_18
+      - Tile-Dungeon_19
+      - Tile-Dungeon_20
+      - Tile-Dungeon_28
+      - Tile-Dungeon_29
+      - Tile-Dungeon_40
+      - Tile-Dungeon_45
+      - Tile-Dungeon_46
+      - Tile-Dungeon_47
+      - Tile-Dungeon_55
+      - Tile-Dungeon_59
+      - Tile-Dungeon_71
+      - Tile-Dungeon_83
     - _direction: 2
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_13
+      - Tile-Dungeon_17
+      - Tile-Dungeon_25
     - _direction: 3
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_0
+      - Tile-Dungeon_3
+      - Tile-Dungeon_15
+      - Tile-Dungeon_24
+      - Tile-Dungeon_27
+      - Tile-Dungeon_12
   - Id: Tile-Dungeon_14
     MainSprite: {fileID: 846066885, guid: e1487e686b4cf054e869cea79be05cbd, type: 3}
     AdjacentTileDatas:
     - _direction: 0
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_14
+      - Tile-Dungeon_28
+      - Tile-Dungeon_29
+      - Tile-Dungeon_40
+      - Tile-Dungeon_2
     - _direction: 1
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_7
+      - Tile-Dungeon_8
+      - Tile-Dungeon_14
+      - Tile-Dungeon_15
+      - Tile-Dungeon_16
+      - Tile-Dungeon_18
+      - Tile-Dungeon_19
+      - Tile-Dungeon_20
+      - Tile-Dungeon_28
+      - Tile-Dungeon_29
+      - Tile-Dungeon_40
+      - Tile-Dungeon_45
+      - Tile-Dungeon_46
+      - Tile-Dungeon_47
+      - Tile-Dungeon_53
+      - Tile-Dungeon_54
+      - Tile-Dungeon_55
     - _direction: 2
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_14
+      - Tile-Dungeon_19
+      - Tile-Dungeon_20
+      - Tile-Dungeon_28
+      - Tile-Dungeon_29
+      - Tile-Dungeon_40
+      - Tile-Dungeon_45
+      - Tile-Dungeon_46
+      - Tile-Dungeon_47
+      - Tile-Dungeon_56
+      - Tile-Dungeon_68
+      - Tile-Dungeon_83
     - _direction: 3
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_7
+      - Tile-Dungeon_8
+      - Tile-Dungeon_14
+      - Tile-Dungeon_13
+      - Tile-Dungeon_17
+      - Tile-Dungeon_18
+      - Tile-Dungeon_19
+      - Tile-Dungeon_20
+      - Tile-Dungeon_28
+      - Tile-Dungeon_29
+      - Tile-Dungeon_40
+      - Tile-Dungeon_45
+      - Tile-Dungeon_46
+      - Tile-Dungeon_47
+      - Tile-Dungeon_53
+      - Tile-Dungeon_55
+      - Tile-Dungeon_54
   - Id: Tile-Dungeon_15
     MainSprite: {fileID: 1869106019, guid: e1487e686b4cf054e869cea79be05cbd, type: 3}
     AdjacentTileDatas:
     - _direction: 0
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_3
+      - Tile-Dungeon_4
+      - Tile-Dungeon_15
+      - Tile-Dungeon_16
     - _direction: 1
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_0
+      - Tile-Dungeon_1
+      - Tile-Dungeon_13
+      - Tile-Dungeon_24
+      - Tile-Dungeon_25
+      - Tile-Dungeon_12
     - _direction: 2
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_15
+      - Tile-Dungeon_16
+      - Tile-Dungeon_27
     - _direction: 3
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_7
+      - Tile-Dungeon_8
+      - Tile-Dungeon_14
+      - Tile-Dungeon_18
+      - Tile-Dungeon_19
+      - Tile-Dungeon_20
+      - Tile-Dungeon_28
+      - Tile-Dungeon_29
+      - Tile-Dungeon_40
+      - Tile-Dungeon_45
+      - Tile-Dungeon_46
+      - Tile-Dungeon_47
+      - Tile-Dungeon_53
+      - Tile-Dungeon_42
+      - Tile-Dungeon_48
+      - Tile-Dungeon_49
+      - Tile-Dungeon_59
+      - Tile-Dungeon_71
+      - Tile-Dungeon_83
+      - Tile-Dungeon_92
+      - Tile-Dungeon_95
+      - Tile-Dungeon_32
+      - Tile-Dungeon_31
+      - Tile-Dungeon_30
+      - Tile-Dungeon_43
+      - Tile-Dungeon_56
+      - Tile-Dungeon_68
+      - Tile-Dungeon_44
   - Id: Tile-Dungeon_16
     MainSprite: {fileID: 747326188, guid: e1487e686b4cf054e869cea79be05cbd, type: 3}
     AdjacentTileDatas:
     - _direction: 0
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_3
+      - Tile-Dungeon_4
+      - Tile-Dungeon_15
     - _direction: 1
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_2
+      - Tile-Dungeon_3
+      - Tile-Dungeon_6
+      - Tile-Dungeon_17
     - _direction: 2
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_53
     - _direction: 3
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_7
+      - Tile-Dungeon_8
+      - Tile-Dungeon_14
+      - Tile-Dungeon_18
+      - Tile-Dungeon_19
+      - Tile-Dungeon_20
+      - Tile-Dungeon_28
+      - Tile-Dungeon_29
+      - Tile-Dungeon_40
+      - Tile-Dungeon_45
+      - Tile-Dungeon_46
+      - Tile-Dungeon_47
+      - Tile-Dungeon_53
+      - Tile-Dungeon_42
+      - Tile-Dungeon_48
+      - Tile-Dungeon_49
+      - Tile-Dungeon_59
+      - Tile-Dungeon_71
+      - Tile-Dungeon_83
+      - Tile-Dungeon_92
+      - Tile-Dungeon_95
+      - Tile-Dungeon_32
+      - Tile-Dungeon_31
+      - Tile-Dungeon_30
+      - Tile-Dungeon_43
+      - Tile-Dungeon_56
+      - Tile-Dungeon_68
+      - Tile-Dungeon_44
   - Id: Tile-Dungeon_17
     MainSprite: {fileID: 1241834325, guid: e1487e686b4cf054e869cea79be05cbd, type: 3}
     AdjacentTileDatas:
     - _direction: 0
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_5
+      - Tile-Dungeon_1
+      - Tile-Dungeon_13
     - _direction: 1
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_14
+      - Tile-Dungeon_7
+      - Tile-Dungeon_8
+      - Tile-Dungeon_18
+      - Tile-Dungeon_19
+      - Tile-Dungeon_20
+      - Tile-Dungeon_28
+      - Tile-Dungeon_29
+      - Tile-Dungeon_40
+      - Tile-Dungeon_45
+      - Tile-Dungeon_46
+      - Tile-Dungeon_47
+      - Tile-Dungeon_55
+      - Tile-Dungeon_59
+      - Tile-Dungeon_71
+      - Tile-Dungeon_83
     - _direction: 2
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_55
     - _direction: 3
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_2
+      - Tile-Dungeon_16
+      - Tile-Dungeon_6
+      - Tile-Dungeon_1
   - Id: Tile-Dungeon_18
     MainSprite: {fileID: 1672902910, guid: e1487e686b4cf054e869cea79be05cbd, type: 3}
     AdjacentTileDatas:
     - _direction: 0
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_6
     - _direction: 1
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_7
+      - Tile-Dungeon_8
+      - Tile-Dungeon_15
+      - Tile-Dungeon_16
+      - Tile-Dungeon_14
+      - Tile-Dungeon_20
+      - Tile-Dungeon_18
+      - Tile-Dungeon_19
+      - Tile-Dungeon_28
+      - Tile-Dungeon_29
+      - Tile-Dungeon_40
+      - Tile-Dungeon_53
+      - Tile-Dungeon_54
+      - Tile-Dungeon_55
+      - Tile-Dungeon_45
+      - Tile-Dungeon_46
+      - Tile-Dungeon_47
     - _direction: 2
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_30
     - _direction: 3
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_7
+      - Tile-Dungeon_8
+      - Tile-Dungeon_14
+      - Tile-Dungeon_13
+      - Tile-Dungeon_17
+      - Tile-Dungeon_18
+      - Tile-Dungeon_19
+      - Tile-Dungeon_20
+      - Tile-Dungeon_28
+      - Tile-Dungeon_29
+      - Tile-Dungeon_40
+      - Tile-Dungeon_45
+      - Tile-Dungeon_46
+      - Tile-Dungeon_47
+      - Tile-Dungeon_53
+      - Tile-Dungeon_54
+      - Tile-Dungeon_55
   - Id: Tile-Dungeon_19
     MainSprite: {fileID: -1370881204, guid: e1487e686b4cf054e869cea79be05cbd, type: 3}
     AdjacentTileDatas:
@@ -587,200 +804,825 @@ MonoBehaviour:
     MainSprite: {fileID: -816920996, guid: e1487e686b4cf054e869cea79be05cbd, type: 3}
     AdjacentTileDatas:
     - _direction: 0
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_1
+      - Tile-Dungeon_5
+      - Tile-Dungeon_13
     - _direction: 1
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_5
+      - Tile-Dungeon_26
+      - Tile-Dungeon_27
     - _direction: 2
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_0
+      - Tile-Dungeon_1
+      - Tile-Dungeon_2
+      - Tile-Dungeon_3
+      - Tile-Dungeon_12
+      - Tile-Dungeon_6
+      - Tile-Dungeon_24
     - _direction: 3
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_0
+      - Tile-Dungeon_3
+      - Tile-Dungeon_12
+      - Tile-Dungeon_27
+      - Tile-Dungeon_24
+      - Tile-Dungeon_15
   - Id: Tile-Dungeon_26
     MainSprite: {fileID: -1671372705, guid: e1487e686b4cf054e869cea79be05cbd, type: 3}
     AdjacentTileDatas:
     - _direction: 0
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_30
+      - Tile-Dungeon_42
+      - Tile-Dungeon_43
+      - Tile-Dungeon_32
+      - Tile-Dungeon_31
+      - Tile-Dungeon_44
+      - Tile-Dungeon_48
+      - Tile-Dungeon_49
+      - Tile-Dungeon_56
+      - Tile-Dungeon_68
+      - Tile-Dungeon_92
+      - Tile-Dungeon_93
     - _direction: 1
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_5
+      - Tile-Dungeon_26
+      - Tile-Dungeon_27
     - _direction: 2
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_0
+      - Tile-Dungeon_1
+      - Tile-Dungeon_2
+      - Tile-Dungeon_3
+      - Tile-Dungeon_6
+      - Tile-Dungeon_12
+      - Tile-Dungeon_24
     - _direction: 3
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_4
+      - Tile-Dungeon_25
+      - Tile-Dungeon_26
   - Id: Tile-Dungeon_27
     MainSprite: {fileID: -1647037502, guid: e1487e686b4cf054e869cea79be05cbd, type: 3}
     AdjacentTileDatas:
     - _direction: 0
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_3
+      - Tile-Dungeon_15
+      - Tile-Dungeon_4
     - _direction: 1
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_0
+      - Tile-Dungeon_1
+      - Tile-Dungeon_12
+      - Tile-Dungeon_13
+      - Tile-Dungeon_24
+      - Tile-Dungeon_25
     - _direction: 2
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_0
+      - Tile-Dungeon_1
+      - Tile-Dungeon_2
+      - Tile-Dungeon_3
+      - Tile-Dungeon_12
+      - Tile-Dungeon_6
+      - Tile-Dungeon_24
     - _direction: 3
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_4
+      - Tile-Dungeon_26
+      - Tile-Dungeon_25
   - Id: Tile-Dungeon_28
     MainSprite: {fileID: -790920592, guid: e1487e686b4cf054e869cea79be05cbd, type: 3}
     AdjacentTileDatas:
     - _direction: 0
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_14
+      - Tile-Dungeon_28
+      - Tile-Dungeon_29
+      - Tile-Dungeon_40
+      - Tile-Dungeon_2
     - _direction: 1
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_7
+      - Tile-Dungeon_8
+      - Tile-Dungeon_14
+      - Tile-Dungeon_15
+      - Tile-Dungeon_16
+      - Tile-Dungeon_18
+      - Tile-Dungeon_19
+      - Tile-Dungeon_20
+      - Tile-Dungeon_28
+      - Tile-Dungeon_29
+      - Tile-Dungeon_40
+      - Tile-Dungeon_45
+      - Tile-Dungeon_46
+      - Tile-Dungeon_47
+      - Tile-Dungeon_55
+      - Tile-Dungeon_54
+      - Tile-Dungeon_53
     - _direction: 2
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_14
+      - Tile-Dungeon_7
+      - Tile-Dungeon_8
+      - Tile-Dungeon_19
+      - Tile-Dungeon_20
+      - Tile-Dungeon_28
+      - Tile-Dungeon_29
+      - Tile-Dungeon_40
+      - Tile-Dungeon_45
+      - Tile-Dungeon_46
+      - Tile-Dungeon_47
     - _direction: 3
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_8
+      - Tile-Dungeon_7
+      - Tile-Dungeon_14
+      - Tile-Dungeon_18
+      - Tile-Dungeon_19
+      - Tile-Dungeon_20
+      - Tile-Dungeon_28
+      - Tile-Dungeon_29
+      - Tile-Dungeon_40
+      - Tile-Dungeon_45
+      - Tile-Dungeon_46
+      - Tile-Dungeon_47
+      - Tile-Dungeon_55
+      - Tile-Dungeon_54
+      - Tile-Dungeon_53
+      - Tile-Dungeon_13
+      - Tile-Dungeon_17
   - Id: Tile-Dungeon_29
     MainSprite: {fileID: 1594498400, guid: e1487e686b4cf054e869cea79be05cbd, type: 3}
     AdjacentTileDatas:
     - _direction: 0
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_14
+      - Tile-Dungeon_28
+      - Tile-Dungeon_29
+      - Tile-Dungeon_40
+      - Tile-Dungeon_2
     - _direction: 1
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_7
+      - Tile-Dungeon_8
+      - Tile-Dungeon_14
+      - Tile-Dungeon_15
+      - Tile-Dungeon_16
+      - Tile-Dungeon_18
+      - Tile-Dungeon_19
+      - Tile-Dungeon_20
+      - Tile-Dungeon_28
+      - Tile-Dungeon_29
+      - Tile-Dungeon_40
+      - Tile-Dungeon_45
+      - Tile-Dungeon_46
+      - Tile-Dungeon_47
+      - Tile-Dungeon_55
+      - Tile-Dungeon_54
+      - Tile-Dungeon_53
     - _direction: 2
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_14
+      - Tile-Dungeon_7
+      - Tile-Dungeon_8
+      - Tile-Dungeon_19
+      - Tile-Dungeon_20
+      - Tile-Dungeon_28
+      - Tile-Dungeon_29
+      - Tile-Dungeon_40
+      - Tile-Dungeon_45
+      - Tile-Dungeon_46
+      - Tile-Dungeon_47
     - _direction: 3
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_8
+      - Tile-Dungeon_7
+      - Tile-Dungeon_14
+      - Tile-Dungeon_18
+      - Tile-Dungeon_19
+      - Tile-Dungeon_20
+      - Tile-Dungeon_28
+      - Tile-Dungeon_29
+      - Tile-Dungeon_40
+      - Tile-Dungeon_45
+      - Tile-Dungeon_46
+      - Tile-Dungeon_47
+      - Tile-Dungeon_55
+      - Tile-Dungeon_54
+      - Tile-Dungeon_53
+      - Tile-Dungeon_13
+      - Tile-Dungeon_17
   - Id: Tile-Dungeon_30
     MainSprite: {fileID: 474441025, guid: e1487e686b4cf054e869cea79be05cbd, type: 3}
     AdjacentTileDatas:
     - _direction: 0
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_18
     - _direction: 1
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_30
+      - Tile-Dungeon_43
+      - Tile-Dungeon_31
+      - Tile-Dungeon_32
+      - Tile-Dungeon_44
+      - Tile-Dungeon_15
+      - Tile-Dungeon_16
+      - Tile-Dungeon_53
+      - Tile-Dungeon_54
+      - Tile-Dungeon_56
+      - Tile-Dungeon_68
+      - Tile-Dungeon_80
+      - Tile-Dungeon_92
     - _direction: 2
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_49
+      - Tile-Dungeon_48
+      - Tile-Dungeon_58
+      - Tile-Dungeon_68
+      - Tile-Dungeon_94
+      - Tile-Dungeon_95
+      - Tile-Dungeon_70
+      - Tile-Dungeon_4
+      - Tile-Dungeon_5
+      - Tile-Dungeon_42
+      - Tile-Dungeon_26
     - _direction: 3
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_30
+      - Tile-Dungeon_43
+      - Tile-Dungeon_32
+      - Tile-Dungeon_31
+      - Tile-Dungeon_44
+      - Tile-Dungeon_56
+      - Tile-Dungeon_68
+      - Tile-Dungeon_93
+      - Tile-Dungeon_83
   - Id: Tile-Dungeon_31
     MainSprite: {fileID: -1178520172, guid: e1487e686b4cf054e869cea79be05cbd, type: 3}
     AdjacentTileDatas:
     - _direction: 0
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_7
+      - Tile-Dungeon_19
     - _direction: 1
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_30
+      - Tile-Dungeon_32
+      - Tile-Dungeon_31
+      - Tile-Dungeon_43
+      - Tile-Dungeon_44
+      - Tile-Dungeon_56
+      - Tile-Dungeon_15
+      - Tile-Dungeon_16
+      - Tile-Dungeon_68
+      - Tile-Dungeon_92
+      - Tile-Dungeon_80
+      - Tile-Dungeon_53
+      - Tile-Dungeon_54
     - _direction: 2
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_4
+      - Tile-Dungeon_5
+      - Tile-Dungeon_26
+      - Tile-Dungeon_49
+      - Tile-Dungeon_42
+      - Tile-Dungeon_48
+      - Tile-Dungeon_58
+      - Tile-Dungeon_94
+      - Tile-Dungeon_95
     - _direction: 3
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_30
+      - Tile-Dungeon_43
+      - Tile-Dungeon_32
+      - Tile-Dungeon_31
+      - Tile-Dungeon_44
+      - Tile-Dungeon_56
+      - Tile-Dungeon_68
+      - Tile-Dungeon_83
+      - Tile-Dungeon_93
   - Id: Tile-Dungeon_32
     MainSprite: {fileID: -743208529, guid: e1487e686b4cf054e869cea79be05cbd, type: 3}
     AdjacentTileDatas:
     - _direction: 0
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_20
+      - Tile-Dungeon_8
     - _direction: 1
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_30
+      - Tile-Dungeon_32
+      - Tile-Dungeon_31
+      - Tile-Dungeon_43
+      - Tile-Dungeon_44
+      - Tile-Dungeon_56
+      - Tile-Dungeon_15
+      - Tile-Dungeon_16
+      - Tile-Dungeon_68
+      - Tile-Dungeon_92
+      - Tile-Dungeon_80
+      - Tile-Dungeon_53
+      - Tile-Dungeon_54
     - _direction: 2
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_4
+      - Tile-Dungeon_5
+      - Tile-Dungeon_26
+      - Tile-Dungeon_49
+      - Tile-Dungeon_42
+      - Tile-Dungeon_48
+      - Tile-Dungeon_58
+      - Tile-Dungeon_94
+      - Tile-Dungeon_95
     - _direction: 3
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_30
+      - Tile-Dungeon_43
+      - Tile-Dungeon_32
+      - Tile-Dungeon_31
+      - Tile-Dungeon_44
+      - Tile-Dungeon_56
+      - Tile-Dungeon_68
+      - Tile-Dungeon_83
+      - Tile-Dungeon_93
   - Id: Tile-Dungeon_40
     MainSprite: {fileID: 1136526861, guid: e1487e686b4cf054e869cea79be05cbd, type: 3}
     AdjacentTileDatas:
     - _direction: 0
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_14
+      - Tile-Dungeon_28
+      - Tile-Dungeon_29
+      - Tile-Dungeon_40
+      - Tile-Dungeon_2
     - _direction: 1
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_7
+      - Tile-Dungeon_8
+      - Tile-Dungeon_14
+      - Tile-Dungeon_15
+      - Tile-Dungeon_16
+      - Tile-Dungeon_18
+      - Tile-Dungeon_19
+      - Tile-Dungeon_20
+      - Tile-Dungeon_28
+      - Tile-Dungeon_29
+      - Tile-Dungeon_40
+      - Tile-Dungeon_45
+      - Tile-Dungeon_46
+      - Tile-Dungeon_47
+      - Tile-Dungeon_55
+      - Tile-Dungeon_54
+      - Tile-Dungeon_53
     - _direction: 2
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_14
+      - Tile-Dungeon_7
+      - Tile-Dungeon_8
+      - Tile-Dungeon_19
+      - Tile-Dungeon_20
+      - Tile-Dungeon_28
+      - Tile-Dungeon_29
+      - Tile-Dungeon_40
+      - Tile-Dungeon_45
+      - Tile-Dungeon_46
+      - Tile-Dungeon_47
     - _direction: 3
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_8
+      - Tile-Dungeon_7
+      - Tile-Dungeon_14
+      - Tile-Dungeon_18
+      - Tile-Dungeon_19
+      - Tile-Dungeon_20
+      - Tile-Dungeon_28
+      - Tile-Dungeon_29
+      - Tile-Dungeon_40
+      - Tile-Dungeon_45
+      - Tile-Dungeon_46
+      - Tile-Dungeon_47
+      - Tile-Dungeon_55
+      - Tile-Dungeon_54
+      - Tile-Dungeon_53
+      - Tile-Dungeon_13
+      - Tile-Dungeon_17
   - Id: Tile-Dungeon_42
     MainSprite: {fileID: -91946152, guid: e1487e686b4cf054e869cea79be05cbd, type: 3}
     AdjacentTileDatas:
     - _direction: 0
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_30
+      - Tile-Dungeon_42
+      - Tile-Dungeon_43
+      - Tile-Dungeon_32
+      - Tile-Dungeon_31
+      - Tile-Dungeon_44
+      - Tile-Dungeon_48
+      - Tile-Dungeon_49
+      - Tile-Dungeon_56
+      - Tile-Dungeon_68
+      - Tile-Dungeon_92
+      - Tile-Dungeon_93
     - _direction: 1
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_42
+      - Tile-Dungeon_48
+      - Tile-Dungeon_49
+      - Tile-Dungeon_57
+      - Tile-Dungeon_69
+      - Tile-Dungeon_93
+      - Tile-Dungeon_94
     - _direction: 2
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_42
+      - Tile-Dungeon_4
+      - Tile-Dungeon_5
+      - Tile-Dungeon_26
+      - Tile-Dungeon_48
+      - Tile-Dungeon_49
+      - Tile-Dungeon_58
+      - Tile-Dungeon_94
+      - Tile-Dungeon_95
+      - Tile-Dungeon_70
     - _direction: 3
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_42
+      - Tile-Dungeon_48
+      - Tile-Dungeon_49
+      - Tile-Dungeon_59
+      - Tile-Dungeon_71
+      - Tile-Dungeon_92
+      - Tile-Dungeon_95
   - Id: Tile-Dungeon_43
     MainSprite: {fileID: -1799234762, guid: e1487e686b4cf054e869cea79be05cbd, type: 3}
     AdjacentTileDatas:
     - _direction: 0
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_7
+      - Tile-Dungeon_19
     - _direction: 1
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_30
+      - Tile-Dungeon_32
+      - Tile-Dungeon_31
+      - Tile-Dungeon_43
+      - Tile-Dungeon_44
+      - Tile-Dungeon_56
+      - Tile-Dungeon_15
+      - Tile-Dungeon_16
+      - Tile-Dungeon_68
+      - Tile-Dungeon_92
+      - Tile-Dungeon_80
+      - Tile-Dungeon_53
+      - Tile-Dungeon_54
     - _direction: 2
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_4
+      - Tile-Dungeon_5
+      - Tile-Dungeon_26
+      - Tile-Dungeon_49
+      - Tile-Dungeon_42
+      - Tile-Dungeon_48
+      - Tile-Dungeon_58
+      - Tile-Dungeon_94
+      - Tile-Dungeon_95
     - _direction: 3
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_30
+      - Tile-Dungeon_43
+      - Tile-Dungeon_32
+      - Tile-Dungeon_31
+      - Tile-Dungeon_44
+      - Tile-Dungeon_56
+      - Tile-Dungeon_68
+      - Tile-Dungeon_83
+      - Tile-Dungeon_93
   - Id: Tile-Dungeon_44
     MainSprite: {fileID: 284206721, guid: e1487e686b4cf054e869cea79be05cbd, type: 3}
     AdjacentTileDatas:
     - _direction: 0
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_20
+      - Tile-Dungeon_8
     - _direction: 1
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_30
+      - Tile-Dungeon_32
+      - Tile-Dungeon_31
+      - Tile-Dungeon_43
+      - Tile-Dungeon_44
+      - Tile-Dungeon_56
+      - Tile-Dungeon_15
+      - Tile-Dungeon_16
+      - Tile-Dungeon_68
+      - Tile-Dungeon_92
+      - Tile-Dungeon_80
+      - Tile-Dungeon_53
+      - Tile-Dungeon_54
     - _direction: 2
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_4
+      - Tile-Dungeon_5
+      - Tile-Dungeon_26
+      - Tile-Dungeon_49
+      - Tile-Dungeon_42
+      - Tile-Dungeon_48
+      - Tile-Dungeon_58
+      - Tile-Dungeon_94
+      - Tile-Dungeon_95
     - _direction: 3
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_30
+      - Tile-Dungeon_43
+      - Tile-Dungeon_32
+      - Tile-Dungeon_31
+      - Tile-Dungeon_44
+      - Tile-Dungeon_56
+      - Tile-Dungeon_68
+      - Tile-Dungeon_83
+      - Tile-Dungeon_93
   - Id: Tile-Dungeon_45
     MainSprite: {fileID: -1137682174, guid: e1487e686b4cf054e869cea79be05cbd, type: 3}
     AdjacentTileDatas:
     - _direction: 0
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_2
+      - Tile-Dungeon_14
+      - Tile-Dungeon_28
+      - Tile-Dungeon_29
+      - Tile-Dungeon_40
     - _direction: 1
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_7
+      - Tile-Dungeon_8
+      - Tile-Dungeon_15
+      - Tile-Dungeon_16
+      - Tile-Dungeon_14
+      - Tile-Dungeon_18
+      - Tile-Dungeon_19
+      - Tile-Dungeon_20
+      - Tile-Dungeon_28
+      - Tile-Dungeon_29
+      - Tile-Dungeon_40
+      - Tile-Dungeon_45
+      - Tile-Dungeon_46
+      - Tile-Dungeon_53
+      - Tile-Dungeon_54
+      - Tile-Dungeon_55
     - _direction: 2
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_56
+      - Tile-Dungeon_68
+      - Tile-Dungeon_83
     - _direction: 3
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_8
+      - Tile-Dungeon_7
+      - Tile-Dungeon_14
+      - Tile-Dungeon_18
+      - Tile-Dungeon_19
+      - Tile-Dungeon_20
+      - Tile-Dungeon_28
+      - Tile-Dungeon_29
+      - Tile-Dungeon_40
+      - Tile-Dungeon_47
+      - Tile-Dungeon_45
+      - Tile-Dungeon_55
+      - Tile-Dungeon_54
+      - Tile-Dungeon_53
   - Id: Tile-Dungeon_46
     MainSprite: {fileID: -1198104963, guid: e1487e686b4cf054e869cea79be05cbd, type: 3}
     AdjacentTileDatas:
     - _direction: 0
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_2
+      - Tile-Dungeon_14
+      - Tile-Dungeon_28
+      - Tile-Dungeon_29
+      - Tile-Dungeon_40
     - _direction: 1
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_47
     - _direction: 2
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_56
+      - Tile-Dungeon_68
+      - Tile-Dungeon_83
     - _direction: 3
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_7
+      - Tile-Dungeon_8
+      - Tile-Dungeon_14
+      - Tile-Dungeon_18
+      - Tile-Dungeon_19
+      - Tile-Dungeon_20
+      - Tile-Dungeon_40
+      - Tile-Dungeon_28
+      - Tile-Dungeon_29
+      - Tile-Dungeon_45
+      - Tile-Dungeon_55
+      - Tile-Dungeon_54
+      - Tile-Dungeon_53
   - Id: Tile-Dungeon_47
     MainSprite: {fileID: 748746942, guid: e1487e686b4cf054e869cea79be05cbd, type: 3}
     AdjacentTileDatas:
     - _direction: 0
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_2
+      - Tile-Dungeon_14
+      - Tile-Dungeon_28
+      - Tile-Dungeon_29
+      - Tile-Dungeon_40
     - _direction: 1
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_15
+      - Tile-Dungeon_16
+      - Tile-Dungeon_7
+      - Tile-Dungeon_8
+      - Tile-Dungeon_14
+      - Tile-Dungeon_18
+      - Tile-Dungeon_20
+      - Tile-Dungeon_19
+      - Tile-Dungeon_28
+      - Tile-Dungeon_29
+      - Tile-Dungeon_40
+      - Tile-Dungeon_55
+      - Tile-Dungeon_54
+      - Tile-Dungeon_53
     - _direction: 2
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_56
+      - Tile-Dungeon_83
+      - Tile-Dungeon_68
     - _direction: 3
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_46
   - Id: Tile-Dungeon_48
     MainSprite: {fileID: -176314983, guid: e1487e686b4cf054e869cea79be05cbd, type: 3}
     AdjacentTileDatas:
     - _direction: 0
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_30
+      - Tile-Dungeon_31
+      - Tile-Dungeon_32
+      - Tile-Dungeon_42
+      - Tile-Dungeon_43
+      - Tile-Dungeon_44
+      - Tile-Dungeon_48
+      - Tile-Dungeon_56
+      - Tile-Dungeon_49
+      - Tile-Dungeon_68
+      - Tile-Dungeon_92
+      - Tile-Dungeon_93
     - _direction: 1
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_42
+      - Tile-Dungeon_48
+      - Tile-Dungeon_49
+      - Tile-Dungeon_57
+      - Tile-Dungeon_69
+      - Tile-Dungeon_93
+      - Tile-Dungeon_94
+      - Tile-Dungeon_15
+      - Tile-Dungeon_16
+      - Tile-Dungeon_53
+      - Tile-Dungeon_54
     - _direction: 2
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_42
+      - Tile-Dungeon_4
+      - Tile-Dungeon_5
+      - Tile-Dungeon_48
+      - Tile-Dungeon_49
+      - Tile-Dungeon_58
+      - Tile-Dungeon_70
+      - Tile-Dungeon_94
+      - Tile-Dungeon_95
+      - Tile-Dungeon_26
     - _direction: 3
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_42
+      - Tile-Dungeon_48
+      - Tile-Dungeon_49
+      - Tile-Dungeon_59
+      - Tile-Dungeon_71
+      - Tile-Dungeon_92
+      - Tile-Dungeon_95
   - Id: Tile-Dungeon_49
     MainSprite: {fileID: 486410526, guid: e1487e686b4cf054e869cea79be05cbd, type: 3}
     AdjacentTileDatas:
     - _direction: 0
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_30
+      - Tile-Dungeon_31
+      - Tile-Dungeon_32
+      - Tile-Dungeon_42
+      - Tile-Dungeon_43
+      - Tile-Dungeon_44
+      - Tile-Dungeon_48
+      - Tile-Dungeon_56
+      - Tile-Dungeon_49
+      - Tile-Dungeon_68
+      - Tile-Dungeon_92
+      - Tile-Dungeon_93
     - _direction: 1
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_42
+      - Tile-Dungeon_48
+      - Tile-Dungeon_49
+      - Tile-Dungeon_57
+      - Tile-Dungeon_69
+      - Tile-Dungeon_93
+      - Tile-Dungeon_94
+      - Tile-Dungeon_15
+      - Tile-Dungeon_16
+      - Tile-Dungeon_53
+      - Tile-Dungeon_54
     - _direction: 2
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_42
+      - Tile-Dungeon_4
+      - Tile-Dungeon_5
+      - Tile-Dungeon_48
+      - Tile-Dungeon_49
+      - Tile-Dungeon_58
+      - Tile-Dungeon_70
+      - Tile-Dungeon_94
+      - Tile-Dungeon_95
+      - Tile-Dungeon_26
     - _direction: 3
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_42
+      - Tile-Dungeon_48
+      - Tile-Dungeon_49
+      - Tile-Dungeon_59
+      - Tile-Dungeon_71
+      - Tile-Dungeon_92
+      - Tile-Dungeon_95
   - Id: Tile-Dungeon_53
     MainSprite: {fileID: -1908106819, guid: e1487e686b4cf054e869cea79be05cbd, type: 3}
     AdjacentTileDatas:
     - _direction: 0
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_16
+      - Tile-Dungeon_53
     - _direction: 1
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_7
+      - Tile-Dungeon_8
+      - Tile-Dungeon_14
+      - Tile-Dungeon_15
+      - Tile-Dungeon_16
+      - Tile-Dungeon_18
+      - Tile-Dungeon_28
+      - Tile-Dungeon_20
+      - Tile-Dungeon_19
+      - Tile-Dungeon_29
+      - Tile-Dungeon_40
+      - Tile-Dungeon_45
+      - Tile-Dungeon_46
+      - Tile-Dungeon_53
+      - Tile-Dungeon_54
+      - Tile-Dungeon_55
     - _direction: 2
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_53
+      - Tile-Dungeon_56
+      - Tile-Dungeon_68
+      - Tile-Dungeon_83
     - _direction: 3
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_30
+      - Tile-Dungeon_14
+      - Tile-Dungeon_7
+      - Tile-Dungeon_8
+      - Tile-Dungeon_18
+      - Tile-Dungeon_19
+      - Tile-Dungeon_20
+      - Tile-Dungeon_28
+      - Tile-Dungeon_29
+      - Tile-Dungeon_40
+      - Tile-Dungeon_45
+      - Tile-Dungeon_43
+      - Tile-Dungeon_44
+      - Tile-Dungeon_31
+      - Tile-Dungeon_32
+      - Tile-Dungeon_56
+      - Tile-Dungeon_68
+      - Tile-Dungeon_48
+      - Tile-Dungeon_42
+      - Tile-Dungeon_49
+      - Tile-Dungeon_95
+      - Tile-Dungeon_92
+      - Tile-Dungeon_83
+      - Tile-Dungeon_71
+      - Tile-Dungeon_59
   - Id: Tile-Dungeon_54
     MainSprite: {fileID: -447879965, guid: e1487e686b4cf054e869cea79be05cbd, type: 3}
     AdjacentTileDatas:
