@@ -1169,6 +1169,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2379049164718650944, guid: 2f7c3bd3269c99544b632064bf6552ff, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2379049164718650944, guid: 2f7c3bd3269c99544b632064bf6552ff, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2379049164718650944, guid: 2f7c3bd3269c99544b632064bf6552ff, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2379049164718650944, guid: 2f7c3bd3269c99544b632064bf6552ff, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 120.08
+      objectReference: {fileID: 0}
+    - target: {fileID: 2379049164718650944, guid: 2f7c3bd3269c99544b632064bf6552ff, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 51.034
+      objectReference: {fileID: 0}
+    - target: {fileID: 2379049164718650944, guid: 2f7c3bd3269c99544b632064bf6552ff, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -60.04
+      objectReference: {fileID: 0}
     - target: {fileID: 3050946554619188314, guid: 2f7c3bd3269c99544b632064bf6552ff, type: 3}
       propertyPath: m_Name
       value: AdjecentEditorPanel
@@ -1181,6 +1205,18 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4505397361600407900, guid: 2f7c3bd3269c99544b632064bf6552ff, type: 3}
+      propertyPath: m_Alpha
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4505397361600407900, guid: 2f7c3bd3269c99544b632064bf6552ff, type: 3}
+      propertyPath: m_Interactable
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4505397361600407900, guid: 2f7c3bd3269c99544b632064bf6552ff, type: 3}
+      propertyPath: m_BlocksRaycasts
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4842056195508640994, guid: 2f7c3bd3269c99544b632064bf6552ff, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -1203,6 +1239,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7038245046475016453, guid: 2f7c3bd3269c99544b632064bf6552ff, type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8420671075092834366, guid: 2f7c3bd3269c99544b632064bf6552ff, type: 3}
+      propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9181894678384779372, guid: 2f7c3bd3269c99544b632064bf6552ff, type: 3}

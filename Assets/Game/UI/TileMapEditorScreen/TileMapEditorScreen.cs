@@ -72,9 +72,11 @@ namespace Game
         public void OnSaveToConfigClicked()
         {
             _tileConfig.tileDatas.Clear();
+            _tileConfig.usableSprites.Clear();
             foreach (var chosenTile in chosenTiles)
             {
                 _tileConfig.tileDatas.Add(new TileData(chosenTile.MainSprite));
+                _tileConfig.usableSprites.Add(chosenTile.MainSprite);
             }
         }
 

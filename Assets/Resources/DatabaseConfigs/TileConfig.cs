@@ -1,17 +1,24 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
 using Maniac;
 using Sirenix.OdinInspector;
+using Unity.VisualScripting;
+using UnityEditor;
 
 namespace Maniac.DataBaseSystem
 {
     public class TileConfig : DataBaseConfig
     {
+        [ListDrawerSettings(Expanded = true)]
         public List<TileData> tileDatas;
         private Dictionary<string, TileData> _tileDatasCache = new Dictionary<string, TileData>();
+        
+        [ListDrawerSettings(DraggableItems = false)]
+        public List<Sprite> usableSprites;
 
         public TileData Find(string id)
         {
@@ -49,7 +56,11 @@ namespace Maniac.DataBaseSystem
     [Serializable]
     public class TileData
     {
+        [Sirenix.OdinInspector.ReadOnly]
+        [ShowInInspector]
         public string Id;
+        
+        [PreviewField(40,ObjectFieldAlignment.Left)]
         public Sprite MainSprite;
         public List<AdjacentTileData> AdjacentTileDatas;
 
