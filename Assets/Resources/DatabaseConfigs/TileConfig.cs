@@ -8,6 +8,7 @@ using Maniac;
 using Sirenix.OdinInspector;
 using Unity.VisualScripting;
 using UnityEditor;
+using Random = UnityEngine.Random;
 
 namespace Maniac.DataBaseSystem
 {
@@ -16,11 +17,17 @@ namespace Maniac.DataBaseSystem
         [ListDrawerSettings(Expanded = true)]
         public List<TileData> tileDatas;
         private Dictionary<string, TileData> _tileDatasCache = new Dictionary<string, TileData>();
-        
+        private Dictionary<(string,Direction),List<string>> _possibleSpritesOfATilesAtDirection = new Dictionary<(string, Direction), List<string>>();
+
         [ListDrawerSettings(DraggableItems = false)]
         public List<Sprite> usableSprites;
 
         private List<string> usableSpriteNames = new List<string>();
+        
+        public string GetRandomSpriteName()
+        {
+            return tileDatas[Random.Range(0, usableSpriteNames.Count)].Id;
+        }
 
         public TileData Find(string id)
         {
@@ -38,6 +45,54 @@ namespace Maniac.DataBaseSystem
             }
             
             return _tileDatasCache[id];
+        }
+
+        // we should cache it
+        public AdjacentTileData GetAdjacentTileDataOfDirection(string tileName, Direction direction)
+        {
+            var tileData = Find(tileName);
+            if (tileData == null)
+            {
+                return null;
+            }
+
+            return tileData.AdjacentTileDatas.FirstOrDefault(x => x.Direction == direction);
+        }
+        
+        // Get the list of possibleSprite of a AdjacentTileData at the direction
+        // We should cache it so that we don't need to search it every time
+        public List<string> GetPossibleSpritesOfATilesAtDirection(string tileName, Direction direction)
+        {
+            var key = (tileName, direction);
+            if (!_possibleSpritesOfATilesAtDirection.ContainsKey(key))
+            {
+                var adjacentTileData = GetAdjacentTileDataOfDirection(tileName, direction);
+                if (adjacentTileData == null)
+                {
+                    return null;
+                }
+
+                _possibleSpritesOfATilesAtDirection.Add(key, adjacentTileData.PossibleSprites);
+            }
+
+            return _possibleSpritesOfATilesAtDirection[key];
+        }
+       
+
+
+        public List<string> GetAllSpriteNames()
+        {
+            if (usableSpriteNames == null || usableSpriteNames.Count != tileDatas.Count)
+            {
+                usableSpriteNames ??= new List<string>();
+                usableSpriteNames.Clear();
+                foreach (var tileData in tileDatas)
+                {
+                    usableSpriteNames.Add(tileData.Id);
+                }
+            }
+
+            return usableSpriteNames;
         }
 
         public bool Contains(string id)
