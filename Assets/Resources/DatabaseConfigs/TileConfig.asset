@@ -106,9 +106,6 @@ MonoBehaviour:
       - Tile-Dungeon_28
       - Tile-Dungeon_29
       - Tile-Dungeon_40
-      - Tile-Dungeon_45
-      - Tile-Dungeon_46
-      - Tile-Dungeon_47
     - _direction: 3
       PossibleSprites:
       - Tile-Dungeon_1
@@ -161,7 +158,6 @@ MonoBehaviour:
       - Tile-Dungeon_56
       - Tile-Dungeon_68
       - Tile-Dungeon_92
-      - Tile-Dungeon_93
     - _direction: 1
       PossibleSprites:
       - Tile-Dungeon_5
@@ -197,7 +193,6 @@ MonoBehaviour:
       - Tile-Dungeon_56
       - Tile-Dungeon_68
       - Tile-Dungeon_92
-      - Tile-Dungeon_93
     - _direction: 1
       PossibleSprites:
       - Tile-Dungeon_95
@@ -262,10 +257,6 @@ MonoBehaviour:
       - Tile-Dungeon_15
       - Tile-Dungeon_53
       - Tile-Dungeon_16
-      - Tile-Dungeon_54
-      - Tile-Dungeon_45
-      - Tile-Dungeon_46
-      - Tile-Dungeon_47
     - _direction: 2
       PossibleSprites:
       - Tile-Dungeon_43
@@ -283,11 +274,7 @@ MonoBehaviour:
       - Tile-Dungeon_28
       - Tile-Dungeon_29
       - Tile-Dungeon_40
-      - Tile-Dungeon_45
-      - Tile-Dungeon_46
-      - Tile-Dungeon_47
       - Tile-Dungeon_55
-      - Tile-Dungeon_54
       - Tile-Dungeon_53
   - Id: Tile-Dungeon_8
     MainSprite: {fileID: 562232789, guid: e1487e686b4cf054e869cea79be05cbd, type: 3}
@@ -314,10 +301,6 @@ MonoBehaviour:
       - Tile-Dungeon_15
       - Tile-Dungeon_53
       - Tile-Dungeon_16
-      - Tile-Dungeon_54
-      - Tile-Dungeon_45
-      - Tile-Dungeon_46
-      - Tile-Dungeon_47
     - _direction: 2
       PossibleSprites:
       - Tile-Dungeon_32
@@ -335,11 +318,7 @@ MonoBehaviour:
       - Tile-Dungeon_28
       - Tile-Dungeon_29
       - Tile-Dungeon_40
-      - Tile-Dungeon_45
-      - Tile-Dungeon_46
-      - Tile-Dungeon_47
       - Tile-Dungeon_55
-      - Tile-Dungeon_54
       - Tile-Dungeon_53
   - Id: Tile-Dungeon_12
     MainSprite: {fileID: 1513029318, guid: e1487e686b4cf054e869cea79be05cbd, type: 3}
@@ -397,9 +376,6 @@ MonoBehaviour:
       - Tile-Dungeon_28
       - Tile-Dungeon_29
       - Tile-Dungeon_40
-      - Tile-Dungeon_45
-      - Tile-Dungeon_46
-      - Tile-Dungeon_47
       - Tile-Dungeon_55
       - Tile-Dungeon_59
       - Tile-Dungeon_71
@@ -440,11 +416,7 @@ MonoBehaviour:
       - Tile-Dungeon_28
       - Tile-Dungeon_29
       - Tile-Dungeon_40
-      - Tile-Dungeon_45
-      - Tile-Dungeon_46
-      - Tile-Dungeon_47
       - Tile-Dungeon_53
-      - Tile-Dungeon_54
       - Tile-Dungeon_55
     - _direction: 2
       PossibleSprites:
@@ -454,9 +426,6 @@ MonoBehaviour:
       - Tile-Dungeon_28
       - Tile-Dungeon_29
       - Tile-Dungeon_40
-      - Tile-Dungeon_45
-      - Tile-Dungeon_46
-      - Tile-Dungeon_47
       - Tile-Dungeon_56
       - Tile-Dungeon_68
       - Tile-Dungeon_83
@@ -473,12 +442,8 @@ MonoBehaviour:
       - Tile-Dungeon_28
       - Tile-Dungeon_29
       - Tile-Dungeon_40
-      - Tile-Dungeon_45
-      - Tile-Dungeon_46
-      - Tile-Dungeon_47
       - Tile-Dungeon_53
       - Tile-Dungeon_55
-      - Tile-Dungeon_54
   - Id: Tile-Dungeon_15
     MainSprite: {fileID: 1869106019, guid: e1487e686b4cf054e869cea79be05cbd, type: 3}
     AdjacentTileDatas:
@@ -512,9 +477,6 @@ MonoBehaviour:
       - Tile-Dungeon_28
       - Tile-Dungeon_29
       - Tile-Dungeon_40
-      - Tile-Dungeon_45
-      - Tile-Dungeon_46
-      - Tile-Dungeon_47
       - Tile-Dungeon_53
       - Tile-Dungeon_42
       - Tile-Dungeon_48
@@ -559,9 +521,6 @@ MonoBehaviour:
       - Tile-Dungeon_28
       - Tile-Dungeon_29
       - Tile-Dungeon_40
-      - Tile-Dungeon_45
-      - Tile-Dungeon_46
-      - Tile-Dungeon_47
       - Tile-Dungeon_53
       - Tile-Dungeon_42
       - Tile-Dungeon_48
@@ -597,9 +556,6 @@ MonoBehaviour:
       - Tile-Dungeon_28
       - Tile-Dungeon_29
       - Tile-Dungeon_40
-      - Tile-Dungeon_45
-      - Tile-Dungeon_46
-      - Tile-Dungeon_47
       - Tile-Dungeon_55
       - Tile-Dungeon_59
       - Tile-Dungeon_71
@@ -633,11 +589,7 @@ MonoBehaviour:
       - Tile-Dungeon_29
       - Tile-Dungeon_40
       - Tile-Dungeon_53
-      - Tile-Dungeon_54
       - Tile-Dungeon_55
-      - Tile-Dungeon_45
-      - Tile-Dungeon_46
-      - Tile-Dungeon_47
     - _direction: 2
       PossibleSprites:
       - Tile-Dungeon_30
@@ -654,11 +606,7 @@ MonoBehaviour:
       - Tile-Dungeon_28
       - Tile-Dungeon_29
       - Tile-Dungeon_40
-      - Tile-Dungeon_45
-      - Tile-Dungeon_46
-      - Tile-Dungeon_47
       - Tile-Dungeon_53
-      - Tile-Dungeon_54
       - Tile-Dungeon_55
   - Id: Tile-Dungeon_19
     MainSprite: {fileID: -1370881204, guid: e1487e686b4cf054e869cea79be05cbd, type: 3}
@@ -685,10 +633,6 @@ MonoBehaviour:
       - Tile-Dungeon_15
       - Tile-Dungeon_53
       - Tile-Dungeon_16
-      - Tile-Dungeon_54
-      - Tile-Dungeon_45
-      - Tile-Dungeon_46
-      - Tile-Dungeon_47
     - _direction: 2
       PossibleSprites:
       - Tile-Dungeon_43
@@ -706,11 +650,7 @@ MonoBehaviour:
       - Tile-Dungeon_28
       - Tile-Dungeon_29
       - Tile-Dungeon_40
-      - Tile-Dungeon_45
-      - Tile-Dungeon_46
-      - Tile-Dungeon_47
       - Tile-Dungeon_55
-      - Tile-Dungeon_54
       - Tile-Dungeon_53
   - Id: Tile-Dungeon_20
     MainSprite: {fileID: -2124399281, guid: e1487e686b4cf054e869cea79be05cbd, type: 3}
@@ -737,10 +677,6 @@ MonoBehaviour:
       - Tile-Dungeon_15
       - Tile-Dungeon_53
       - Tile-Dungeon_16
-      - Tile-Dungeon_54
-      - Tile-Dungeon_45
-      - Tile-Dungeon_46
-      - Tile-Dungeon_47
     - _direction: 2
       PossibleSprites:
       - Tile-Dungeon_32
@@ -758,11 +694,7 @@ MonoBehaviour:
       - Tile-Dungeon_28
       - Tile-Dungeon_29
       - Tile-Dungeon_40
-      - Tile-Dungeon_45
-      - Tile-Dungeon_46
-      - Tile-Dungeon_47
       - Tile-Dungeon_55
-      - Tile-Dungeon_54
       - Tile-Dungeon_53
   - Id: Tile-Dungeon_24
     MainSprite: {fileID: 361806667, guid: e1487e686b4cf054e869cea79be05cbd, type: 3}
@@ -846,7 +778,6 @@ MonoBehaviour:
       - Tile-Dungeon_56
       - Tile-Dungeon_68
       - Tile-Dungeon_92
-      - Tile-Dungeon_93
     - _direction: 1
       PossibleSprites:
       - Tile-Dungeon_5
@@ -919,11 +850,7 @@ MonoBehaviour:
       - Tile-Dungeon_28
       - Tile-Dungeon_29
       - Tile-Dungeon_40
-      - Tile-Dungeon_45
-      - Tile-Dungeon_46
-      - Tile-Dungeon_47
       - Tile-Dungeon_55
-      - Tile-Dungeon_54
       - Tile-Dungeon_53
     - _direction: 2
       PossibleSprites:
@@ -935,9 +862,6 @@ MonoBehaviour:
       - Tile-Dungeon_28
       - Tile-Dungeon_29
       - Tile-Dungeon_40
-      - Tile-Dungeon_45
-      - Tile-Dungeon_46
-      - Tile-Dungeon_47
     - _direction: 3
       PossibleSprites:
       - Tile-Dungeon_8
@@ -949,11 +873,7 @@ MonoBehaviour:
       - Tile-Dungeon_28
       - Tile-Dungeon_29
       - Tile-Dungeon_40
-      - Tile-Dungeon_45
-      - Tile-Dungeon_46
-      - Tile-Dungeon_47
       - Tile-Dungeon_55
-      - Tile-Dungeon_54
       - Tile-Dungeon_53
       - Tile-Dungeon_13
       - Tile-Dungeon_17
@@ -980,11 +900,7 @@ MonoBehaviour:
       - Tile-Dungeon_28
       - Tile-Dungeon_29
       - Tile-Dungeon_40
-      - Tile-Dungeon_45
-      - Tile-Dungeon_46
-      - Tile-Dungeon_47
       - Tile-Dungeon_55
-      - Tile-Dungeon_54
       - Tile-Dungeon_53
     - _direction: 2
       PossibleSprites:
@@ -996,9 +912,6 @@ MonoBehaviour:
       - Tile-Dungeon_28
       - Tile-Dungeon_29
       - Tile-Dungeon_40
-      - Tile-Dungeon_45
-      - Tile-Dungeon_46
-      - Tile-Dungeon_47
     - _direction: 3
       PossibleSprites:
       - Tile-Dungeon_8
@@ -1010,11 +923,7 @@ MonoBehaviour:
       - Tile-Dungeon_28
       - Tile-Dungeon_29
       - Tile-Dungeon_40
-      - Tile-Dungeon_45
-      - Tile-Dungeon_46
-      - Tile-Dungeon_47
       - Tile-Dungeon_55
-      - Tile-Dungeon_54
       - Tile-Dungeon_53
       - Tile-Dungeon_13
       - Tile-Dungeon_17
@@ -1034,20 +943,15 @@ MonoBehaviour:
       - Tile-Dungeon_15
       - Tile-Dungeon_16
       - Tile-Dungeon_53
-      - Tile-Dungeon_54
       - Tile-Dungeon_56
       - Tile-Dungeon_68
-      - Tile-Dungeon_80
       - Tile-Dungeon_92
     - _direction: 2
       PossibleSprites:
       - Tile-Dungeon_49
       - Tile-Dungeon_48
-      - Tile-Dungeon_58
       - Tile-Dungeon_68
-      - Tile-Dungeon_94
       - Tile-Dungeon_95
-      - Tile-Dungeon_70
       - Tile-Dungeon_4
       - Tile-Dungeon_5
       - Tile-Dungeon_42
@@ -1061,7 +965,6 @@ MonoBehaviour:
       - Tile-Dungeon_44
       - Tile-Dungeon_56
       - Tile-Dungeon_68
-      - Tile-Dungeon_93
       - Tile-Dungeon_83
   - Id: Tile-Dungeon_31
     MainSprite: {fileID: -1178520172, guid: e1487e686b4cf054e869cea79be05cbd, type: 3}
@@ -1082,9 +985,7 @@ MonoBehaviour:
       - Tile-Dungeon_16
       - Tile-Dungeon_68
       - Tile-Dungeon_92
-      - Tile-Dungeon_80
       - Tile-Dungeon_53
-      - Tile-Dungeon_54
     - _direction: 2
       PossibleSprites:
       - Tile-Dungeon_4
@@ -1093,8 +994,6 @@ MonoBehaviour:
       - Tile-Dungeon_49
       - Tile-Dungeon_42
       - Tile-Dungeon_48
-      - Tile-Dungeon_58
-      - Tile-Dungeon_94
       - Tile-Dungeon_95
     - _direction: 3
       PossibleSprites:
@@ -1106,7 +1005,6 @@ MonoBehaviour:
       - Tile-Dungeon_56
       - Tile-Dungeon_68
       - Tile-Dungeon_83
-      - Tile-Dungeon_93
   - Id: Tile-Dungeon_32
     MainSprite: {fileID: -743208529, guid: e1487e686b4cf054e869cea79be05cbd, type: 3}
     AdjacentTileDatas:
@@ -1126,9 +1024,7 @@ MonoBehaviour:
       - Tile-Dungeon_16
       - Tile-Dungeon_68
       - Tile-Dungeon_92
-      - Tile-Dungeon_80
       - Tile-Dungeon_53
-      - Tile-Dungeon_54
     - _direction: 2
       PossibleSprites:
       - Tile-Dungeon_4
@@ -1137,8 +1033,6 @@ MonoBehaviour:
       - Tile-Dungeon_49
       - Tile-Dungeon_42
       - Tile-Dungeon_48
-      - Tile-Dungeon_58
-      - Tile-Dungeon_94
       - Tile-Dungeon_95
     - _direction: 3
       PossibleSprites:
@@ -1150,7 +1044,6 @@ MonoBehaviour:
       - Tile-Dungeon_56
       - Tile-Dungeon_68
       - Tile-Dungeon_83
-      - Tile-Dungeon_93
   - Id: Tile-Dungeon_40
     MainSprite: {fileID: 1136526861, guid: e1487e686b4cf054e869cea79be05cbd, type: 3}
     AdjacentTileDatas:
@@ -1174,11 +1067,7 @@ MonoBehaviour:
       - Tile-Dungeon_28
       - Tile-Dungeon_29
       - Tile-Dungeon_40
-      - Tile-Dungeon_45
-      - Tile-Dungeon_46
-      - Tile-Dungeon_47
       - Tile-Dungeon_55
-      - Tile-Dungeon_54
       - Tile-Dungeon_53
     - _direction: 2
       PossibleSprites:
@@ -1190,9 +1079,6 @@ MonoBehaviour:
       - Tile-Dungeon_28
       - Tile-Dungeon_29
       - Tile-Dungeon_40
-      - Tile-Dungeon_45
-      - Tile-Dungeon_46
-      - Tile-Dungeon_47
     - _direction: 3
       PossibleSprites:
       - Tile-Dungeon_8
@@ -1204,11 +1090,7 @@ MonoBehaviour:
       - Tile-Dungeon_28
       - Tile-Dungeon_29
       - Tile-Dungeon_40
-      - Tile-Dungeon_45
-      - Tile-Dungeon_46
-      - Tile-Dungeon_47
       - Tile-Dungeon_55
-      - Tile-Dungeon_54
       - Tile-Dungeon_53
       - Tile-Dungeon_13
       - Tile-Dungeon_17
@@ -1228,16 +1110,11 @@ MonoBehaviour:
       - Tile-Dungeon_56
       - Tile-Dungeon_68
       - Tile-Dungeon_92
-      - Tile-Dungeon_93
     - _direction: 1
       PossibleSprites:
       - Tile-Dungeon_42
       - Tile-Dungeon_48
       - Tile-Dungeon_49
-      - Tile-Dungeon_57
-      - Tile-Dungeon_69
-      - Tile-Dungeon_93
-      - Tile-Dungeon_94
     - _direction: 2
       PossibleSprites:
       - Tile-Dungeon_42
@@ -1246,10 +1123,7 @@ MonoBehaviour:
       - Tile-Dungeon_26
       - Tile-Dungeon_48
       - Tile-Dungeon_49
-      - Tile-Dungeon_58
-      - Tile-Dungeon_94
       - Tile-Dungeon_95
-      - Tile-Dungeon_70
     - _direction: 3
       PossibleSprites:
       - Tile-Dungeon_42
@@ -1278,9 +1152,7 @@ MonoBehaviour:
       - Tile-Dungeon_16
       - Tile-Dungeon_68
       - Tile-Dungeon_92
-      - Tile-Dungeon_80
       - Tile-Dungeon_53
-      - Tile-Dungeon_54
     - _direction: 2
       PossibleSprites:
       - Tile-Dungeon_4
@@ -1289,8 +1161,6 @@ MonoBehaviour:
       - Tile-Dungeon_49
       - Tile-Dungeon_42
       - Tile-Dungeon_48
-      - Tile-Dungeon_58
-      - Tile-Dungeon_94
       - Tile-Dungeon_95
     - _direction: 3
       PossibleSprites:
@@ -1302,7 +1172,6 @@ MonoBehaviour:
       - Tile-Dungeon_56
       - Tile-Dungeon_68
       - Tile-Dungeon_83
-      - Tile-Dungeon_93
   - Id: Tile-Dungeon_44
     MainSprite: {fileID: 284206721, guid: e1487e686b4cf054e869cea79be05cbd, type: 3}
     AdjacentTileDatas:
@@ -1322,9 +1191,7 @@ MonoBehaviour:
       - Tile-Dungeon_16
       - Tile-Dungeon_68
       - Tile-Dungeon_92
-      - Tile-Dungeon_80
       - Tile-Dungeon_53
-      - Tile-Dungeon_54
     - _direction: 2
       PossibleSprites:
       - Tile-Dungeon_4
@@ -1333,8 +1200,6 @@ MonoBehaviour:
       - Tile-Dungeon_49
       - Tile-Dungeon_42
       - Tile-Dungeon_48
-      - Tile-Dungeon_58
-      - Tile-Dungeon_94
       - Tile-Dungeon_95
     - _direction: 3
       PossibleSprites:
@@ -1346,7 +1211,6 @@ MonoBehaviour:
       - Tile-Dungeon_56
       - Tile-Dungeon_68
       - Tile-Dungeon_83
-      - Tile-Dungeon_93
   - Id: Tile-Dungeon_48
     MainSprite: {fileID: -176314983, guid: e1487e686b4cf054e869cea79be05cbd, type: 3}
     AdjacentTileDatas:
@@ -1363,20 +1227,14 @@ MonoBehaviour:
       - Tile-Dungeon_49
       - Tile-Dungeon_68
       - Tile-Dungeon_92
-      - Tile-Dungeon_93
     - _direction: 1
       PossibleSprites:
       - Tile-Dungeon_42
       - Tile-Dungeon_48
       - Tile-Dungeon_49
-      - Tile-Dungeon_57
-      - Tile-Dungeon_69
-      - Tile-Dungeon_93
-      - Tile-Dungeon_94
       - Tile-Dungeon_15
       - Tile-Dungeon_16
       - Tile-Dungeon_53
-      - Tile-Dungeon_54
     - _direction: 2
       PossibleSprites:
       - Tile-Dungeon_42
@@ -1384,9 +1242,6 @@ MonoBehaviour:
       - Tile-Dungeon_5
       - Tile-Dungeon_48
       - Tile-Dungeon_49
-      - Tile-Dungeon_58
-      - Tile-Dungeon_70
-      - Tile-Dungeon_94
       - Tile-Dungeon_95
       - Tile-Dungeon_26
     - _direction: 3
@@ -1414,20 +1269,14 @@ MonoBehaviour:
       - Tile-Dungeon_49
       - Tile-Dungeon_68
       - Tile-Dungeon_92
-      - Tile-Dungeon_93
     - _direction: 1
       PossibleSprites:
       - Tile-Dungeon_42
       - Tile-Dungeon_48
       - Tile-Dungeon_49
-      - Tile-Dungeon_57
-      - Tile-Dungeon_69
-      - Tile-Dungeon_93
-      - Tile-Dungeon_94
       - Tile-Dungeon_15
       - Tile-Dungeon_16
       - Tile-Dungeon_53
-      - Tile-Dungeon_54
     - _direction: 2
       PossibleSprites:
       - Tile-Dungeon_42
@@ -1435,9 +1284,6 @@ MonoBehaviour:
       - Tile-Dungeon_5
       - Tile-Dungeon_48
       - Tile-Dungeon_49
-      - Tile-Dungeon_58
-      - Tile-Dungeon_70
-      - Tile-Dungeon_94
       - Tile-Dungeon_95
       - Tile-Dungeon_26
     - _direction: 3
@@ -1469,10 +1315,7 @@ MonoBehaviour:
       - Tile-Dungeon_19
       - Tile-Dungeon_29
       - Tile-Dungeon_40
-      - Tile-Dungeon_45
-      - Tile-Dungeon_46
       - Tile-Dungeon_53
-      - Tile-Dungeon_54
       - Tile-Dungeon_55
     - _direction: 2
       PossibleSprites:
@@ -1492,7 +1335,6 @@ MonoBehaviour:
       - Tile-Dungeon_28
       - Tile-Dungeon_29
       - Tile-Dungeon_40
-      - Tile-Dungeon_45
       - Tile-Dungeon_43
       - Tile-Dungeon_44
       - Tile-Dungeon_31
@@ -1536,8 +1378,6 @@ MonoBehaviour:
       - Tile-Dungeon_28
       - Tile-Dungeon_29
       - Tile-Dungeon_40
-      - Tile-Dungeon_45
-      - Tile-Dungeon_47
       - Tile-Dungeon_53
       - Tile-Dungeon_13
       - Tile-Dungeon_17
@@ -1550,11 +1390,7 @@ MonoBehaviour:
       - Tile-Dungeon_28
       - Tile-Dungeon_29
       - Tile-Dungeon_40
-      - Tile-Dungeon_45
-      - Tile-Dungeon_46
-      - Tile-Dungeon_47
       - Tile-Dungeon_55
-      - Tile-Dungeon_54
       - Tile-Dungeon_53
     - _direction: 1
       PossibleSprites:
@@ -1566,7 +1402,6 @@ MonoBehaviour:
       - Tile-Dungeon_56
       - Tile-Dungeon_68
       - Tile-Dungeon_92
-      - Tile-Dungeon_80
     - _direction: 2
       PossibleSprites:
       - Tile-Dungeon_4
@@ -1575,9 +1410,6 @@ MonoBehaviour:
       - Tile-Dungeon_42
       - Tile-Dungeon_48
       - Tile-Dungeon_49
-      - Tile-Dungeon_58
-      - Tile-Dungeon_70
-      - Tile-Dungeon_94
       - Tile-Dungeon_95
     - _direction: 3
       PossibleSprites:
@@ -1588,7 +1420,6 @@ MonoBehaviour:
       - Tile-Dungeon_31
       - Tile-Dungeon_44
       - Tile-Dungeon_68
-      - Tile-Dungeon_93
       - Tile-Dungeon_83
   - Id: Tile-Dungeon_59
     MainSprite: {fileID: -367190634, guid: e1487e686b4cf054e869cea79be05cbd, type: 3}
@@ -1607,8 +1438,6 @@ MonoBehaviour:
       - Tile-Dungeon_53
       - Tile-Dungeon_48
       - Tile-Dungeon_49
-      - Tile-Dungeon_93
-      - Tile-Dungeon_94
     - _direction: 2
       PossibleSprites:
       - Tile-Dungeon_59
@@ -1650,10 +1479,7 @@ MonoBehaviour:
       - Tile-Dungeon_29
       - Tile-Dungeon_40
       - Tile-Dungeon_14
-      - Tile-Dungeon_45
-      - Tile-Dungeon_46
       - Tile-Dungeon_55
-      - Tile-Dungeon_54
     - _direction: 1
       PossibleSprites:
       - Tile-Dungeon_56
@@ -1674,7 +1500,6 @@ MonoBehaviour:
       - Tile-Dungeon_17
       - Tile-Dungeon_13
       - Tile-Dungeon_55
-      - Tile-Dungeon_54
   - Id: Tile-Dungeon_92
     MainSprite: {fileID: -2125289389, guid: e1487e686b4cf054e869cea79be05cbd, type: 3}
     AdjacentTileDatas:
@@ -1688,11 +1513,7 @@ MonoBehaviour:
       - Tile-Dungeon_42
       - Tile-Dungeon_48
       - Tile-Dungeon_49
-      - Tile-Dungeon_57
-      - Tile-Dungeon_93
-      - Tile-Dungeon_94
       - Tile-Dungeon_53
-      - Tile-Dungeon_54
       - Tile-Dungeon_15
       - Tile-Dungeon_4
       - Tile-Dungeon_16
@@ -1701,9 +1522,6 @@ MonoBehaviour:
       - Tile-Dungeon_42
       - Tile-Dungeon_48
       - Tile-Dungeon_49
-      - Tile-Dungeon_58
-      - Tile-Dungeon_70
-      - Tile-Dungeon_94
       - Tile-Dungeon_95
       - Tile-Dungeon_4
       - Tile-Dungeon_5
@@ -1743,9 +1561,6 @@ MonoBehaviour:
       - Tile-Dungeon_48
       - Tile-Dungeon_42
       - Tile-Dungeon_49
-      - Tile-Dungeon_57
-      - Tile-Dungeon_69
-      - Tile-Dungeon_93
     - _direction: 2
       PossibleSprites:
       - Tile-Dungeon_59

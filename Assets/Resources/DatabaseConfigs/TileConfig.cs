@@ -20,6 +20,8 @@ namespace Maniac.DataBaseSystem
         [ListDrawerSettings(DraggableItems = false)]
         public List<Sprite> usableSprites;
 
+        private List<string> usableSpriteNames = new List<string>();
+
         public TileData Find(string id)
         {
             if (!_tileDatasCache.ContainsKey(id))
@@ -56,6 +58,33 @@ namespace Maniac.DataBaseSystem
             
             //set this ScriptableObject as dirty
             EditorUtility.SetDirty(this);
+        }
+
+        [Button]
+        public void FilterUnusableSpriteFromTileData()
+        {
+            usableSpriteNames.Clear();
+            foreach (var tileData in tileDatas)
+            {
+                usableSpriteNames.Add(tileData.Id);
+            }
+
+            foreach (var tileData in tileDatas)
+            {
+                foreach (var adjacentTileData in tileData.AdjacentTileDatas)
+                {
+                    // remove all the sprite in adjacentTileData.PossibleSprites that is not in usableSpriteNames
+                    adjacentTileData.PossibleSprites = adjacentTileData.PossibleSprites.Where(x =>
+                    {
+                        var contains = usableSpriteNames.Contains(x);
+                        if (!contains)
+                        {
+                            Debug.Log($"Remove {x} from {tileData.Id} {adjacentTileData.Direction}");
+                        }
+                        return contains;
+                    }).ToList();
+                }
+            }
         }
     }
     
