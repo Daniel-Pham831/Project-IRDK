@@ -1948,13 +1948,37 @@ MonoBehaviour:
     MainSprite: {fileID: -244907249, guid: e1487e686b4cf054e869cea79be05cbd, type: 3}
     AdjacentTileDatas:
     - _direction: 0
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_30
+      - Tile-Dungeon_42
+      - Tile-Dungeon_43
+      - Tile-Dungeon_32
+      - Tile-Dungeon_31
+      - Tile-Dungeon_44
+      - Tile-Dungeon_48
+      - Tile-Dungeon_49
+      - Tile-Dungeon_56
+      - Tile-Dungeon_68
+      - Tile-Dungeon_92
     - _direction: 1
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_15
+      - Tile-Dungeon_16
+      - Tile-Dungeon_4
+      - Tile-Dungeon_53
+      - Tile-Dungeon_48
+      - Tile-Dungeon_42
+      - Tile-Dungeon_49
+      - Tile-Dungeon_57
+      - Tile-Dungeon_69
+      - Tile-Dungeon_93
     - _direction: 2
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_59
+      - Tile-Dungeon_71
     - _direction: 3
-      PossibleSprites: []
+      PossibleSprites:
+      - Tile-Dungeon_5
   usableSprites:
   - {fileID: -1224787961, guid: e1487e686b4cf054e869cea79be05cbd, type: 3}
   - {fileID: -493576327, guid: e1487e686b4cf054e869cea79be05cbd, type: 3}
