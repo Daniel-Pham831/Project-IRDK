@@ -317,21 +317,12 @@ namespace Game.Scenes.WCFTest
 
         public void ClearTilesWhichNotIn(List<string> possibleSpriteNames)
         {
-            if (possibleSpriteNames == null)
-            {
-                var a = 10;
-                a++;
-                a--;
-                return;
-            }
-            
             try
             {
                 PossibleTiles = PossibleTiles.Where(possibleSpriteNames.Contains).ToList();
             }
             catch
             {
-                Debug.Log("asdsad");
             }
         }
     }
