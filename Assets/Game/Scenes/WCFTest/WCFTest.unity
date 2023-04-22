@@ -7652,8 +7652,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17ce20e5854945058686abcddcbf87c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Columns: 21
-  Rows: 13
+  Columns: 19
+  Rows: 15
   CellSize: 1
   tilesPrefab: {fileID: 3157000693878147179, guid: 3a3a887c351d02b4fb6e03aba207ade3, type: 3}
   tileConfig: {fileID: 11400000, guid: 6af03ceabda0c8f49b8ba900d8185cdb, type: 2}

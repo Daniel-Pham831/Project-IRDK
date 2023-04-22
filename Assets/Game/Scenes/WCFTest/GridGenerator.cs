@@ -26,6 +26,8 @@ namespace Game.Scenes.WCFTest
         private Grid _grid;
         private PriorityQueue<TileModel,int> _tileQueue = new PriorityQueue<TileModel,int>();
         private List<GameObject> _allTileObjects = new List<GameObject>();
+        
+        private Stack<TileModel> _collapsedTiles = new Stack<TileModel>();
 
         private void OnValidate()
         {
@@ -60,25 +62,40 @@ namespace Game.Scenes.WCFTest
         {
             _grid = new Grid();
             GenerateAllTiles();
-            var shouldRestart = await DoWaveFunctionCollapseRecursively();
-            if(shouldRestart)
-                await StartAgain();
+            await DoWaveFunctionCollapseRecursively();
         }
 
-        private async UniTask<bool> DoWaveFunctionCollapseRecursively()
+        private async UniTask DoWaveFunctionCollapseRecursively()
         {
             if (!_tileQueue.TryDequeue(out var tileModel, out var priority))
             {
                 Debug.Log("Done!");
-                return false;
+                return;
             }
 
             var collapsedSpriteName = tileModel.Collapse();
             if (collapsedSpriteName == string.Empty)
             {
-                return true;
+                tileModel.PossibleTiles = tileConfig.GetAllSpriteNames();
+                _tileQueue.Enqueue(tileModel,tileModel.Priority);
+                if(_collapsedTiles.TryPop(out var lastTile))
+                {
+                    lastTile.ReCollapse();
+                    _tileQueue.Enqueue(lastTile, lastTile.Priority);
+                }
+                DoWaveFunctionCollapseRecursively();
+                return;
             }
 
+            ReduceEntropyOfNeighbors(tileModel, collapsedSpriteName);
+            UpdatePriorities(_tileQueue, tile => tile.Priority);
+            _collapsedTiles.Push(tileModel);
+            await UniTask.Delay(1);
+            DoWaveFunctionCollapseRecursively();
+        }
+
+        private void ReduceEntropyOfNeighbors(TileModel tileModel, string collapsedSpriteName)
+        {
             var topPosition = new Vector2(tileModel.Position.x, tileModel.Position.y + 1);
             var bottomPosition = new Vector2(tileModel.Position.x, tileModel.Position.y - 1);
             var leftPosition = new Vector2(tileModel.Position.x - 1, tileModel.Position.y);
@@ -87,7 +104,7 @@ namespace Game.Scenes.WCFTest
             var topPossibleSpriteNames =
                 tileConfig.GetPossibleSpritesOfATilesAtDirection(collapsedSpriteName, Direction.Top);
             var bottomPossibleSpriteNames =
-                tileConfig.GetPossibleSpritesOfATilesAtDirection(collapsedSpriteName, Direction.Bot);
+                tileConfig.GetPossibleSpritesOfATilesAtDirection(collapsedSpriteName, Direction.Bottom);
             var leftPossibleSpriteNames =
                 tileConfig.GetPossibleSpritesOfATilesAtDirection(collapsedSpriteName, Direction.Left);
             var rightPossibleSpriteNames =
@@ -112,12 +129,6 @@ namespace Game.Scenes.WCFTest
                     model.ClearTilesWhichNotIn(rightPossibleSpriteNames);
                 }
             }
-
-            UpdatePriorities(_tileQueue, tile => tile.Priority);
-            await UniTask.Delay(1);
-            DoWaveFunctionCollapseRecursively();
-
-            return false;
         }
 
         private void GenerateAllTiles()
@@ -177,6 +188,37 @@ namespace Game.Scenes.WCFTest
             Tiles.Add(tile);
             tile.SetGrid(this);
         }
+        
+        public List<TileModel> GetAllCollapsedNeighbors(Vector2 Position)
+        {
+            var topPosition = new Vector2(Position.x, Position.y + 1);
+            var bottomPosition = new Vector2(Position.x, Position.y - 1);
+            var leftPosition = new Vector2(Position.x - 1, Position.y);
+            var rightPosition = new Vector2(Position.x + 1, Position.y);
+
+            var allCollapsedNeighbors = new List<TileModel>();
+            foreach (var model in Tiles)
+            {
+                if (model.Position == topPosition && model.HasCollapsed)
+                {
+                    allCollapsedNeighbors.Add(model);
+                }
+                else if (model.Position == bottomPosition && model.HasCollapsed)
+                {
+                    allCollapsedNeighbors.Add(model);
+                }
+                else if (model.Position == leftPosition && model.HasCollapsed)
+                {
+                    allCollapsedNeighbors.Add(model);
+                }
+                else if (model.Position == rightPosition && model.HasCollapsed)
+                {
+                    allCollapsedNeighbors.Add(model);
+                }
+            }
+
+            return allCollapsedNeighbors;
+        }
     }
 
     [Serializable]
@@ -184,13 +226,14 @@ namespace Game.Scenes.WCFTest
     {
         public Vector2 Position;
         public List<string> PossibleTiles;
+        public List<string> CollapsedTiles = new List<string>();
         public GameObject TileGameObject;
+        public bool HasCollapsed => PossibleTiles.Count == 1;
         
         [NonSerialized]
         public Grid Grid;
         private readonly SpriteRenderer _spriteRenderer;
         private TileConfig _tileConfig;
-        public bool HasCollapsed = false;
         public int Priority => PossibleTiles.Count;
 
         public TileModel(int x,int y,GameObject tileGameObject ,List<string> possibleTiles)
@@ -209,23 +252,87 @@ namespace Game.Scenes.WCFTest
 
         public string Collapse()
         {
+            var allCollapsedNeighbors = Grid.GetAllCollapsedNeighbors(Position);
+            FilterPossibleTiles(allCollapsedNeighbors);
             if (PossibleTiles.Count != 0)
             {
-                var randomTile = PossibleTiles[Random.Range(0, PossibleTiles.Count)];
-                PossibleTiles.Clear();
-                PossibleTiles.Add(randomTile);
-                _spriteRenderer.sprite = _tileConfig.Find(randomTile).MainSprite;
-                HasCollapsed = true;
-
-                return randomTile;
+                return CollapseToASingleTile();
             }
 
             return string.Empty;
         }
 
+        private void FilterPossibleTiles(List<TileModel> allCollapsedNeighbors)
+        {
+            foreach (var tileModel in allCollapsedNeighbors)
+            {
+                var topPossibleSpriteNames =
+                    _tileConfig.GetPossibleSpritesOfATilesAtDirection(tileModel.PossibleTiles[0], Direction.Top);
+                var bottomPossibleSpriteNames =
+                    _tileConfig.GetPossibleSpritesOfATilesAtDirection(tileModel.PossibleTiles[0], Direction.Bottom);
+                var leftPossibleSpriteNames =
+                    _tileConfig.GetPossibleSpritesOfATilesAtDirection(tileModel.PossibleTiles[0], Direction.Left);
+                var rightPossibleSpriteNames =
+                    _tileConfig.GetPossibleSpritesOfATilesAtDirection(tileModel.PossibleTiles[0], Direction.Right);
+
+                if (Position == new Vector2(tileModel.Position.x, tileModel.Position.y + 1))
+                {
+                    PossibleTiles = PossibleTiles.Where(topPossibleSpriteNames.Contains).ToList();
+                }
+                else if (Position == new Vector2(tileModel.Position.x, tileModel.Position.y - 1))
+                {
+                    PossibleTiles = PossibleTiles.Where(bottomPossibleSpriteNames.Contains).ToList();
+                }
+                else if (Position == new Vector2(tileModel.Position.x - 1, tileModel.Position.y))
+                {
+                    PossibleTiles = PossibleTiles.Where(leftPossibleSpriteNames.Contains).ToList();
+                }
+                else if (Position == new Vector2(tileModel.Position.x + 1, tileModel.Position.y))
+                {
+                    PossibleTiles = PossibleTiles.Where(rightPossibleSpriteNames.Contains).ToList();
+                }
+            }
+        }
+
+        private string CollapseToASingleTile()
+        {
+            var randomTile = PossibleTiles[Random.Range(0, PossibleTiles.Count)];
+            PossibleTiles.Remove(randomTile);
+
+            CollapsedTiles.Clear();
+            CollapsedTiles.AddRange(PossibleTiles);
+
+            PossibleTiles.Clear();
+            PossibleTiles.Add(randomTile);
+            _spriteRenderer.sprite = _tileConfig.Find(randomTile).MainSprite;
+            return randomTile;
+        }
+
+        public void ReCollapse()
+        {
+            PossibleTiles.Clear();
+            PossibleTiles.AddRange(CollapsedTiles);
+            CollapsedTiles.Clear();
+        }
+
         public void ClearTilesWhichNotIn(List<string> possibleSpriteNames)
         {
-            PossibleTiles = PossibleTiles.Where(possibleSpriteNames.Contains).ToList();
+            if (possibleSpriteNames == null)
+            {
+                var a = 10;
+                a++;
+                a--;
+                return;
+            }
+            
+            try
+            {
+                PossibleTiles = PossibleTiles.Where(possibleSpriteNames.Contains).ToList();
+            }
+            catch
+            {
+                Debug.Log("asdsad");
+            }
         }
     }
 }

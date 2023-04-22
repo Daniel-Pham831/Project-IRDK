@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
 using Maniac;
+using Maniac.Utils;
 using Sirenix.OdinInspector;
 using Unity.VisualScripting;
 using UnityEditor;
@@ -75,7 +76,7 @@ namespace Maniac.DataBaseSystem
                 _possibleSpritesOfATilesAtDirection.Add(key, adjacentTileData.PossibleSprites);
             }
 
-            return _possibleSpritesOfATilesAtDirection[key];
+            return _possibleSpritesOfATilesAtDirection[key].CloneByExpressionTree();
         }
        
 
@@ -92,7 +93,7 @@ namespace Maniac.DataBaseSystem
                 }
             }
 
-            return usableSpriteNames;
+            return usableSpriteNames.CloneByExpressionTree();
         }
 
         public bool Contains(string id)
@@ -107,7 +108,7 @@ namespace Maniac.DataBaseSystem
             {
                 tileData.AdjacentTileDatas[0].SetDirection(Direction.Top);
                 tileData.AdjacentTileDatas[1].SetDirection(Direction.Right);
-                tileData.AdjacentTileDatas[2].SetDirection(Direction.Bot);
+                tileData.AdjacentTileDatas[2].SetDirection(Direction.Bottom);
                 tileData.AdjacentTileDatas[3].SetDirection(Direction.Left);
             }
             
@@ -148,7 +149,7 @@ namespace Maniac.DataBaseSystem
     {
         Top,
         Right,
-        Bot,
+        Bottom,
         Left,
     }
     
@@ -175,7 +176,7 @@ namespace Maniac.DataBaseSystem
             AdjacentTileDatas = new List<AdjacentTileData>();
             AdjacentTileDatas.Add(new AdjacentTileData(Direction.Top));
             AdjacentTileDatas.Add(new AdjacentTileData(Direction.Right));
-            AdjacentTileDatas.Add(new AdjacentTileData(Direction.Bot));
+            AdjacentTileDatas.Add(new AdjacentTileData(Direction.Bottom));
             AdjacentTileDatas.Add(new AdjacentTileData(Direction.Left));
         }
 

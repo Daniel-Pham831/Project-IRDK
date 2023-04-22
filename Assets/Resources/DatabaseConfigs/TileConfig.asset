@@ -1088,7 +1088,6 @@ MonoBehaviour:
     - _direction: 0
       PossibleSprites:
       - Tile-Dungeon_16
-      - Tile-Dungeon_53
     - _direction: 1
       PossibleSprites:
       - Tile-Dungeon_7
@@ -1111,14 +1110,6 @@ MonoBehaviour:
     - _direction: 3
       PossibleSprites:
       - Tile-Dungeon_30
-      - Tile-Dungeon_14
-      - Tile-Dungeon_7
-      - Tile-Dungeon_8
-      - Tile-Dungeon_18
-      - Tile-Dungeon_19
-      - Tile-Dungeon_20
-      - Tile-Dungeon_28
-      - Tile-Dungeon_40
       - Tile-Dungeon_43
       - Tile-Dungeon_44
       - Tile-Dungeon_31
@@ -1139,7 +1130,6 @@ MonoBehaviour:
     - _direction: 0
       PossibleSprites:
       - Tile-Dungeon_17
-      - Tile-Dungeon_55
     - _direction: 1
       PossibleSprites:
       - Tile-Dungeon_59

@@ -79,7 +79,7 @@ namespace Game
                     return topIndicator;
                 case Direction.Right:
                     return rightIndicator;
-                case Direction.Bot:
+                case Direction.Bottom:
                     return botIndicator;
                 case Direction.Left:
                     return leftIndicator;
@@ -170,7 +170,7 @@ namespace Game
                     return _topAdjacentHolder;
                 case Direction.Right:
                     return _rightAdjacentHolder;
-                case Direction.Bot:
+                case Direction.Bottom:
                     return _botAdjacentHolder;
                 case Direction.Left:
                     return _leftAdjacentHolder;
@@ -229,7 +229,7 @@ namespace Game
                 
                 tileToSave.AddAdjacentTileData(Direction.Top,topPossibleNames);
                 tileToSave.AddAdjacentTileData(Direction.Right,rightPossibleNames);
-                tileToSave.AddAdjacentTileData(Direction.Bot,botPossibleNames);
+                tileToSave.AddAdjacentTileData(Direction.Bottom,botPossibleNames);
                 tileToSave.AddAdjacentTileData(Direction.Left,leftPossibleNames);
             }
         }
