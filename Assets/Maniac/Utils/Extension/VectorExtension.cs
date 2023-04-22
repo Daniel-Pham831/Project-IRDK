@@ -19,5 +19,15 @@ namespace Maniac.Utils.Extension
         {
             return vector / Mathf.Sqrt(vector.sqrMagnitude);
         }
+        
+        public static Vector3Int ToVector3Int(this Vector3 vector)
+        {
+            return new Vector3Int((int)vector.x, (int)vector.y, (int)vector.z);
+        }
+        
+        public static Vector3 ToVector3(this Vector3Int vector)
+        {
+            return new Vector3(vector.x, vector.y, vector.z);
+        }
     }
 }
