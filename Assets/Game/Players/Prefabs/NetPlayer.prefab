@@ -121,7 +121,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 0.54555726}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -132,7 +132,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.3333334, y: 1.3333334}
+  m_Size: {x: 1.3333334, y: 0.9472463}
   m_EdgeRadius: 0
 --- !u!50 &7008240871273798836
 Rigidbody2D:
@@ -237,10 +237,10 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -2132976203
+  m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 186cf51d48fc2324aacf4d391408c54a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 25464140b1d345e4bbd67a8d678e9eb5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -286,8 +286,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0.8}
-  m_SizeDelta: {x: 2, y: 1}
+  m_AnchoredPosition: {x: 0, y: 3.11}
+  m_SizeDelta: {x: 3.5, y: 1.25}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &4618768339017742432
 MeshRenderer:
@@ -327,8 +327,8 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -2132976203
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &240643179033218906
@@ -380,12 +380,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 3.5
+  m_fontSize: 6
   m_fontSizeBase: 2.72
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 0.5
-  m_fontSizeMax: 3.5
+  m_fontSizeMax: 6
   m_fontStyle: 17
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
