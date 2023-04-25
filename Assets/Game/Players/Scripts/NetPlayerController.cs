@@ -1,15 +1,23 @@
-﻿using Unity.Netcode;
+﻿using Maniac.DataBaseSystem;
+using Maniac.Utils;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace Game.Players.Scripts
 {
     public class NetPlayerController : NetworkBehaviour
     {
+        private DataBase _dataBase => Locator<DataBase>.Instance;
+        private PlayerConfig _playerConfig;
+        
+        [SerializeField]
+        private Rigidbody2D rb;
         private Transform _transform;
         private bool _movable = false;
 
         private void Awake()
         {
+            _playerConfig = _dataBase.GetConfig<PlayerConfig>();
             _transform = transform;
         }
 
@@ -33,7 +41,7 @@ namespace Game.Players.Scripts
             var horizontal = Input.GetAxis("Horizontal");
             var vertical = Input.GetAxis("Vertical");
 
-            _transform.position += new Vector3(horizontal, vertical, _transform.position.z).normalized * Time.deltaTime;
+            rb.velocity = new Vector2(horizontal, vertical).normalized * _playerConfig.MoveSpeed;
         }
     }
 }
