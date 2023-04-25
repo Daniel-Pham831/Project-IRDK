@@ -30,7 +30,7 @@ namespace Game.Players.Scripts
             base.OnNetworkSpawn();
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
             if (IsOwner && _movable)
                 UpdateMovement();
@@ -38,8 +38,8 @@ namespace Game.Players.Scripts
 
         private void UpdateMovement()
         {
-            var horizontal = Input.GetAxis("Horizontal");
-            var vertical = Input.GetAxis("Vertical");
+            var horizontal = Input.GetAxisRaw("Horizontal");
+            var vertical = Input.GetAxisRaw("Vertical");
 
             rb.velocity = new Vector2(horizontal, vertical).normalized * _playerConfig.MoveSpeed;
         }

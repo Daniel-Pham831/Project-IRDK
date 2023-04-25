@@ -208,6 +208,7 @@ namespace Maniac.UISystem
             _cameraPrefab.transform.position = Vector3.zero;
 
             canvas.worldCamera = mainCamera.GetComponentInChildren<Camera>();
+            canvas.sortingLayerName = "UI";
         }
 
         public Transform GetCorrectLayer(string layerName)
