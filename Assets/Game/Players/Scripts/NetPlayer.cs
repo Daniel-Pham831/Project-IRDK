@@ -9,6 +9,7 @@ using TMPro;
 using UniRx;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.U2D.Animation;
 
 namespace Game.Players.Scripts
 {
@@ -20,6 +21,7 @@ namespace Game.Players.Scripts
 
         [SerializeField] private TMP_Text playerName;
         [SerializeField] private SpriteRenderer playerSpriteRenderer;
+        [SerializeField] private SpriteLibrary spriteLibrary;
 
         private string oldName = "";
         private string oldCharacterId = "";
@@ -64,6 +66,7 @@ namespace Game.Players.Scripts
                 oldCharacterId = value.CharacterGraphicsId;
                 var characterInfo = _characterConfig.GetCharacterInfo(oldCharacterId);
                 playerSpriteRenderer.sprite = characterInfo.sprite;
+                spriteLibrary.spriteLibraryAsset = characterInfo.spriteLibraryAsset;
             }
         }
     }

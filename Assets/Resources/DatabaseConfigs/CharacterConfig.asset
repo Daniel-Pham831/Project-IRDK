@@ -15,35 +15,52 @@ MonoBehaviour:
   CharacterInfos:
   - Id: default
     sprite: {fileID: -1040211509, guid: 55a2fce8b7aed1f4791785ab3e59ffcb, type: 3}
+    spriteLibraryAsset: {fileID: 7108339969198208228, guid: edf1e859c05de144fbda85b7ad6b8130, type: 3}
   - Id: C1
     sprite: {fileID: 1736070237, guid: ce1048ca4be0ad149bca1b77aaa219c9, type: 3}
+    spriteLibraryAsset: {fileID: 7108339969198208228, guid: 744adadf27074764f8475e3be035d704, type: 3}
   - Id: C2
     sprite: {fileID: 1883759022, guid: 22085b43d5f5486438915a157b39d774, type: 3}
+    spriteLibraryAsset: {fileID: 7108339969198208228, guid: eba500b0bf218af4c9a4de555f0c0e0f, type: 3}
   - Id: C3
     sprite: {fileID: -1745883742, guid: b3e455256e5897e4fa44ed1b85311972, type: 3}
+    spriteLibraryAsset: {fileID: 7108339969198208228, guid: aa0a0c9eff85839408a616ae3010ec95, type: 3}
   - Id: C4
     sprite: {fileID: -1068912717, guid: ac048a88ca741ac4abe6c81a042ec4ee, type: 3}
+    spriteLibraryAsset: {fileID: 7108339969198208228, guid: 487e00beb439f184199a266f4429416e, type: 3}
   - Id: C5
     sprite: {fileID: 671484331, guid: 0f421d314849e6140b8ec0cca8d4f50c, type: 3}
+    spriteLibraryAsset: {fileID: 7108339969198208228, guid: ab6aaaca5c44b0e4ea2856e871c3c3d1, type: 3}
   - Id: C6
     sprite: {fileID: 1733031307, guid: 258d4c1273ab9014896ceb9e6ee6fc73, type: 3}
+    spriteLibraryAsset: {fileID: 7108339969198208228, guid: f16528bbdc28504429a4e910603345fa, type: 3}
   - Id: C7
     sprite: {fileID: -1266247058, guid: 291bb0cdce2df3842ae5d15e2c4dc37a, type: 3}
+    spriteLibraryAsset: {fileID: 7108339969198208228, guid: b520c5bdda750204fa3236955bd21662, type: 3}
   - Id: C8
     sprite: {fileID: -147432568, guid: 757651a05fc46b14daa42d28dfd035ef, type: 3}
+    spriteLibraryAsset: {fileID: 7108339969198208228, guid: 0c5d3b3201c4d3644a36ac9731f0783a, type: 3}
   - Id: C9
     sprite: {fileID: -2130752450, guid: bd90902810ce8ca459ef0eb93e41e51b, type: 3}
+    spriteLibraryAsset: {fileID: 7108339969198208228, guid: fede9cad7b7835441af8d1478600b628, type: 3}
   - Id: C10
     sprite: {fileID: 1679303080, guid: c3f0ca82b637118498f43e76e644e4e0, type: 3}
+    spriteLibraryAsset: {fileID: 7108339969198208228, guid: ae521243bb50f364cbd14ee75afaf1ff, type: 3}
   - Id: C11
     sprite: {fileID: 1011942934, guid: 816431da1135e1d4b901e3a0ffcff4d0, type: 3}
+    spriteLibraryAsset: {fileID: 7108339969198208228, guid: 8da0e771403313a4199fe64aa25a3f5c, type: 3}
   - Id: C12
     sprite: {fileID: 1754598996, guid: a60f0edcd99afaa428143325b0451d58, type: 3}
+    spriteLibraryAsset: {fileID: 7108339969198208228, guid: 7750be233375c644d876a5b079de6c91, type: 3}
   - Id: C13
     sprite: {fileID: 1009249828, guid: ef1c89e4aa236f944a108255e1147ed5, type: 3}
+    spriteLibraryAsset: {fileID: 7108339969198208228, guid: 75c78618c32b5704fbe1a8c9e2e35c40, type: 3}
   - Id: C14
     sprite: {fileID: -2097041364, guid: aa308d99006b6dd49af223029b59c6d2, type: 3}
+    spriteLibraryAsset: {fileID: 7108339969198208228, guid: 02205587be9b90d46ae4ea751407d774, type: 3}
   - Id: C15
     sprite: {fileID: 1612920056, guid: 607bd5cc0b5ba0b4db76e57a4d891726, type: 3}
+    spriteLibraryAsset: {fileID: 7108339969198208228, guid: ac9d4ffd62dafb64aba7df8b4b4260af, type: 3}
   - Id: C16
     sprite: {fileID: 651408349, guid: 0a1da6cee6bdd674aafecfc3bf72cd0a, type: 3}
+    spriteLibraryAsset: {fileID: 7108339969198208228, guid: a28e90b5fe169a644a828815e8db60f7, type: 3}

@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
 using Maniac;
+using UnityEngine.U2D.Animation;
 
 namespace Maniac.DataBaseSystem
 {
@@ -33,5 +34,6 @@ namespace Maniac.DataBaseSystem
     {
         public string Id;
         public Sprite sprite;
+        public SpriteLibraryAsset spriteLibraryAsset;
     }
 }
