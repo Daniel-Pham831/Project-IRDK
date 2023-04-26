@@ -30,6 +30,7 @@ namespace Maniac.Command
     public abstract class ResultCommand<T> : Command
     {
         protected T _result = default;
+        
         public async UniTask<T> ExecuteAndGetResult()
         {
             await Execute();

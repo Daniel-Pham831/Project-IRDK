@@ -1,16 +1,15 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Cysharp.Threading.Tasks;
+using Game.Networking.Network.NetworkModels.Handlers.NetPlayerModel;
 using Game.Networking.Network.NetworkModels.Models;
-using Maniac.MessengerSystem.Messages;
 using MemoryPack;
 
-namespace Game.Networking.Network.NetworkModels.Handlers
+namespace Game.Networking.Network.NetworkModels.Handlers.NetLobbyModel
 {
     [MemoryPackable]
     public partial class NetLobbyModel : BaseNetModel
     {
-        public bool IsReady { get; set; } = false;
+        public bool IsDataSyncReady { get; set; } = false;
     }
 
     public class NetLobbyModelHandler : NetHandler<NetLobbyModel>
@@ -26,19 +25,19 @@ namespace Game.Networking.Network.NetworkModels.Handlers
             await UniTask.WaitUntil(() => _playerModelHandler.LocalClientModel.Value != null);
             
             var localNetLobbyModel = CreateNewLocalModel();
-            localNetLobbyModel.IsReady = true;
+            localNetLobbyModel.IsDataSyncReady = true;
             
             LocalClientModel.Value = localNetLobbyModel;
         }
 
-        public bool IsAllClientsNetLobbyModelReady()
+        public bool IsAllClientsDataSyncReady()
         {
             if (AllClientReactiveModels.Value.Values.Count == 0)
                 return false;
             
             foreach (var netLobbyModel in AllClientReactiveModels.Value.Values.ToList())
             {
-                if (!netLobbyModel.Value.IsReady) return false;
+                if (!netLobbyModel.Value.IsDataSyncReady) return false;
             }
 
             return true;

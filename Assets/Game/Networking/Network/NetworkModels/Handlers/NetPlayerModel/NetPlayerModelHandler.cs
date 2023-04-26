@@ -1,17 +1,9 @@
-﻿using System.Linq;
-using Cysharp.Threading.Tasks;
-using Game.Networking.NetMessages;
-using Game.Networking.Network.NetworkModels.Models;
+﻿using Game.Networking.Network.NetworkModels.Models;
 using Maniac.DataBaseSystem;
-using Maniac.MessengerSystem.Base;
-using Maniac.MessengerSystem.Messages;
-using Maniac.Utils;
-using Maniac.Utils.Extension;
 using MemoryPack;
-using UniRx;
 using UnityEngine;
 
-namespace Game.Networking.Network.NetworkModels.Handlers
+namespace Game.Networking.Network.NetworkModels.Handlers.NetPlayerModel
 {
     [MemoryPackable]
     public partial class NetPlayerModel : BaseNetModel

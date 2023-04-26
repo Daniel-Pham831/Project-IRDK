@@ -15,12 +15,13 @@ namespace Maniac.LanguageTableSystem
         private LanguageItem _languageItem;
         
         public event Action<string, string> OnLanguageTextChanged;
-        
+
         private void Awake()
         {
+            _text = GetComponent<TMP_Text>();
+            
             if (_languageItem != null)
             {
-                _text = GetComponent<TMP_Text>();
                 SetLanguageItem(_languageItem);
             }
         }
@@ -45,6 +46,12 @@ namespace Maniac.LanguageTableSystem
             _languageTable.OnGlobalLanguageChanged += OnLanguageChanged;
             _languageItem = languageItem;
             _text.text = _languageItem.GetCurrentLanguageText();
+        }
+        
+        public void SetLanguageItem(string languageItemId)
+        {
+            var languageItem = _languageTable.Get(languageItemId);
+            SetLanguageItem(languageItem);
         }
 
         public string GetCurrentLanguageText()

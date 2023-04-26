@@ -1,8 +1,12 @@
+using System.Collections.Generic;
 using UnityEngine;
 using Game.Commands;
 using Game.Networking.Lobby;
 using Game.Networking.Lobby.Commands;
 using Game.Networking.NetDataTransmitterComponents;
+using Game.Networking.Network.NetworkModels;
+using Game.Networking.Network.NetworkModels.Handlers.NetLobbyModel;
+using Game.Networking.Network.NetworkModels.Handlers.NetPlayerModel;
 using Game.Networking.Relay;
 using Maniac.DataBaseSystem;
 using Maniac.LanguageTableSystem;
@@ -11,7 +15,7 @@ using Maniac.UISystem.Command;
 using Maniac.Utils;
 using TMPro;
 using UniRx;
-using Unity.Services.Authentication;
+using Unity.Netcode;
 using Unity.Services.Lobbies.Models;
 
 namespace Game
@@ -22,6 +26,9 @@ namespace Game
         private LobbySystem _lobbySystem => Locator<LobbySystem>.Instance;
         private DataBase _dataBase => Locator<DataBase>.Instance;
         private PingHandler _pingHandler => Locator<PingHandler>.Instance;
+        private NetModelHub _hub => Locator<NetModelHub>.Instance;
+        private NetLobbyModelHandler _netLobbyModelHandler;
+        private NetPlayerModelHandler _NetPlayerModelHandler;
         private LobbyConfig _lobbyConfig;
 
         [SerializeField] private TMP_Text lobbyNameTxt;
@@ -33,13 +40,15 @@ namespace Game
         
         [SerializeField] private LanguageItem privateLangItem;
         [SerializeField] private LanguageItem publicLangItem;
-
+        
         private readonly string _playerCountFormat = "{0}/{1}";
         private Lobby _joinedLobby;
 
         public override async void OnSetup(object parameter = null)
         {
             _lobbyConfig = _dataBase.GetConfig<LobbyConfig>();
+            _netLobbyModelHandler = _hub.GetHandler<NetLobbyModelHandler>();
+            _NetPlayerModelHandler = _hub.GetHandler<NetPlayerModelHandler>();
 
             SubscribeEvents();
             
@@ -60,6 +69,18 @@ namespace Game
             {
                 lobbyPingTxt.text = $"{value:F1} ms";
             }).AddTo(this);
+            
+            _netLobbyModelHandler.AllClientReactiveModels.Subscribe(UpdatePlayersReadyState).AddTo(this);
+        }
+
+        private void UpdatePlayersReadyState(Dictionary<ulong, ReactiveProperty<NetLobbyModel>> lobbyModelDict)
+        {
+            foreach (var lobbyModel in lobbyModelDict)
+            {
+                var netPlayerModel = _NetPlayerModelHandler.GetModelByPlayerId(lobbyModel.Value.Value.PlayerId);
+                
+                if (netPlayerModel == null) continue;
+            }
         }
 
         private void UpdateLobbyRoom()
@@ -81,11 +102,11 @@ namespace Game
             lobbyRegionTxt.text = regionDescription;
         }
 
-        public async void OnStartClicked()
+        public async void OnStartOrReadyClicked()
         {
-            bool isLocalPlayerHost = _joinedLobby.HostId == AuthenticationService.Instance.PlayerId;
+            bool isHost = NetworkManager.Singleton.IsHost;
 
-            if (isLocalPlayerHost)
+            if (isHost)
             {
                 
             }

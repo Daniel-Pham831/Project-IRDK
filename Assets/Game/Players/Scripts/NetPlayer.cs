@@ -2,6 +2,7 @@ using System;
 using Cysharp.Threading.Tasks;
 using Game.Networking.Network.NetworkModels;
 using Game.Networking.Network.NetworkModels.Handlers;
+using Game.Networking.Network.NetworkModels.Handlers.NetPlayerModel;
 using Maniac.DataBaseSystem;
 using Maniac.Utils;
 using Maniac.Utils.Extension;

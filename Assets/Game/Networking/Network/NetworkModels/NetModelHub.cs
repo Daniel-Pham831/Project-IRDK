@@ -5,6 +5,7 @@ using Cysharp.Threading.Tasks;
 using Game.Networking.NetDataTransmitterComponents;
 using Game.Networking.NetMessages;
 using Game.Networking.Network.NetworkModels.Handlers;
+using Game.Networking.Network.NetworkModels.Handlers.NetLobbyModel;
 using Game.Networking.Network.NetworkModels.Models;
 using Maniac.MessengerSystem.Base;
 using Maniac.MessengerSystem.Messages;
@@ -71,8 +72,8 @@ namespace Game.Networking.Network.NetworkModels
         private void AddHandlers()
         {
             var handlerTypes = new List<Type>();
-            handlerTypes.Add(typeof(NetPlayerModelHandler));
-            handlerTypes.Add(typeof(NetLobbyModelHandler));
+            var subTypes = typeof(NetHandler<>).GetAllSubclasses();
+            handlerTypes.AddRange(subTypes);
 
             foreach (var handlerType in handlerTypes)
             {

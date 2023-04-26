@@ -4,6 +4,7 @@ using Game.Networking;
 using Game.Networking.Lobby.Commands;
 using Game.Networking.Network.NetworkModels;
 using Game.Networking.Network.NetworkModels.Handlers;
+using Game.Networking.Network.NetworkModels.Handlers.NetPlayerModel;
 using Maniac.Utils;
 using TMPro;
 using Unity.Services.Authentication;

@@ -1,6 +1,7 @@
 ﻿using Cysharp.Threading.Tasks;
 using Game.Networking.Network.NetworkModels;
 using Game.Networking.Network.NetworkModels.Handlers;
+using Game.Networking.Network.NetworkModels.Handlers.NetPlayerModel;
 using Maniac.Command;
 using Maniac.UISystem.Command;
 using Maniac.Utils;

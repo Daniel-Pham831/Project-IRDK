@@ -5,6 +5,7 @@ using Maniac;
 using DG.Tweening;
 using Game.Networking.Network.NetworkModels;
 using Game.Networking.Network.NetworkModels.Handlers;
+using Game.Networking.Network.NetworkModels.Handlers.NetPlayerModel;
 using Maniac.DataBaseSystem;
 using Maniac.UISystem;
 using Maniac.Utils;
