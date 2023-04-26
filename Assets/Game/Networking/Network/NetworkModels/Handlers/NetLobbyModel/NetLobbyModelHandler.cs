@@ -3,6 +3,8 @@ using Cysharp.Threading.Tasks;
 using Game.Networking.Network.NetworkModels.Handlers.NetPlayerModel;
 using Game.Networking.Network.NetworkModels.Models;
 using MemoryPack;
+using Unity.Mathematics;
+using Unity.Netcode;
 
 namespace Game.Networking.Network.NetworkModels.Handlers.NetLobbyModel
 {
@@ -10,6 +12,7 @@ namespace Game.Networking.Network.NetworkModels.Handlers.NetLobbyModel
     public partial class NetLobbyModel : BaseNetModel
     {
         public bool IsDataSyncReady { get; set; } = false;
+        public int RandomSeed { get; set; } = 0;
     }
 
     public class NetLobbyModelHandler : NetHandler<NetLobbyModel>
@@ -26,6 +29,10 @@ namespace Game.Networking.Network.NetworkModels.Handlers.NetLobbyModel
             
             var localNetLobbyModel = CreateNewLocalModel();
             localNetLobbyModel.IsDataSyncReady = true;
+            if (NetworkManager.Singleton.IsHost)
+            {
+                localNetLobbyModel.RandomSeed = UnityEngine.Random.Range(int.MinValue, int.MaxValue);
+            }
             
             LocalClientModel.Value = localNetLobbyModel;
         }

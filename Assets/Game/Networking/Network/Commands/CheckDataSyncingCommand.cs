@@ -6,6 +6,7 @@ using Game.Networking.Network.NetworkModels.Handlers.NetLobbyModel;
 using Maniac.Command;
 using Maniac.DataBaseSystem;
 using Maniac.Utils;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace Game.Networking.Network.Commands

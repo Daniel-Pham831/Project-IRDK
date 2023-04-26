@@ -3,6 +3,7 @@ using Game.Networking.Network;
 using Game.Networking.Relay;
 using Game.Scenes.MainMenu.Commands;
 using Maniac.Command;
+using Maniac.RandomSystem;
 using Maniac.Utils;
 
 namespace Game.Networking.Lobby.Commands
@@ -16,6 +17,7 @@ namespace Game.Networking.Lobby.Commands
         {
             _networkSystem.NetworkManager.Shutdown();
             await _lobbySystem.LeaveLobby();
+            Locator<Randomer>.Instance.ClearSeed();
             await new LoadMainMenuSceneCommand(true).Execute();
         }
     }

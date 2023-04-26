@@ -29,6 +29,7 @@ namespace Game.Scenes.LobbyRoom.Commands
             lobbyRoomCommandsGroup.Add(new StartNetworkSessionCommand());
             lobbyRoomCommandsGroup.Add(new CheckDataSyncingCommand());
             lobbyRoomCommandsGroup.Add(new RequestSpawnNetPlayerCommand());
+            lobbyRoomCommandsGroup.Add(new ApplyHostRandomSeedCommand());
             lobbyRoomCommandsGroup.Add(new ShowScreenCommand<LobbyRoomDetailScreen>());
 
             _loadingScreen = await _uiManager.Show<LoadingScreen>(lobbyRoomCommandsGroup.Progress);
