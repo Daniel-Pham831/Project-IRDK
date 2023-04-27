@@ -15,7 +15,7 @@ namespace Game.MazeSystem
 
         private Maze _currentMaze;
         public Vector2Int Position;
-        public List<Wall> Walls = new() { Wall.Top, Wall.Bot, Wall.Left, Wall.Right };
+        public List<Wall> Walls = new() { Wall.Top, Wall.Right, Wall.Bot, Wall.Left };
 
         public void ClearWalls(List<Wall> wallsToClear)
         {

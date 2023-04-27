@@ -15,13 +15,14 @@ namespace Game.MazeSystem
     public enum Wall
     {
         Top,
+        Right,
         Bot,
         Left,
-        Right
     }
 
     public class MazeGenerator
     {
+        private Randomer _randomer => Locator<Randomer>.Instance;
         public Maze CurrentMaze { get; private set; }
         
         public void Init()
@@ -49,7 +50,9 @@ namespace Game.MazeSystem
 
             while (unvisitedNeighbors.Count > 0)
             {
-                var randomNeighbor = unvisitedNeighbors.TakeRandomWithSeed(Locator<Randomer>.Instance.Seed);
+                var randomNeighbor = _randomer != null
+                    ? unvisitedNeighbors.TakeRandomWithSeed(_randomer.Seed)
+                    : unvisitedNeighbors.TakeRandom();
                 unvisitedNeighbors.Remove(randomNeighbor);
                 
                 if(!maze.IsCellValid(randomNeighbor) || visitedCells.Contains(randomNeighbor))
