@@ -13,3 +13,19 @@ MonoBehaviour:
   m_Name: MazeConfig
   m_EditorClassIdentifier: 
   DefaultMazeDimensions: {x: 6, y: 4}
+  MazeLevelConfigs:
+  - Difficulty: 0
+    Dimensions: {x: 4, y: 3}
+    DestructionPercent: 0.25
+  - Difficulty: 1
+    Dimensions: {x: 4, y: 4}
+    DestructionPercent: 0.3
+  - Difficulty: 2
+    Dimensions: {x: 6, y: 4}
+    DestructionPercent: 0.35
+  - Difficulty: 3
+    Dimensions: {x: 6, y: 5}
+    DestructionPercent: 0.4
+  - Difficulty: 4
+    Dimensions: {x: 7, y: 5}
+    DestructionPercent: 0.45

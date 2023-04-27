@@ -7,7 +7,7 @@ using Unity.Netcode;
 
 namespace Game.Networking.Network.Commands
 {
-    public class PreGenerateMazeCommand : Command
+    public class GenerateMazeCommand : Command
     {
         private DataBase _dataBase = Locator<DataBase>.Instance;
         private MazeGenerator mazeGenerator => Locator<MazeGenerator>.Instance;
