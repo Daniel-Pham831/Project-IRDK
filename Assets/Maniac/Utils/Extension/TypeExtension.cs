@@ -20,6 +20,25 @@ namespace Maniac.Utils.Extension
 
             return System.Reflection.Assembly.GetAssembly(baseType).GetTypes().Where(type => type.IsSubclassOf(baseType) && !excepList.Contains(type));
         }
+
+        public static IEnumerable<Type> GetAllSubclasses2(this Type baseType, List<Type> excepList = null)
+        {
+            if (excepList == null)
+            {
+                excepList = new List<Type>();
+            }
+
+            return Assembly.GetAssembly(baseType)
+                .GetTypes()
+                .Where(type =>
+                    type.IsSubClassOfEx(baseType) &&
+                    !excepList.Contains(type));
+        }
+        
+        public static bool IsSubClassOfEx(this Type t, Type baseType)
+        {
+            return t.BaseType != null && t.BaseType.IsGenericType && t.BaseType.GetGenericTypeDefinition() == baseType;
+        }
         
         public static bool IsSameOrSubclass(this Type potentialDescendant,Type potentialBase)
         {

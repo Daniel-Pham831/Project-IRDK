@@ -73,7 +73,8 @@ namespace Game.Networking.Network.NetworkModels
         {
             var handlerTypes = new List<Type>();
             var type = typeof(NetHandler<>);
-            var subTypes = type.GetAllSubclasses();
+            
+            var subTypes = type.GetAllSubclasses2();
             handlerTypes.AddRange(subTypes);
 
             foreach (var handlerType in handlerTypes)
