@@ -1,5 +1,6 @@
 ﻿using Game.CloudProfileSystem;
 using Game.Commands;
+using Game.MazeSystem;
 using Game.Networking.Lobby;
 using Game.Networking.Network;
 using Game.Networking.Relay;
@@ -13,6 +14,7 @@ using Maniac.DataBaseSystem;
 using Maniac.LanguageTableSystem;
 using Maniac.ProfileSystem;
 using Maniac.RandomSystem;
+using Maniac.RunnerSystem;
 using Maniac.Services;
 using Maniac.SpawnerSystem;
 using Maniac.TimeSystem;
@@ -58,6 +60,7 @@ namespace Maniac.Bootstrap.Scripts
             var essentialServiceGroup = new SequenceServiceGroup("Maniac Essential Services");
             
             essentialServiceGroup.Add(new LimitFrameRateService());
+            essentialServiceGroup.Add(new InitRunnerSystemService());
             essentialServiceGroup.Add(new InitRandomerService());
             essentialServiceGroup.Add(new InitDotweenService());
             essentialServiceGroup.Add(new InitTimeManagerService());
@@ -74,6 +77,8 @@ namespace Maniac.Bootstrap.Scripts
         private Service CreateBootstrapLoadingServiceGroup()
         {
             var bootstrapLoadingServiceGroup = new BootstrapLoadingServiceGroup("Loading Services");
+            
+            // Unity and networking services
             bootstrapLoadingServiceGroup.Add(new InitUnityEventSenderService());
             bootstrapLoadingServiceGroup.Add(new InitUnityServicesService());
             bootstrapLoadingServiceGroup.Add(new InitAuthenticationService());
@@ -82,6 +87,9 @@ namespace Maniac.Bootstrap.Scripts
             bootstrapLoadingServiceGroup.Add(new InitNetworkSystemService());
             bootstrapLoadingServiceGroup.Add(new InitLobbySystemService());
             bootstrapLoadingServiceGroup.Add(new InitRelaySystemService());
+            
+            // Game services
+            bootstrapLoadingServiceGroup.Add(new InitMazeGeneratorService());
 
             var commandServiceGroup = new SequenceCommandServiceGroup("Command Service Group");
             commandServiceGroup.Add( new LoadMainMenuSceneCommand());

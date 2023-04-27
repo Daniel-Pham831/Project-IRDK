@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using Cysharp.Threading.Tasks;
+using Maniac.RandomSystem;
+using Maniac.RunnerSystem;
+using Maniac.Utils;
 using Maniac.Utils.Extension;
 using Newtonsoft.Json;
 using Sirenix.OdinInspector;
@@ -19,13 +22,20 @@ namespace Game.MazeSystem
 
     public class MazeGenerator
     {
-        public async void GenerateNewMaze()
+        public Maze CurrentMaze { get; private set; }
+        
+        public void Init()
         {
-            var maze = new Maze(new Vector2Int(3, 5));
-            var visitedCells = new List<Vector2Int>();
-            await GenerateMazeRecursively(new Vector2Int(0,0),maze,visitedCells);
+            Locator<MazeGenerator>.Set(this);
         }
-
+        
+        public async UniTask GenerateNewMaze(Vector2Int mazeDimension)
+        {
+            CurrentMaze = new Maze(mazeDimension);
+            var visitedCells = new List<Vector2Int>();
+            await GenerateMazeRecursively(new Vector2Int(0,0),CurrentMaze,visitedCells);
+        }
+        
         private async UniTask GenerateMazeRecursively(Vector2Int currentPosition, Maze maze, List<Vector2Int> visitedCells)
         {
             visitedCells.Add(currentPosition);
@@ -39,7 +49,7 @@ namespace Game.MazeSystem
 
             while (unvisitedNeighbors.Count > 0)
             {
-                var randomNeighbor = unvisitedNeighbors.TakeRandom();
+                var randomNeighbor = unvisitedNeighbors.TakeRandomWithSeed(Locator<Randomer>.Instance.Seed);
                 unvisitedNeighbors.Remove(randomNeighbor);
                 
                 if(!maze.IsCellValid(randomNeighbor) || visitedCells.Contains(randomNeighbor))
@@ -54,12 +64,12 @@ namespace Game.MazeSystem
         [Sirenix.OdinInspector.Button("Export JSON", ButtonSizes.Medium)]
         [PropertyOrder(-1)]
         [HorizontalGroup("Buttons-JSON")]
-        public void ExportToJSON(Maze maze)
+        public void ExportToJSON()
         {
             string path = UnityEditor.EditorUtility.SaveFilePanel("Choose JSON File", Application.dataPath, "Maze", "json");
             if (!string.IsNullOrEmpty(path))
             {
-                var json = JsonConvert.SerializeObject(maze, Formatting.Indented);
+                var json = JsonConvert.SerializeObject(CurrentMaze, Formatting.Indented);
                 File.WriteAllText(path, json);
                 Debug.Log("Exported!");
             }

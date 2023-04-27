@@ -31,10 +31,25 @@ namespace Maniac.Utils.Extension
                 buffer[j] = buffer[i];
             }
         }
+        
+        public static T TakeRandomWithSeed<T>(this IEnumerable<T> list,int seed)
+        {
+            return list.Shuffle(new Random(seed)).FirstOrDefault();
+        }
 
         public static T TakeRandom<T>(this IEnumerable<T> list)
         {
             return list.Shuffle().FirstOrDefault();
+        }
+
+        public static T TakeUnityRandom<T>(this List<T> list)
+        {
+            return list[UnityEngine.Random.Range(0, list.Count)];
+        }
+        
+        public static T TakeUnityRandom<T>(this T[] list)
+        {
+            return list[UnityEngine.Random.Range(0, list.Length)];
         }
 
         public static IEnumerable<T> TakeRandom<T>(this IEnumerable<T> list, int numberOfItems)
