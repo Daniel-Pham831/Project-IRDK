@@ -201,6 +201,7 @@ namespace Game.Networking.Network.NetworkModels.Handlers
             };
 
             SendModelToAll(removeModel);
+            ReceiveModel(Helper.Serialize(removeModel));
         }
 
         private void SendModelToClients(T removeModel,List<ulong> toClientIds)

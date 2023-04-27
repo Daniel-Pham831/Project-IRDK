@@ -2,6 +2,8 @@
 using Cysharp.Threading.Tasks;
 using Game.Networking.Network.NetworkModels.Handlers.NetPlayerModel;
 using Game.Networking.Network.NetworkModels.Models;
+using Maniac.RandomSystem;
+using Maniac.Utils;
 using MemoryPack;
 using Unity.Mathematics;
 using Unity.Netcode;
@@ -32,6 +34,7 @@ namespace Game.Networking.Network.NetworkModels.Handlers.NetLobbyModel
             if (NetworkManager.Singleton.IsHost)
             {
                 localNetLobbyModel.RandomSeed = UnityEngine.Random.Range(int.MinValue, int.MaxValue);
+                Locator<Randomer>.Instance.SetSeed(localNetLobbyModel.RandomSeed);
             }
             
             LocalClientModel.Value = localNetLobbyModel;
