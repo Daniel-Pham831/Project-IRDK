@@ -13,6 +13,7 @@ namespace Game.Scenes.WCFTest
         public void Setup(Cell cellModel)
         {
             transform.position = (Vector2)cellModel.Position;
+            name = $"Cell {cellModel.Position.x} {cellModel.Position.y}";
 
             foreach (var wall in cellModel.Walls)
             {

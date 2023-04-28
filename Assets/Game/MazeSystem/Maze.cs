@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Game.MazeSystem
 {
@@ -17,10 +18,29 @@ namespace Game.MazeSystem
                     Cells[i, j] = new Cell(new Vector2Int(i, j), this);
                 }
             }
+            
+            SetupStartAndEndCell();
         }
-        
+
+        private void SetupStartAndEndCell()
+        {
+            StartCell = new Cell(new Vector2Int(-1, Random.Range(0,Dimension.y)), this);
+            EndCell = new Cell(new Vector2Int(Dimension.x, Random.Range(0,Dimension.y)), this);
+            ConnectStartAndEndWithMaze();
+        }
+
+        private void ConnectStartAndEndWithMaze()
+        {
+            StartCell.Walls.Remove(Wall.Right);
+            EndCell.Walls.Remove(Wall.Left);
+            Cells[0, StartCell.Position.y].Walls.Remove(Wall.Left);
+            Cells[Dimension.x - 1, EndCell.Position.y].Walls.Remove(Wall.Right);
+        }
+
         public Vector2Int Dimension;
         public Cell[,] Cells;
+        public Cell StartCell;
+        public Cell EndCell;
 
         public bool IsCellValid(Vector2Int randomNeighbor)
         {
@@ -33,6 +53,7 @@ namespace Game.MazeSystem
                 return false;
             }
         }
+        
 
         public void BreakWallsBetween(Vector2Int aPosition, Vector2Int bPosition)
         {
@@ -42,26 +63,26 @@ namespace Game.MazeSystem
 
                 if (direction.y > 0)
                 {
-                    Cells[aPosition.x, aPosition.y].ClearWalls(new() { Wall.Right });
-                    Cells[bPosition.x, bPosition.y].ClearWalls(new() { Wall.Left });
+                    Cells[aPosition.x, aPosition.y].ClearWalls(new() { Wall.Top });
+                    Cells[bPosition.x, bPosition.y].ClearWalls(new() { Wall.Bot });
                 }
 
                 if (direction.y < 0)
-                {
-                    Cells[aPosition.x, aPosition.y].ClearWalls(new() { Wall.Left });
-                    Cells[bPosition.x, bPosition.y].ClearWalls(new() { Wall.Right });
-                }
-
-                if (direction.x > 0)
                 {
                     Cells[aPosition.x, aPosition.y].ClearWalls(new() { Wall.Bot });
                     Cells[bPosition.x, bPosition.y].ClearWalls(new() { Wall.Top });
                 }
 
+                if (direction.x > 0)
+                {
+                    Cells[aPosition.x, aPosition.y].ClearWalls(new() { Wall.Right });
+                    Cells[bPosition.x, bPosition.y].ClearWalls(new() { Wall.Left });
+                }
+
                 if (direction.x < 0)
                 {
-                    Cells[aPosition.x, aPosition.y].ClearWalls(new() { Wall.Top });
-                    Cells[bPosition.x, bPosition.y].ClearWalls(new() { Wall.Bot });
+                    Cells[aPosition.x, aPosition.y].ClearWalls(new() { Wall.Left });
+                    Cells[bPosition.x, bPosition.y].ClearWalls(new() { Wall.Right });
                 }
             }
             catch

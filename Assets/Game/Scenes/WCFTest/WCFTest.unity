@@ -7732,8 +7732,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86fcdfbc8ae64a9fb406058b81a24c95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Columns: 7
-  Rows: 5
+  Columns: 4
+  Rows: 3
   CellSize: 1
   cellVisualizerPrefab: {fileID: 8804170691893949980, guid: 3baa9e4ed0d4f494fb2b93da4eb71f74, type: 3}
 --- !u!1 &790437316

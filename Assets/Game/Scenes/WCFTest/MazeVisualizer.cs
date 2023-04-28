@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using Game.MazeSystem;
 using Game.Networking.Network.Commands;
+using Maniac.DataBaseSystem;
+using Maniac.Utils;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -23,9 +25,6 @@ namespace Game.Scenes.WCFTest
             Rows = Mathf.Clamp(Rows, 0, Rows);
             Columns = Mathf.Clamp(Columns, 0, Columns);
             CellSize = Mathf.Clamp(CellSize, 0f, CellSize);
-
-            // Offset.x = (float)((Columns / 2f - 0.5) * -1f);
-            // Offset.y = (float)((Rows / 2f - 0.5) * -1f);
         }
 
         private void OnDrawGizmos()
@@ -50,10 +49,27 @@ namespace Game.Scenes.WCFTest
         public async void GenerateMaze()
         {
             await _mazeGenerator.GenerateNewMaze(new Vector2Int(Columns, Rows));
-            _mazeGenerator.ExportToJSON();
+            ClearAllConstructedCellVisualizers();
             ConstructCellVisualizers();
         }
-        
+
+        [Button]
+        public async void RandomlyDestructMaze()
+        {
+            var destructionPercent =
+                DataBase.ActiveDatabase.GetConfig<MazeConfig>().MazeLevelConfigs[^1].DestructionPercent;
+            foreach (var cell in _mazeGenerator.CurrentMaze.Cells)
+            {
+                if (Helper.IsPercentTrigger(destructionPercent))
+                {
+                    cell.ClearRandomWall();
+                }
+            }
+
+            ClearAllConstructedCellVisualizers();
+            ConstructCellVisualizers();
+        }
+
         private void ClearAllConstructedCellVisualizers()
         {
             foreach (var cellVisualizer in _cellVisualizers)
@@ -71,6 +87,14 @@ namespace Game.Scenes.WCFTest
                 cellVisualizer.Setup(cell);
                 _cellVisualizers.Add(cellVisualizer);
             }
+            
+            var startCellVisualizer = Instantiate(cellVisualizerPrefab, transform);
+            startCellVisualizer.Setup(_mazeGenerator.CurrentMaze.StartCell);
+            _cellVisualizers.Add(startCellVisualizer);
+            
+            var endCellVisualizer = Instantiate(cellVisualizerPrefab, transform);
+            endCellVisualizer.Setup(_mazeGenerator.CurrentMaze.EndCell);
+            _cellVisualizers.Add(endCellVisualizer);
         }
     }
 }
