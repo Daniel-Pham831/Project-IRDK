@@ -8,18 +8,10 @@ using Maniac.Utils.Extension;
 using Newtonsoft.Json;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Game.MazeSystem
 {
-    
-    public enum Wall
-    {
-        Top,
-        Right,
-        Bot,
-        Left,
-    }
-
     public class MazeGenerator
     {
         private Randomer _randomer => Locator<Randomer>.Instance;

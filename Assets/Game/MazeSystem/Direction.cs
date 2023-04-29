@@ -1,0 +1,34 @@
+using System;
+using UnityEngine;
+
+namespace Game.MazeSystem
+{
+    [Serializable]
+    public enum Direction
+    {
+        Top,
+        Right,
+        Bottom,
+        Left,
+    }
+
+    public static class DirectionExtensions
+    {
+        public static Vector2Int ToVector2Int(this Direction direction)
+        {
+            switch (direction)
+            {
+                case Direction.Top:
+                    return Vector2Int.up;
+                case Direction.Right:
+                    return Vector2Int.right;
+                case Direction.Bottom:
+                    return Vector2Int.down;
+                case Direction.Left:
+                    return Vector2Int.left;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(direction), direction, null);
+            }
+        } 
+    }
+}

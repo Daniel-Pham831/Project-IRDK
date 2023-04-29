@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
+using Game.MazeSystem;
 using Maniac.DataBaseSystem;
 using Maniac.Utils;
 using Unity.Collections;

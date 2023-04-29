@@ -19,16 +19,16 @@ namespace Game.Scenes.WCFTest
             {
                 switch (wall)
                 {
-                    case Wall.Top:
+                    case Direction.Top:
                         topPath.SetActive(false);
                         break;
-                    case Wall.Right:
+                    case Direction.Right:
                         rightPath.SetActive(false);
                         break;
-                    case Wall.Bot:
+                    case Direction.Bottom:
                         botPath.SetActive(false);
                         break;
-                    case Wall.Left:
+                    case Direction.Left:
                         leftPath.SetActive(false);
                         break;
                 }

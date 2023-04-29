@@ -7,7 +7,15 @@ namespace Game.MazeSystem
     [Serializable]
     public class Maze
     {
-        public Maze(Vector2Int dimension)
+        public Vector2Int Dimension;
+        public Cell[,] Cells;
+        public Cell StartCell;
+        public Cell EndCell;
+        public Cell CurrentObserveCell;
+
+        #region Maze Initialization 
+
+         public Maze(Vector2Int dimension)
         {
             Dimension = dimension;
             Cells = new Cell[Dimension.x, Dimension.y];
@@ -18,29 +26,25 @@ namespace Game.MazeSystem
                     Cells[i, j] = new Cell(new Vector2Int(i, j), this);
                 }
             }
-            
+
             SetupStartAndEndCell();
         }
 
         private void SetupStartAndEndCell()
         {
-            StartCell = new Cell(new Vector2Int(-1, Random.Range(0,Dimension.y)), this);
-            EndCell = new Cell(new Vector2Int(Dimension.x, Random.Range(0,Dimension.y)), this);
+            StartCell = new Cell(new Vector2Int(-1, Random.Range(0, Dimension.y)), this);
+            EndCell = new Cell(new Vector2Int(Dimension.x, Random.Range(0, Dimension.y)), this);
             ConnectStartAndEndWithMaze();
+            CurrentObserveCell = StartCell;
         }
 
         private void ConnectStartAndEndWithMaze()
         {
-            StartCell.Walls.Remove(Wall.Right);
-            EndCell.Walls.Remove(Wall.Left);
-            Cells[0, StartCell.Position.y].Walls.Remove(Wall.Left);
-            Cells[Dimension.x - 1, EndCell.Position.y].Walls.Remove(Wall.Right);
+            StartCell.Walls.Remove(Direction.Right);
+            EndCell.Walls.Remove(Direction.Left);
+            Cells[0, StartCell.Position.y].Walls.Remove(Direction.Left);
+            Cells[Dimension.x - 1, EndCell.Position.y].Walls.Remove(Direction.Right);
         }
-
-        public Vector2Int Dimension;
-        public Cell[,] Cells;
-        public Cell StartCell;
-        public Cell EndCell;
 
         public bool IsCellValid(Vector2Int randomNeighbor)
         {
@@ -53,7 +57,6 @@ namespace Game.MazeSystem
                 return false;
             }
         }
-        
 
         public void BreakWallsBetween(Vector2Int aPosition, Vector2Int bPosition)
         {
@@ -61,28 +64,28 @@ namespace Game.MazeSystem
             {
                 var direction = bPosition - aPosition;
 
-                if (direction.y > 0)
+                switch (direction.y)
                 {
-                    Cells[aPosition.x, aPosition.y].ClearWalls(new() { Wall.Top });
-                    Cells[bPosition.x, bPosition.y].ClearWalls(new() { Wall.Bot });
+                    case > 0:
+                        Cells[aPosition.x, aPosition.y].ClearWalls(new() { Direction.Top });
+                        Cells[bPosition.x, bPosition.y].ClearWalls(new() { Direction.Bottom });
+                        break;
+                    case < 0:
+                        Cells[aPosition.x, aPosition.y].ClearWalls(new() { Direction.Bottom });
+                        Cells[bPosition.x, bPosition.y].ClearWalls(new() { Direction.Top });
+                        break;
                 }
 
-                if (direction.y < 0)
+                switch (direction.x)
                 {
-                    Cells[aPosition.x, aPosition.y].ClearWalls(new() { Wall.Bot });
-                    Cells[bPosition.x, bPosition.y].ClearWalls(new() { Wall.Top });
-                }
-
-                if (direction.x > 0)
-                {
-                    Cells[aPosition.x, aPosition.y].ClearWalls(new() { Wall.Right });
-                    Cells[bPosition.x, bPosition.y].ClearWalls(new() { Wall.Left });
-                }
-
-                if (direction.x < 0)
-                {
-                    Cells[aPosition.x, aPosition.y].ClearWalls(new() { Wall.Left });
-                    Cells[bPosition.x, bPosition.y].ClearWalls(new() { Wall.Right });
+                    case > 0:
+                        Cells[aPosition.x, aPosition.y].ClearWalls(new() { Direction.Right });
+                        Cells[bPosition.x, bPosition.y].ClearWalls(new() { Direction.Left });
+                        break;
+                    case < 0:
+                        Cells[aPosition.x, aPosition.y].ClearWalls(new() { Direction.Left });
+                        Cells[bPosition.x, bPosition.y].ClearWalls(new() { Direction.Right });
+                        break;
                 }
             }
             catch
@@ -91,5 +94,35 @@ namespace Game.MazeSystem
                 Debug.Log(bPosition);
             }
         }
+
+        #endregion
+
+        #region Maze Control
+
+        public bool CheckIfCanMoveToDirection(Direction direction)
+        {
+            return !CurrentObserveCell.Walls.Contains(direction);
+        }
+        
+        public void MoveToDirection(Direction direction)
+        {
+            var nextCellPosition = CurrentObserveCell.Position + direction.ToVector2Int();
+            if(StartCell.Position == nextCellPosition)
+                CurrentObserveCell = StartCell;
+            else if(EndCell.Position == nextCellPosition)
+                CurrentObserveCell = EndCell;
+            
+            try
+            {
+                CurrentObserveCell = Cells[nextCellPosition.x, nextCellPosition.y];
+            }
+            catch
+            {
+                Debug.LogError($"There is no cell in {direction} direction");
+                CurrentObserveCell = null;
+            }
+        }
+        
+        #endregion
     }
 }

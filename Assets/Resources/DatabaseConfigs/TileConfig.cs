@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
+using Game.MazeSystem;
 using Maniac;
 using Maniac.Utils;
 using Sirenix.OdinInspector;
@@ -142,15 +143,6 @@ namespace Maniac.DataBaseSystem
                 }
             }
         }
-    }
-    
-    [Serializable]
-    public enum Direction
-    {
-        Top,
-        Right,
-        Bottom,
-        Left,
     }
     
     [Serializable]
