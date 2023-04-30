@@ -16,7 +16,7 @@ namespace Maniac.DataBaseSystem
     {
         public float SendPingInterval = 0.5f;
         
-        public NetDataTransmitter NetDataTransmitter;
+        public NetDummyPlayer NetDummyPlayer;
         public List<NetworkBehaviour> NetworkPrefabs = new List<NetworkBehaviour>();
         
         public NetStatsMonitorConfiguration NetStatsMonitorConfiguration;

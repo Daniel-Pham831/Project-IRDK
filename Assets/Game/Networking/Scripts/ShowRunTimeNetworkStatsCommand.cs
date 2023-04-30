@@ -16,11 +16,11 @@ namespace Game.Networking.Scripts
 
         public override async UniTask Execute()
         {
-            if (_buildSettingConfig.IsInProduction) return;
-            
             _buildSettingConfig = _dataBase.GetConfig<BuildSettingConfig>();
             _netConfig = _dataBase.GetConfig<NetConfig>();
-
+            
+            if (_buildSettingConfig.IsInProduction) return;
+            
             var go = new GameObject("RunTimeNetworkStats");
             var runtimeNetStatsMonitor = go.AddComponent<RuntimeNetStatsMonitor>();
             runtimeNetStatsMonitor.Configuration = _netConfig.NetStatsMonitorConfiguration;

@@ -27,8 +27,8 @@ namespace Game.Scenes.LobbyRoom.Commands
             
             lobbyRoomCommandsGroup.Add(new LoadEmptySceneCommand());
             lobbyRoomCommandsGroup.Add(new LoadSceneCommand(SceneName.LobbyRoom));
-            lobbyRoomCommandsGroup.Add(new InitNetworkModelHubCommand());
             lobbyRoomCommandsGroup.Add(new StartNetworkSessionCommand());
+            lobbyRoomCommandsGroup.Add(new InitNetworkModelHubCommand());
             lobbyRoomCommandsGroup.Add(new CheckDataSyncingCommand());
             lobbyRoomCommandsGroup.Add(new RequestSpawnNetPlayerCommand());
             lobbyRoomCommandsGroup.Add(new ShowRunTimeNetworkStatsCommand());

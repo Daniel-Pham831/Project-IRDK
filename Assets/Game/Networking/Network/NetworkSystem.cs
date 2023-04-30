@@ -50,7 +50,7 @@ namespace Game.Networking.Network
 
         private async UniTask AddAllNetworkPrefabs()
         {
-            NetworkManager.NetworkConfig.PlayerPrefab = _netConfig.NetDataTransmitter.gameObject;
+            NetworkManager.NetworkConfig.PlayerPrefab = _netConfig.NetDummyPlayer.gameObject;
             foreach (var prefab in _netConfig.NetworkPrefabs)
             {
                 NetworkManager.AddNetworkPrefab(prefab.gameObject);

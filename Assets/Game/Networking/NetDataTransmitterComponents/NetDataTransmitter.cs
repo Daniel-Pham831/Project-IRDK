@@ -1,176 +1,155 @@
 ﻿using System.Collections.Generic;
-using Game.CloudProfileSystem;
-using Game.Networking.Lobby;
 using Game.Networking.NetMessages;
-using Game.Networking.Network;
 using Game.Networking.Network.NetworkModels;
-using Maniac.DataBaseSystem;
 using Maniac.MessengerSystem.Base;
 using Maniac.MessengerSystem.Messages;
-using Maniac.TimeSystem;
 using Maniac.Utils;
+using Unity.Collections;
 using Unity.Netcode;
-using Unity.Netcode.Transports.UTP;
-using Unity.Services.Authentication;
 using UnityEngine;
 
 namespace Game.Networking.NetDataTransmitterComponents
 {
-    public class TransportDataTransmitter : MonoBehaviour
+    public class NetDataTransmitter : MonoBehaviour, IMessageListener
     {
-        private DataBase _dataBase => Locator<DataBase>.Instance;
-        private TimeManager _timeManager => Locator<TimeManager>.Instance;
-        private NetModelHub _hub => Locator<NetModelHub>.Instance;
-        private CloudProfileManager _cloudProfileManager => Locator<CloudProfileManager>.Instance;
-        private NetworkSystem _networkSystem => Locator<NetworkSystem>.Instance;
-        private LobbySystem _lobbySystem => Locator<LobbySystem>.Instance;
-        private UnityTransport _transport => _networkSystem.UnityTransport;
-
-        private UserProfile _userProfile;
-        private NetConfig _config;
-
-        private async void Awake()
+        protected NetworkManager _networkManager => NetworkManager.Singleton;
+        protected NetworkTransport _transport => _networkManager.NetworkConfig.NetworkTransport;
+        
+        protected NetModelHub _netModelHub;
+        
+        protected virtual void Awake()
         {
-            _config = _dataBase.GetConfig<NetConfig>();
-            _userProfile = await _cloudProfileManager.Get<UserProfile>();
+            Locator<NetDataTransmitter>.Set(this,true);
         }
 
-        // public void SendToServer(HubModel hubModelToSend, List<ulong> toClientIds = null)
-        // {
-        //     _networkSystem.
-        // }
-    }
-    
-    
-    public class NetDataTransmitter : NetworkBehaviour
-    {
-        private DataBase _dataBase => Locator<DataBase>.Instance;
-        private TimeManager _timeManager => Locator<TimeManager>.Instance;
-        private NetModelHub _hub => Locator<NetModelHub>.Instance;
-        private CloudProfileManager _cloudProfileManager => Locator<CloudProfileManager>.Instance;
-        private LobbySystem _lobbySystem => Locator<LobbySystem>.Instance;
-
-        private UserProfile _userProfile;
-        private NetConfig _config;
-
-        private async void Awake()
+        public void Init()
         {
-            _config = _dataBase.GetConfig<NetConfig>();
-            _userProfile = await _cloudProfileManager.Get<UserProfile>();
-        }
+            RegisterEvents(true);
 
-        public override void OnNetworkSpawn()
-        {
-            if (!IsOwner)
-            {
-                enabled = false;
-                return;
-            }
-
-            this.gameObject.name = "NetDataTransmitter - Owner" + (IsServer ? " - Server" : "Client");
-            _hub.SetNetDataTransmitter(this);
-            RegisterNetworkEvents(true);
-            Locator<NetDataTransmitter>.Set(this);
-            Messenger.SendMessage(new LocalClientNetworkSpawn());
-            NetworkObject.DestroyWithScene = false;
         }
         
-        private void OnClientConnectedCallback(ulong clientId)
-        {   
-            Messenger.SendMessage(new ClientConnectedMessage()
-            {
-                ClientId = clientId
-            });
-        }
-
-        private void OnClientDisconnectCallback(ulong clientId)
+        public void SetHubModel(NetModelHub hubModel)
         {
-            Messenger.SendMessage(new ClientDisconnectedMessage()
-            {
-                ClientId = clientId
-            });
+            _netModelHub = hubModel;
         }
 
-        private async void OnTransportFailure()
+        protected virtual void OnDestroy()
         {
-            Messenger.SendMessage(new TransportFailureMessage());
-            Destroy(gameObject);
+            RegisterEvents(false);
+            Locator<NetDataTransmitter>.Remove(this);
         }
-
-        public override void OnNetworkDespawn()
-        {
-            if(IsOwner)
-            {
-                Locator<NetDataTransmitter>.Remove();
-            }
-
-            RegisterNetworkEvents(false);
-            
-            base.OnNetworkDespawn();
-        }
-
-        private void RegisterNetworkEvents(bool shouldRegister)
+        
+        protected virtual void RegisterMessages(bool shouldRegister)
         {
             if (shouldRegister)
             {
-                if (IsServer)
-                {
-                    NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnectedCallback;
-                    NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnectCallback;
-                }
-
-                if (IsOwner)
-                {
-                    NetworkManager.Singleton.OnTransportFailure += OnTransportFailure;
-                }
+                Messenger.Register<ClientConnectedMessage>(this);
+                Messenger.Register<ClientDisconnectedMessage>(this);
+                Messenger.Register<TransportFailureMessage>(this);
+                Messenger.Register<LocalClientNetworkSpawn>(this);
             }
             else
             {
-                NetworkManager.Singleton.OnClientConnectedCallback -= OnClientConnectedCallback;
-                NetworkManager.Singleton.OnClientDisconnectCallback -= OnClientDisconnectCallback;
-                NetworkManager.Singleton.OnTransportFailure -= OnTransportFailure;
+                Messenger.Unregister<ClientConnectedMessage>(this);
+                Messenger.Unregister<ClientDisconnectedMessage>(this);
+                Messenger.Unregister<TransportFailureMessage>(this);
+                Messenger.Unregister<LocalClientNetworkSpawn>(this);
             }
         }
 
-        // [ServerRpc]
-        // public void SendNetModelServerRpc(HubModel hubModelToSend, byte[] sendToClientIds = null,
-        //     ServerRpcParams param = default)
-        // {
-        //     List<ulong> toClientIdsNetworkList = new List<ulong>();
-        //     if (sendToClientIds != null)
-        //         toClientIdsNetworkList = Helper.Deserialize<List<ulong>>(sendToClientIds);
-        //     
-        //     if (toClientIdsNetworkList.Count != 0)
-        //     {
-        //         // send to specific clients
-        //         SendNetModelClientRpc(
-        //             hubModelToSend,
-        //             param.Receive.SenderClientId,
-        //             new ClientRpcParams()
-        //             {
-        //                 Send = new ClientRpcSendParams()
-        //                 {
-        //                     TargetClientIds = toClientIdsNetworkList
-        //                 }
-        //             }
-        //         );
-        //     }
-        //     else
-        //     {
-        //         // send to all clients
-        //         SendNetModelClientRpc(
-        //             hubModelToSend,
-        //             param.Receive.SenderClientId
-        //         );
-        //     }
-        // }
-        //
-        // [ClientRpc]
-        // private void SendNetModelClientRpc(HubModel hubModelReceived,ulong senderClientId,ClientRpcParams param = default)
-        // {
-        //     if (senderClientId == NetworkManager.Singleton.LocalClientId) return;
-        //     
-        //     _hub.ReceiveHubModel(hubModelReceived);
-        // }
+        protected virtual void RegisterEvents(bool shouldRegister)
+        {
+            if (shouldRegister)
+            {
+                _networkManager.CustomMessagingManager.OnUnnamedMessage += OnUnnamedMessageReceived;
+            }
+            else
+            {
+                _networkManager.CustomMessagingManager.OnUnnamedMessage -= OnUnnamedMessageReceived;
+            }
+
+            RegisterMessages(shouldRegister);
+        }
+        
+        public void SendToServer(HubModel modelToSend)
+        {
+            var dataInBytes = modelToSend.ToBytes();
+            var writeSize = FastBufferWriter.GetWriteSize(dataInBytes);
+            using (var writer = new FastBufferWriter(writeSize, Allocator.Temp))
+            {
+                if (writer.TryBeginWrite(dataInBytes.Length))
+                {
+                    writer.WriteValueSafe(dataInBytes);
+                    _networkManager.CustomMessagingManager.SendUnnamedMessage(NetworkManager.ServerClientId,
+                        writer, NetworkDelivery.ReliableFragmentedSequenced);
+                }
+                else
+                {
+                    Debug.Log($"Fail {dataInBytes.Length}");
+                }
+            }
+        }
+
+        protected virtual void OnUnnamedMessageReceived(ulong clientId, FastBufferReader reader)
+        {
+            byte[] data = new byte[reader.Length];
+            reader.ReadValueSafe(out data);
+            var hubModel = Helper.Deserialize<HubModel>(data);
+            if (hubModel == null) return;
+
+            if (_networkManager.IsServer)
+            {
+                if (hubModel.ToClientIds == null || hubModel.ToClientIds.Count == 0)
+                {
+                    hubModel.ToClientIds = new List<ulong>(_networkManager.ConnectedClientsIds);
+                }
+
+                // update manually for server
+                hubModel.ToClientIds.Remove(_networkManager.LocalClientId);
+
+                // Remove the client that sent the data, due to that client already has the data
+                hubModel.ToClientIds.Remove(clientId);
+
+                SendDataToClients(data, hubModel.ToClientIds);
+            }
+
+            _netModelHub.ReceiveHubModel(hubModel);
+        }
+
+        private void SendDataToClients(byte[] dataToSend,IReadOnlyList<ulong> clientIds)
+        {
+            if (!NetworkManager.Singleton.IsServer)
+            {
+                Debug.LogWarning("Only server can send data to clients");
+                return;
+            }
+            
+            var writeSize = FastBufferWriter.GetWriteSize(dataToSend);
+            using (var writer = new FastBufferWriter(writeSize, Allocator.Temp))
+            {
+                if (writer.TryBeginWrite(dataToSend.Length))
+                {
+                    writer.WriteValueSafe(dataToSend);
+                    _networkManager.CustomMessagingManager.SendUnnamedMessage(clientIds,
+                        writer, NetworkDelivery.ReliableFragmentedSequenced);
+                    Debug.Log($"Send data to clients + {clientIds.Count} + {dataToSend.Length}");
+                }
+                else
+                {
+                    Debug.Log($"Fail {dataToSend.Length}");
+                }
+            }
+        }
+
+        public void OnMessagesReceived(Message receivedMessage)
+        {
+            switch (receivedMessage)
+            {
+                case ApplicationQuitMessage:
+                case TransportFailureMessage:
+                    Destroy(this.gameObject);
+                    break;
+            }
+        }
     }
 }

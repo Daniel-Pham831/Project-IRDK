@@ -206,7 +206,7 @@ namespace Game.Networking.Network.NetworkModels.Handlers
 
         private void SendModelToClients(T removeModel,List<ulong> toClientIds)
         {
-            Hub.SendModelToClients(HandlerKey, Helper.Serialize(removeModel), Helper.Serialize(toClientIds));
+            Hub.SendModelToClients(HandlerKey, Helper.Serialize(removeModel), toClientIds);
         }
 
         public void Dispose()

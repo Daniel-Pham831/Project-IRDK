@@ -7,7 +7,6 @@ using Game.Networking.NetMessages;
 using Game.Networking.Network.NetworkModels.Handlers;
 using Game.Networking.Network.NetworkModels.Handlers.NetLobbyModel;
 using Game.Networking.Network.NetworkModels.Models;
-using Game.Scenes.TestScene;
 using Maniac.MessengerSystem.Base;
 using Maniac.MessengerSystem.Messages;
 using Maniac.Utils;
@@ -21,7 +20,7 @@ namespace Game.Networking.Network.NetworkModels
     {
         // private readonly List<INetHandler> _handlers = new List<INetHandler>();
         private readonly Dictionary<string, INetHandler> _handlers = new Dictionary<string, INetHandler>();
-        private NetDataTransmitter _netDataTransmitter;
+        private NetDataTransmitter _netDataTransmitter => Locator<NetDataTransmitter>.Instance;
 
         private void Awake()
         {
@@ -48,13 +47,9 @@ namespace Game.Networking.Network.NetworkModels
 
         public async UniTask Init()
         {
+            _netDataTransmitter.SetHubModel(this);
             AddHandlers();
             await InitAllHandlerAsync();
-        }
-
-        public void SetNetDataTransmitter(NetDataTransmitter netDataTransmitter)
-        {
-            _netDataTransmitter = netDataTransmitter;
         }
 
         private void AddHandlers()
@@ -83,27 +78,23 @@ namespace Game.Networking.Network.NetworkModels
 
         public void SendModelToAll(string handlerKey, byte[] modelToSendInBytes)
         {
-            Debug.Log($"Send To Server + {gameObject.name}");
-
-            Locator<ClientTransmitter>.Instance.SendToServer(new HubModel()
+            _netDataTransmitter.SendToServer(new HubModel()
             {
                 HandlerKey = handlerKey,
                 Data = modelToSendInBytes
             });
         }
         
-        public void SendModelToClients(string handlerKey, byte[] modelToSendInBytes, byte[] toClientIds)
+        public void SendModelToClients(string handlerKey, byte[] modelToSendInBytes, List<ulong> toClientIds = null)
         {
-            Debug.Log($"Send To Server + {gameObject.name}");
-            
-            // _netDataTransmitter.SendNetModelServerRpc(
-            //     new HubModel()
-            //     {
-            //         HandlerKey = handlerKey,
-            //         Data = modelToSendInBytes
-            //     }
-            //     ,toClientIds
-            // );
+            _netDataTransmitter.SendToServer(
+                new HubModel()
+                {
+                    HandlerKey = handlerKey,
+                    Data = modelToSendInBytes,
+                    ToClientIds = toClientIds
+                }
+            );
         }
 
         public void ReceiveHubModel(HubModel hubModel)
@@ -124,5 +115,6 @@ namespace Game.Networking.Network.NetworkModels
                     break;
             }
         }
+
     }
 }

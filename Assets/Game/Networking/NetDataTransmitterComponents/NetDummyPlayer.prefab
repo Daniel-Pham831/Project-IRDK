@@ -10,11 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 4878062907131846405}
   - component: {fileID: 4878062907131846522}
-  - component: {fileID: 262476580604540945}
+  - component: {fileID: 1715398732603507685}
   - component: {fileID: -3376279489056425280}
   - component: {fileID: 8649202196969810041}
   m_Layer: 0
-  m_Name: NetDataTransmitter
+  m_Name: NetDummyPlayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -51,7 +51,7 @@ MonoBehaviour:
   AlwaysReplicateAsRoot: 0
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
---- !u!114 &262476580604540945
+--- !u!114 &1715398732603507685
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -60,7 +60,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4878062907131846523}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 21cc48e7993644318540b310a4e4c326, type: 3}
+  m_Script: {fileID: 11500000, guid: fd76971d04584aa9b661b997cdeb5377, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &-3376279489056425280

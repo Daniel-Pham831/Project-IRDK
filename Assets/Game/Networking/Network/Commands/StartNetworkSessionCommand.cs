@@ -17,10 +17,13 @@ namespace Game.Networking.Network.Commands
         private NetworkSystem _networkSystem => Locator<NetworkSystem>.Instance;
         private DataBase _dataBase = Locator<DataBase>.Instance;
         private LobbyConfig _lobbyConfig;
+        private NetDataTransmitter _transmitter;
 
         public override async UniTask Execute()
         {
             _lobbyConfig = _dataBase.GetConfig<LobbyConfig>();
+            await CheckNetPlayerInstance();
+            
             if (_lobbySystem.AmITheHost())
             {
                 _networkSystem.NetworkManager.StartHost();
@@ -29,27 +32,20 @@ namespace Game.Networking.Network.Commands
             {
                 _networkSystem.NetworkManager.StartClient();
             }
-
-            await CheckNetPlayerInstance();
+            
+            _transmitter.Init();
         }
 
         private async UniTask CheckNetPlayerInstance()
         {
             var counter = 0f;
-            while (true)
+            var transmitter = Locator<NetDataTransmitter>.Instance;
+            if (transmitter == null)
             {
-                if (Locator<NetDataTransmitter>.Instance != null)
-                {
-                    return;
-                }
-                counter += Time.deltaTime;
-
-                if (counter >= _lobbyConfig.ConnectLobbyTimeoutInSeconds)
-                {
-                    throw new Exception("Cannot connect to Server!");
-                }
-
-                await UniTask.Delay(100);
+                var go = new GameObject();
+                GameObject.DontDestroyOnLoad(go);
+                _transmitter = go.AddComponent<NetDataTransmitter>();
+                go.name = _lobbySystem.AmITheHost() ? "Server-Side Transmitter" : "Client-Side Transmitter";
             }
         }
     }
