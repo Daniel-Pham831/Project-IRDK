@@ -1477,7 +1477,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1614614202282488927}
         m_TargetAssemblyTypeName: Game.LobbyRoomDetailScreen, Assembly-CSharp
-        m_MethodName: OnStartOrReadyClicked
+        m_MethodName: OnStartClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

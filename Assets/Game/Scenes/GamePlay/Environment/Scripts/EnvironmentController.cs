@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Game.MazeSystem;
 using Maniac.Utils;
+using UniRx;
 using UnityEngine;
 
 namespace Game.Scenes.GamePlay.Environment.Scripts
@@ -16,10 +17,16 @@ namespace Game.Scenes.GamePlay.Environment.Scripts
         public void InitEnvironment(Maze maze)
         {
             _currentMaze = maze;
-            SetupEnvironment(_currentMaze.CurrentObserveCell);
+            ObserveMaze();
+            _currentMaze.NotifyCellChanged();
         }
 
-        public void SetupEnvironment(Cell cell)
+        private void ObserveMaze()
+        {
+            _currentMaze.CurrentObserveCell.Subscribe(SetupEnvironment).AddTo(this);
+        }
+
+        private void SetupEnvironment(Cell cell)
         {
             _currentCell = cell;
             SetupWallGraphics();

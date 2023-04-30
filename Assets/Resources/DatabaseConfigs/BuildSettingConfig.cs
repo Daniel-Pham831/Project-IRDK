@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
 using Maniac;
+using Newtonsoft.Json;
 using Sirenix.OdinInspector;
 
 namespace Maniac.DataBaseSystem
@@ -30,7 +31,11 @@ namespace Maniac.DataBaseSystem
                 ?.EnvironmentId;
         }
 
+        [JsonIgnore]
         public string GetTargetEnvironmentName => TargetEnvironmentName;
+        
+        [JsonIgnore]
+        public bool IsInProduction => TargetEnvironmentName == Environment.Production;
 
 #if UNITY_EDITOR
         public List<string> FetchAllIds()

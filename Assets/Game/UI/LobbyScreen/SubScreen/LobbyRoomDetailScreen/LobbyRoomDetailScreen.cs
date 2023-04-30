@@ -30,6 +30,7 @@ namespace Game
         private NetLobbyModelHandler _netLobbyModelHandler;
         private NetPlayerModelHandler _NetPlayerModelHandler;
         private LobbyConfig _lobbyConfig;
+        private NetworkTimeSystem _networkTimeSystem;
 
         [SerializeField] private TMP_Text lobbyNameTxt;
         [SerializeField] private TMP_Text lobbyStateTxt;
@@ -102,7 +103,7 @@ namespace Game
             lobbyRegionTxt.text = regionDescription;
         }
 
-        public async void OnStartOrReadyClicked()
+        public async void OnStartClicked()
         {
             bool isHost = NetworkManager.Singleton.IsHost;
 

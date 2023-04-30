@@ -7,6 +7,7 @@ using Game.Networking.NetDataTransmitterComponents;
 using Game.Networking.Network;
 using Game.Players.Scripts;
 using Maniac;
+using Unity.Multiplayer.Tools.NetStatsMonitor;
 using Unity.Netcode;
 
 namespace Maniac.DataBaseSystem
@@ -17,6 +18,8 @@ namespace Maniac.DataBaseSystem
         
         public NetDataTransmitter NetDataTransmitter;
         public List<NetworkBehaviour> NetworkPrefabs = new List<NetworkBehaviour>();
+        
+        public NetStatsMonitorConfiguration NetStatsMonitorConfiguration;
         
         private Dictionary<string,NetworkBehaviour> _networkPrefabCache = new Dictionary<string,NetworkBehaviour>();
 

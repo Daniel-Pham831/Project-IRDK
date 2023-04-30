@@ -1,4 +1,5 @@
 ﻿using System;
+using UniRx;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -11,7 +12,7 @@ namespace Game.MazeSystem
         public Cell[,] Cells;
         public Cell StartCell;
         public Cell EndCell;
-        public Cell CurrentObserveCell;
+        public ReactiveProperty<Cell> CurrentObserveCell = new ReactiveProperty<Cell>(null);
 
         #region Maze Initialization 
 
@@ -35,7 +36,7 @@ namespace Game.MazeSystem
             StartCell = new Cell(new Vector2Int(-1, Random.Range(0, Dimension.y)), this);
             EndCell = new Cell(new Vector2Int(Dimension.x, Random.Range(0, Dimension.y)), this);
             ConnectStartAndEndWithMaze();
-            CurrentObserveCell = StartCell;
+            CurrentObserveCell.Value = StartCell;
         }
 
         private void ConnectStartAndEndWithMaze()
@@ -99,27 +100,32 @@ namespace Game.MazeSystem
 
         #region Maze Control
 
+        public void NotifyCellChanged()
+        {
+            CurrentObserveCell.SetValueAndForceNotify(CurrentObserveCell.Value);
+        }
+        
         public bool CheckIfCanMoveToDirection(Direction direction)
         {
-            return !CurrentObserveCell.Walls.Contains(direction);
+            return !CurrentObserveCell.Value.Walls.Contains(direction);
         }
         
         public void MoveToDirection(Direction direction)
         {
-            var nextCellPosition = CurrentObserveCell.Position + direction.ToVector2Int();
+            var nextCellPosition = CurrentObserveCell.Value.Position + direction.ToVector2Int();
             if(StartCell.Position == nextCellPosition)
-                CurrentObserveCell = StartCell;
+                CurrentObserveCell.Value = StartCell;
             else if(EndCell.Position == nextCellPosition)
-                CurrentObserveCell = EndCell;
+                CurrentObserveCell.Value = EndCell;
             
             try
             {
-                CurrentObserveCell = Cells[nextCellPosition.x, nextCellPosition.y];
+                CurrentObserveCell.Value = Cells[nextCellPosition.x, nextCellPosition.y];
             }
             catch
             {
                 Debug.LogError($"There is no cell in {direction} direction");
-                CurrentObserveCell = null;
+                CurrentObserveCell.Value = null;
             }
         }
         

@@ -3,6 +3,7 @@ using Game.Commands;
 using Game.Networking.Lobby.Commands;
 using Game.Networking.Network;
 using Game.Networking.Network.Commands;
+using Game.Networking.Scripts;
 using Game.Scenes.MainMenu.Commands;
 using Maniac.Command;
 using Maniac.LanguageTableSystem;
@@ -10,6 +11,7 @@ using Maniac.Services;
 using Maniac.UISystem;
 using Maniac.UISystem.Command;
 using Maniac.Utils;
+using Unity.Netcode;
 
 namespace Game.Scenes.LobbyRoom.Commands
 {
@@ -29,6 +31,7 @@ namespace Game.Scenes.LobbyRoom.Commands
             lobbyRoomCommandsGroup.Add(new StartNetworkSessionCommand());
             lobbyRoomCommandsGroup.Add(new CheckDataSyncingCommand());
             lobbyRoomCommandsGroup.Add(new RequestSpawnNetPlayerCommand());
+            lobbyRoomCommandsGroup.Add(new ShowRunTimeNetworkStatsCommand());
             lobbyRoomCommandsGroup.Add(new ApplyHostRandomSeedCommand());
             lobbyRoomCommandsGroup.Add(new GenerateMazeCommand());
             lobbyRoomCommandsGroup.Add(new ShowScreenCommand<LobbyRoomDetailScreen>());
