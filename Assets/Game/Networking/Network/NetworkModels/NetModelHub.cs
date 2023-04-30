@@ -7,28 +7,16 @@ using Game.Networking.NetMessages;
 using Game.Networking.Network.NetworkModels.Handlers;
 using Game.Networking.Network.NetworkModels.Handlers.NetLobbyModel;
 using Game.Networking.Network.NetworkModels.Models;
+using Game.Scenes.TestScene;
 using Maniac.MessengerSystem.Base;
 using Maniac.MessengerSystem.Messages;
 using Maniac.Utils;
 using Maniac.Utils.Extension;
-using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
 
 namespace Game.Networking.Network.NetworkModels
 {
-    public struct HubModel : INetworkSerializable
-    {
-        public FixedString64Bytes HandlerKey;
-        public byte[] Data;
-
-        public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
-        {
-            serializer.SerializeValue(ref HandlerKey);
-            serializer.SerializeValue(ref Data);
-        }
-    }
-    
     public class NetModelHub : MonoBehaviour , IMessageListener
     {
         // private readonly List<INetHandler> _handlers = new List<INetHandler>();
@@ -97,27 +85,25 @@ namespace Game.Networking.Network.NetworkModels
         {
             Debug.Log($"Send To Server + {gameObject.name}");
 
-            _netDataTransmitter.SendNetModelServerRpc(
-                new HubModel()
-                {
-                    HandlerKey = handlerKey,
-                    Data = modelToSendInBytes
-                }
-            );
+            Locator<ClientTransmitter>.Instance.SendToServer(new HubModel()
+            {
+                HandlerKey = handlerKey,
+                Data = modelToSendInBytes
+            });
         }
         
         public void SendModelToClients(string handlerKey, byte[] modelToSendInBytes, byte[] toClientIds)
         {
             Debug.Log($"Send To Server + {gameObject.name}");
             
-            _netDataTransmitter.SendNetModelServerRpc(
-                new HubModel()
-                {
-                    HandlerKey = handlerKey,
-                    Data = modelToSendInBytes
-                }
-                ,toClientIds
-            );
+            // _netDataTransmitter.SendNetModelServerRpc(
+            //     new HubModel()
+            //     {
+            //         HandlerKey = handlerKey,
+            //         Data = modelToSendInBytes
+            //     }
+            //     ,toClientIds
+            // );
         }
 
         public void ReceiveHubModel(HubModel hubModel)

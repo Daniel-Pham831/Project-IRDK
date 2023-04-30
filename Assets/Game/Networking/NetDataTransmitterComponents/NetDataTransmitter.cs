@@ -2,6 +2,7 @@
 using Game.CloudProfileSystem;
 using Game.Networking.Lobby;
 using Game.Networking.NetMessages;
+using Game.Networking.Network;
 using Game.Networking.Network.NetworkModels;
 using Maniac.DataBaseSystem;
 using Maniac.MessengerSystem.Base;
@@ -9,10 +10,38 @@ using Maniac.MessengerSystem.Messages;
 using Maniac.TimeSystem;
 using Maniac.Utils;
 using Unity.Netcode;
+using Unity.Netcode.Transports.UTP;
 using Unity.Services.Authentication;
+using UnityEngine;
 
 namespace Game.Networking.NetDataTransmitterComponents
 {
+    public class TransportDataTransmitter : MonoBehaviour
+    {
+        private DataBase _dataBase => Locator<DataBase>.Instance;
+        private TimeManager _timeManager => Locator<TimeManager>.Instance;
+        private NetModelHub _hub => Locator<NetModelHub>.Instance;
+        private CloudProfileManager _cloudProfileManager => Locator<CloudProfileManager>.Instance;
+        private NetworkSystem _networkSystem => Locator<NetworkSystem>.Instance;
+        private LobbySystem _lobbySystem => Locator<LobbySystem>.Instance;
+        private UnityTransport _transport => _networkSystem.UnityTransport;
+
+        private UserProfile _userProfile;
+        private NetConfig _config;
+
+        private async void Awake()
+        {
+            _config = _dataBase.GetConfig<NetConfig>();
+            _userProfile = await _cloudProfileManager.Get<UserProfile>();
+        }
+
+        // public void SendToServer(HubModel hubModelToSend, List<ulong> toClientIds = null)
+        // {
+        //     _networkSystem.
+        // }
+    }
+    
+    
     public class NetDataTransmitter : NetworkBehaviour
     {
         private DataBase _dataBase => Locator<DataBase>.Instance;
@@ -103,45 +132,45 @@ namespace Game.Networking.NetDataTransmitterComponents
             }
         }
 
-        [ServerRpc]
-        public void SendNetModelServerRpc(HubModel hubModelToSend, byte[] sendToClientIds = null,
-            ServerRpcParams param = default)
-        {
-            List<ulong> toClientIdsNetworkList = new List<ulong>();
-            if (sendToClientIds != null)
-                toClientIdsNetworkList = Helper.Deserialize<List<ulong>>(sendToClientIds);
-            
-            if (toClientIdsNetworkList.Count != 0)
-            {
-                // send to specific clients
-                SendNetModelClientRpc(
-                    hubModelToSend,
-                    param.Receive.SenderClientId,
-                    new ClientRpcParams()
-                    {
-                        Send = new ClientRpcSendParams()
-                        {
-                            TargetClientIds = toClientIdsNetworkList
-                        }
-                    }
-                );
-            }
-            else
-            {
-                // send to all clients
-                SendNetModelClientRpc(
-                    hubModelToSend,
-                    param.Receive.SenderClientId
-                );
-            }
-        }
-
-        [ClientRpc]
-        private void SendNetModelClientRpc(HubModel hubModelReceived,ulong senderClientId,ClientRpcParams param = default)
-        {
-            if (senderClientId == NetworkManager.Singleton.LocalClientId) return;
-            
-            _hub.ReceiveHubModel(hubModelReceived);
-        }
+        // [ServerRpc]
+        // public void SendNetModelServerRpc(HubModel hubModelToSend, byte[] sendToClientIds = null,
+        //     ServerRpcParams param = default)
+        // {
+        //     List<ulong> toClientIdsNetworkList = new List<ulong>();
+        //     if (sendToClientIds != null)
+        //         toClientIdsNetworkList = Helper.Deserialize<List<ulong>>(sendToClientIds);
+        //     
+        //     if (toClientIdsNetworkList.Count != 0)
+        //     {
+        //         // send to specific clients
+        //         SendNetModelClientRpc(
+        //             hubModelToSend,
+        //             param.Receive.SenderClientId,
+        //             new ClientRpcParams()
+        //             {
+        //                 Send = new ClientRpcSendParams()
+        //                 {
+        //                     TargetClientIds = toClientIdsNetworkList
+        //                 }
+        //             }
+        //         );
+        //     }
+        //     else
+        //     {
+        //         // send to all clients
+        //         SendNetModelClientRpc(
+        //             hubModelToSend,
+        //             param.Receive.SenderClientId
+        //         );
+        //     }
+        // }
+        //
+        // [ClientRpc]
+        // private void SendNetModelClientRpc(HubModel hubModelReceived,ulong senderClientId,ClientRpcParams param = default)
+        // {
+        //     if (senderClientId == NetworkManager.Singleton.LocalClientId) return;
+        //     
+        //     _hub.ReceiveHubModel(hubModelReceived);
+        // }
     }
 }
