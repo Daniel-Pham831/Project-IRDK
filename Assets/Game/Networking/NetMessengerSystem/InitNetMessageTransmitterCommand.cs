@@ -8,7 +8,7 @@ namespace Game.Networking.NetMessengerSystem
         public override async UniTask Execute()
         {
             var netMessageTransmitter = new NetMessageTransmitter();
-            netMessageTransmitter.Init();
+            await netMessageTransmitter.Init();
         }
     }
 }

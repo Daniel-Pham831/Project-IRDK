@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Cysharp.Threading.Tasks;
+using Game.Networking.Network;
 using Game.Networking.NormalMessages;
 using Maniac.MessengerSystem.Base;
 using Maniac.MessengerSystem.Messages;
@@ -14,13 +15,16 @@ namespace Game.Networking.NetMessengerSystem
 {
     public class NetMessageTransmitter : IMessageListener
     {
-        protected NetworkManager _networkManager => NetworkManager.Singleton;
-        protected NetworkTransport _transport => _networkManager.NetworkConfig.NetworkTransport;
+        private NetworkSystem _networkSystem => Locator<NetworkSystem>.Instance;
+        private NetworkManager _networkManager => _networkSystem.NetworkManager;
+        private NetworkTransport _transport => _networkManager.NetworkConfig.NetworkTransport;
 
         public async UniTask Init()
         {
+            RegisterEvents(true);
             Locator<NetMessageTransmitter>.Set(this, true);
-            RegisterMessages(true);
+
+            await UniTask.CompletedTask;
         }
 
         private void Reset()
