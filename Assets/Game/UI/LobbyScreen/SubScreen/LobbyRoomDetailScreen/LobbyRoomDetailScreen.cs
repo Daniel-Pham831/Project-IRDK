@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using UnityEngine;
 using Game.Commands;
 using Game.Networking.Lobby;
@@ -10,6 +12,7 @@ using Game.Networking.Network.NetworkModels.Handlers.NetPlayerModel;
 using Game.Networking.Relay;
 using Maniac.DataBaseSystem;
 using Maniac.LanguageTableSystem;
+using Maniac.TimeSystem;
 using Maniac.UISystem;
 using Maniac.UISystem.Command;
 using Maniac.Utils;
@@ -17,6 +20,7 @@ using TMPro;
 using UniRx;
 using Unity.Netcode;
 using Unity.Services.Lobbies.Models;
+using UnityEngine.UI;
 
 namespace Game
 {
@@ -26,11 +30,14 @@ namespace Game
         private LobbySystem _lobbySystem => Locator<LobbySystem>.Instance;
         private DataBase _dataBase => Locator<DataBase>.Instance;
         private PingHandler _pingHandler => Locator<PingHandler>.Instance;
+        private TimeManager _timeManager => Locator<TimeManager>.Instance;
+
         private NetModelHub _hub => Locator<NetModelHub>.Instance;
         private NetLobbyModelHandler _netLobbyModelHandler;
         private NetPlayerModelHandler _NetPlayerModelHandler;
         private LobbyConfig _lobbyConfig;
         private NetworkTimeSystem _networkTimeSystem;
+        private GeneralConfig _generalConfig;
 
         [SerializeField] private TMP_Text lobbyNameTxt;
         [SerializeField] private TMP_Text lobbyStateTxt;
@@ -38,9 +45,13 @@ namespace Game
         [SerializeField] private TMP_Text lobbyRegionTxt;
         [SerializeField] private TMP_Text lobbyCodeTxt;
         [SerializeField] private TMP_Text lobbyPingTxt;
+        [SerializeField] private TMP_Text gameStartCountDownTxt;
         
         [SerializeField] private LanguageItem privateLangItem;
         [SerializeField] private LanguageItem publicLangItem;
+        [SerializeField] private LanguageItem gameStartCountDownLangItem;
+        
+        [SerializeField] private Button startGameBtn;
         
         private readonly string _playerCountFormat = "{0}/{1}";
         private Lobby _joinedLobby;
@@ -48,6 +59,7 @@ namespace Game
         public override async void OnSetup(object parameter = null)
         {
             _lobbyConfig = _dataBase.GetConfig<LobbyConfig>();
+            _generalConfig = _dataBase.GetConfig<GeneralConfig>();
             _netLobbyModelHandler = _hub.GetHandler<NetLobbyModelHandler>();
             _NetPlayerModelHandler = _hub.GetHandler<NetPlayerModelHandler>();
 
@@ -106,10 +118,24 @@ namespace Game
         public async void OnStartClicked()
         {
             bool isHost = NetworkManager.Singleton.IsHost;
+            if (!isHost) return;
 
-            if (isHost)
+            var countDownFormat = gameStartCountDownLangItem.GetCurrentLanguageText();
+            var startTimeCountDown = _generalConfig.StartGameCounterInSeconds;
+            startGameBtn.gameObject.SetActive(false);
+            gameStartCountDownTxt.gameObject.SetActive(true);
+            var isFinish = false;
+            
+            _timeManager.OnTimeOut(() =>
             {
+                gameStartCountDownTxt.text = string.Format(countDownFormat, startTimeCountDown--);
+            },0f);
+            
+            while(startTimeCountDown > 0)
+            {
+                gameStartCountDownTxt.text = string.Format(countDownFormat, startTimeCountDown--);
                 
+                await UniTask.Delay(1000);
             }
         }
         
