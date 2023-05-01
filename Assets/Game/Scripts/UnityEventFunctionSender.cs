@@ -1,5 +1,5 @@
 ﻿using System;
-using Game.Networking.NetMessages;
+using Game.Networking.NormalMessages;
 using Maniac.MessengerSystem.Base;
 using Maniac.MessengerSystem.Messages;
 using UnityEngine;

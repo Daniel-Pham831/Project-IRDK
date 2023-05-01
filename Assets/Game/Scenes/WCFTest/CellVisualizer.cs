@@ -1,4 +1,5 @@
-﻿using Game.MazeSystem;
+﻿using Game.Enums;
+using Game.MazeSystem;
 using UnityEngine;
 
 namespace Game.Scenes.WCFTest

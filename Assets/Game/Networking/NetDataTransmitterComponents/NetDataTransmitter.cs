@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using Game.CloudProfileSystem;
 using Game.Networking.Lobby;
-using Game.Networking.NetMessages;
 using Game.Networking.Network.NetworkModels;
+using Game.Networking.NormalMessages;
 using Maniac.DataBaseSystem;
 using Maniac.MessengerSystem.Base;
 using Maniac.MessengerSystem.Messages;

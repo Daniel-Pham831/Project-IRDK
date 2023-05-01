@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Game.MazeSystem
+namespace Game.Enums
 {
     [Serializable]
     public enum Direction

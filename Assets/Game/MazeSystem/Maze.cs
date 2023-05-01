@@ -1,4 +1,5 @@
 ﻿using System;
+using Game.Enums;
 using UniRx;
 using UnityEngine;
 using Random = UnityEngine.Random;

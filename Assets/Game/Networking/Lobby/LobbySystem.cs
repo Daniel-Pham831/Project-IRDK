@@ -5,7 +5,7 @@ using Game.CloudProfileSystem;
 using Game.Networking.Lobby.Commands;
 using Game.Networking.Lobby.Extensions;
 using Game.Networking.Lobby.Models;
-using Game.Networking.NetMessages;
+using Game.Networking.NormalMessages;
 using Game.Scripts;
 using Maniac.DataBaseSystem;
 using Maniac.MessengerSystem.Base;

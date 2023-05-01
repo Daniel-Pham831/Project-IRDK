@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Game.Enums;
 using Game.MazeSystem;
 using Maniac.Utils;
 using UniRx;

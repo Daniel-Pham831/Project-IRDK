@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
@@ -6,6 +7,7 @@ using Game.Commands;
 using Game.Networking.Lobby;
 using Game.Networking.Lobby.Commands;
 using Game.Networking.NetDataTransmitterComponents;
+using Game.Networking.NetMessengerSystem;
 using Game.Networking.Network.NetworkModels;
 using Game.Networking.Network.NetworkModels.Handlers.NetLobbyModel;
 using Game.Networking.Network.NetworkModels.Handlers.NetPlayerModel;
@@ -24,13 +26,14 @@ using UnityEngine.UI;
 
 namespace Game
 {
-    public class LobbyRoomDetailScreen : BaseUI
+    public class LobbyRoomDetailScreen : BaseUI , INetMessageListener
     {
         private RelaySystem _relaySystem => Locator<RelaySystem>.Instance;
         private LobbySystem _lobbySystem => Locator<LobbySystem>.Instance;
         private DataBase _dataBase => Locator<DataBase>.Instance;
         private PingHandler _pingHandler => Locator<PingHandler>.Instance;
         private TimeManager _timeManager => Locator<TimeManager>.Instance;
+        private NetMessageTransmitter _netMessageTransmitter => Locator<NetMessageTransmitter>.Instance;
 
         private NetModelHub _hub => Locator<NetModelHub>.Instance;
         private NetLobbyModelHandler _netLobbyModelHandler;
@@ -55,6 +58,18 @@ namespace Game
         
         private readonly string _playerCountFormat = "{0}/{1}";
         private Lobby _joinedLobby;
+
+        protected override void Awake()
+        {
+            base.Awake();
+            
+            _netMessageTransmitter.Register<TestNetMessage>(this);
+        }
+
+        private void OnDestroy()
+        {
+            _netMessageTransmitter.UnregisterAll(this);
+        }
 
         public override async void OnSetup(object parameter = null)
         {
@@ -119,24 +134,24 @@ namespace Game
         {
             bool isHost = NetworkManager.Singleton.IsHost;
             if (!isHost) return;
-
-            var countDownFormat = gameStartCountDownLangItem.GetCurrentLanguageText();
-            var startTimeCountDown = _generalConfig.StartGameCounterInSeconds;
-            startGameBtn.gameObject.SetActive(false);
-            gameStartCountDownTxt.gameObject.SetActive(true);
-            var isFinish = false;
-            
-            _timeManager.OnTimeOut(() =>
-            {
-                gameStartCountDownTxt.text = string.Format(countDownFormat, startTimeCountDown--);
-            },0f);
-            
-            while(startTimeCountDown > 0)
-            {
-                gameStartCountDownTxt.text = string.Format(countDownFormat, startTimeCountDown--);
-                
-                await UniTask.Delay(1000);
-            }
+            //
+            // var countDownFormat = gameStartCountDownLangItem.GetCurrentLanguageText();
+            // var startTimeCountDown = _generalConfig.StartGameCounterInSeconds;
+            // startGameBtn.gameObject.SetActive(false);
+            // gameStartCountDownTxt.gameObject.SetActive(true);
+            // var isFinish = false;
+            //
+            // _timeManager.OnTimeOut(() =>
+            // {
+            //     gameStartCountDownTxt.text = string.Format(countDownFormat, startTimeCountDown--);
+            // },0f);
+            //
+            // while(startTimeCountDown > 0)
+            // {
+            //     gameStartCountDownTxt.text = string.Format(countDownFormat, startTimeCountDown--);
+            //     
+            //     await UniTask.Delay(1000);
+            _netMessageTransmitter.SendNetMessage(new TestNetMessage(){TestString = "Test Message ABC ZYX"});
         }
         
         public override async void Back()
@@ -161,6 +176,14 @@ namespace Game
         public async void OnLobbyPlayersDetailsClicked()
         {
             await new ShowScreenCommand<LobbyPlayersDetailsScreen>().Execute();
+        }
+
+        public void OnMessageReceived(INetMessage message)
+        {
+            if (message is TestNetMessage testNetMessage)
+            {
+                Debug.Log(testNetMessage.TestString);
+            }
         }
     }
 }

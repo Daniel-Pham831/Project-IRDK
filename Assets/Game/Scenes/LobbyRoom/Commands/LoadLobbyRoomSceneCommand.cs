@@ -1,6 +1,7 @@
 ﻿using Cysharp.Threading.Tasks;
 using Game.Commands;
 using Game.Networking.Lobby.Commands;
+using Game.Networking.NetMessengerSystem;
 using Game.Networking.Network;
 using Game.Networking.Network.Commands;
 using Game.Networking.Scripts;
@@ -29,6 +30,7 @@ namespace Game.Scenes.LobbyRoom.Commands
             lobbyRoomCommandsGroup.Add(new LoadSceneCommand(SceneName.LobbyRoom));
             lobbyRoomCommandsGroup.Add(new InitNetworkModelHubCommand());
             lobbyRoomCommandsGroup.Add(new StartNetworkSessionCommand());
+            lobbyRoomCommandsGroup.Add(new InitNetMessageTransmitterCommand());
             lobbyRoomCommandsGroup.Add(new CheckDataSyncingCommand());
             lobbyRoomCommandsGroup.Add(new RequestSpawnNetPlayerCommand());
             lobbyRoomCommandsGroup.Add(new ShowRunTimeNetworkStatsCommand());
