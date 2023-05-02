@@ -7,8 +7,10 @@ using Game.Networking.NormalMessages;
 using Maniac.MessengerSystem.Base;
 using Maniac.MessengerSystem.Messages;
 using Maniac.Utils;
+using MemoryPack;
 using Unity.Collections;
 using Unity.Netcode;
+using UnityEditor;
 using UnityEngine;
 
 namespace Game.Networking.NetMessengerSystem
@@ -18,6 +20,9 @@ namespace Game.Networking.NetMessengerSystem
         private NetworkSystem _networkSystem => Locator<NetworkSystem>.Instance;
         private NetworkManager _networkManager => _networkSystem.NetworkManager;
         private NetworkTransport _transport => _networkManager.NetworkConfig.NetworkTransport;
+        private Dictionary<Type, List<INetMessageListener>> messagesMap =
+            new Dictionary<Type, List<INetMessageListener>>();
+        private Dictionary<FixedString32Bytes,Type> _messageTypes = new Dictionary<FixedString32Bytes, Type>();
 
         public async UniTask Init()
         {
@@ -60,27 +65,29 @@ namespace Game.Networking.NetMessengerSystem
                 Messenger.Unregister<TransportFailureMessage>(this);
             }
         }
-
-        public void SendNetMessage(NetMessage messageToSend, List<ulong> toClientIds = null)
+        
+        public void SendNetMessage<T>(T messageToSend, List<ulong> toClientIds = null) where T : NetMessage , new ()
         {
             var dataInBytes = messageToSend.ToBytes();
-            var writeSize = FastBufferWriter.GetWriteSize(dataInBytes);
+            var sendModel = new NetMessageTransmitModel(messageToSend.Type, dataInBytes);
+            var modelToSendInBytes = Helper.Serialize(sendModel);
+            
+            var writeSize = FastBufferWriter.GetWriteSize(modelToSendInBytes);
             using (var writer = new FastBufferWriter(writeSize, Allocator.Temp))
             {
-                if (!writer.TryBeginWrite(dataInBytes.Length))
+                if (!writer.TryBeginWrite(modelToSendInBytes.Length))
                 {
-                    Debug.Log($"Fail {dataInBytes.Length}");
+                    Debug.Log($"Fail {modelToSendInBytes.Length}");
                     return;
                 }
 
-                writer.WriteValueSafe(dataInBytes);
+                writer.WriteBytesSafe(modelToSendInBytes,writeSize,0);
                 if (_networkManager.IsServer)
                 {
                     toClientIds ??= _networkManager.ConnectedClientsIds.ToList();
                     toClientIds.Remove(_networkManager.LocalClientId);
-
                     _networkManager.CustomMessagingManager.SendUnnamedMessage(toClientIds,
-                        writer, NetworkDelivery.ReliableFragmentedSequenced);
+                        writer, NetworkDelivery.ReliableFragmentedSequenced);                          
 
                     InvokeMessage(messageToSend);
                 }
@@ -96,11 +103,17 @@ namespace Game.Networking.NetMessengerSystem
         {
             Debug.Log("OnUnnamedMessageReceived");
             byte[] data = new byte[reader.Length];
-            reader.ReadValueSafe(out data);
-            var netMessage = data.ToNetMessage();
-            if (netMessage == null) return;
+            reader.ReadBytesSafe(ref data, reader.Length, 0);
+            var receivedModel = Helper.Deserialize<NetMessageTransmitModel>(data);
+            
+            var type = _messageTypes.TryGetValue(receivedModel.MessageType,out var messageType) ? messageType : null;
+            if (type != null)
+            {
+                var netMessage = MemoryPackSerializer.Deserialize(type,receivedModel.Data) as NetMessage;
+                if (netMessage == null) return;
 
-            InvokeMessage(netMessage);
+                InvokeMessage(netMessage);
+            }
         }
 
         public void OnMessagesReceived(Message receivedMessage)
@@ -113,10 +126,6 @@ namespace Game.Networking.NetMessengerSystem
                     break;
             }
         }
-
-
-        private Dictionary<Type, List<INetMessageListener>> messagesMap =
-            new Dictionary<Type, List<INetMessageListener>>();
 
         private void Register(INetMessageListener messageListener, Type type)
         {
@@ -135,6 +144,10 @@ namespace Game.Networking.NetMessengerSystem
         public void Register<T>(INetMessageListener messageListener) where T : INetMessage
         {
             var type = typeof(T);
+            if (!_messageTypes.ContainsKey(type.Name))
+            {
+                _messageTypes.Add(type.Name,type);
+            }
 
             Register(messageListener, type);
         }
@@ -181,6 +194,14 @@ namespace Game.Networking.NetMessengerSystem
                 List<INetMessageListener> copyListeners = listeners.ToList(); // to fix modified list bug
                 copyListeners.ForEach(x => x.OnMessageReceived(messageToSend));
             }
+        }
+        
+        [Serializable]
+        [MemoryPackable()]
+        public partial class NetMessageTransmitModel
+        {
+            public FixedString32Bytes MessageType;
+            public byte[] Data;
         }
     }
 }

@@ -18,14 +18,14 @@ namespace Game.Networking.NetMessengerSystem
     
     public static class NetMessageExtensions
     {
-        public static byte[] ToBytes(this NetMessage message)
+        public static byte[] ToBytes<T>(this T message) where T : NetMessage
         {
             return Helper.Serialize(message);
         }
 
-        public static NetMessage ToNetMessage(this byte[] bytes)
+        public static T ToNetMessage<T>(this byte[] bytes) where  T : NetMessage,new()
         {
-            return Helper.Deserialize<NetMessage>(bytes);
+            return Helper.Deserialize<T>(bytes);
         }
     }
 
