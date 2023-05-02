@@ -34,7 +34,8 @@ namespace Game.Networking.NetDataTransmitterComponents
         {
             if (!IsOwner)
             {
-                enabled = false;
+                NetworkObject.DestroyWithScene = false;
+                DontDestroyOnLoad(this.gameObject);
                 return;
             }
 
@@ -43,7 +44,9 @@ namespace Game.Networking.NetDataTransmitterComponents
             RegisterNetworkEvents(true);
             Locator<NetDataTransmitter>.Set(this);
             Messenger.SendMessage(new LocalClientNetworkSpawn());
+            
             NetworkObject.DestroyWithScene = false;
+            DontDestroyOnLoad(this.gameObject);
         }
         
         private void OnClientConnectedCallback(ulong clientId)
@@ -70,13 +73,11 @@ namespace Game.Networking.NetDataTransmitterComponents
 
         public override void OnNetworkDespawn()
         {
-            if(IsOwner)
-            {
-                Locator<NetDataTransmitter>.Remove();
-            }
-
-            RegisterNetworkEvents(false);
+            if (!IsOwner) return;
             
+            Locator<NetDataTransmitter>.Remove();
+            RegisterNetworkEvents(false);
+
             base.OnNetworkDespawn();
         }
 

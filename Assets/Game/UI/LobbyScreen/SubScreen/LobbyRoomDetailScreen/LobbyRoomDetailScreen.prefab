@@ -432,8 +432,11 @@ MonoBehaviour:
   lobbyRegionTxt: {fileID: 5056392446792688271}
   lobbyCodeTxt: {fileID: 8688627676942409174}
   lobbyPingTxt: {fileID: 5696892580162113485}
+  gameStartCountDownTxt: {fileID: 6863966114887681530}
   privateLangItem: {fileID: 11400000, guid: 7d636a5daa02b9247956d5a14badac00, type: 2}
   publicLangItem: {fileID: 11400000, guid: b78a39826e6defd4abf040d5c9cff3a3, type: 2}
+  gameStartCountDownLangItem: {fileID: 11400000, guid: bed3ccd4d1b1d194b91ec3cd0acd6332, type: 2}
+  startGameBtn: {fileID: 4603114304280596201}
 --- !u!114 &9035646337847375584
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1366,7 +1369,7 @@ GameObject:
   - component: {fileID: 5145445532096196861}
   - component: {fileID: 4603114304280596201}
   m_Layer: 5
-  m_Name: StartOrReadyBtn
+  m_Name: Start
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1648,12 +1651,12 @@ GameObject:
   - component: {fileID: 5613907826060061762}
   - component: {fileID: 6863966114887681530}
   m_Layer: 5
-  m_Name: GameStartIn
+  m_Name: GameStartInText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &6305251754182187544
 RectTransform:
   m_ObjectHideFlags: 0

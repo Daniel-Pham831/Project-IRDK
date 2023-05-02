@@ -13,6 +13,7 @@ using Game.Networking.Network.NetworkModels;
 using Game.Networking.Network.NetworkModels.Handlers.NetLobbyModel;
 using Game.Networking.Network.NetworkModels.Handlers.NetPlayerModel;
 using Game.Networking.Relay;
+using Game.Scenes.NetGamePlay.Commands;
 using Maniac.DataBaseSystem;
 using Maniac.LanguageTableSystem;
 using Maniac.TimeSystem;
@@ -27,7 +28,7 @@ using UnityEngine.UI;
 
 namespace Game
 {
-    public class LobbyRoomDetailScreen : BaseUI , INetMessageListener
+    public class LobbyRoomDetailScreen : BaseUI, INetMessageListener
     {
         private RelaySystem _relaySystem => Locator<RelaySystem>.Instance;
         private LobbySystem _lobbySystem => Locator<LobbySystem>.Instance;
@@ -50,21 +51,21 @@ namespace Game
         [SerializeField] private TMP_Text lobbyCodeTxt;
         [SerializeField] private TMP_Text lobbyPingTxt;
         [SerializeField] private TMP_Text gameStartCountDownTxt;
-        
+
         [SerializeField] private LanguageItem privateLangItem;
         [SerializeField] private LanguageItem publicLangItem;
         [SerializeField] private LanguageItem gameStartCountDownLangItem;
-        
+
         [SerializeField] private Button startGameBtn;
-        
+
         private readonly string _playerCountFormat = "{0}/{1}";
         private Lobby _joinedLobby;
 
         protected override void Awake()
         {
             base.Awake();
-            
-            _netMessageTransmitter.Register<TestNetMessage>(this);
+
+            _netMessageTransmitter.Register<LobbyStartNetMessage>(this);
         }
 
         private void OnDestroy()
@@ -78,9 +79,11 @@ namespace Game
             _generalConfig = _dataBase.GetConfig<GeneralConfig>();
             _netLobbyModelHandler = _hub.GetHandler<NetLobbyModelHandler>();
             _NetPlayerModelHandler = _hub.GetHandler<NetPlayerModelHandler>();
+            startGameBtn.gameObject.SetActive(NetworkManager.Singleton.IsServer);
+            gameStartCountDownTxt.gameObject.SetActive(false);
 
             SubscribeEvents();
-            
+
             base.OnSetup(parameter);
         }
 
@@ -88,17 +91,14 @@ namespace Game
         {
             _lobbySystem.JoinedLobby.Subscribe(value =>
             {
-                if (_lobbySystem.JoinedLobby.Value == null)  return;
+                if (_lobbySystem.JoinedLobby.Value == null) return;
 
                 _joinedLobby = _lobbySystem.JoinedLobby.Value;
                 UpdateLobbyRoom();
             }).AddTo(this);
 
-            _pingHandler.PingInMilliSeconds.Subscribe(value =>
-            {
-                lobbyPingTxt.text = $"{value:F1} ms";
-            }).AddTo(this);
-            
+            _pingHandler.PingInMilliSeconds.Subscribe(value => { lobbyPingTxt.text = $"{value} ms"; }).AddTo(this);
+
             _netLobbyModelHandler.AllClientReactiveModels.Subscribe(UpdatePlayersReadyState).AddTo(this);
         }
 
@@ -107,7 +107,7 @@ namespace Game
             foreach (var lobbyModel in lobbyModelDict)
             {
                 var netPlayerModel = _NetPlayerModelHandler.GetModelByPlayerId(lobbyModel.Value.Value.PlayerId);
-                
+
                 if (netPlayerModel == null) continue;
             }
         }
@@ -127,7 +127,7 @@ namespace Game
             {
                 regionDescription = _relaySystem.GetRegion(dataObject.Value)?.Description;
             }
-            
+
             lobbyRegionTxt.text = regionDescription;
         }
 
@@ -135,38 +135,22 @@ namespace Game
         {
             bool isHost = NetworkManager.Singleton.IsHost;
             if (!isHost) return;
-            //
-            // var countDownFormat = gameStartCountDownLangItem.GetCurrentLanguageText();
-            // var startTimeCountDown = _generalConfig.StartGameCounterInSeconds;
-            // startGameBtn.gameObject.SetActive(false);
-            // gameStartCountDownTxt.gameObject.SetActive(true);
-            // var isFinish = false;
-            //
-            // _timeManager.OnTimeOut(() =>
-            // {
-            //     gameStartCountDownTxt.text = string.Format(countDownFormat, startTimeCountDown--);
-            // },0f);
-            //
-            // while(startTimeCountDown > 0)
-            // {
-            //     gameStartCountDownTxt.text = string.Format(countDownFormat, startTimeCountDown--);
-            //     
-            //     await UniTask.Delay(1000);
-            _netMessageTransmitter.SendNetMessage(new TestNetMessage(){TestString = "Test Message ABC ZYX"});
+
+            _netMessageTransmitter.SendNetMessage(new LobbyStartNetMessage());
         }
-        
+
         public override async void Back()
         {
             var yes = await new ShowConfirmationDialogCommand(LanguageTable.Confirmation_LeaveRoomHeader,
                 LanguageTable.Confirmation_LeaveRoomBody).ExecuteAndGetResult();
-            
-            if(yes)
+
+            if (yes)
                 await new LeaveLobbyCommand().Execute();
         }
 
         public async void OnSettingClicked()
         {
-            
+
         }
 
         public async void OnAccountClicked()
@@ -179,12 +163,35 @@ namespace Game
             await new ShowScreenCommand<LobbyPlayersDetailsScreen>().Execute();
         }
 
-        public void OnMessageReceived(INetMessage message)
+        public async void OnNetMessageReceived(NetMessage message)
         {
-            if (message is TestNetMessage testNetMessage)
+            switch (message)
             {
-                Debug.Log(testNetMessage.TestString);
+                case LobbyStartNetMessage:
+                    await OnLobbyStartNetMessageReceived();
+                    break;
             }
+        }
+
+        private async UniTask OnLobbyStartNetMessageReceived()
+        {
+            var countDownFormat = gameStartCountDownLangItem.GetCurrentLanguageText();
+            int startTimeCountDown = _generalConfig.StartGameCounterInSeconds;
+            startGameBtn.gameObject.SetActive(false);
+            gameStartCountDownTxt.gameObject.SetActive(true);
+            canvasGroup.interactable = false;
+
+            while (startTimeCountDown > 0)
+            {
+                gameStartCountDownTxt.text = string.Format(countDownFormat, startTimeCountDown--);
+                gameStartCountDownTxt.transform.DOPunchScale(Vector3.one * 0.15f, 0.2f);
+
+                await UniTask.Delay(1000);
+            }
+
+            _uiManager.Close<LobbyRoomDetailScreen>();
+            await new LoadNetGamePlaySceneCommand().Execute();
         }
     }
 }
+

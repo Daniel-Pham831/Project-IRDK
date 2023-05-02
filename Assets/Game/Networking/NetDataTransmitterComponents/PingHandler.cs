@@ -39,12 +39,13 @@ namespace Game.Networking.NetDataTransmitterComponents
             HandlePingMessage();
             base.OnNetworkSpawn();
         }
-        
+
         public override void OnNetworkDespawn()
         {
-            if(IsOwner)
-                Locator<PingHandler>.Remove();
-            
+            if (!IsOwner) return;
+
+            Locator<PingHandler>.Remove();
+
             base.OnNetworkDespawn();
         }
 
@@ -63,8 +64,7 @@ namespace Game.Networking.NetDataTransmitterComponents
 
         private void CheckPingToServer()
         {
-            var pingInMilliSeconds = _transport.GetCurrentRtt(NetworkManager.ServerClientId);
-            PingInMilliSeconds.Value = pingInMilliSeconds;
+            PingInMilliSeconds.Value = _transport.GetCurrentRtt(NetworkManager.ServerClientId);
         }
 
         [ServerRpc]

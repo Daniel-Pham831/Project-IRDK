@@ -31,11 +31,13 @@ namespace Game.Networking.NetDataTransmitterComponents
                 return;
             }
 
-            Locator<NetSpawner>.Set(this);
+            Locator<NetSpawner>.Set(this,true);
         }
 
         public override void OnNetworkDespawn()
         {
+            if (!IsOwner) return;
+            
             Locator<NetSpawner>.Remove();
         }
 

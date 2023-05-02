@@ -1,23 +1,26 @@
 using System;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using Game.Enums;
 using Game.MazeSystem;
 using Maniac.Utils;
 using UniRx;
 using UnityEngine;
 
-namespace Game.Scenes.GamePlay.Environment.Scripts
+namespace Game.Scenes.NetGamePlay.Environment.Scripts
 {
     public class EnvironmentController : MonoLocator<EnvironmentController>
     {
+        private MazeGenerator _mazeGenerator => Locator<MazeGenerator>.Instance;
+        
         [SerializeField] private List<PathGraphic> _pathGraphics;
         [SerializeField] private List<WallGraphic> _wallGraphics;
         private Cell _currentCell;
         private Maze _currentMaze;
 
-        public void InitEnvironment(Maze maze)
+        public async UniTask Init()
         {
-            _currentMaze = maze;
+            _currentMaze = _mazeGenerator.CurrentMaze;
             ObserveMaze();
             _currentMaze.NotifyCellChanged();
         }

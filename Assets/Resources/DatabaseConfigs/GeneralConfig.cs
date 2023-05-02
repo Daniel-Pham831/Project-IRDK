@@ -9,6 +9,6 @@ namespace Maniac.DataBaseSystem
 {
     public class GeneralConfig : DataBaseConfig
     {
-        public float StartGameCounterInSeconds = 5f;   
+        public int StartGameCounterInSeconds = 5;   
     }
 }

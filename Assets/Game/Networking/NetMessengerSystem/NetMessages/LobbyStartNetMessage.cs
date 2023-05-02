@@ -5,8 +5,7 @@ namespace Game.Networking.NetMessengerSystem.NetMessages
 {
     [Serializable]
     [MemoryPackable]
-    public partial class TestNetMessage : NetMessage
+    public partial class LobbyStartNetMessage : NetMessage
     {
-        public string TestString { get; set; }
     }
 }

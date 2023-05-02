@@ -6,15 +6,16 @@ using UnityEngine;
 
 namespace Game.Networking.Environments
 {
-    public class NetPlayerSpawnPointManager : MonoBehaviour
+    public class NetPlayerSpawnPointManager : MonoLocator<NetPlayerSpawnPointManager>
     {
         private List<Vector3> _spawnPoints;
-
-        private void Awake()
+        
+        public override void Awake()
         {
-            Locator<NetPlayerSpawnPointManager>.Set(this,true);
+            base.Awake();
             _spawnPoints = GetSpawnPoints();
-        }
+
+        } 
 
         private List<Vector3> GetSpawnPoints()
         {

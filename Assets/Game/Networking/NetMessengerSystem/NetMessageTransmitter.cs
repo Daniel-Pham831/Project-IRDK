@@ -72,7 +72,7 @@ namespace Game.Networking.NetMessengerSystem
             var sendModel = new NetMessageTransmitModel()
             {
                 Data = dataInBytes,
-                MessageType = NetMessageCode.GetUshortFromFixedString32Bytes(messageToSend.Type)
+                MessageType = NetMessageCode.GetUshortFromFixedString32Bytes(messageToSend.GetType().Name)
             };
             
             var modelToSendInBytes = Helper.Serialize(sendModel);
@@ -144,13 +144,13 @@ namespace Game.Networking.NetMessengerSystem
             }
         }
 
-        public void Register<T>(INetMessageListener messageListener) where T : INetMessage
+        public void Register<T>(INetMessageListener messageListener) where T : NetMessage
         {
             var type = typeof(T);
             Register(messageListener, type);
         }
 
-        public void Unregister<T>(INetMessageListener messageListener) where T : INetMessage
+        public void Unregister<T>(INetMessageListener messageListener) where T : NetMessage
         {
             var type = typeof(T);
 
@@ -185,12 +185,12 @@ namespace Game.Networking.NetMessengerSystem
             }
         }
 
-        public void InvokeMessage(INetMessage messageToSend)
+        public void InvokeMessage(NetMessage messageToSend)
         {
             if (messagesMap.TryGetValue(messageToSend.GetType(), out List<INetMessageListener> listeners))
             {
                 List<INetMessageListener> copyListeners = listeners.ToList(); // to fix modified list bug
-                copyListeners.ForEach(x => x.OnMessageReceived(messageToSend));
+                copyListeners.ForEach(x => x.OnNetMessageReceived(messageToSend));
             }
         }
     }
