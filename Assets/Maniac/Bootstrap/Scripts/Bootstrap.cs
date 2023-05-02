@@ -2,6 +2,7 @@
 using Game.Commands;
 using Game.MazeSystem;
 using Game.Networking.Lobby;
+using Game.Networking.NetMessengerSystem;
 using Game.Networking.Network;
 using Game.Networking.Relay;
 using Game.Scenes;
@@ -92,6 +93,7 @@ namespace Maniac.Bootstrap.Scripts
             bootstrapLoadingServiceGroup.Add(new InitMazeGeneratorService());
 
             var commandServiceGroup = new SequenceCommandServiceGroup("Command Service Group");
+            commandServiceGroup.Add(new PreConvertNetMessageToUshortCommand());
             commandServiceGroup.Add( new LoadMainMenuSceneCommand());
             
             bootstrapLoadingServiceGroup.Add(commandServiceGroup);

@@ -15,6 +15,67 @@ using UnityEngine;
 
 namespace Game.Networking.NetMessengerSystem
 {
+    public static class NetMessageCode
+    {
+        public static Dictionary<ushort,FixedString32Bytes> NetMessageCodes = new Dictionary<ushort, FixedString32Bytes>();
+        private static Dictionary<FixedString32Bytes,ushort> _messageCodes = new Dictionary<FixedString32Bytes, ushort>();
+        public static Dictionary<FixedString32Bytes,Type> MessageTypes = new Dictionary<FixedString32Bytes, Type>();
+        
+        public static void Add(ushort code, FixedString32Bytes type, Type subClassType)
+        {
+            if(!NetMessageCodes.ContainsKey(code))
+            {
+                NetMessageCodes.Add(code, type);
+                _messageCodes.Add(type,code);
+                MessageTypes.Add(type,subClassType);
+            }
+            else
+            {
+                Debug.LogError("NetMessageCode already contains this code!");
+            }
+        }
+
+        public static Type GetMessageTypeFromUshort(ushort code)
+        {
+            if (NetMessageCodes.ContainsKey(code))
+            {
+                var type = NetMessageCodes[code];
+                if (MessageTypes.ContainsKey(type))
+                {
+                    return MessageTypes[type];
+                }
+            }
+
+            return null;
+        }
+        
+        public static ushort GetUshortFromMessageType(Type type)
+        {
+            if (MessageTypes.ContainsValue(type))
+            {
+                var key = MessageTypes.FirstOrDefault(x => x.Value == type).Key;
+                if (_messageCodes.ContainsKey(key))
+                {
+                    return _messageCodes[key];
+                }
+            }
+
+            Debug.LogError("Something went wrong!");
+            return 0;
+        }
+        
+        public static ushort GetUshortFromFixedString32Bytes(FixedString32Bytes type)
+        {
+            if (_messageCodes.ContainsKey(type))
+            {
+                return _messageCodes[type];
+            }
+
+            Debug.LogError("Something went wrong!");
+            return 0;
+        }
+    }
+    
     public class NetMessageTransmitter : IMessageListener
     {
         private NetworkSystem _networkSystem => Locator<NetworkSystem>.Instance;
@@ -22,7 +83,6 @@ namespace Game.Networking.NetMessengerSystem
         private NetworkTransport _transport => _networkManager.NetworkConfig.NetworkTransport;
         private Dictionary<Type, List<INetMessageListener>> messagesMap =
             new Dictionary<Type, List<INetMessageListener>>();
-        private Dictionary<FixedString32Bytes,Type> _messageTypes = new Dictionary<FixedString32Bytes, Type>();
 
         public async UniTask Init()
         {
@@ -69,9 +129,13 @@ namespace Game.Networking.NetMessengerSystem
         public void SendNetMessage<T>(T messageToSend, List<ulong> toClientIds = null) where T : NetMessage , new ()
         {
             var dataInBytes = messageToSend.ToBytes();
-            var sendModel = new NetMessageTransmitModel(messageToSend.Type, dataInBytes);
-            var modelToSendInBytes = Helper.Serialize(sendModel);
+            var sendModel = new NetMessageTransmitModel()
+            {
+                Data = dataInBytes,
+                MessageType = NetMessageCode.GetUshortFromFixedString32Bytes(messageToSend.Type)
+            };
             
+            var modelToSendInBytes = Helper.Serialize(sendModel);
             var writeSize = FastBufferWriter.GetWriteSize(modelToSendInBytes);
             using (var writer = new FastBufferWriter(writeSize, Allocator.Temp))
             {
@@ -105,8 +169,8 @@ namespace Game.Networking.NetMessengerSystem
             byte[] data = new byte[reader.Length];
             reader.ReadBytesSafe(ref data, reader.Length, 0);
             var receivedModel = Helper.Deserialize<NetMessageTransmitModel>(data);
-            
-            var type = _messageTypes.TryGetValue(receivedModel.MessageType,out var messageType) ? messageType : null;
+
+            var type = NetMessageCode.GetMessageTypeFromUshort(receivedModel.MessageType);
             if (type != null)
             {
                 var netMessage = MemoryPackSerializer.Deserialize(type,receivedModel.Data) as NetMessage;
@@ -144,11 +208,6 @@ namespace Game.Networking.NetMessengerSystem
         public void Register<T>(INetMessageListener messageListener) where T : INetMessage
         {
             var type = typeof(T);
-            if (!_messageTypes.ContainsKey(type.Name))
-            {
-                _messageTypes.Add(type.Name,type);
-            }
-
             Register(messageListener, type);
         }
 
@@ -195,13 +254,13 @@ namespace Game.Networking.NetMessengerSystem
                 copyListeners.ForEach(x => x.OnMessageReceived(messageToSend));
             }
         }
-        
-        [Serializable]
-        [MemoryPackable()]
-        public partial class NetMessageTransmitModel
-        {
-            public FixedString32Bytes MessageType;
-            public byte[] Data;
-        }
+    }
+    
+    [Serializable]
+    [MemoryPackable]
+    public partial class NetMessageTransmitModel
+    {
+        public ushort MessageType { get; set; }
+        public byte[] Data { get; set; }
     }
 }
