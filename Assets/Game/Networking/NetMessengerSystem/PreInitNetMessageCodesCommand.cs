@@ -1,5 +1,6 @@
 ﻿using System;
 using Cysharp.Threading.Tasks;
+using Game.Networking.NetMessengerSystem.NetMessages;
 using Maniac.Command;
 using Maniac.Utils;
 using Maniac.Utils.Extension;
@@ -7,7 +8,7 @@ using Unity.Collections;
 
 namespace Game.Networking.NetMessengerSystem
 {
-    public class PreConvertNetMessageToUshortCommand : Command
+    public class PreInitNetMessageCodesCommand : Command
     {
         public override async UniTask Execute()
         {

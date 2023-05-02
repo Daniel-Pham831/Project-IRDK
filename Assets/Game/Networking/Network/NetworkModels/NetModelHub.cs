@@ -19,20 +19,19 @@ namespace Game.Networking.Network.NetworkModels
 {
     public struct HubModel : INetworkSerializable
     {
-        public FixedString64Bytes HandlerKey;
+        public ushort HandlerCode;
         public byte[] Data;
 
         public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
         {
-            serializer.SerializeValue(ref HandlerKey);
+            serializer.SerializeValue(ref HandlerCode);
             serializer.SerializeValue(ref Data);
         }
     }
     
     public class NetModelHub : MonoBehaviour , IMessageListener
     {
-        // private readonly List<INetHandler> _handlers = new List<INetHandler>();
-        private readonly Dictionary<string, INetHandler> _handlers = new Dictionary<string, INetHandler>();
+        private readonly Dictionary<ushort, INetHandler> _handlers = new Dictionary<ushort, INetHandler>();
         private NetDataTransmitter _netDataTransmitter;
 
         private void Awake()
@@ -44,7 +43,8 @@ namespace Game.Networking.Network.NetworkModels
         public T GetHandler<T>() where T : INetHandler
         {
             var handlerKey = typeof(T).Name;
-            if (_handlers.TryGetValue(handlerKey, out var handler))
+            var handlerCode = HandlerCode.GetCode(handlerKey);
+            if (_handlers.TryGetValue(handlerCode, out var handler))
             {
                 return handler is T value ? value : default;
             }
@@ -78,7 +78,7 @@ namespace Game.Networking.Network.NetworkModels
             foreach (var handlerType in handlerTypes)
             {
                 if (gameObject.AddComponent(handlerType) is INetHandler handler)
-                    _handlers.Add(handler.HandlerKey, handler);
+                    _handlers.Add(HandlerCode.GetCode(handler.HandlerKey), handler);
             }
         }
 
@@ -100,7 +100,7 @@ namespace Game.Networking.Network.NetworkModels
             _netDataTransmitter.SendNetModelServerRpc(
                 new HubModel()
                 {
-                    HandlerKey = handlerKey,
+                    HandlerCode = HandlerCode.GetCode(handlerKey),
                     Data = modelToSendInBytes
                 }
             );
@@ -113,7 +113,7 @@ namespace Game.Networking.Network.NetworkModels
             _netDataTransmitter.SendNetModelServerRpc(
                 new HubModel()
                 {
-                    HandlerKey = handlerKey,
+                    HandlerCode = HandlerCode.GetCode(handlerKey),
                     Data = modelToSendInBytes
                 }
                 ,toClientIds
@@ -122,7 +122,7 @@ namespace Game.Networking.Network.NetworkModels
 
         public void ReceiveHubModel(HubModel hubModel)
         {
-            var key = hubModel.HandlerKey.ToString();
+            var key = hubModel.HandlerCode;
             if (_handlers.ContainsKey(key))
             {
                 _handlers[key].ReceiveModel(hubModel.Data);

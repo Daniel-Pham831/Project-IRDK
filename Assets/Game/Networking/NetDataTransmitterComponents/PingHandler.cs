@@ -1,4 +1,5 @@
 ﻿using System;
+using Game.Networking.Network;
 using Maniac.DataBaseSystem;
 using Maniac.TimeSystem;
 using Maniac.Utils;
@@ -16,6 +17,10 @@ namespace Game.Networking.NetDataTransmitterComponents
         
         public FloatReactiveProperty PingInMilliSeconds { get; private set; } = new FloatReactiveProperty();
         private float _lastSendPingTime;
+        
+        private NetworkSystem _networkSystem => Locator<NetworkSystem>.Instance;
+        private NetworkManager _networkManager => _networkSystem.NetworkManager;
+        private NetworkTransport _transport => _networkManager.NetworkConfig.NetworkTransport;
         
         private async void Awake()
         {
@@ -50,9 +55,16 @@ namespace Game.Networking.NetDataTransmitterComponents
                 if (this == null) return;
                 
                 _lastSendPingTime = Time.realtimeSinceStartup;
-                SendPingToServerRpc();
+                CheckPingToServer();
+                // SendPingToServerRpc();
                 HandlePingMessage();
             },_config.SendPingInterval);
+        }
+
+        private void CheckPingToServer()
+        {
+            var pingInMilliSeconds = _transport.GetCurrentRtt(NetworkManager.ServerClientId);
+            PingInMilliSeconds.Value = pingInMilliSeconds;
         }
 
         [ServerRpc]

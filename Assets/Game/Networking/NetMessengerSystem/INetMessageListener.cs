@@ -1,4 +1,6 @@
-﻿namespace Game.Networking.NetMessengerSystem
+﻿using Game.Networking.NetMessengerSystem.NetMessages;
+
+namespace Game.Networking.NetMessengerSystem
 {
     public interface INetMessageListener
     {
