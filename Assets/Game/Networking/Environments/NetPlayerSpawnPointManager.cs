@@ -1,13 +1,24 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
+using Game.Enums;
 using Maniac.Utils;
 using Maniac.Utils.Extension;
 using UnityEngine;
 
 namespace Game.Networking.Environments
 {
+    [Serializable]
+    public struct DirectionSpawnPoint
+    {
+        public Direction Direction;
+        public List<Transform> SpawnPositions;
+    }
+    
     public class NetPlayerSpawnPointManager : MonoLocator<NetPlayerSpawnPointManager>
     {
+        [SerializeField] private List<DirectionSpawnPoint> _directionSpawnPoints;
+        
         private List<Vector3> _spawnPoints;
         
         public override void Awake()
@@ -34,6 +45,12 @@ namespace Game.Networking.Environments
             }
 
             return spawnPoints;
+        }
+
+        public Vector3 GetRandomSpawnPointAtDirection(Direction direction)
+        {
+            DirectionSpawnPoint directionSpawnPoint = _directionSpawnPoints.Find(x => x.Direction == direction);
+            return directionSpawnPoint.SpawnPositions.Count == 0 ? transform.position : directionSpawnPoint.SpawnPositions.TakeRandom().position;
         }
 
         public Vector3 GetRandomSpawnPoint()

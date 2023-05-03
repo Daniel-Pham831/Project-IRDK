@@ -10,6 +10,7 @@ using Maniac.MessengerSystem.Messages;
 using Maniac.Utils;
 using Maniac.Utils.Extension;
 using TMPro;
+using ToolBox.Tags;
 using UniRx;
 using Unity.Netcode;
 using UnityEngine;
@@ -24,6 +25,7 @@ namespace Game.Players.Scripts
         private DataBase _dataBase => Locator<DataBase>.Instance;
         private CharacterConfig _characterConfig;
 
+        [SerializeField] private Tag LocalPlayerTag;
         [SerializeField] private TMP_Text playerName;
         [SerializeField] private SpriteRenderer playerSpriteRenderer;
         [SerializeField] private SpriteLibrary spriteLibrary;
@@ -48,6 +50,7 @@ namespace Game.Players.Scripts
 
             if (IsOwner)
             {
+                this.gameObject.AddTag(LocalPlayerTag);
                 Locator<NetPlayer>.Set(this,true);
             }
         }

@@ -1,5 +1,7 @@
 #if UNITY_EDITOR
+using System.Collections.Generic;
 using System.Linq;
+using Sirenix.OdinInspector;
 using UnityEditor;
 using UnityEngine;
 
@@ -8,7 +10,8 @@ namespace ToolBox.Tags.Editor
 	[CustomEditor(typeof(Taggable))]
 	internal class TaggableEditor : UnityEditor.Editor
 	{
-		private Tag[] _tags = null;
+		private List<Tag> _tags = null;
+		private bool _applyAllChildren = false;
 
 		private void OnEnable()
 		{
@@ -24,7 +27,7 @@ namespace ToolBox.Tags.Editor
 
 			var instance = taggable.gameObject;
 			int hash = instance.GetHashCode();
-			
+			AddApplyAllTickBox();
 			foreach (var tag in _tags)
 			{
 				bool contains = taggable.Contains(tag);
@@ -38,17 +41,12 @@ namespace ToolBox.Tags.Editor
 				GUI.enabled = !contains;
 				if (GUILayout.Button("Add", EditorStyles.miniButtonLeft))
 				{
-					Undo.SetCurrentGroupName("Add tag");
-					
-					Undo.RecordObject(taggable, "Add gameObject to Tag");
 					tag.Add(instance, hash);
-					
-					Undo.RecordObject(taggable, "Add Tag in the Inspector");
 					taggable.Add(tag);
-					
-					Undo.CollapseUndoOperations(Undo.GetCurrentGroup());
-					
 					contains = true;
+					
+					if(_applyAllChildren)
+						ApplyTagToAllChildren();
 					
 					EditorUtility.SetDirty(taggable);
 				}
@@ -56,15 +54,12 @@ namespace ToolBox.Tags.Editor
 				GUI.enabled = contains;
 				if (GUILayout.Button("Remove", EditorStyles.miniButtonLeft))
 				{
-					Undo.SetCurrentGroupName("Remove tag");
-					
-					Undo.RecordObject(taggable, "Remove gameObject from Tag");
 					tag.Remove(instance, hash);
-					
-					Undo.RecordObject(taggable, "Remove Tag in the Inspector");
 					taggable.Remove(tag);
 					
-					Undo.CollapseUndoOperations(Undo.GetCurrentGroup());
+					contains = false;					
+					if(_applyAllChildren)
+						ApplyTagToAllChildren();
 					
 					EditorUtility.SetDirty(taggable);
 				}
@@ -72,12 +67,76 @@ namespace ToolBox.Tags.Editor
 				GUI.enabled = true;
 				EditorGUILayout.EndHorizontal();
 			}
+			
+			AddAddTagsButton();
+			AddRemoveTagsButton();
+			AssetDatabase.SaveAssetIfDirty(taggable);
 		}
 
-		private static Tag[] GetAllTags()
+		private void AddApplyAllTickBox()
+		{
+			var taggable = (target as Taggable);
+
+			_applyAllChildren = GUILayout.Toggle(taggable.ShouldApplyToAllChildren, "Should Apply All Children");
+			
+			taggable.ShouldApplyToAllChildren = _applyAllChildren;
+		}
+
+		private void AddAddTagsButton()
+		{
+			if (GUILayout.Button("Add Tags To All Children", EditorStyles.miniButtonLeft))
+			{
+				ApplyTagToAllChildren();
+			}
+		}
+
+		private void AddRemoveTagsButton()
+		{
+			if (GUILayout.Button("Remove Tags From All Children", EditorStyles.miniButtonLeft))
+			{
+				RemoveAllTagsFromChildren();
+			}
+		}
+
+		public void ApplyTagToAllChildren()
+		{
+			var taggable = (target as Taggable);
+			var children = taggable.GetComponentsInChildren<Transform>(true);
+			for (int i = 0; i < children.Length; i++)
+			{
+				var child = children[i];
+				if (child == taggable.transform)
+					continue;
+
+				child.gameObject.RemoveTags(_tags);
+				child.gameObject.AddTags(taggable.Tags);
+			}
+
+			EditorUtility.SetDirty(taggable.gameObject);
+		}
+
+		public void RemoveAllTagsFromChildren()
+		{
+			var taggable = (target as Taggable);
+			var children = taggable.GetComponentsInChildren<Transform>(true);
+			for (int i = 0; i < children.Length; i++)
+			{
+				var child = children[i];
+				if (child == taggable.transform)
+					continue;
+
+				child.gameObject.RemoveTags(_tags);
+				var taggableChild = child.GetComponent<Taggable>();
+				DestroyImmediate(taggableChild);
+			}
+
+			EditorUtility.SetDirty(taggable.gameObject);
+		}
+
+		private static List<Tag> GetAllTags()
 		{
 			var paths = AssetDatabase.FindAssets("t:Tag").Select(AssetDatabase.GUIDToAssetPath);
-			return paths.Select(AssetDatabase.LoadAssetAtPath<Tag>).ToArray();
+			return paths.Select(AssetDatabase.LoadAssetAtPath<Tag>).ToList();
 		}
 	}
 }

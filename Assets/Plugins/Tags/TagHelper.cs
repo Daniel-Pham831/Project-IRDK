@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace ToolBox.Tags
@@ -46,7 +47,7 @@ namespace ToolBox.Tags
 			return instance.gameObject.HasTag(tag);
 		}
 
-		public static void AddTags(this GameObject instance, Tag[] tags)
+		public static void AddTags(this GameObject instance, List<Tag> tags)
 		{
 #if UNITY_EDITOR
 			var taggable = GetComponent(instance);
@@ -54,7 +55,7 @@ namespace ToolBox.Tags
 
 			int hash = instance.GetHashCode();
 
-			for (int i = 0; i < tags.Length; i++)
+			for (int i = 0; i < tags.Count; i++)
 			{
 				var tag = tags[i];
 
@@ -67,7 +68,7 @@ namespace ToolBox.Tags
 			}
 		}
 
-		public static void AddTags(this Component instance, Tag[] tags)
+		public static void AddTags(this Component instance, List<Tag> tags)
 		{
 			instance.gameObject.AddTags(tags);
 		}
@@ -94,7 +95,7 @@ namespace ToolBox.Tags
 			instance.gameObject.AddTags(composite);
 		}
 
-		public static void RemoveTags(this GameObject instance, Tag[] tags)
+		public static void RemoveTags(this GameObject instance, List<Tag> tags)
 		{
 #if UNITY_EDITOR
 			var taggable = GetComponent(instance);
@@ -102,7 +103,7 @@ namespace ToolBox.Tags
 
 			int hash = instance.GetHashCode();
 
-			for (int i = 0; i < tags.Length; i++)
+			for (int i = 0; i < tags.Count; i++)
 			{
 				var tag = tags[i];
 
@@ -115,7 +116,7 @@ namespace ToolBox.Tags
 			}
 		}
 
-		public static void RemoveTags(this Component instance, Tag[] tags)
+		public static void RemoveTags(this Component instance, List<Tag> tags)
 		{
 			instance.gameObject.RemoveTags(tags);
 		}
@@ -142,11 +143,11 @@ namespace ToolBox.Tags
 			instance.gameObject.RemoveTags(composite);
 		}
 
-		public static bool HasTags(this GameObject instance, Tag[] tags, bool allRequired)
+		public static bool HasTags(this GameObject instance, List<Tag> tags, bool allRequired)
 		{
 			int hash = instance.GetHashCode();
 
-			for (int i = 0; i < tags.Length; i++)
+			for (int i = 0; i < tags.Count; i++)
 			{
 				if (tags[i].HasInstance(hash) == !allRequired)
 					return !allRequired;
@@ -155,7 +156,7 @@ namespace ToolBox.Tags
 			return allRequired;
 		}
 
-		public static bool HasTags(this Component instance, Tag[] tags, bool allRequired)
+		public static bool HasTags(this Component instance, List<Tag> tags, bool allRequired)
 		{
 			return instance.gameObject.HasTags(tags, allRequired);
 		}

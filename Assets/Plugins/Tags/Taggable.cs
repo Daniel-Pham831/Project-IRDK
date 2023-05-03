@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using Sirenix.OdinInspector;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -9,7 +11,9 @@ namespace ToolBox.Tags
 	[DisallowMultipleComponent, DefaultExecutionOrder(-9000), ExecuteInEditMode]
 	internal sealed class Taggable : MonoBehaviour
 	{
-		[SerializeField] private Tag[] _tags = Array.Empty<Tag>();
+		[SerializeField] private List<Tag> _tags = new List<Tag>();
+		public List<Tag> Tags => _tags;
+		public bool ShouldApplyToAllChildren;
 
 		private void Awake()
 		{
@@ -24,17 +28,17 @@ namespace ToolBox.Tags
 #if UNITY_EDITOR
 		internal void Add(Tag tag)
 		{
-			ArrayUtility.Add(ref _tags, tag);
+			_tags.Add(tag);
 		}
 
 		internal void Remove(Tag tag)
 		{
-			ArrayUtility.Remove(ref _tags, tag);
+			_tags.Remove(tag);
 		}
 
 		internal bool Contains(Tag tag)
 		{
-			return ArrayUtility.Contains(_tags, tag);
+			return _tags.Contains(tag);
 		}
 #endif
 	}

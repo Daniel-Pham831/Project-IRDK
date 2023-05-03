@@ -13,19 +13,19 @@ namespace ToolBox.Tags
 #endif
 	public sealed class CompositeTag : ScriptableObject
 	{
-		[SerializeField] private Tag[] _tags = Array.Empty<Tag>();
+		[SerializeField] private List<Tag> _tags = new List<Tag>();
 
 		internal IEnumerable<Tag> Tags => _tags;
 
 		internal void Add(GameObject instance, int hash)
 		{
-			for (int i = 0; i < _tags.Length; i++)
+			for (int i = 0; i < _tags.Count; i++)
 				_tags[i].Add(instance, hash);
 		}
 
 		internal void Remove(GameObject instance, int hash)
 		{
-			for (int i = 0; i < _tags.Length; i++)
+			for (int i = 0; i < _tags.Count; i++)
 				_tags[i].Remove(instance, hash);
 		}
 

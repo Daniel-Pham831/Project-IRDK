@@ -13,7 +13,7 @@ namespace ToolBox.Tags
 	public sealed class Tag : ScriptableObject
 	{
 		private readonly HashSet<int> _instancesHash = new HashSet<int>();
-		private readonly List<GameObject> _instances = new List<GameObject>(128);
+		private readonly List<GameObject> _instances = new List<GameObject>();
 
 		internal void Add(GameObject instance, int hash)
 		{
