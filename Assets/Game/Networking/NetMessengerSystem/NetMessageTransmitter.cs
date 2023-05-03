@@ -66,7 +66,7 @@ namespace Game.Networking.NetMessengerSystem
             }
         }
         
-        public void SendNetMessage<T>(T messageToSend, List<ulong> toClientIds = null) where T : NetMessage , new ()
+        public void SendNetMessage<T>(T messageToSend, List<ulong> toClientIds = null) where T : NetMessage
         {
             var dataInBytes = messageToSend.ToBytes();
             var sendModel = new NetMessageTransmitModel()
@@ -92,6 +92,8 @@ namespace Game.Networking.NetMessengerSystem
                     toClientIds.Remove(_networkManager.LocalClientId);
                     _networkManager.CustomMessagingManager.SendUnnamedMessage(toClientIds,
                         writer, NetworkDelivery.ReliableFragmentedSequenced);
+                    
+                    messageToSend.SenderID = _networkManager.LocalClientId;
                     InvokeMessage(messageToSend);
                 }
                 else
@@ -102,9 +104,8 @@ namespace Game.Networking.NetMessengerSystem
             }
         }
 
-        private void OnUnnamedMessageReceived(ulong clientId, FastBufferReader reader)
+        private void OnUnnamedMessageReceived(ulong senderClientId, FastBufferReader reader)
         {
-            Debug.Log("OnUnnamedMessageReceived");
             byte[] data = new byte[reader.Length];
             reader.ReadBytesSafe(ref data, reader.Length, 0);
             var receivedModel = Helper.Deserialize<NetMessageTransmitModel>(data);
@@ -115,6 +116,8 @@ namespace Game.Networking.NetMessengerSystem
                 var netMessage = MemoryPackSerializer.Deserialize(type,receivedModel.Data) as NetMessage;
                 if (netMessage == null) return;
 
+                netMessage.SenderID = senderClientId;
+                Debug.Log($"Received {netMessage.GetType().Name} Size: {data.Length}");
                 InvokeMessage(netMessage);
             }
         }

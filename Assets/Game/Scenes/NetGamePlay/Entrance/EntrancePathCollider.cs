@@ -26,7 +26,7 @@ namespace Game.Scenes.NetGamePlay.Entrance
         {
             if (col.gameObject.HasTag(_entranceController.LocalPlayerTag))
             {
-                await _entranceController.OnPlayerExit(entranceDirection);
+                await _entranceController.OnPlayerExit();
             }
         }
     }

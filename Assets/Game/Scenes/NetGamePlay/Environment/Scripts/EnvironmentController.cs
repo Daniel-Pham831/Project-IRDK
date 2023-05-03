@@ -21,11 +21,18 @@ namespace Game.Scenes.NetGamePlay.Environment.Scripts
         private Cell _currentCell;
         private Maze _currentMaze;
 
-        public async UniTask Init()
+        public override void Awake()
         {
+            base.Awake();
+            
             _currentMaze = _mazeGenerator.CurrentMaze;
             ObserveMaze();
             _currentMaze.NotifyCellChanged();
+        }
+
+        public async UniTask Init()
+        {
+            await UniTask.CompletedTask;
         }
 
         private void ObserveMaze()

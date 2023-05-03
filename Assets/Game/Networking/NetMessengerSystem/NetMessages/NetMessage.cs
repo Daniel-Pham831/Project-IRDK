@@ -9,6 +9,7 @@ namespace Game.Networking.NetMessengerSystem.NetMessages
     [MemoryPackable]
     public partial class NetMessage
     {
+        public ulong SenderID;
     }
     
     public static class NetMessageExtensions

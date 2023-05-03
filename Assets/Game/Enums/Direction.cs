@@ -6,6 +6,7 @@ namespace Game.Enums
     [Serializable]
     public enum Direction
     {
+        None,
         Top,
         Right,
         Bottom,
@@ -26,6 +27,7 @@ namespace Game.Enums
                     return Vector2Int.down;
                 case Direction.Left:
                     return Vector2Int.left;
+                case Direction.None:
                 default:
                     throw new ArgumentOutOfRangeException(nameof(direction), direction, null);
             }

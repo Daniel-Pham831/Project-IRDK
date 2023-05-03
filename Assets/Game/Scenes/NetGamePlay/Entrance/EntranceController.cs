@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using Game.Enums;
 using Game.MazeSystem;
+using Game.Networking.NetMessengerSystem;
+using Game.Networking.NetMessengerSystem.NetMessages;
 using Game.Scenes.NetGamePlay.Commands;
 using Maniac.Utils;
 using ToolBox.Tags;
@@ -13,6 +15,7 @@ namespace Game.Scenes.NetGamePlay.Entrance
 {
     public class EntranceController : MonoLocator<EntranceController>
     {
+        private NetMessageTransmitter _netMessageTransmitter => Locator<NetMessageTransmitter>.Instance;
         private MazeGenerator _mazeGenerator => Locator<MazeGenerator>.Instance;
         private Maze _currentMaze => _mazeGenerator.CurrentMaze;
         
@@ -22,7 +25,6 @@ namespace Game.Scenes.NetGamePlay.Entrance
         public Tag PlayerTag => _playerTag;
         public Tag LocalPlayerTag => _localPlayerTag;
 
-
         public override void Awake()
         {
             base.Awake();
@@ -31,12 +33,12 @@ namespace Game.Scenes.NetGamePlay.Entrance
 
         public async UniTask OnPlayerEnter(Direction entranceDirection)
         {
-            // await new MovePlayersToCellAtDirectionCommand()
+            _netMessageTransmitter.SendNetMessage(new UpdateChosenDirectionToServerNetMessage(entranceDirection));
         }
 
-        public async UniTask OnPlayerExit(Direction entranceDirection)
+        public async UniTask OnPlayerExit()
         {
-            throw new NotImplementedException();
+            _netMessageTransmitter.SendNetMessage(new UpdateChosenDirectionToServerNetMessage());
         }
     }
 }
