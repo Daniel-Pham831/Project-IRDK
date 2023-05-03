@@ -78,6 +78,7 @@ SpriteAtlas:
   - {fileID: -1196347300, guid: b3e455256e5897e4fa44ed1b85311972, type: 3}
   - {fileID: 190857321, guid: b3e455256e5897e4fa44ed1b85311972, type: 3}
   - {fileID: 991434616, guid: b3e455256e5897e4fa44ed1b85311972, type: 3}
+  - {fileID: 21300000, guid: 20197e7571e137146a6afd3563a9a8a3, type: 3}
   - {fileID: 476692791, guid: bd90902810ce8ca459ef0eb93e41e51b, type: 3}
   - {fileID: 451254264, guid: bd90902810ce8ca459ef0eb93e41e51b, type: 3}
   - {fileID: -2130752450, guid: bd90902810ce8ca459ef0eb93e41e51b, type: 3}
@@ -147,6 +148,7 @@ SpriteAtlas:
   - C3_1
   - C3_2
   - C3_3
+  - C-Shadow
   - C9_2
   - C9_3
   - C9_0
