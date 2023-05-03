@@ -3,13 +3,17 @@ using Cysharp.Threading.Tasks;
 using Game.Networking.Network.NetworkModels;
 using Game.Networking.Network.NetworkModels.Handlers;
 using Game.Networking.Network.NetworkModels.Handlers.NetPlayerModel;
+using Game.Networking.NormalMessages;
 using Maniac.DataBaseSystem;
+using Maniac.MessengerSystem.Base;
+using Maniac.MessengerSystem.Messages;
 using Maniac.Utils;
 using Maniac.Utils.Extension;
 using TMPro;
 using UniRx;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.SocialPlatforms;
 using UnityEngine.U2D.Animation;
 
 namespace Game.Players.Scripts
@@ -37,8 +41,23 @@ namespace Game.Players.Scripts
         public override async void OnNetworkSpawn()
         {
             var thisClientNetPlayerModel = await GetReactiveModel();
-
             thisClientNetPlayerModel.Subscribe(UpdateNetPlayer).AddTo(this);
+            
+            DontDestroyOnLoad(this.gameObject);
+            NetworkObject.DontDestroyWithOwner = false;
+
+            if (IsOwner)
+            {
+                Locator<NetPlayer>.Set(this,true);
+            }
+        }
+
+        public override void OnNetworkDespawn()
+        {
+            if (IsOwner)
+            {
+                Locator<NetPlayer>.Remove(this);
+            }
         }
 
         private async UniTask<ReactiveProperty<NetPlayerModel>> GetReactiveModel()

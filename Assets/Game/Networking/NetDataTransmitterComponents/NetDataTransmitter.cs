@@ -32,21 +32,16 @@ namespace Game.Networking.NetDataTransmitterComponents
 
         public override void OnNetworkSpawn()
         {
-            if (!IsOwner)
-            {
-                NetworkObject.DestroyWithScene = false;
-                DontDestroyOnLoad(this.gameObject);
-                return;
-            }
+            NetworkObject.DestroyWithScene = false;
+            DontDestroyOnLoad(this.gameObject);
+
+            if (!IsOwner) return;
 
             this.gameObject.name = "NetDataTransmitter - Owner" + (IsServer ? " - Server" : "Client");
             _hub.SetNetDataTransmitter(this);
             RegisterNetworkEvents(true);
             Locator<NetDataTransmitter>.Set(this);
             Messenger.SendMessage(new LocalClientNetworkSpawn());
-            
-            NetworkObject.DestroyWithScene = false;
-            DontDestroyOnLoad(this.gameObject);
         }
         
         private void OnClientConnectedCallback(ulong clientId)
@@ -63,7 +58,7 @@ namespace Game.Networking.NetDataTransmitterComponents
             {
                 ClientId = clientId
             });
-        }
+        } 
 
         private async void OnTransportFailure()
         {

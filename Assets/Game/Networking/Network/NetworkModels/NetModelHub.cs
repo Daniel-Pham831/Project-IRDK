@@ -95,7 +95,7 @@ namespace Game.Networking.Network.NetworkModels
 
         public void SendModelToAll(string handlerKey, byte[] modelToSendInBytes)
         {
-            Debug.Log($"Send To Server + {gameObject.name}");
+            Debug.Log($"{handlerKey} Send To Server : Size {modelToSendInBytes.Length}");
 
             _netDataTransmitter.SendNetModelServerRpc(
                 new HubModel()

@@ -1,6 +1,7 @@
 ﻿using Game.Networking.Network.NetworkModels.Models;
 using Maniac.DataBaseSystem;
 using MemoryPack;
+using Unity.Collections;
 using UnityEngine;
 
 namespace Game.Networking.Network.NetworkModels.Handlers.NetPlayerModel

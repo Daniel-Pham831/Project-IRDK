@@ -5,6 +5,7 @@ using Game.Networking.NetMessengerSystem;
 using Game.Networking.Network;
 using Game.Networking.Network.Commands;
 using Game.Networking.Scripts;
+using Game.Players.Scripts;
 using Game.Scenes.MainMenu.Commands;
 using Maniac.Command;
 using Maniac.LanguageTableSystem;

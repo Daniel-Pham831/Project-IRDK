@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Game.Enums;
 using Game.MazeSystem;
+using Maniac.CameraSystem;
 using Maniac.Utils;
 using UniRx;
 using UnityEngine;
@@ -15,6 +16,8 @@ namespace Game.Scenes.NetGamePlay.Environment.Scripts
         
         [SerializeField] private List<PathGraphic> _pathGraphics;
         [SerializeField] private List<WallGraphic> _wallGraphics;
+        [SerializeField] private PolygonCollider2D _confiner;
+        public PolygonCollider2D Confiner => _confiner;
         private Cell _currentCell;
         private Maze _currentMaze;
 

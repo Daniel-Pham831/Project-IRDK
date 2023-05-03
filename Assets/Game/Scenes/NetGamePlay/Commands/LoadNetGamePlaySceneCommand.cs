@@ -2,6 +2,7 @@
 using Game.Commands;
 using Game.Networking.Lobby.Commands;
 using Game.Networking.Network.Commands;
+using Maniac.CameraSystem;
 using Maniac.Command;
 using Maniac.LanguageTableSystem;
 using Maniac.Services;
@@ -23,8 +24,7 @@ namespace Game.Scenes.NetGamePlay.Commands
             netGamePlayCommandsGroup.Add(new LoadEmptySceneCommand());
             netGamePlayCommandsGroup.Add(new LoadSceneCommand(SceneName.NetGamePlay));
             netGamePlayCommandsGroup.Add(new InitNetGamePlayCommand());
-            netGamePlayCommandsGroup.Add(new RequestSpawnNetPlayerCommand());
-            
+            netGamePlayCommandsGroup.Add(new SetupCameraCommand());
             
             _loadingScreen = await _uiManager.Show<LoadingScreen>(netGamePlayCommandsGroup.Progress);
             await netGamePlayCommandsGroup.Run();

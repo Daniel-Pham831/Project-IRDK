@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Game.Players.Scripts
 {
-    public class NetPlayerController : NetworkBehaviour
+    public class NetPlayerMovement : NetworkBehaviour
     {
         private static readonly int IsMoving = Animator.StringToHash("IsMoving");
         private DataBase _dataBase => Locator<DataBase>.Instance;
