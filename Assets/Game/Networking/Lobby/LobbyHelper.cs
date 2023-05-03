@@ -28,6 +28,11 @@ namespace Game.Networking.Lobby
                             field: QueryFilter.FieldOptions.AvailableSlots,
                             op: QueryFilter.OpOptions.GT,
                             value: "0")
+                        ,
+                        new QueryFilter(
+                            field: QueryFilter.FieldOptions.S1,
+                            op: QueryFilter.OpOptions.EQ,
+                            value: "false")
                     };
 
                     // Order by newest lobbies first

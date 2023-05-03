@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d5277732ea23754980830908da4955d, type: 3}
   m_Name: GeneralConfig
   m_EditorClassIdentifier: 
+  StartGameCounterInSeconds: 3

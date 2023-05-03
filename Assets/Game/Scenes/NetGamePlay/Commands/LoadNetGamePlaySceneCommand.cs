@@ -21,6 +21,7 @@ namespace Game.Scenes.NetGamePlay.Commands
             var netGamePlayCommandsGroup = new SequenceCommandServiceGroup("Load Net Game Play");
             netGamePlayCommandsGroup.OnFailed += OnLoadNetGamePlayFailed;
             
+            netGamePlayCommandsGroup.Add(new UpdateLobbyPlayingStateCommand());
             netGamePlayCommandsGroup.Add(new LoadEmptySceneCommand());
             netGamePlayCommandsGroup.Add(new LoadSceneCommand(SceneName.NetGamePlay));
             netGamePlayCommandsGroup.Add(new InitNetGamePlayCommand());

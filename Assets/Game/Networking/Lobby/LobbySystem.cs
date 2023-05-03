@@ -253,7 +253,11 @@ namespace Game.Networking.Lobby
             try
             {
                 var joinedLobby = await _lobbyService.JoinLobbyByIdAsync(lobbyId);
-                Debug.Log($"Joined Lobby {joinedLobby.Name}");
+                if(IsLobbyPlaying(joinedLobby))
+                {
+                    joinedLobby = null;
+                }
+                
                 JoinedLobby.Value = joinedLobby;
             }
             catch
@@ -265,12 +269,33 @@ namespace Game.Networking.Lobby
             return JoinedLobby.Value;
         }
 
+        private bool IsLobbyPlaying(Unity.Services.Lobbies.Models.Lobby joinedLobby)
+        {
+            try
+            {
+                if (joinedLobby.Data[LobbyDataKey.IsPlaying].Value == "true")
+                {
+                    return true;
+                }
+            }
+            catch
+            {
+                // ignored
+            }
+
+            return false;
+        }
+
         public async UniTask<Unity.Services.Lobbies.Models.Lobby> JoinLobbyByCode(string joinCode)
         {
             try
             {
                 var joinedLobby = await _lobbyService.JoinLobbyByCodeAsync(joinCode);
-                Debug.Log($"Joined Lobby {joinedLobby.Name}");
+                if(IsLobbyPlaying(joinedLobby))
+                {
+                    joinedLobby = null;
+                }
+                
                 JoinedLobby.Value = joinedLobby;
             }
             catch

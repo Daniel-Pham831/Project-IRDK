@@ -136,6 +136,7 @@ namespace Game
             bool isHost = NetworkManager.Singleton.IsHost;
             if (!isHost) return;
 
+            await new UpdateLobbyPlayingStateCommand().Execute();
             _netMessageTransmitter.SendNetMessage(new LobbyStartNetMessage());
         }
 

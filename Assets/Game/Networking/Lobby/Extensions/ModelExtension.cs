@@ -14,7 +14,7 @@ namespace Game.Networking.Lobby.Extensions
                 IsPrivate = model.IsPrivateLobby,
                 Data = new Dictionary<string, DataObject>()
                 {
-                    {LobbyDataKey.IsPlaying,new DataObject(DataObject.VisibilityOptions.Public,"false")}
+                    {LobbyDataKey.IsPlaying,new DataObject(DataObject.VisibilityOptions.Public,"false",DataObject.IndexOptions.S1)}
                 }
             };
             return result;
