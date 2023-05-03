@@ -6,11 +6,11 @@ namespace Game.Enums
     [Serializable]
     public enum Direction
     {
-        None,
         Top,
         Right,
         Bottom,
         Left,
+        None,
     }
 
     public static class DirectionExtensions

@@ -27,7 +27,6 @@ namespace Game.Scenes.NetGamePlay.Environment.Scripts
             
             _currentMaze = _mazeGenerator.CurrentMaze;
             ObserveMaze();
-            _currentMaze.NotifyCellChanged();
         }
 
         public async UniTask Init()
@@ -38,6 +37,7 @@ namespace Game.Scenes.NetGamePlay.Environment.Scripts
         private void ObserveMaze()
         {
             _currentMaze.CurrentObserveCell.Subscribe(SetupEnvironment).AddTo(this);
+            _currentMaze.NotifyCellChanged();
         }
 
         private void SetupEnvironment(Cell cell)

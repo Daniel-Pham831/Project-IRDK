@@ -72,7 +72,7 @@ namespace Game.Networking.NetMessengerSystem
             var sendModel = new NetMessageTransmitModel()
             {
                 Data = dataInBytes,
-                MessageType = NetMessageCode.GetUshortFromFixedString32Bytes(messageToSend.GetType().Name)
+                MessageType = NetMessageCode.GetUshortFromString(messageToSend.GetType().Name)
             };
             
             var modelToSendInBytes = Helper.Serialize(sendModel);
@@ -101,6 +101,8 @@ namespace Game.Networking.NetMessengerSystem
                     _networkManager.CustomMessagingManager.SendUnnamedMessage(NetworkManager.ServerClientId,
                         writer, NetworkDelivery.ReliableFragmentedSequenced);
                 }
+                
+                Debug.Log($"Sent {NetMessageCode.GetMessageNameFromUshort(sendModel.MessageType)} Size: {writeSize}");
             }
         }
 

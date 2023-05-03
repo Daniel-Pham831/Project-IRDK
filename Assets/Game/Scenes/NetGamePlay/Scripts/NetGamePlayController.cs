@@ -23,6 +23,8 @@ namespace Game.Scenes.NetGamePlay.Scripts
 
         public override void Awake()
         {
+            base.Awake();
+            
             if (_networkManager.IsServer)
             {
                 foreach (var clientId in _networkManager.ConnectedClientsIds)
@@ -32,7 +34,7 @@ namespace Game.Scenes.NetGamePlay.Scripts
                 
                 _playersChosenDirection.Subscribe(OnPlayerChosenDirectionChanged).AddTo(this);
                 
-                _netMessageTransmitter.Register<UpdateChosenDirectionToServerNetMessage>(this);
+                _netMessageTransmitter.Register<UpdateChosenDirectionNetMessage>(this);
             }
 
             if (_networkManager.IsClient)
@@ -46,15 +48,41 @@ namespace Game.Scenes.NetGamePlay.Scripts
         {
             switch (message)
             {
-                case UpdateChosenDirectionToServerNetMessage updateChosenDirectionToServerNetMessage:
-                    bool shouldNotify = updateChosenDirectionToServerNetMessage.ChosenDirection != Direction.None;
-                        _playersChosenDirection.Value[updateChosenDirectionToServerNetMessage.SenderID] =
-                            updateChosenDirectionToServerNetMessage.ChosenDirection;
-                    
-                    if (shouldNotify)
-                        _playersChosenDirection.SetValueAndForceNotify(_playersChosenDirection.Value);
+                case UpdateChosenDirectionNetMessage updateChosenDirectionToServerNetMessage:
+                    OnUpdateChosenDirection(updateChosenDirectionToServerNetMessage);
+                    break;
+                
+                case AllPlayersMuchChooseDirectionWarningNetMessage:
+                    OnAllPlayersMuchChooseDirectionWarning();
+                    break;
+                
+                case MoveToNextCellNetMessage moveToNextCellNetMessage:
+                    OnMoveToNextCell(moveToNextCellNetMessage);
                     break;
             }
+        }
+
+        // This is for clients
+        private void OnMoveToNextCell(MoveToNextCellNetMessage moveToNextCellNetMessage)
+        {
+            Debug.Log($"Move To Next Cell {moveToNextCellNetMessage.CellDirection}");
+        }
+
+        // This is for clients
+        private void OnAllPlayersMuchChooseDirectionWarning()
+        {
+            Debug.Log("All Players Must Choose The Same Direction");
+        }
+
+        // This is for host-server only
+        private void OnUpdateChosenDirection(UpdateChosenDirectionNetMessage updateChosenDirectionNetMessage)
+        {
+            bool shouldNotify = updateChosenDirectionNetMessage.ChosenDirection != Direction.None;
+            _playersChosenDirection.Value[updateChosenDirectionNetMessage.SenderID] =
+                updateChosenDirectionNetMessage.ChosenDirection;
+
+            if (shouldNotify)
+                _playersChosenDirection.SetValueAndForceNotify(_playersChosenDirection.Value);
         }
 
         public override void OnDestroy()
@@ -74,6 +102,8 @@ namespace Game.Scenes.NetGamePlay.Scripts
         // If it isn't, send AllPlayersMuchChooseDirectionMessage to all clients
         private async void OnPlayerChosenDirectionChanged(Dictionary<ulong, Direction> playersChosenDirection)
         {
+            if (playersChosenDirection.Values.All(x => x == Direction.None)) return;
+            
             if (ShouldMoveToNextCell())
             {
                 var direction = playersChosenDirection.First().Value;

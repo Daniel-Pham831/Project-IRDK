@@ -6,11 +6,11 @@ namespace Game.Networking.NetMessengerSystem.NetMessages
 {
     [Serializable]
     [MemoryPackable]
-    public partial class UpdateChosenDirectionToServerNetMessage : NetMessage
+    public partial class UpdateChosenDirectionNetMessage : NetMessage
     {
         public Direction ChosenDirection;
         
-        public UpdateChosenDirectionToServerNetMessage(Direction chosenDirection = Direction.None)
+        public UpdateChosenDirectionNetMessage(Direction chosenDirection = Direction.None)
         {
             ChosenDirection = chosenDirection;
         }

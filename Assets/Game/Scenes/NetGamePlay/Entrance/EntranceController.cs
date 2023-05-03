@@ -9,6 +9,7 @@ using Game.Networking.NetMessengerSystem.NetMessages;
 using Game.Scenes.NetGamePlay.Commands;
 using Maniac.Utils;
 using ToolBox.Tags;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace Game.Scenes.NetGamePlay.Entrance
@@ -33,12 +34,18 @@ namespace Game.Scenes.NetGamePlay.Entrance
 
         public async UniTask OnPlayerEnter(Direction entranceDirection)
         {
-            _netMessageTransmitter.SendNetMessage(new UpdateChosenDirectionToServerNetMessage(entranceDirection));
+            _netMessageTransmitter.SendNetMessage(new UpdateChosenDirectionNetMessage(entranceDirection),new List<ulong>()
+            {
+                NetworkManager.ServerClientId
+            });
         }
 
         public async UniTask OnPlayerExit()
         {
-            _netMessageTransmitter.SendNetMessage(new UpdateChosenDirectionToServerNetMessage());
+            _netMessageTransmitter.SendNetMessage(new UpdateChosenDirectionNetMessage(),new List<ulong>()
+            {
+                NetworkManager.ServerClientId
+            });
         }
     }
 }

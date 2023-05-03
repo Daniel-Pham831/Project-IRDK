@@ -16,8 +16,7 @@ namespace Game.Networking.NetMessengerSystem
             ushort ushortCounter = 0;
             foreach (var subClassType in allSubClasses)
             {
-                FixedString32Bytes fixedString32Bytes = subClassType.Name;
-                NetMessageCode.Add(ushortCounter++, fixedString32Bytes,subClassType);
+                NetMessageCode.Add(ushortCounter++, subClassType.Name,subClassType);
             }
         }
     }

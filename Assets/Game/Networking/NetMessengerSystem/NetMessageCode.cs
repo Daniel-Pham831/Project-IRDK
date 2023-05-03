@@ -8,11 +8,11 @@ namespace Game.Networking.NetMessengerSystem
 {
     public static class NetMessageCode
     {
-        public static Dictionary<ushort,FixedString32Bytes> NetMessageCodes = new Dictionary<ushort, FixedString32Bytes>();
-        private static Dictionary<FixedString32Bytes,ushort> _messageCodes = new Dictionary<FixedString32Bytes, ushort>();
-        public static Dictionary<FixedString32Bytes,Type> MessageTypes = new Dictionary<FixedString32Bytes, Type>();
+        public static Dictionary<ushort,string> NetMessageCodes = new Dictionary<ushort, string>();
+        private static Dictionary<string,ushort> _messageCodes = new Dictionary<string, ushort>();
+        public static Dictionary<string,Type> MessageTypes = new Dictionary<string, Type>();
         
-        public static void Add(ushort code, FixedString32Bytes type, Type subClassType)
+        public static void Add(ushort code, string type, Type subClassType)
         {
             if(!NetMessageCodes.ContainsKey(code))
             {
@@ -40,6 +40,16 @@ namespace Game.Networking.NetMessengerSystem
             return null;
         }
         
+        public static string GetMessageNameFromUshort(ushort code)
+        {
+            if (NetMessageCodes.ContainsKey(code))
+            {
+                return NetMessageCodes[code];
+            }
+
+            return null;
+        }
+        
         public static ushort GetUshortFromMessageType(Type type)
         {
             if (MessageTypes.ContainsValue(type))
@@ -55,7 +65,7 @@ namespace Game.Networking.NetMessengerSystem
             return 0;
         }
         
-        public static ushort GetUshortFromFixedString32Bytes(FixedString32Bytes type)
+        public static ushort GetUshortFromString(string type)
         {
             if (_messageCodes.ContainsKey(type))
             {
