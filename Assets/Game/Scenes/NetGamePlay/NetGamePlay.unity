@@ -109086,7 +109086,7 @@ GameObject:
   - component: {fileID: 2072084763}
   - component: {fileID: 2072084762}
   m_Layer: 7
-  m_Name: Tilemap-Collision-Bounds
+  m_Name: Tilemap-Collision-Borders
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
