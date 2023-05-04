@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Game.Enums;
-using Game.MazeSystem;
+using Game.Maze;
 using Maniac.CameraSystem;
 using Maniac.Utils;
 using UniRx;
@@ -12,20 +12,20 @@ namespace Game.Scenes.NetGamePlay.Environment.Scripts
 {
     public class EnvironmentController : MonoLocator<EnvironmentController>
     {
-        private MazeGenerator _mazeGenerator => Locator<MazeGenerator>.Instance;
+        private Maze.MazeSystem MazeSystem => Locator<Maze.MazeSystem>.Instance;
         
         [SerializeField] private List<PathGraphic> _pathGraphics;
         [SerializeField] private List<WallGraphic> _wallGraphics;
         [SerializeField] private PolygonCollider2D _confiner;
         public PolygonCollider2D Confiner => _confiner;
         private Cell _currentCell;
-        private Maze _currentMaze;
+        private Maze.Maze _currentMaze;
 
         public override void Awake()
         {
             base.Awake();
             
-            _currentMaze = _mazeGenerator.CurrentMaze;
+            _currentMaze = MazeSystem.CurrentMaze;
             ObserveMaze();
         }
 

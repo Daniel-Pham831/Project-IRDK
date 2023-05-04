@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 using System.CodeDom.Compiler;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using Cysharp.Threading.Tasks;
 using MemoryPack;
 using Newtonsoft.Json;
 using Object = UnityEngine.Object;
@@ -43,6 +44,7 @@ namespace Maniac.Utils
             }
         }
 
+        
         private static PointerEventData eventDataCurrentPosition;
         private static List<RaycastResult> results;
         
@@ -55,7 +57,7 @@ namespace Maniac.Utils
 
             return _waitForSecondsMap[seconds];
         }
-
+        
         public static byte[] Serialize<T>(T objectToSerialize)
         {
             // using var ms = new MemoryStream();

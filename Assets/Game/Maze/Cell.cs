@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Game.Enums;
 using UnityEngine;
 
-namespace Game.MazeSystem
+namespace Game.Maze
 {
     [Serializable]
     public class Cell

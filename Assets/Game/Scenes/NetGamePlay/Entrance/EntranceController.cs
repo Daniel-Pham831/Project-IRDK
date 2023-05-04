@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using Game.Enums;
-using Game.MazeSystem;
+using Game.Maze;
 using Game.Networking.NetMessengerSystem;
 using Game.Networking.NetMessengerSystem.NetMessages;
 using Game.Scenes.NetGamePlay.Commands;
@@ -17,8 +17,8 @@ namespace Game.Scenes.NetGamePlay.Entrance
     public class EntranceController : MonoLocator<EntranceController>
     {
         private NetMessageTransmitter _netMessageTransmitter => Locator<NetMessageTransmitter>.Instance;
-        private MazeGenerator _mazeGenerator => Locator<MazeGenerator>.Instance;
-        private Maze _currentMaze => _mazeGenerator.CurrentMaze;
+        private MazeSystem MazeSystem => Locator<MazeSystem>.Instance;
+        private Maze.Maze _currentMaze => MazeSystem.CurrentMaze;
         
         [SerializeField] private Tag _playerTag;
         [SerializeField] private Tag _localPlayerTag;

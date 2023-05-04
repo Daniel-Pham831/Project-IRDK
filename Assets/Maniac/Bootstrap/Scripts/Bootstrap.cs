@@ -1,7 +1,7 @@
 ﻿using Game;
 using Game.CloudProfileSystem;
 using Game.Commands;
-using Game.MazeSystem;
+using Game.Maze;
 using Game.Networking.Lobby;
 using Game.Networking.NetMessengerSystem;
 using Game.Networking.Network;

@@ -2,7 +2,6 @@
 using System.IO;
 using Cysharp.Threading.Tasks;
 using Maniac.RandomSystem;
-using Maniac.RunnerSystem;
 using Maniac.Utils;
 using Maniac.Utils.Extension;
 using Newtonsoft.Json;
@@ -10,16 +9,16 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace Game.MazeSystem
+namespace Game.Maze
 {
-    public class MazeGenerator
+    public class MazeSystem
     {
         private Randomer _randomer => Locator<Randomer>.Instance;
         public Maze CurrentMaze { get; private set; }
         
         public void Init()
         {
-            Locator<MazeGenerator>.Set(this);
+            Locator<MazeSystem>.Set(this);
         }
 
         public async UniTask GenerateNewMaze(Vector2Int mazeDimension)

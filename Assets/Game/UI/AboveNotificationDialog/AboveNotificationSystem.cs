@@ -36,9 +36,7 @@ namespace Game
                 var durationTask = UniTask.Delay((int)(aboveNotiParam.Duration * 1000));
                 var actionTask = UniTask.WaitUntil(() => isFinished);
 
-                Debug.Log("Run");
                 await UniTask.WhenAny(durationTask, actionTask);
-                Debug.Log("Finish");
             }
 
             await UniTask.DelayFrame(1);

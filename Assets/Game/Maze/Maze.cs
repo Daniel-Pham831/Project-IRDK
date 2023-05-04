@@ -4,7 +4,7 @@ using UniRx;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace Game.MazeSystem
+namespace Game.Maze
 {
     [Serializable]
     public class Maze
@@ -106,7 +106,7 @@ namespace Game.MazeSystem
             CurrentObserveCell.SetValueAndForceNotify(CurrentObserveCell.Value);
         }
         
-        public bool CheckIfCanMoveToDirection(Direction direction)
+        public bool IsDirectionValid(Direction direction)
         {
             return !CurrentObserveCell.Value.Walls.Contains(direction);
         }
@@ -115,9 +115,15 @@ namespace Game.MazeSystem
         {
             var nextCellPosition = CurrentObserveCell.Value.Position + direction.ToVector2Int();
             if(StartCell.Position == nextCellPosition)
+            {
                 CurrentObserveCell.Value = StartCell;
+                return;
+            }
             else if(EndCell.Position == nextCellPosition)
+            {
                 CurrentObserveCell.Value = EndCell;
+                return;
+            }
             
             try
             {

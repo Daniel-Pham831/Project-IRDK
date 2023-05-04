@@ -4,6 +4,7 @@ using Cysharp.Threading.Tasks;
 using Game.Enums;
 using Game.Networking.NetMessengerSystem;
 using Game.Networking.NetMessengerSystem.NetMessages;
+using Game.Scenes.NetGamePlay.Commands;
 using Maniac.LanguageTableSystem;
 using Maniac.Utils;
 using UniRx;
@@ -59,15 +60,22 @@ namespace Game.Scenes.NetGamePlay.Scripts
                     break;
                 
                 case MoveToNextCellNetMessage moveToNextCellNetMessage:
-                    OnMoveToNextCell(moveToNextCellNetMessage);
+                    await OnMoveToNextCell(moveToNextCellNetMessage);
                     break;
             }
         }
 
         // This is for clients
-        private void OnMoveToNextCell(MoveToNextCellNetMessage moveToNextCellNetMessage)
+        private async UniTask OnMoveToNextCell(MoveToNextCellNetMessage moveToNextCellNetMessage)
         {
+            // this shouldn't be happen but just for sure
+            if (moveToNextCellNetMessage.CellDirection == Direction.None) return;
+            
             Debug.Log($"Move To Next Cell {moveToNextCellNetMessage.CellDirection}");
+            await new MoveToNextCellCommand(moveToNextCellNetMessage.CellDirection).Execute();
+            
+            
+            // Start spawn creep
         }
 
         // This is for clients
@@ -75,11 +83,12 @@ namespace Game.Scenes.NetGamePlay.Scripts
         {
             if (_warningNotiCommand == null)
             {
-                _warningNotiCommand = new ShowAboveNotificationCommand(LanguageTable.AboveNoti_SamePathWarning,
-                    () =>
-                    {
-                        Debug.Log("Warning Noti Closed");
-                    });
+                _warningNotiCommand = new ShowAboveNotificationCommand(
+                    LanguageTable.AboveNoti_SamePathWarning,
+                    () => Debug.Log("Warning Noti Closed"),
+                    null,
+                    1.5f
+                );
             }
 
             await _warningNotiCommand.Execute();
@@ -134,7 +143,5 @@ namespace Game.Scenes.NetGamePlay.Scripts
             
             return isNotNone && isAllTheSameDirection;
         }
-
-        
     }
 }

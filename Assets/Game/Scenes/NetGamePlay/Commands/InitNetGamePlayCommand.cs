@@ -1,5 +1,4 @@
 ﻿using Cysharp.Threading.Tasks;
-using Game.MazeSystem;
 using Game.Scenes.NetGamePlay.Environment.Scripts;
 using Game.Scenes.NetGamePlay.Scripts;
 using Maniac.Command;
@@ -11,7 +10,7 @@ namespace Game.Scenes.NetGamePlay.Commands
     {
         private NetGamePlayController _netGamePlayController => Locator<NetGamePlayController>.Instance;
         private EnvironmentController _environmentController => Locator<EnvironmentController>.Instance;
-        private MazeGenerator _mazeGenerator => Locator<MazeGenerator>.Instance;
+        private Maze.MazeSystem MazeSystem => Locator<Maze.MazeSystem>.Instance;
         
         public override async UniTask Execute()
         {

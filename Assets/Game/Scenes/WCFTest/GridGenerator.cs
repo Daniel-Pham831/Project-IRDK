@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using Game.Enums;
-using Game.MazeSystem;
 using Maniac.DataBaseSystem;
 using Maniac.Utils;
 using Unity.Collections;
