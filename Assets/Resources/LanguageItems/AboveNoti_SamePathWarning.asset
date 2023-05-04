@@ -15,10 +15,10 @@ MonoBehaviour:
   id: AboveNoti_SamePathWarning
   languageInfos:
   - languageName: English
-    text: 'All players <color=#123123>MUCH</color> choose
+    text: 'All players <color=#28D8FF>MUCH</color> choose
 
-      the <color=#123123>SAME</color>
+      the <color=#FF9292>SAME</color>
       path!'
   - languageName: Vietnamese
-    text: "T\u1EA5t c\u1EA3 ng\u01B0\u1EDDi ch\u01A1i <color=#123123>PH\u1EA2I</color>
-      ch\u1ECDn\n<color=#123123>CHUNG</color> \u0111\u01B0\u1EDDng!"
+    text: "T\u1EA5t c\u1EA3 ng\u01B0\u1EDDi ch\u01A1i <color=#28D8FF>PH\u1EA2I</color>
+      ch\u1ECDn\n<color=#FF9292>CHUNG</color> \u0111\u01B0\u1EDDng!"

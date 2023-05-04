@@ -4,7 +4,9 @@ using UnityEngine;
 using Cysharp.Threading.Tasks;
 using Maniac;
 using DG.Tweening;
+using Maniac.TimeSystem;
 using Maniac.UISystem;
+using Maniac.Utils;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine.UI;
@@ -13,6 +15,8 @@ namespace Game
 {
     public class AboveNotificationDialog : BaseUI
     {
+        private TimeManager timeManager => Locator<TimeManager>.Instance;
+        
         [SerializeField] private TMP_Text contentTxt;
         [SerializeField] private Image icon;
         private Param _param;
@@ -30,6 +34,14 @@ namespace Game
                 icon.sprite = _param.Icon;
             }
             icon.gameObject.SetActive(_param.Icon != null);
+            
+            timeManager.OnTimeOut(() =>
+            {
+                if(this == null || this.gameObject == null)
+                    return;
+                
+                Close();
+            },_param.Duration);
         }
 
         public override async UniTask OnTransitionExit()
