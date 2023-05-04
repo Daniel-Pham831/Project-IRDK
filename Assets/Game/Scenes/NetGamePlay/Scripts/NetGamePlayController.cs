@@ -4,6 +4,7 @@ using Cysharp.Threading.Tasks;
 using Game.Enums;
 using Game.Networking.NetMessengerSystem;
 using Game.Networking.NetMessengerSystem.NetMessages;
+using Maniac.LanguageTableSystem;
 using Maniac.Utils;
 using UniRx;
 using Unity.Netcode;
@@ -20,6 +21,7 @@ namespace Game.Scenes.NetGamePlay.Scripts
         
         // This is for host-server only
         private ReactiveProperty<Dictionary<ulong,Direction>> _playersChosenDirection = new ReactiveProperty<Dictionary<ulong, Direction>>(new Dictionary<ulong, Direction>());
+        private ShowAboveNotificationCommand _warningNotiCommand;
 
         public override void Awake()
         {
@@ -44,7 +46,7 @@ namespace Game.Scenes.NetGamePlay.Scripts
             }
         }
         
-        public void OnNetMessageReceived(NetMessage message)
+        public async void OnNetMessageReceived(NetMessage message)
         {
             switch (message)
             {
@@ -53,7 +55,7 @@ namespace Game.Scenes.NetGamePlay.Scripts
                     break;
                 
                 case AllPlayersMuchChooseDirectionWarningNetMessage:
-                    OnAllPlayersMuchChooseDirectionWarning();
+                    await OnAllPlayersMuchChooseDirectionWarning();
                     break;
                 
                 case MoveToNextCellNetMessage moveToNextCellNetMessage:
@@ -69,9 +71,18 @@ namespace Game.Scenes.NetGamePlay.Scripts
         }
 
         // This is for clients
-        private void OnAllPlayersMuchChooseDirectionWarning()
+        private async UniTask OnAllPlayersMuchChooseDirectionWarning()
         {
-            Debug.Log("All Players Must Choose The Same Direction");
+            if (_warningNotiCommand == null)
+            {
+                _warningNotiCommand = new ShowAboveNotificationCommand(LanguageTable.AboveNoti_SamePathWarning,
+                    () =>
+                    {
+                        Debug.Log("Warning Noti Closed");
+                    });
+            }
+
+            await _warningNotiCommand.Execute();
         }
 
         // This is for host-server only

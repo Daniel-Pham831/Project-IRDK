@@ -11,6 +11,7 @@ namespace Maniac.UISystem.Command
         private object _parameter;
         private object _result;
         private BaseUI ui;
+        public BaseUI ShowedUI => ui;
 
         public ShowScreenCommand(object parameter = null)
         {

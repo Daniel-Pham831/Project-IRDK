@@ -9,6 +9,7 @@ namespace Maniac.LanguageTableSystem
     {
         //[DON'T DELETE THESE COMMENTS]
         //[HERE]
+		public static readonly string AboveNoti_SamePathWarning = "AboveNoti_SamePathWarning";
 		public static readonly string Lobby_GameStartInFormat = "Lobby_GameStartInFormat";
 		public static readonly string Confirmation_LeaveRoomBody = "Confirmation_LeaveRoomBody";
 		public static readonly string Confirmation_LeaveRoomHeader = "Confirmation_LeaveRoomHeader";

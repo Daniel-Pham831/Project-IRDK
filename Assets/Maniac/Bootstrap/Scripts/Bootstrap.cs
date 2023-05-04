@@ -1,4 +1,5 @@
-﻿using Game.CloudProfileSystem;
+﻿using Game;
+using Game.CloudProfileSystem;
 using Game.Commands;
 using Game.MazeSystem;
 using Game.Networking.Lobby;
@@ -92,6 +93,7 @@ namespace Maniac.Bootstrap.Scripts
             
             // Game services
             bootstrapLoadingServiceGroup.Add(new InitMazeGeneratorService());
+            bootstrapLoadingServiceGroup.Add(new InitAboveNotificationSystemService());
 
             var commandServiceGroup = new SequenceCommandServiceGroup("Command Service Group");
             commandServiceGroup.Add(new PreInitNetMessageCodesCommand());
