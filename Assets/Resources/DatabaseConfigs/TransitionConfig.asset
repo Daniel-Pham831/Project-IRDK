@@ -1,0 +1,93 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5110baccd81131946a9cce5e1ba52c32, type: 3}
+  m_Name: TransitionConfig
+  m_EditorClassIdentifier: 
+  DefaultTransitionEnterDuration: 0.75
+  DefaultTransitionExitDuration: 0.75
+  Transitions:
+  - Id: Transition-1
+    SpriteFrames:
+    - {fileID: 21300000, guid: 8b2d5ec5d99e4d644a110b6850d4d778, type: 3}
+    - {fileID: 21300000, guid: fc8a3908fe42ef644bdbf1ead6215251, type: 3}
+    - {fileID: 21300000, guid: 98991a264e87fb44da02ab93d6f316a6, type: 3}
+    - {fileID: 21300000, guid: 9ca0d5481f11b4349bd2c3a73ab1da90, type: 3}
+    - {fileID: 21300000, guid: 5884933770d899341ab5c434ffb4852c, type: 3}
+    - {fileID: 21300000, guid: a1a39d5b74f15034b8d4fc9ec0124277, type: 3}
+    - {fileID: 21300000, guid: 6271beaa72c60dc418ccb023d1fcb7d0, type: 3}
+    - {fileID: 21300000, guid: f24c3037b0e8c6b44a42ee0deae3ee0b, type: 3}
+    - {fileID: 21300000, guid: a9361f5e16067bb4a87790114121aae5, type: 3}
+    - {fileID: 21300000, guid: 9e117664cc9ecf742b24dcff880b4561, type: 3}
+    - {fileID: 21300000, guid: f068fb01bc4933d48b6c42725e0d8d67, type: 3}
+  - Id: Transition-2
+    SpriteFrames:
+    - {fileID: 21300000, guid: f466540c3e2cbb841be4663c556c8fe7, type: 3}
+    - {fileID: 21300000, guid: f4ba843da57392a4394af38ee7744d6e, type: 3}
+    - {fileID: 21300000, guid: 3be89f3f04c9e724e814cdf077910799, type: 3}
+    - {fileID: 21300000, guid: 63c58a499eb4eb14f87064470e7a3000, type: 3}
+    - {fileID: 21300000, guid: f3c9c0aa8f7d4974184c3fc95e60ebcc, type: 3}
+    - {fileID: 21300000, guid: 9aff9558217eb7b4a91da08a33b4d4f5, type: 3}
+    - {fileID: 21300000, guid: dc92f0b679ba037488541c465326bd2e, type: 3}
+    - {fileID: 21300000, guid: 899bf44094ffd174b9abb4abb5367b27, type: 3}
+    - {fileID: 21300000, guid: af79b53b834fa7c4db97b91147996377, type: 3}
+    - {fileID: 21300000, guid: 229728789fabfa84a8e207b7b0374383, type: 3}
+    - {fileID: 21300000, guid: ba1ff03910483f84eadcdff7b063a45b, type: 3}
+    - {fileID: 21300000, guid: b1c926fc69df3624792d8e14b8982ec4, type: 3}
+  - Id: Transition-3
+    SpriteFrames:
+    - {fileID: 21300000, guid: f4297618db6b8f34681f2671b6f1439c, type: 3}
+    - {fileID: 21300000, guid: 7608f5b41e5fd8946913abd6a911efb9, type: 3}
+    - {fileID: 21300000, guid: 8f3d44f8b68a8fb4682fd5a9b6684251, type: 3}
+    - {fileID: 21300000, guid: 00f7486fe5bbee14ea45af45e8d8412e, type: 3}
+    - {fileID: 21300000, guid: 15d599dc2daa92a4c8d2c8b5c2402ad1, type: 3}
+    - {fileID: 21300000, guid: 3a67a48dce42b4c4f8eb56bc20179cd8, type: 3}
+    - {fileID: 21300000, guid: 6a365b762ffb4024797633ac93d3a701, type: 3}
+    - {fileID: 21300000, guid: e32a2498d28cbd8459d58f1c7f16042d, type: 3}
+    - {fileID: 21300000, guid: 7b055815bba7dfb4cb3a3222bc931ffb, type: 3}
+    - {fileID: 21300000, guid: c12dddc323ac2e049840194d364472d3, type: 3}
+    - {fileID: 21300000, guid: 0520bad6101fde642bb011ca5e64fb97, type: 3}
+    - {fileID: 21300000, guid: 2228ef9900ea36041a0e4f1f3e436440, type: 3}
+  - Id: Transition-4
+    SpriteFrames:
+    - {fileID: 21300000, guid: 303c40cf57417fd4292ba72388e0cc29, type: 3}
+    - {fileID: 21300000, guid: bc095402ac884eb4e97fb2c631058ac3, type: 3}
+    - {fileID: 21300000, guid: 49347ba5c764e7c4b9b8dfb038c3008b, type: 3}
+    - {fileID: 21300000, guid: 614d129e277ff3045bcd5d66928a3056, type: 3}
+    - {fileID: 21300000, guid: f7687802167b5a54cb2ef886ff85b01e, type: 3}
+    - {fileID: 21300000, guid: 5d566986cd9431c4f8ba52245bd0a9ee, type: 3}
+    - {fileID: 21300000, guid: 86340e4dbe0ecd441bffc17251bdc0d0, type: 3}
+    - {fileID: 21300000, guid: 881a0d4af9cc6dc488a1a590649a3987, type: 3}
+    - {fileID: 21300000, guid: 2d6e3becf575128478cc08cfbf4303c0, type: 3}
+    - {fileID: 21300000, guid: a8d0633b75ee3f546b89e52608015425, type: 3}
+    - {fileID: 21300000, guid: b02945624bde4374d871956e077f884e, type: 3}
+    - {fileID: 21300000, guid: d03680d293ca47b44878456f46c03581, type: 3}
+  - Id: Transition-5
+    SpriteFrames:
+    - {fileID: 21300000, guid: 7a2d59dad634a8f4ca9266b1ed15109d, type: 3}
+    - {fileID: 21300000, guid: 07e63328bf026614d887d900715a711c, type: 3}
+    - {fileID: 21300000, guid: daa8caa1a2793b643acba3ef95fd55f0, type: 3}
+    - {fileID: 21300000, guid: dbdc38eb74a2d624a8d878653e2093e5, type: 3}
+    - {fileID: 21300000, guid: f45bfccc8c33e164da9f8e52b90c58f6, type: 3}
+    - {fileID: 21300000, guid: 23f931fbf84dcfa4287b1eed649aee78, type: 3}
+    - {fileID: 21300000, guid: 73ccb0f4f3eb6904ab6124657bc18f9b, type: 3}
+    - {fileID: 21300000, guid: c561da864a9144a4fa9804ad04af6071, type: 3}
+    - {fileID: 21300000, guid: 44f622c95a8ed0d41872d6d46f50b78e, type: 3}
+    - {fileID: 21300000, guid: 94ff7da2cfd0d22428a9f9993fee5392, type: 3}
+    - {fileID: 21300000, guid: 9a27129ece73a0a4b89befa9ff8d73d6, type: 3}
+    - {fileID: 21300000, guid: 675379aa9b9cfe54e81bdbe8653b8cde, type: 3}
+    - {fileID: 21300000, guid: 1ebe1a861453d634d9704f828a76d359, type: 3}
+    - {fileID: 21300000, guid: 15e6255df1f8ff44f92f0b042bc0d1a0, type: 3}
+    - {fileID: 21300000, guid: e5f0da5e016744941a0b3d7a7db9c54a, type: 3}
+    - {fileID: 21300000, guid: 101d0cbb4dd2ff6449c7bab20a672cc9, type: 3}
+    - {fileID: 21300000, guid: cfdc487c9d36c324ab03521a643dee38, type: 3}
+    - {fileID: 21300000, guid: f02d06db81dfc8240b88210968b16e5d, type: 3}
+    - {fileID: 21300000, guid: 537f99d33c8bacd408563b2e1e4704dc, type: 3}

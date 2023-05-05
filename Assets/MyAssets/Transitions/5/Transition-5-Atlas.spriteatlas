@@ -1,0 +1,94 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Transition-5-Atlas
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 0
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings:
+    - serializedVersion: 3
+      m_BuildTarget: DefaultTexturePlatform
+      m_MaxTextureSize: 2048
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: -1
+      m_TextureCompression: 0
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 0
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    packingSettings:
+      serializedVersion: 2
+      padding: 8
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 0
+      enableTightPacking: 0
+      enableAlphaDilation: 0
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 102900000, guid: 3474c64caad0c3d4fa72b1015e199657, type: 3}
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: daa8caa1a2793b643acba3ef95fd55f0, type: 3}
+  - {fileID: 21300000, guid: 94ff7da2cfd0d22428a9f9993fee5392, type: 3}
+  - {fileID: 21300000, guid: 537f99d33c8bacd408563b2e1e4704dc, type: 3}
+  - {fileID: 21300000, guid: 73ccb0f4f3eb6904ab6124657bc18f9b, type: 3}
+  - {fileID: 21300000, guid: 1ebe1a861453d634d9704f828a76d359, type: 3}
+  - {fileID: 21300000, guid: c561da864a9144a4fa9804ad04af6071, type: 3}
+  - {fileID: 21300000, guid: 07e63328bf026614d887d900715a711c, type: 3}
+  - {fileID: 21300000, guid: 44f622c95a8ed0d41872d6d46f50b78e, type: 3}
+  - {fileID: 21300000, guid: 675379aa9b9cfe54e81bdbe8653b8cde, type: 3}
+  - {fileID: 21300000, guid: 7a2d59dad634a8f4ca9266b1ed15109d, type: 3}
+  - {fileID: 21300000, guid: 101d0cbb4dd2ff6449c7bab20a672cc9, type: 3}
+  - {fileID: 21300000, guid: f02d06db81dfc8240b88210968b16e5d, type: 3}
+  - {fileID: 21300000, guid: dbdc38eb74a2d624a8d878653e2093e5, type: 3}
+  - {fileID: 21300000, guid: 23f931fbf84dcfa4287b1eed649aee78, type: 3}
+  - {fileID: 21300000, guid: cfdc487c9d36c324ab03521a643dee38, type: 3}
+  - {fileID: 21300000, guid: f45bfccc8c33e164da9f8e52b90c58f6, type: 3}
+  - {fileID: 21300000, guid: 15e6255df1f8ff44f92f0b042bc0d1a0, type: 3}
+  - {fileID: 21300000, guid: e5f0da5e016744941a0b3d7a7db9c54a, type: 3}
+  - {fileID: 21300000, guid: 9a27129ece73a0a4b89befa9ff8d73d6, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - Transition-5-0003
+  - Transition-5-0010
+  - Transition-5-0019
+  - Transition-5-0007
+  - Transition-5-0013
+  - Transition-5-0008
+  - Transition-5-0002
+  - Transition-5-0009
+  - Transition-5-0012
+  - Transition-5-0001
+  - Transition-5-0016
+  - Transition-5-0018
+  - Transition-5-0004
+  - Transition-5-0006
+  - Transition-5-0017
+  - Transition-5-0005
+  - Transition-5-0014
+  - Transition-5-0015
+  - Transition-5-0011
+  m_RenderDataMap: {}
+  m_Tag: Transition-5-Atlas
+  m_IsVariant: 0

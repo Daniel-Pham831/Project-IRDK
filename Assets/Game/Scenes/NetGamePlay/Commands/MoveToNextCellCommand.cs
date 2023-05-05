@@ -18,10 +18,10 @@ namespace Game.Scenes.NetGamePlay.Commands
         public override async UniTask Execute()
         {
             // show loading screen
-            
+            await new ShowTransitionCommand().Execute();
             await new UpdatePlayerPositionInGamePlayCommand(_moveDirection.GetOppositeDirection()).Execute();
             await new MoveToDirectionInMazeCommand(_moveDirection).Execute();
-            
+            await new HideTransitionCommand().Execute();
             // hide loading screen
         }
     }
