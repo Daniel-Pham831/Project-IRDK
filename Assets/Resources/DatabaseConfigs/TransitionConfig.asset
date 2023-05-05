@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5110baccd81131946a9cce5e1ba52c32, type: 3}
   m_Name: TransitionConfig
   m_EditorClassIdentifier: 
-  DefaultTransitionEnterDuration: 0.75
-  DefaultTransitionExitDuration: 0.75
+  DefaultTransitionEnterDuration: 0.7
+  DefaultTransitionExitDuration: 0.7
   Transitions:
   - Id: Transition-1
     SpriteFrames:
@@ -91,3 +91,19 @@ MonoBehaviour:
     - {fileID: 21300000, guid: cfdc487c9d36c324ab03521a643dee38, type: 3}
     - {fileID: 21300000, guid: f02d06db81dfc8240b88210968b16e5d, type: 3}
     - {fileID: 21300000, guid: 537f99d33c8bacd408563b2e1e4704dc, type: 3}
+  - Id: Transition-6
+    SpriteFrames:
+    - {fileID: 21300000, guid: ffb06070bd284004bb9d36241dd5a2ca, type: 3}
+    - {fileID: 21300000, guid: b74d99b1abd9478469e6751768e2a300, type: 3}
+    - {fileID: 21300000, guid: 0b2ac269229b90445a8ba857eb05a6b6, type: 3}
+    - {fileID: 21300000, guid: cf65caa629e141c489b5d749f12e7d34, type: 3}
+    - {fileID: 21300000, guid: 94f431d62e1dcde42a30f7a9e1c6fa33, type: 3}
+    - {fileID: 21300000, guid: 3a28512f66c97324bb240a55c001f3e7, type: 3}
+    - {fileID: 21300000, guid: 5adc4859c3d1b7e47b0b85dd10a7f07c, type: 3}
+    - {fileID: 21300000, guid: 38e10c338041f3a4a8dfe0ea8b675af7, type: 3}
+    - {fileID: 21300000, guid: 346ccdebd789ae3448bdb5ebe5980dba, type: 3}
+    - {fileID: 21300000, guid: c98cda86cb7f42641bafa910aef3b5fd, type: 3}
+    - {fileID: 21300000, guid: 4a74404dfe857a542bd47b1332348fcd, type: 3}
+    - {fileID: 21300000, guid: 3eded191a11037447a212e295902afeb, type: 3}
+    - {fileID: 21300000, guid: f5b6068d2a13409459cf047d5288289e, type: 3}
+    - {fileID: 21300000, guid: 6becc4e3795241a42aee6ceb46cdbd78, type: 3}
