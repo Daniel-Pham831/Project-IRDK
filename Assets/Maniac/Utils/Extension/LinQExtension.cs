@@ -37,6 +37,11 @@ namespace Maniac.Utils.Extension
             return list.Shuffle(new Random(seed)).FirstOrDefault();
         }
 
+        public static IEnumerable<T> TakeRandomWithSeed<T>(this IEnumerable<T> list, int seed, int numberOfItems)
+        {
+            return list.Shuffle(new Random(seed)).Take(numberOfItems).ToList();
+        }
+
         public static T TakeRandom<T>(this IEnumerable<T> list)
         {
             return list.Shuffle().FirstOrDefault();

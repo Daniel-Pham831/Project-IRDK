@@ -1,13 +1,14 @@
 ﻿using Cysharp.Threading.Tasks;
 using Maniac.Services;
 
-namespace Game.Maze
+namespace Game.Trader
 {
-    public class InitMazeGeneratorService : Service
+    public class InitTraderSystemService : Service
     {
         public override async UniTask<IService.Result> Execute()
         {
-            new Game.Maze.MazeSystem().Init();
+            var traderSystem = new TraderSystem();
+            await traderSystem.Init();
             return IService.Result.Success;
         }
     }

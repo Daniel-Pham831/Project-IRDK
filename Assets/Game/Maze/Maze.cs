@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Game.Enums;
 using UniRx;
 using UnityEngine;
@@ -11,6 +12,7 @@ namespace Game.Maze
     {
         public Vector2Int Dimension;
         public Cell[,] Cells;
+        public List<Cell> CellList = new List<Cell>();
         public Cell StartCell;
         public Cell EndCell;
         public ReactiveProperty<Cell> CurrentObserveCell = new ReactiveProperty<Cell>(null);
@@ -21,11 +23,13 @@ namespace Game.Maze
         {
             Dimension = dimension;
             Cells = new Cell[Dimension.x, Dimension.y];
+            CellList.Clear();
             for (int i = 0; i < Dimension.x; i++)
             {
                 for (int j = 0; j < Dimension.y; j++)
                 {
                     Cells[i, j] = new Cell(new Vector2Int(i, j), this);
+                    CellList.Add(Cells[i, j]);
                 }
             }
 

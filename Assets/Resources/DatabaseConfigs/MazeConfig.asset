@@ -17,15 +17,20 @@ MonoBehaviour:
   - Difficulty: 0
     Dimensions: {x: 6, y: 3}
     DestructionPercent: 0.25
+    NumOfTraders: 4
   - Difficulty: 1
     Dimensions: {x: 7, y: 3}
     DestructionPercent: 0.3
+    NumOfTraders: 5
   - Difficulty: 2
     Dimensions: {x: 8, y: 4}
     DestructionPercent: 0.35
+    NumOfTraders: 6
   - Difficulty: 3
     Dimensions: {x: 9, y: 4}
     DestructionPercent: 0.4
+    NumOfTraders: 6
   - Difficulty: 4
     Dimensions: {x: 10, y: 4}
     DestructionPercent: 0.45
+    NumOfTraders: 7

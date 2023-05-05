@@ -12,13 +12,15 @@ namespace Maniac.DataBaseSystem
     {
         public Vector2Int DefaultMazeDimensions;
         public List<MazeLevelConfig> MazeLevelConfigs;
+        public MazeLevelConfig DefaultMazeLevelConfig => MazeLevelConfigs[0];
     }
 
     [Serializable]
-    public struct MazeLevelConfig
+    public class MazeLevelConfig
     {
         public Difficulty Difficulty;
         public Vector2Int Dimensions;
         public float DestructionPercent;
+        public int NumOfTraders;
     }
 }

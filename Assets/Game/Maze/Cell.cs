@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Game.Enums;
+using Maniac.Utils;
 using UnityEngine;
 
 namespace Game.Maze
