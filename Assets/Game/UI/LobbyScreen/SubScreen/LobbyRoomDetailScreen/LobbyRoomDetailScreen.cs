@@ -137,6 +137,7 @@ namespace Game
             if (!isHost) return;
 
             await new UpdateLobbyPlayingStateCommand().Execute();
+            startGameBtn.gameObject.SetActive(false);
             _netMessageTransmitter.SendNetMessage(new LobbyStartNetMessage());
         }
 
