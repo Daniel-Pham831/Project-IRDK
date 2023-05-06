@@ -57,10 +57,9 @@ namespace Game.Scenes.NetGamePlay.Environment.Scripts
         private void SetupTrader()
         {
             var hasTrader = _traderSystem.DoesCellContainTrader(_currentCell);
-            if (!hasTrader) return;
             
-            trader.SetActive(true);
-            traderHouse.SetActive(true);
+            trader.SetActive(hasTrader);
+            traderHouse.SetActive(hasTrader);
         }
 
         private void SetupWallGraphics()

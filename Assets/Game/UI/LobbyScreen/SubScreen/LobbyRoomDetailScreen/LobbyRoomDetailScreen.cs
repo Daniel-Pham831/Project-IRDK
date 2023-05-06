@@ -61,7 +61,7 @@ namespace Game
         private readonly string _playerCountFormat = "{0}/{1}";
         private Lobby _joinedLobby;
 
-        protected override void Awake()
+        protected override async void Awake()
         {
             base.Awake();
 

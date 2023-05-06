@@ -9,6 +9,10 @@ namespace Maniac.LanguageTableSystem
     {
         //[DON'T DELETE THESE COMMENTS]
         //[HERE]
+		public static readonly string MazeMap_Trader = "MazeMap_Trader";
+		public static readonly string MazeMap_EndCell = "MazeMap_EndCell";
+		public static readonly string MazeMap_StartCell = "MazeMap_StartCell";
+		public static readonly string MazeMap_YouAreHere = "MazeMap_YouAreHere";
 		public static readonly string AboveNoti_SamePathWarning = "AboveNoti_SamePathWarning";
 		public static readonly string Lobby_GameStartInFormat = "Lobby_GameStartInFormat";
 		public static readonly string Confirmation_LeaveRoomBody = "Confirmation_LeaveRoomBody";

@@ -16,7 +16,7 @@ namespace Maniac.RandomSystem
         {
             if(seed != 0)
                 _seed = seed;
-            
+
             Random.InitState(_seed);
             Debug.Log($"Seed {_seed} set!");
         }

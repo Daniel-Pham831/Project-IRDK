@@ -7553,6 +7553,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ca6a384306a4be5b5cd120aa4d8eb3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _directionSpawnPoints: []
+  _spawnPoints: []
 --- !u!4 &301042169
 Transform:
   m_ObjectHideFlags: 0
@@ -7585,7 +7587,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5465068023017076564, guid: 861d3e6408a24464ba3491758b07c04f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -100
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5465068023017076565, guid: 861d3e6408a24464ba3491758b07c04f, type: 3}
       propertyPath: orthographic size
@@ -7732,7 +7734,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86fcdfbc8ae64a9fb406058b81a24c95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Columns: 4
+  Columns: 6
   Rows: 3
   CellSize: 1
   cellVisualizerPrefab: {fileID: 8804170691893949980, guid: 3baa9e4ed0d4f494fb2b93da4eb71f74, type: 3}

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Game.Networking.Network.Commands;
+using Game.UI.MazeMapDialog;
 using Maniac.DataBaseSystem;
 using Maniac.Utils;
 using Sirenix.OdinInspector;
