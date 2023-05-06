@@ -24,20 +24,23 @@ namespace Game.Networking.Lobby
                     // Filter for open lobbies only
                     _queryLobbiesOptions.Filters = new List<QueryFilter>()
                     {
+                        // Only query for lobbies that have available slots
                         new QueryFilter(
                             field: QueryFilter.FieldOptions.AvailableSlots,
                             op: QueryFilter.OpOptions.GT,
                             value: "0")
                         ,
+                        // Only query for lobbies that are NOT playing
                         new QueryFilter(
                             field: QueryFilter.FieldOptions.S1, // IsPlaying
                             op: QueryFilter.OpOptions.EQ,
                             value: "false")
                         ,
+                        // Only query for lobbies that are ready
                         new QueryFilter(
                             field: QueryFilter.FieldOptions.S2, // IsLobbyReady
                             op: QueryFilter.OpOptions.EQ,
-                            value: "false")
+                            value: "true")
                     };
 
                     // Order by newest lobbies first
