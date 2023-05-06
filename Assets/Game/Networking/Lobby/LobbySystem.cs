@@ -217,7 +217,7 @@ namespace Game.Networking.Lobby
             await Reset();
         }
         
-        public async UniTask<bool> UpdateLobbyData(List<(string key,string data,DataObject.VisibilityOptions visibility)> listOfData)
+        public async UniTask<bool> UpdateLobbyData(List<(string key,DataObject data)> listOfData)
         {
             try
             {
@@ -226,9 +226,9 @@ namespace Game.Networking.Lobby
                 {
                     var updateLobbyOptions = new UpdateLobbyOptions();
                     updateLobbyOptions.Data = new Dictionary<string, DataObject>();
-                    foreach (var (key,data,visibility) in listOfData)
+                    foreach (var (key,data) in listOfData)
                     {
-                        updateLobbyOptions.Data.Add(key,new DataObject(visibility,data));
+                        updateLobbyOptions.Data.Add(key,data);
                     }
 
                     JoinedLobby.Value = await _lobbyService.UpdateLobbyAsync(JoinedLobby.Value.Id, updateLobbyOptions);

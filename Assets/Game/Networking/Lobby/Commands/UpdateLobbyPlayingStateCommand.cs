@@ -13,10 +13,11 @@ namespace Game.Networking.Lobby.Commands
         public override async UniTask Execute()
         {
             if (!_lobbySystem.AmITheHost()) return;
-            
-            var listOfData = new List<(string, string, DataObject.VisibilityOptions)>
+
+            var listOfData = new List<(string, DataObject)>
             {
-                (LobbyDataKey.IsPlaying,"true",DataObject.VisibilityOptions.Public)
+                (LobbyDataKey.IsPlaying,
+                    new DataObject(DataObject.VisibilityOptions.Public, "true", DataObject.IndexOptions.S1))
             };
             
             await _lobbySystem.UpdateLobbyData(listOfData);

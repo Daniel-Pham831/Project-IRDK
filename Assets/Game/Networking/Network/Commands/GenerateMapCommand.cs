@@ -9,7 +9,7 @@ namespace Game.Networking.Network.Commands
 {
     public class GenerateMapCommand : Command
     {
-        private DataBase _dataBase = Locator<DataBase>.Instance;
+        private DataBase _dataBase => Locator<DataBase>.Instance;
         private MazeSystem _mazeSystem => Locator<MazeSystem>.Instance;
         private TraderSystem _traderSystem => Locator<TraderSystem>.Instance;
         private MazeConfig _mazeConfig;

@@ -20,10 +20,11 @@ namespace Game.Networking.Relay.Commands
 
         public override async UniTask Execute()
         {
-            var listOfData = new List<(string, string, DataObject.VisibilityOptions)>
+            var listOfData = new List<(string, DataObject)>
             {
-                (LobbyDataKey.LobbyRegion,_relayData.Item1.Region,DataObject.VisibilityOptions.Public),
-                (LobbyDataKey.RelayJoinCode, _relayData.Item2, DataObject.VisibilityOptions.Member),
+                (LobbyDataKey.LobbyRegion,
+                    new DataObject(DataObject.VisibilityOptions.Public, _relayData.Item1.Region)),
+                (LobbyDataKey.RelayJoinCode, new DataObject(DataObject.VisibilityOptions.Member, _relayData.Item2))
             };
             
             _result = await _lobbySystem.UpdateLobbyData(listOfData);

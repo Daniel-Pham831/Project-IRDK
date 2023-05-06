@@ -3,6 +3,7 @@ using Cysharp.Threading.Tasks;
 using Maniac.Command;
 using Maniac.Utils;
 using Unity.Services.Lobbies.Models;
+using UnityEngine;
 
 namespace Game.Networking.Lobby.Commands
 {
@@ -14,9 +15,11 @@ namespace Game.Networking.Lobby.Commands
         {
             if (!_lobbySystem.AmITheHost()) return;
             
-            var listOfData = new List<(string, string, DataObject.VisibilityOptions)>
+            Debug.Log("UpdateLobbyReadyStateCommand");
+            var listOfData = new List<(string, DataObject)>
             {
-                (LobbyDataKey.IsLobbyReady,"true",DataObject.VisibilityOptions.Public)
+                (LobbyDataKey.IsLobbyReady,
+                    new DataObject(DataObject.VisibilityOptions.Public, "true", DataObject.IndexOptions.S2))
             };
             
             await _lobbySystem.UpdateLobbyData(listOfData);
