@@ -23,7 +23,6 @@ namespace Game
 
         [SerializeField] private CellVisualizer cellVisualizerPrefab;
         [SerializeField] private Transform cellVisualizerParent;
-        [SerializeField] private Transform cellVisualizerParentNonLayout;
         [SerializeField] private GridLayoutGroup gridLayoutGroup;
         private List<CellVisualizer> _cellVisualizers = new List<CellVisualizer>();
         

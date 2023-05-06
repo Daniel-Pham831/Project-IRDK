@@ -17,23 +17,23 @@ MonoBehaviour:
   - Difficulty: 0
     Dimensions: {x: 6, y: 3}
     DestructionPercent: 0.25
-    NumOfTraders: 4
+    NumOfTraders: 3
   - Difficulty: 1
     Dimensions: {x: 7, y: 3}
     DestructionPercent: 0.3
-    NumOfTraders: 5
+    NumOfTraders: 4
   - Difficulty: 2
     Dimensions: {x: 8, y: 4}
     DestructionPercent: 0.35
-    NumOfTraders: 6
+    NumOfTraders: 4
   - Difficulty: 3
     Dimensions: {x: 9, y: 4}
     DestructionPercent: 0.4
-    NumOfTraders: 6
+    NumOfTraders: 5
   - Difficulty: 4
     Dimensions: {x: 10, y: 4}
     DestructionPercent: 0.45
-    NumOfTraders: 7
+    NumOfTraders: 5
   StartCellColor: {r: 0.8962264, g: 0.85615724, b: 0.43543077, a: 1}
   EndCellColor: {r: 0.24679601, g: 0.6870517, b: 0.8867924, a: 1}
   NormalCellColor: {r: 1, g: 1, b: 1, a: 1}

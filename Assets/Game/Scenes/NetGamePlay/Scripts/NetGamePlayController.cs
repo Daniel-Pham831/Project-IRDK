@@ -107,9 +107,9 @@ namespace Game.Scenes.NetGamePlay.Scripts
 
         public override void OnDestroy()
         {
+            _netMessageTransmitter?.UnregisterAll(this);
+            
             base.OnDestroy();
-
-            _netMessageTransmitter.UnregisterAll(this);
         }
 
         public async UniTask Init()
