@@ -40,6 +40,10 @@ namespace Game.Networking.NetMessengerSystem
 
         private void RegisterEvents(bool shouldRegister)
         {
+            RegisterMessages(shouldRegister);
+            
+            if(_networkManager == null || _networkManager.CustomMessagingManager == null) return;
+            
             if (shouldRegister)
             {
                 _networkManager.CustomMessagingManager.OnUnnamedMessage += OnUnnamedMessageReceived;
@@ -48,8 +52,6 @@ namespace Game.Networking.NetMessengerSystem
             {
                 _networkManager.CustomMessagingManager.OnUnnamedMessage -= OnUnnamedMessageReceived;
             }
-
-            RegisterMessages(shouldRegister);
         }
 
         private void RegisterMessages(bool shouldRegister)

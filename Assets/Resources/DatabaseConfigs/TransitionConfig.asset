@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: TransitionConfig
   m_EditorClassIdentifier: 
   DefaultTransitionEnterDuration: 0.7
-  DefaultTransitionExitDuration: 0.7
+  DefaultTransitionExitDuration: 1.2
   Transitions:
   - Id: Transition-1
     SpriteFrames:
