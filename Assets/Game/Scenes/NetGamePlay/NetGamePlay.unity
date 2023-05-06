@@ -9054,12 +9054,13 @@ GameObject:
   m_Component:
   - component: {fileID: 744442549}
   - component: {fileID: 744442550}
+  - component: {fileID: 744442551}
   m_Layer: 0
   m_Name: TraderController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &744442549
 Transform:
@@ -9087,7 +9088,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: -0.5, y: 0.75}
@@ -9103,6 +9104,21 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 7.5423727, y: 3.6}
   m_EdgeRadius: 0
+--- !u!114 &744442551
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 744442548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48f78e6e091c496ba91be2d4f1f25a59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  trader: {fileID: 645212662099663375}
+  traderHouse: {fileID: 1491811017258202065}
+  traderInteractCollider2D: {fileID: 744442550}
 --- !u!1 &754269425
 GameObject:
   m_ObjectHideFlags: 0
@@ -12634,8 +12650,6 @@ MonoBehaviour:
   - WallType: 3
     GraphicObject: {fileID: 98651464}
   _confiner: {fileID: 886474738}
-  trader: {fileID: 645212662099663375}
-  traderHouse: {fileID: 1491811017258202065}
 --- !u!60 &886474738
 PolygonCollider2D:
   m_ObjectHideFlags: 0

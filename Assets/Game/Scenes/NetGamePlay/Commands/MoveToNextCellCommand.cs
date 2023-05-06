@@ -17,6 +17,7 @@ namespace Game.Scenes.NetGamePlay.Commands
         
         public override async UniTask Execute()
         {
+            await new HidePlayerInGameScreenCommand().Execute();
             await new DisablePlayerInputCommand().Execute();
             await new ShowTransitionCommand().Execute();
             
@@ -25,6 +26,7 @@ namespace Game.Scenes.NetGamePlay.Commands
             
             await new HideTransitionCommand().Execute();
             await new EnablePlayerInputCommand().Execute();
+            await new ShowPlayerInGameScreenCommand().Execute();
         }
     }
 }

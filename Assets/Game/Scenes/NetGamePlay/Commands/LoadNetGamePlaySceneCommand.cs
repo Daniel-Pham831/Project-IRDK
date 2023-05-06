@@ -27,6 +27,7 @@ namespace Game.Scenes.NetGamePlay.Commands
             netGamePlayCommandsGroup.Add(new LoadSceneCommand(SceneName.NetGamePlay));
             netGamePlayCommandsGroup.Add(new InitNetGamePlayCommand());
             netGamePlayCommandsGroup.Add(new UpdatePlayerPositionInGamePlayCommand());
+            netGamePlayCommandsGroup.Add(new ShowPlayerInGameScreenCommand());
             netGamePlayCommandsGroup.Add(new SetupCameraCommand());
             
             _loadingScreen = await _uiManager.Show<LoadingScreen>(netGamePlayCommandsGroup.Progress);

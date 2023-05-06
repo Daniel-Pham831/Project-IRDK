@@ -14,15 +14,11 @@ namespace Game.Scenes.NetGamePlay.Environment.Scripts
     public class EnvironmentController : MonoLocator<EnvironmentController>
     {
         private Maze.MazeSystem _mazeSystem => Locator<Maze.MazeSystem>.Instance;
-        private TraderSystem _traderSystem => Locator<TraderSystem>.Instance;
         
         [SerializeField] private List<PathGraphic> _pathGraphics;
         [SerializeField] private List<WallGraphic> _wallGraphics;
         [SerializeField] private PolygonCollider2D _confiner;
 
-        [SerializeField] private GameObject trader;
-        [SerializeField] private GameObject traderHouse;
-        
         public PolygonCollider2D Confiner => _confiner;
         private Cell _currentCell;
         private Maze.Maze _currentMaze;
@@ -51,15 +47,6 @@ namespace Game.Scenes.NetGamePlay.Environment.Scripts
             _currentCell = cell;
             SetupWallGraphics();
             SetupPathGraphics();
-            SetupTrader();
-        }
-
-        private void SetupTrader()
-        {
-            var hasTrader = _traderSystem.DoesCellContainTrader(_currentCell);
-            
-            trader.SetActive(hasTrader);
-            traderHouse.SetActive(hasTrader);
         }
 
         private void SetupWallGraphics()

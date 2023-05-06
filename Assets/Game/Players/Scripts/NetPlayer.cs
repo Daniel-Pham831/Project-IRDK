@@ -34,6 +34,20 @@ namespace Game.Players.Scripts
         private string oldName = "";
         private string oldCharacterId = "";
         private NetPlayerModelHandler _netPlayerModelHandler;
+        private NetPlayerInput _netPlayerInput;
+
+        public NetPlayerInput NetPlayerInput
+        {
+            get
+            {
+                if (_netPlayerInput == null)
+                {
+                    _netPlayerInput = GetComponent<NetPlayerInput>();
+                }
+
+                return _netPlayerInput;
+            }
+        }
 
         private void Awake()
         {
