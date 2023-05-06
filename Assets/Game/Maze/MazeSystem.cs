@@ -66,7 +66,7 @@ namespace Game.Maze
             while (unvisitedNeighbors.Count > 0)
             {
                 var randomNeighbor = _randomer != null
-                    ? unvisitedNeighbors.TakeRandomWithSeed(_randomer.Seed)
+                    ? unvisitedNeighbors.TakeRandomUnity()
                     : unvisitedNeighbors.TakeRandom();
                 unvisitedNeighbors.Remove(randomNeighbor);
 

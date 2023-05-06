@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using Game.Maze;
 using Maniac.DataBaseSystem;
@@ -12,6 +13,7 @@ namespace Game.Trader
 {
     public class TraderSystem
     {
+        private MazeLevelConfig _mazeLevelConfig;
         private MazeSystem _mazeSystem => Locator<MazeSystem>.Instance;
         private Randomer _randomer => Locator<Randomer>.Instance;
         private DataBase _dataBase => Locator<DataBase>.Instance;
@@ -25,15 +27,32 @@ namespace Game.Trader
         
         public async UniTask GenerateTraders(MazeLevelConfig mazeLevelConfig)
         {
-            var randomCells = _mazeSystem.CurrentMaze.CellList.TakeRandomWithSeed(_randomer.Seed, mazeLevelConfig.NumOfTraders);
-            TraderPositions.Clear();
-            
-            foreach (var cell in randomCells)
-            {
-                TraderPositions.Add(cell.Position);
-            }
-            
             TraderPositions.Add(_mazeSystem.CurrentMaze.StartCell.Position);
+            var currentMazeCellList = _mazeSystem.CurrentMaze.CellList;
+
+            while(TraderPositions.Count < mazeLevelConfig.NumOfTraders)
+            {
+                var randomCell = currentMazeCellList.TakeRandomUnity();
+
+                bool shouldContinue = false;
+                foreach (var position in TraderPositions)
+                {
+                    if (ArePositionsNearBy(position, randomCell.Position))
+                    {
+                        shouldContinue = true;
+                        break;
+                    }
+                }
+                
+                if(shouldContinue) continue;
+                TraderPositions.Add(randomCell.Position);
+            }
+        }
+
+        private bool ArePositionsNearBy(Vector2 positionA, Vector2 positionB)
+        {
+            var magnitude = (positionB - positionA).magnitude;
+            return magnitude <= 1;
         }
 
         public bool DoesCellContainTrader(Cell cell)

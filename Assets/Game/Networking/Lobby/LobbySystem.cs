@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using Game.CloudProfileSystem;
 using Game.Networking.Lobby.Commands;
@@ -250,10 +251,23 @@ namespace Game.Networking.Lobby
 
         public async UniTask<Unity.Services.Lobbies.Models.Lobby> JoinLobbyById(string lobbyId)
         {
+            var joinLobbyByIdTask = _lobbyService.JoinLobbyByIdAsync(lobbyId);
+            return await CheckJoinLobbyUniTask(joinLobbyByIdTask);
+        }
+        
+        public async UniTask<Unity.Services.Lobbies.Models.Lobby> JoinLobbyByCode(string joinCode)
+        {
+            var joinLobbyByCodeTask = _lobbyService.JoinLobbyByCodeAsync(joinCode);
+            return await CheckJoinLobbyUniTask(joinLobbyByCodeTask);
+        }
+
+        public async UniTask<Unity.Services.Lobbies.Models.Lobby> CheckJoinLobbyUniTask(
+            Task<Unity.Services.Lobbies.Models.Lobby> joinTask)
+        {
             try
             {
-                var joinedLobby = await _lobbyService.JoinLobbyByIdAsync(lobbyId);
-                if(IsLobbyPlaying(joinedLobby))
+                var joinedLobby = await joinTask;
+                if(IsLobbyPlaying(joinedLobby) || !IsLobbyReady(joinedLobby))
                 {
                     joinedLobby = null;
                 }
@@ -267,6 +281,23 @@ namespace Game.Networking.Lobby
             
             HostLobbyToPing.Value = null;
             return JoinedLobby.Value;
+        }
+        
+        private bool IsLobbyReady(Unity.Services.Lobbies.Models.Lobby joinedLobby)
+        {
+            try
+            {
+                if (joinedLobby.Data[LobbyDataKey.IsLobbyReady].Value == "true")
+                {
+                    return true;
+                }
+            }
+            catch
+            {
+                // ignored
+            }
+
+            return false;
         }
 
         private bool IsLobbyPlaying(Unity.Services.Lobbies.Models.Lobby joinedLobby)
@@ -284,27 +315,6 @@ namespace Game.Networking.Lobby
             }
 
             return false;
-        }
-
-        public async UniTask<Unity.Services.Lobbies.Models.Lobby> JoinLobbyByCode(string joinCode)
-        {
-            try
-            {
-                var joinedLobby = await _lobbyService.JoinLobbyByCodeAsync(joinCode);
-                if(IsLobbyPlaying(joinedLobby))
-                {
-                    joinedLobby = null;
-                }
-                
-                JoinedLobby.Value = joinedLobby;
-            }
-            catch
-            {
-                JoinedLobby.Value = null;
-            }
-            
-            HostLobbyToPing.Value = null;
-            return JoinedLobby.Value;
         }
 
         public async void OnMessagesReceived(Message receivedMessage)

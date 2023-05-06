@@ -47,12 +47,18 @@ namespace Maniac.Utils.Extension
             return list.Shuffle().FirstOrDefault();
         }
 
-        public static T TakeUnityRandom<T>(this List<T> list)
+        public static IEnumerable<T> TakeRandomUnity<T>(this IEnumerable<T> list,int numOfItems)
+        {
+            var listCount = list.Count();
+            return list.OrderBy(x => UnityEngine.Random.Range(0, listCount)).Take(numOfItems).ToList();
+        }
+
+        public static T TakeRandomUnity<T>(this List<T> list)
         {
             return list[UnityEngine.Random.Range(0, list.Count)];
         }
         
-        public static T TakeUnityRandom<T>(this T[] list)
+        public static T TakeRandomUnity<T>(this T[] list)
         {
             return list[UnityEngine.Random.Range(0, list.Length)];
         }

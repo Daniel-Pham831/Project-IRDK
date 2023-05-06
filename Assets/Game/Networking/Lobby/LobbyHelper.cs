@@ -30,7 +30,12 @@ namespace Game.Networking.Lobby
                             value: "0")
                         ,
                         new QueryFilter(
-                            field: QueryFilter.FieldOptions.S1,
+                            field: QueryFilter.FieldOptions.S1, // IsPlaying
+                            op: QueryFilter.OpOptions.EQ,
+                            value: "false")
+                        ,
+                        new QueryFilter(
+                            field: QueryFilter.FieldOptions.S2, // IsLobbyReady
                             op: QueryFilter.OpOptions.EQ,
                             value: "false")
                     };

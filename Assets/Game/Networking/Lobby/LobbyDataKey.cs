@@ -6,5 +6,6 @@
         public static readonly string KickedPlayer = "kicked_players";
         public static readonly string LobbyRegion = "lobby_Region";
         public static readonly string IsPlaying = "isPlaying";
+        public static readonly string IsLobbyReady = "IsLobbyReady";
     }
 }
