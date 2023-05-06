@@ -58,11 +58,21 @@ namespace Game.Players.Scripts
         {
             if (IsOwner)
             {
-                RawInputVector = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized;
-                SmoothInputVector = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
-                _rawInputVector.Value = RawInputVector;
-                _smoothInputVector.Value = SmoothInputVector;
+                SetRawInput(new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized);
+                SetSmoothInput(new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized);
             }
+        }
+        
+        public void SetRawInput(Vector2 rawInput)
+        {
+            RawInputVector = rawInput;
+            _rawInputVector.Value = rawInput;
+        }
+        
+        public void SetSmoothInput(Vector2 smoothInput)
+        {
+            SmoothInputVector = smoothInput;
+            _smoothInputVector.Value = smoothInput;
         }
         
         private void OnTriggerEnter2D(Collider2D col)

@@ -15,7 +15,9 @@ namespace Game.Players.Commands
 
             if (_netPlayer.TryGetComponent<NetPlayerInput>(out var netPlayerInput))
             {
+                await new DisablePlayerInputCommand().Execute();
                 await netPlayerInput.InteractWithInteractable();
+                await new EnablePlayerInputCommand().Execute();
             }
         }
     }

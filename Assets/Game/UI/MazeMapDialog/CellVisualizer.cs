@@ -68,7 +68,7 @@ namespace Game.UI.MazeMapDialog
             {
                 bodyImg.color = _mazeConfig.EndCellColor;
             }
-            else if (_cellModel.Position == _maze.CurrentObserveCell.Value.Position)
+            else if (_cellModel.Position == _maze.StartCell.Position)
             {
                 bodyImg.color = _mazeConfig.StartCellColor;
             }
