@@ -78,7 +78,6 @@ namespace Maniac.Bootstrap.Scripts
             return essentialServiceGroup;
         }
 
-        // Hello
         private Service CreateBootstrapLoadingServiceGroup()
         {
             var bootstrapLoadingServiceGroup = new BootstrapLoadingServiceGroup("Loading Services");
