@@ -6,12 +6,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
-public class CoinCommand : Command
+namespace Assets.Game.Coin
 {
-    public override UniTask Execute()
+    public class CoinCommand : Command
     {
-        throw new NotImplementedException();
+        public override UniTask Execute()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
-
