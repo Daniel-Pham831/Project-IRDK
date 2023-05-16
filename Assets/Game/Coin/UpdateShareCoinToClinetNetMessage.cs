@@ -10,9 +10,8 @@ namespace Assets.Game.Coin
 {
     [Serializable]
     [MemoryPackable]
-    public partial class UpdateShareCoinNetMessage : NetMessage
+    public partial class UpdateShareCoinToClinetNetMessage : NetMessage
     {
-        public int amount;
+       // public int pricateCoin;
     }
-
 }
