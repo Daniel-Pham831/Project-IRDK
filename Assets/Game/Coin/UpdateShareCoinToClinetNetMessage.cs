@@ -12,6 +12,6 @@ namespace Assets.Game.Coin
     [MemoryPackable]
     public partial class UpdateShareCoinToClinetNetMessage : NetMessage
     {
-       // public int pricateCoin;
+       public int pricateCoin;
     }
 }

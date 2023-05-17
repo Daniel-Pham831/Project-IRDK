@@ -72,25 +72,22 @@ public class CoinSystem : INetMessageListener
 
         _netMessageTransmitter.SendNetMessage(messageToSend, sendToId);
     }
-    public void UpdateDivideSharedCoinToHost(int amoutcoinShare)
+    public void UpdateDivideSharedCoinToHost()
     {
         var messageToSend = new UpdateShareCoinToClinetNetMessage();
-        pricateCoin = amoutcoinShare;
-          Debug.Log($"{NetworkManager.Singleton.IsHost},{pricateCoin.ToString()}");
+        messageToSend.pricateCoin = this.pricateCoin;
+         Debug.Log($"{NetworkManager.Singleton.IsHost},//{messageToSend.pricateCoin}== is oke,{pricateCoin.ToString()}");
          var sendToId = new List<ulong>();
         sendToId.Add(NetworkManager.ServerClientId);
-
         _netMessageTransmitter.SendNetMessage(messageToSend);
     }
-
     public void DivideSharedCoinToClients()
     {
         if (NetworkManager.Singleton.IsHost)
         {
             var allClientIds = NetworkManager.Singleton.ConnectedClientsIds.ToArray().Length;
-            var coinClient = shareCoin / allClientIds;
-            UpdateDivideSharedCoinToHost(coinClient);
-            Debug.Log($"{NetworkManager.Singleton.IsHost},{ coinClient.ToString()}");
+            pricateCoin = shareCoin / allClientIds;
+            Debug.Log($"{NetworkManager.Singleton.IsHost},{ pricateCoin.ToString()}");
         }
     }
 }
