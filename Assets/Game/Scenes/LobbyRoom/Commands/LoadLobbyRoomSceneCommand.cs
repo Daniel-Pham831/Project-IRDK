@@ -32,6 +32,8 @@ namespace Game.Scenes.LobbyRoom.Commands
             lobbyRoomCommandsGroup.Add(new InitNetworkModelHubCommand());
             lobbyRoomCommandsGroup.Add(new StartNetworkSessionCommand());
             lobbyRoomCommandsGroup.Add(new InitNetMessageTransmitterCommand());
+            lobbyRoomCommandsGroup.Add(new InitCoinSystemCommand());
+
             lobbyRoomCommandsGroup.Add(new CheckDataSyncingCommand());
             lobbyRoomCommandsGroup.Add(new RequestSpawnNetPlayerCommand());
             lobbyRoomCommandsGroup.Add(new ShowRunTimeNetworkStatsCommand());

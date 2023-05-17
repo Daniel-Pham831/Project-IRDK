@@ -3,6 +3,7 @@ using Game.Networking.NetMessengerSystem;
 using Game.Networking.NetMessengerSystem.NetMessages;
 using Maniac.MessengerSystem.Messages;
 using Maniac.Utils;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,20 +26,27 @@ public class CoinSystem : INetMessageListener
         _netMessageTransmitter.Register<UpdateShareCoinToClinetNetMessage>(this);
     }
 
-    public void OnNetMessageReceived(NetMessage message)
+    public void OnNetMessageReceived(NetMessage receivedMessage)
     {
-       switch (message)
+        switch (receivedMessage)
         {
-            case UpdateShareCoinNetMessage AmoutCoinClinetToHost:
-                this.HandleUpdateCoin(AmoutCoinClinetToHost);
+            case UpdateShareCoinNetMessage message:
+                this.HandleUpdateCoin(message);
                 break;
-            case UpdateShareCoinToClinetNetMessage:
-                this.DivideSharedCoinToClients();
+            case UpdateShareCoinToClinetNetMessage message:
+                this.HandleShareCoinToClient(message);
                 break;
-        }    
-            
-        
+        }
+
+
     }
+
+    private void HandleShareCoinToClient(UpdateShareCoinToClinetNetMessage message)
+    {
+        pricateCoin = message.pricateCoin;
+        Debug.Log($"Received private coin {pricateCoin}");
+    }
+
     // <summary>
     /// Upadte Coin Host
     /// </summary>
@@ -72,22 +80,38 @@ public class CoinSystem : INetMessageListener
 
         _netMessageTransmitter.SendNetMessage(messageToSend, sendToId);
     }
-    public void UpdateDivideSharedCoinToHost()
-    {
-        var messageToSend = new UpdateShareCoinToClinetNetMessage();
-        messageToSend.pricateCoin = this.pricateCoin;
-         Debug.Log($"{NetworkManager.Singleton.IsHost},//{messageToSend.pricateCoin}== is oke,{pricateCoin.ToString()}");
-         var sendToId = new List<ulong>();
-        sendToId.Add(NetworkManager.ServerClientId);
-        _netMessageTransmitter.SendNetMessage(messageToSend);
-    }
+
+    //public void UpdateDivideSharedCoinToHost()
+    //{
+    //    var messageToSend = new UpdateShareCoinToClinetNetMessage();
+    //    messageToSend.pricateCoin = this.pricateCoin;
+    //     Debug.Log($"{NetworkManager.Singleton.IsHost},//{messageToSend.pricateCoin}== is oke,{pricateCoin.ToString()}");
+    //     var sendToId = new List<ulong>();
+    //    sendToId.Add(NetworkManager.ServerClientId);
+    //    _netMessageTransmitter.SendNetMessage(messageToSend);
+    //}
+
+    //public void DivideSharedCoinToClients()
+    //{
+    //    if (NetworkManager.Singleton.IsHost)
+    //    {
+    //        var allClientIds = NetworkManager.Singleton.ConnectedClientsIds.ToArray().Length;
+    //        pricateCoin = shareCoin / allClientIds;
+    //        Debug.Log($"{NetworkManager.Singleton.IsHost},{ pricateCoin.ToString()}");
+    //     
+    //    }
+    //}
+
     public void DivideSharedCoinToClients()
     {
         if (NetworkManager.Singleton.IsHost)
         {
             var allClientIds = NetworkManager.Singleton.ConnectedClientsIds.ToArray().Length;
-            pricateCoin = shareCoin / allClientIds;
-            Debug.Log($"{NetworkManager.Singleton.IsHost},{ pricateCoin.ToString()}");
+            var dividedCoins = shareCoin / allClientIds;
+
+            var message = new UpdateShareCoinToClinetNetMessage();
+            message.pricateCoin = dividedCoins;
+            _netMessageTransmitter.SendNetMessage(message);
         }
     }
 }
