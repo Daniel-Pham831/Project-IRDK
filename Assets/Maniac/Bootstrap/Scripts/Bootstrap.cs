@@ -88,6 +88,7 @@ namespace Maniac.Bootstrap.Scripts
             bootstrapLoadingServiceGroup.Add(new InitAuthenticationService());
             bootstrapLoadingServiceGroup.Add(new InitRemoteConfigService());
             bootstrapLoadingServiceGroup.Add(new InitCloudProfileManagerService());
+
             bootstrapLoadingServiceGroup.Add(new InitNetworkSystemService());
             bootstrapLoadingServiceGroup.Add(new InitLobbySystemService());
             bootstrapLoadingServiceGroup.Add(new InitRelaySystemService());
