@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using Game.Maze;
 using Maniac.DataBaseSystem;
+using Maniac.DataBaseSystem.Trader;
 using Maniac.RandomSystem;
 using Maniac.Utils;
 using Maniac.Utils.Extension;
@@ -17,6 +18,7 @@ namespace Game.Trader
         private MazeSystem _mazeSystem => Locator<MazeSystem>.Instance;
         private Randomer _randomer => Locator<Randomer>.Instance;
         private DataBase _dataBase => Locator<DataBase>.Instance;
+        private TraderConfig _traderConfig => _dataBase.GetConfig<TraderConfig>();
         
         public List<Vector2> TraderPositions { get; private set; } = new List<Vector2>();
 
