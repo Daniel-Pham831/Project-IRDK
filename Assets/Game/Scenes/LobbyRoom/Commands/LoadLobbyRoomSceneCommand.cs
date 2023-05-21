@@ -1,4 +1,5 @@
 ﻿using Cysharp.Threading.Tasks;
+using Game.Coin;
 using Game.Commands;
 using Game.Networking.Lobby.Commands;
 using Game.Networking.NetMessengerSystem;

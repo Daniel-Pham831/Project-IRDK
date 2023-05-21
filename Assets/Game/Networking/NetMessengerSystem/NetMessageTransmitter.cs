@@ -67,8 +67,10 @@ namespace Game.Networking.NetMessengerSystem
                 Messenger.Unregister<TransportFailureMessage>(this);
             }
         }
-        
-        public void SendNetMessage<T>(T messageToSend, List<ulong> toClientIds = null) where T : NetMessage
+
+        // shouldExceptHost here is used to except host from sending message to itself
+        public void SendNetMessage<T>(T messageToSend, List<ulong> toClientIds = null, bool shouldExceptHost = false)
+            where T : NetMessage
         {
             var dataInBytes = messageToSend.ToBytes();
             var sendModel = new NetMessageTransmitModel()
@@ -76,7 +78,7 @@ namespace Game.Networking.NetMessengerSystem
                 Data = dataInBytes,
                 MessageType = NetMessageCode.GetUshortFromString(messageToSend.GetType().Name)
             };
-            
+
             var modelToSendInBytes = Helper.Serialize(sendModel);
             var writeSize = FastBufferWriter.GetWriteSize(modelToSendInBytes);
             using (var writer = new FastBufferWriter(writeSize, Allocator.Temp))
@@ -87,23 +89,24 @@ namespace Game.Networking.NetMessengerSystem
                     return;
                 }
 
-                writer.WriteBytesSafe(modelToSendInBytes,writeSize,0);
+                writer.WriteBytesSafe(modelToSendInBytes, writeSize, 0);
                 if (_networkManager.IsServer)
                 {
                     toClientIds ??= _networkManager.ConnectedClientsIds.ToList();
                     toClientIds.Remove(_networkManager.LocalClientId);
                     _networkManager.CustomMessagingManager.SendUnnamedMessage(toClientIds,
                         writer, NetworkDelivery.ReliableFragmentedSequenced);
-                    
+
                     messageToSend.SenderID = _networkManager.LocalClientId;
-                    InvokeMessage(messageToSend);
+                    if(!shouldExceptHost)
+                        InvokeMessage(messageToSend);
                 }
                 else
                 {
                     _networkManager.CustomMessagingManager.SendUnnamedMessage(NetworkManager.ServerClientId,
                         writer, NetworkDelivery.ReliableFragmentedSequenced);
                 }
-                
+
                 Debug.Log($"Sent {NetMessageCode.GetMessageNameFromUshort(sendModel.MessageType)} Size: {writeSize}");
             }
         }

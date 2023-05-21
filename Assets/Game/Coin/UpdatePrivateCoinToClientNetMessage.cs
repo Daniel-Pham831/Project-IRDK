@@ -6,8 +6,8 @@ namespace Game.Coin
 {
     [Serializable]
     [MemoryPackable]
-    public partial class UpdateShareCoinNetMessage : NetMessage
+    public partial class UpdatePrivateCoinToClientNetMessage : NetMessage
     {
-        public int amount;
+       public int privateCoin;
     }
 }

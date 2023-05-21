@@ -1,117 +1,129 @@
-﻿using Assets.Game.Coin;
-using Game.Networking.NetMessengerSystem;
+﻿using Game.Networking.NetMessengerSystem;
 using Game.Networking.NetMessengerSystem.NetMessages;
+using Game.Networking.NormalMessages;
+using Maniac.MessengerSystem.Base;
 using Maniac.MessengerSystem.Messages;
 using Maniac.Utils;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+using UniRx;
 using Unity.Netcode;
-using UnityEngine;
 
-public class CoinSystem : INetMessageListener
+namespace Game.Coin
 {
-    public int shareCoin;
-    public int pricateCoin; // local
-    private NetMessageTransmitter _netMessageTransmitter => Locator<NetMessageTransmitter>.Instance;
-
-    /// <summary>
-    ///  Khởi tạo dữ liệu coin
-    /// </summary>
-    public void Init()
+    public class CoinSystem : INetMessageListener , IMessageListener
     {
-        Locator<CoinSystem>.Set(this);
-        _netMessageTransmitter.Register<UpdateShareCoinNetMessage>(this);
-        _netMessageTransmitter.Register<UpdateShareCoinToClinetNetMessage>(this);
-    }
+        public IntReactiveProperty SharedCoin { get; private set; } = new IntReactiveProperty(0);
+        public IntReactiveProperty PrivateCoin { get; private set; } = new IntReactiveProperty(0);
+    
+        private NetMessageTransmitter _netMessageTransmitter => Locator<NetMessageTransmitter>.Instance;
 
-    public void OnNetMessageReceived(NetMessage receivedMessage)
-    {
-        switch (receivedMessage)
+        /// <summary>
+        ///  Khởi tạo Hệ thống xử lý coin
+        /// </summary>
+        public void Init()
         {
-            case UpdateShareCoinNetMessage message:
-                this.HandleUpdateCoin(message);
-                break;
-            case UpdateShareCoinToClinetNetMessage message:
-                this.HandleShareCoinToClient(message);
-                break;
+            Locator<CoinSystem>.Set(this);
+            
+            RegisterMessages(true);
+        }
+        
+        private void Reset()
+        {
+            RegisterMessages(false);
+            Locator<CoinSystem>.Remove(this);
         }
 
-
-    }
-
-    private void HandleShareCoinToClient(UpdateShareCoinToClinetNetMessage message)
-    {
-        pricateCoin = message.pricateCoin;
-        Debug.Log($"Received private coin {pricateCoin}");
-    }
-
-    // <summary>
-    /// Upadte Coin Host
-    /// </summary>
-    public void UpdateShareCoid(int amout)
-    {
-        ///Cộng tiền vào share coid
-        shareCoin += amout;
-        Debug.Log($"{NetworkManager.Singleton.IsHost} {shareCoin}");
-    }
-   
-    /// <summary>
-    /// xử lý coin từ client chả về
-    /// </summary>
-    /// <param name="message"></param>
-    private void HandleUpdateCoin(UpdateShareCoinNetMessage message)
-    {
-        var ishost = NetworkManager.Singleton.IsHost;
-        if (ishost)
+        private void RegisterMessages(bool shouldRegister)
         {
-            UpdateShareCoid(message.amount);
+            if (shouldRegister)
+            {
+                // for net messages
+                _netMessageTransmitter.Register<UpdateShareCoinNetMessage>(this);
+                _netMessageTransmitter.Register<UpdatePrivateCoinToClientNetMessage>(this);
+                
+                // for normal messages
+                Messenger.Register<ApplicationQuitMessage>(this);
+                Messenger.Register<TransportFailureMessage>(this);
+            }
+            else
+            {
+                _netMessageTransmitter?.UnregisterAll(this);
+                Messenger.UnregisterAll(this);
+            }
         }
-    }
 
-    public void UpdateSharedCoinToHost(int amount)
-    {
-        var messageToSend = new UpdateShareCoinNetMessage();
-        messageToSend.amount = amount;
-
-        var sendToId = new List<ulong>();
-        sendToId.Add(NetworkManager.ServerClientId);
-
-        _netMessageTransmitter.SendNetMessage(messageToSend, sendToId);
-    }
-
-    //public void UpdateDivideSharedCoinToHost()
-    //{
-    //    var messageToSend = new UpdateShareCoinToClinetNetMessage();
-    //    messageToSend.pricateCoin = this.pricateCoin;
-    //     Debug.Log($"{NetworkManager.Singleton.IsHost},//{messageToSend.pricateCoin}== is oke,{pricateCoin.ToString()}");
-    //     var sendToId = new List<ulong>();
-    //    sendToId.Add(NetworkManager.ServerClientId);
-    //    _netMessageTransmitter.SendNetMessage(messageToSend);
-    //}
-
-    //public void DivideSharedCoinToClients()
-    //{
-    //    if (NetworkManager.Singleton.IsHost)
-    //    {
-    //        var allClientIds = NetworkManager.Singleton.ConnectedClientsIds.ToArray().Length;
-    //        pricateCoin = shareCoin / allClientIds;
-    //        Debug.Log($"{NetworkManager.Singleton.IsHost},{ pricateCoin.ToString()}");
-    //     
-    //    }
-    //}
-
-    public void DivideSharedCoinToClients()
-    {
-        if (NetworkManager.Singleton.IsHost)
+        public void OnNetMessageReceived(NetMessage receivedMessage)
         {
-            var allClientIds = NetworkManager.Singleton.ConnectedClientsIds.ToArray().Length;
-            var dividedCoins = shareCoin / allClientIds;
+            switch (receivedMessage)
+            {
+                case UpdateShareCoinNetMessage message:
+                    this.HandleUpdateSharedCoinMessage(message);
+                    break;
+                case UpdatePrivateCoinToClientNetMessage message:
+                    this.HandleUpdatePrivateCoinToClientsMessage(message);
+                    break;
+            }
+        }
+        
+        public void OnMessagesReceived(Message receivedMessage)
+        {
+            switch (receivedMessage)
+            {
+                case ApplicationQuitMessage:
+                case TransportFailureMessage:
+                    Reset();
+                    break;
+            }
+        }
 
-            var message = new UpdateShareCoinToClinetNetMessage();
-            message.pricateCoin = dividedCoins;
-            _netMessageTransmitter.SendNetMessage(message);
+        private void HandleUpdatePrivateCoinToClientsMessage(UpdatePrivateCoinToClientNetMessage message)
+        {
+            PrivateCoin.Value = message.privateCoin;
+        }
+
+        /// <summary>
+        /// xử lý coin từ client chả về
+        /// </summary>
+        /// <param name="message"></param>
+        private void HandleUpdateSharedCoinMessage(UpdateShareCoinNetMessage message)
+        {
+            SharedCoin.Value += message.amount;
+        
+            var isHost = NetworkManager.Singleton.IsHost;
+            if (isHost)
+            {
+                // update lại cho clients sau khi đã cập nhật shared coin
+                _netMessageTransmitter.SendNetMessage(new UpdateShareCoinNetMessage()
+                {
+                    amount = message.amount
+                }, null, true);
+            }
+        }
+
+        // Cái này sẽ được client gọi để update shared coin lên host
+        // sau đó host lắng nghe và update ngược lại shared coin cho clients thong qua hàm HandleUpdateSharedCoinMessage
+        public void UpdateSharedCoin(int amount)
+        {
+            var messageToSend = new UpdateShareCoinNetMessage
+            {
+                amount = amount
+            };
+
+            _netMessageTransmitter.SendNetMessage(messageToSend);
+        }
+
+        public void DivideSharedCoinToClients()
+        {
+            if (NetworkManager.Singleton.IsHost)
+            {
+                var allClientIds = NetworkManager.Singleton.ConnectedClientsIds.Count;
+                var dividedCoins = SharedCoin.Value / allClientIds;
+
+                var message = new UpdatePrivateCoinToClientNetMessage
+                {
+                    privateCoin = dividedCoins
+                };
+                _netMessageTransmitter.SendNetMessage(message);
+            }
         }
     }
 }
