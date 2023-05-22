@@ -21,9 +21,14 @@ namespace Maniac.CoolDownSystem
         private void Update() =>
             cooldownUpdates?.Invoke();
 
-        public void AddToManager(Action call)
+        public void AddToManager(Action callback)
         {
-            cooldownUpdates += call;
+            cooldownUpdates += callback;
+        }
+
+        public void RemoveFromManager(Action callback)
+        {
+            cooldownUpdates += callback;
         }
     }
 }

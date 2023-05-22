@@ -1,5 +1,5 @@
-﻿using Maniac.Utils;
-using Unity.VisualScripting;
+﻿using System;
+using Maniac.Utils;
 using UnityEngine;
 
 namespace Maniac.CoolDownSystem
@@ -7,54 +7,53 @@ namespace Maniac.CoolDownSystem
     public class Cooldown
     {
         private CooldownManager cooldownManager => Locator<CooldownManager>.Instance;
-        private bool isActive;
-        private float duration;
-        private float cooldownTimer;
+        private bool _isOnCooldown;
+        private float _totalDuration;
+        private float _durationLeft;
 
-        public Cooldown(float duration)
+        public Cooldown(float totalDuration)
         {
-            this.duration = duration;
-            Deactivate();
+            this._totalDuration = totalDuration;
+            EndCooldown();
             cooldownManager.AddToManager(Update);
         }
-
-        public delegate void BecameInactiveEventHandler();
-        public event BecameInactiveEventHandler BecameInactive;
-
-        public bool IsActive => isActive;
-        public float Duration => duration;
-        public float Timer => cooldownTimer;
-        public void Activate() => Activate(duration);
-
-        public void Activate(float customDuration)
+        
+        ~Cooldown()
         {
-            isActive = true;
-            cooldownTimer = customDuration;
+            cooldownManager.RemoveFromManager(Update);
         }
 
-        public void Deactivate()
+        public Action OnEndCooldown;
+
+        public bool IsOnCooldown => _isOnCooldown;
+        public float TotalDuration => _totalDuration;
+        public float DurationLeft => _durationLeft;
+        public void StartCooldown() => StartCooldown(_totalDuration);
+
+        private void StartCooldown(float duration)
         {
-            isActive = false;
-            cooldownTimer = 0;
-            OnBecameInactive();
+            _isOnCooldown = true;
+            _durationLeft = duration;
+        }
+
+        public void EndCooldown()
+        {
+            _isOnCooldown = false;
+            _durationLeft = 0;
+            OnEndCooldown?.Invoke();
         }
 
         public void ChangeDuration(float newDurationValue) =>
-            duration = newDurationValue;
-
-        private void OnBecameInactive()
-        {
-            BecameInactive?.Invoke();
-        }
+            _totalDuration = newDurationValue;
 
         private void Update()
         {
-            if (!isActive) return;
+            if (!_isOnCooldown) return;
             
-            if (cooldownTimer > 0f)
-                cooldownTimer = Mathf.Clamp(cooldownTimer - Time.deltaTime, 0f, duration);
+            if (_durationLeft > 0f)
+                _durationLeft = Mathf.Clamp(_durationLeft - Time.deltaTime, 0f, _totalDuration);
             else
-                Deactivate();
+                EndCooldown();
         }
     }
 }
