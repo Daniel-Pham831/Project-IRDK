@@ -11,7 +11,7 @@ namespace Maniac.CoolDownSystem
         private float _totalDuration;
         private float _durationLeft;
 
-        public Cooldown(float totalDuration)
+        public Cooldown(float totalDuration = 0)
         {
             this._totalDuration = totalDuration;
             EndCooldown();

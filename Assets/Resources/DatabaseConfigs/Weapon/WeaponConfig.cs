@@ -1,7 +1,13 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using Game.Coin;
+using Game.Networking.NetMessengerSystem;
+using Game.Networking.NetMessengerSystem.NetMessages;
 using Maniac.DataBaseSystem;
 using Maniac.Utils;
+using TMPro;
+using UniRx;
 using UnityEngine;
 
 namespace Maniac.DataBaseSystem.Weapon

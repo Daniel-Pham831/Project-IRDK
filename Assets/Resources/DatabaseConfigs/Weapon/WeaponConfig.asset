@@ -12,4 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1eab1c7439c450c46845bff0a2dfa58e, type: 3}
   m_Name: WeaponConfig
   m_EditorClassIdentifier: 
-  WeaponDatas: []
+  WeaponDatas:
+  - Id: pistol
+    Info:
+      WeaponNameLangItem: {fileID: 0}
+      WeaponDescriptionLangItem: {fileID: 0}
+      WeaponSprite: {fileID: 0}
+    AllLevelStats: []

@@ -3,7 +3,7 @@ using Maniac.DataBaseSystem;
 using Maniac.DataBaseSystem.Weapon;
 using Maniac.Utils;
 
-namespace Game.Weapon
+namespace Game.Weapons
 {
     public class WeaponSystem
     {

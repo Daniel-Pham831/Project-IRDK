@@ -56,5 +56,19 @@ namespace Maniac.DataBaseSystem.Weapon
         public float CriticalChance; // 0-1
         public float CriticalDamageMultiplier; 
         public float KnockbackDistance; // 0-1
+        
+        public float TimeBetweenShots
+        {
+            get
+            {
+                if (FireRate != 0)
+                    return 1 / FireRate;
+                else
+                {
+                    Debug.LogError("FireRate is 0");
+                    return 0;
+                }
+            }
+        }
     }
 }

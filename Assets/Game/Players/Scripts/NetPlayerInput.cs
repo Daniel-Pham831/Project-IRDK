@@ -11,8 +11,6 @@ namespace Game.Players.Scripts
 {
     public class NetPlayerInput : NetworkBehaviour
     {
-        [SerializeField] private Tag interactableTag;
-        
         private Vector2 _rawInput;
         private Vector2 _smoothInput;
         
@@ -28,6 +26,8 @@ namespace Game.Players.Scripts
             private set => _smoothInput = value;
         }
 
+        public Vector2ReactiveProperty RawInputVectorReactive { get; private set; } = new Vector2ReactiveProperty();
+        public BoolReactiveProperty IsFirePressed { get; private set; } = new BoolReactiveProperty(false);
         public BoolReactiveProperty IsInteractable { get; private set; } = new BoolReactiveProperty(false);
 
         private NetworkVariable<Vector2> _rawInputVector = new NetworkVariable<Vector2>(default,
@@ -37,7 +37,7 @@ namespace Game.Players.Scripts
             NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
         
         private ReactiveCollection<IInteractableMono> _interactables = new ReactiveCollection<IInteractableMono>();
-
+        
         private void Awake()
         {
             _interactables.ObserveCountChanged(true).Subscribe(count =>
@@ -60,6 +60,8 @@ namespace Game.Players.Scripts
             {
                 SetRawInput(new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized);
                 SetSmoothInput(new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized);
+
+                IsFirePressed.Value = Input.GetKeyDown(KeyCode.Space);
             }
         }
         
@@ -67,6 +69,7 @@ namespace Game.Players.Scripts
         {
             RawInputVector = rawInput;
             _rawInputVector.Value = rawInput;
+            RawInputVectorReactive.Value = rawInput;
         }
         
         public void SetSmoothInput(Vector2 smoothInput)
@@ -74,7 +77,7 @@ namespace Game.Players.Scripts
             SmoothInputVector = smoothInput;
             _smoothInputVector.Value = smoothInput;
         }
-        
+
         private void OnTriggerEnter2D(Collider2D col)
         {
             if(col.TryGetComponent<IInteractableMono>(out var interactable))
