@@ -7,6 +7,7 @@ using Resource.DatabaseConfigs.Weapons;
 using Sirenix.OdinInspector;
 using UniRx;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 
 namespace Game.Weapons
 {
@@ -31,6 +32,8 @@ namespace Game.Weapons
         public IntReactiveProperty Ammo { get; private set; } = new IntReactiveProperty(0);
         public IntReactiveProperty TotalAmmo { get; private set; } = new IntReactiveProperty(0);
         
+        public bool IsWeaponHasInfinityAmmo => TotalAmmo.Value <= -1;
+        
         private void Awake()
         {
             Tier.Subscribe(tier =>
@@ -46,8 +49,15 @@ namespace Game.Weapons
         {
             WeaponData = weaponData;
             Tier.SetValueAndForceNotify(WeaponTier.Standard);
+            ResetAmmoAmount();
         }
-        
+
+        private void ResetAmmoAmount()
+        {
+            Ammo.Value = WeaponData.MagCapacity;
+            TotalAmmo.Value = WeaponData.MagCapacity * WeaponData.NumOfMags;
+        }
+
         public void SetWeaponTier(WeaponTier tier)
         {
             Tier.SetValueAndForceNotify(tier);

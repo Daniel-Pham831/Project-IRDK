@@ -17,6 +17,8 @@ namespace Game.Players.Scripts
         private List<Weapon> _availableWeapons = new List<Weapon>();
         public ReactiveProperty<Weapon> CurrentWeapon { get; private set; } = new ReactiveProperty<Weapon>(null);
 
+        private int _currentWeaponIndex = 0;
+
         public override void OnNetworkSpawn()
         {
             if (!IsOwner)
@@ -74,7 +76,7 @@ namespace Game.Players.Scripts
             _availableWeapons.Add(weapon);
             
             if(_availableWeapons.Count == 1) // Equip the first weapon in
-                EquipWeapon(weapon.WeaponId);
+                EquipWeapon(_currentWeaponIndex);
         }
         
         private bool DoesPlayerHaveWeapon(string weaponId)
@@ -82,13 +84,26 @@ namespace Game.Players.Scripts
             return _availableWeapons.FirstOrDefault(weapon => weapon.WeaponId == weaponId) != null;
         }
         
-        public void EquipWeapon(string weaponId)
+        public void EquipWeapon(int weaponIndex)
         {
-            var weapon = _availableWeapons.FirstOrDefault(w => w.WeaponId == weaponId);
-            if (weapon == null)
+            if (weaponIndex < 0 || weaponIndex >= _availableWeapons.Count)
                 return;
 
-            CurrentWeapon.Value = weapon;
+            _currentWeaponIndex = weaponIndex;
+            CurrentWeapon.Value = _availableWeapons[weaponIndex];
+        }
+
+
+        public void NextWeapon()
+        {
+            var nextWeaponIndex = (_currentWeaponIndex + 1) % _availableWeapons.Count;
+            EquipWeapon(nextWeaponIndex);
+        }
+
+        public void PreviousWeapon()
+        {
+            var previousWeaponIndex = (_currentWeaponIndex - 1) % _availableWeapons.Count;
+            EquipWeapon(previousWeaponIndex);
         }
     }
 }
