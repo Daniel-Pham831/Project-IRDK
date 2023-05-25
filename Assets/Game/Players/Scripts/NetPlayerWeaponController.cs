@@ -17,7 +17,16 @@ namespace Game.Players.Scripts
         private List<Weapon> _availableWeapons = new List<Weapon>();
         public ReactiveProperty<Weapon> CurrentWeapon { get; private set; } = new ReactiveProperty<Weapon>(null);
 
-        private void Awake()
+        public override void OnNetworkSpawn()
+        {
+            if (!IsOwner)
+                enabled = false;
+
+            SubscribeEvents();
+            base.OnNetworkSpawn();
+        }
+        
+        private void SubscribeEvents()
         {
             _input.IsFirePressed.Subscribe(async value =>
             {
@@ -34,14 +43,6 @@ namespace Game.Players.Scripts
                     weapon.gameObject.SetActive(weapon.WeaponId == value.WeaponId);
                 }
             }).AddTo(this);
-        }
-        
-        public override void OnNetworkSpawn()
-        {
-            if (!IsOwner)
-                enabled = false;
-
-            base.OnNetworkSpawn();
         }
 
         private void UpdateWeaponRotation(Vector2 inputDirection)
