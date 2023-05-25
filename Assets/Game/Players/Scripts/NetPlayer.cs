@@ -35,6 +35,7 @@ namespace Game.Players.Scripts
         private string oldCharacterId = "";
         private NetPlayerModelHandler _netPlayerModelHandler;
         private NetPlayerInput _netPlayerInput;
+        private NetPlayerWeaponController _netPlayerWeaponController;
 
         public NetPlayerInput NetPlayerInput
         {
@@ -46,6 +47,19 @@ namespace Game.Players.Scripts
                 }
 
                 return _netPlayerInput;
+            }
+        }
+
+        public NetPlayerWeaponController NetPlayerWeaponController
+        {
+            get
+            {
+                if (_netPlayerWeaponController == null)
+                {
+                    _netPlayerWeaponController = GetComponent<NetPlayerWeaponController>();
+                }
+
+                return _netPlayerWeaponController;
             }
         }
 

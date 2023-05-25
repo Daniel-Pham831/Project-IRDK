@@ -71,6 +71,9 @@ namespace Game.Players.Scripts
             weaponTransform.localRotation = Quaternion.identity;
             weapon.gameObject.SetActive(false);
             _availableWeapons.Add(weapon);
+            
+            if(_availableWeapons.Count == 1) // Equip the first weapon in
+                EquipWeapon(weapon.WeaponId);
         }
         
         private bool DoesPlayerHaveWeapon(string weaponId)

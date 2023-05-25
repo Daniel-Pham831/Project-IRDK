@@ -55,7 +55,50 @@ MonoBehaviour:
           KnockbackDistance: 0.25
     MagCapacity: -1
     NumOfMags: -1
+  - Id: thompson
+    Info:
+      WeaponNameLangItem: {fileID: 11400000, guid: a4e1c7d934108224ebe09c308a68538b, type: 2}
+      WeaponSprite: {fileID: 21300000, guid: 8be217cfa94848b4690da74742b7fd88, type: 3}
+    AllLevelStats:
+      _serializedList:
+      - Key: 0
+        Value:
+          Damage: 1.5
+          ReloadTimeInSeconds: 1.5
+          FireRate: 4
+          BulletSpeed: 10
+          FireRange: 7
+          Accuracy: 0.65
+          CriticalChance: 0.25
+          CriticalDamageMultiplier: 1.5
+          KnockbackDistance: 0.1
+      - Key: 1
+        Value:
+          Damage: 3
+          ReloadTimeInSeconds: 1.3
+          FireRate: 5
+          BulletSpeed: 12
+          FireRange: 8
+          Accuracy: 0.8
+          CriticalChance: 0.25
+          CriticalDamageMultiplier: 1.5
+          KnockbackDistance: 0.125
+      - Key: 2
+        Value:
+          Damage: 6
+          ReloadTimeInSeconds: 1.1
+          FireRate: 6
+          BulletSpeed: 14
+          FireRange: 10
+          Accuracy: 0.95
+          CriticalChance: 0.25
+          CriticalDamageMultiplier: 1.5
+          KnockbackDistance: 0.15
+    MagCapacity: 30
+    NumOfMags: 4
   WeaponPrefabs:
     _serializedList:
     - Key: pistol
       Value: {fileID: 8679526631046478752, guid: 3b1f79edd0e698a41b9f381673f97289, type: 3}
+    - Key: thompson
+      Value: {fileID: 6551679741268879112, guid: 8baa3b37e196aff45a78168fd1e3155a, type: 3}

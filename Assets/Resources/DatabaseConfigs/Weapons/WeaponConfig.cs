@@ -17,7 +17,7 @@ namespace Resource.DatabaseConfigs.Weapons
         public List<WeaponData> WeaponDatas;
         [JsonIgnore]
         public SerializedDictionary<string, Weapon> WeaponPrefabs;
-        
+
         [JsonIgnore]
         private Dictionary<string, WeaponData> _weaponDataCache = new Dictionary<string, WeaponData>();
         

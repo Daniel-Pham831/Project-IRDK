@@ -15,6 +15,7 @@ namespace Maniac.Utils
 {
     public static class Helper
     {
+        public static readonly string InfinitySymbol = "\u221E";
         private static Camera camera;
         public static Camera Camera
         {

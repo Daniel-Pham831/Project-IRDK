@@ -27,7 +27,10 @@ namespace Game.Weapons
 
         private Cooldown _attackCoolDown;
         private Vector2 _oldInputDirection;
-
+        
+        public IntReactiveProperty Ammo { get; private set; } = new IntReactiveProperty(0);
+        public IntReactiveProperty TotalAmmo { get; private set; } = new IntReactiveProperty(0);
+        
         private void Awake()
         {
             Tier.Subscribe(tier =>
