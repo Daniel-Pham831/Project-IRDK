@@ -1,24 +1,31 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using Game.Coin;
-using Game.Networking.NetMessengerSystem;
-using Game.Networking.NetMessengerSystem.NetMessages;
+using AYellowpaper.SerializedCollections;
+using Game.Weapons;
 using Maniac.DataBaseSystem;
 using Maniac.Utils;
-using TMPro;
-using UniRx;
+using Newtonsoft.Json;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
-namespace Maniac.DataBaseSystem.Weapon
+namespace Resource.DatabaseConfigs.Weapons
 {
     public class WeaponConfig : DataBaseConfig
     {
+        [ValueDropdown("GetAllWeaponIds")]
+        public string DefaultWeaponId;
         public List<WeaponData> WeaponDatas;
+        [JsonIgnore]
+        public SerializedDictionary<string, Weapon> WeaponPrefabs;
+        
+        [JsonIgnore]
         private Dictionary<string, WeaponData> _weaponDataCache = new Dictionary<string, WeaponData>();
         
         public WeaponData GetWeaponDataById(string id)
         {
+            if (string.IsNullOrEmpty(id))
+                return GetWeaponDataById(DefaultWeaponId);
+            
             if (!_weaponDataCache.ContainsKey(id))
             {
                 var data = WeaponDatas.FirstOrDefault(x => x.Id == id);
@@ -39,6 +46,20 @@ namespace Maniac.DataBaseSystem.Weapon
         public List<string> GetAllWeaponIds()
         {
             return WeaponDatas.Select(x => x.Id).ToList();
+        }
+
+        public Weapon GetWeaponPrefab(string weaponId)
+        {
+            if (string.IsNullOrEmpty(weaponId))
+                return GetWeaponPrefab(DefaultWeaponId);
+            
+            if (!WeaponPrefabs.ContainsKey(weaponId))
+            {
+                Debug.LogError("WeaponPrefab with id: " + weaponId + " not found in WeaponConfig");
+                return null;
+            }
+
+            return WeaponPrefabs[weaponId];
         }
     }
 }

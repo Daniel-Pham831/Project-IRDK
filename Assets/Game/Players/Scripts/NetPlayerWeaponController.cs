@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using Cysharp.Threading.Tasks;
 using Game.Weapons;
 using UniRx;
 using Unity.Netcode;
@@ -10,19 +12,28 @@ namespace Game.Players.Scripts
     public class NetPlayerWeaponController : NetworkBehaviour
     {
         [SerializeField] private NetPlayerInput _input;
+        [SerializeField] private Transform weaponHolder;
         
         private List<Weapon> _availableWeapons = new List<Weapon>();
         public ReactiveProperty<Weapon> CurrentWeapon { get; private set; } = new ReactiveProperty<Weapon>(null);
 
         private void Awake()
         {
-            _input.IsFirePressed.Subscribe(value =>
+            _input.IsFirePressed.Subscribe(async value =>
             {
                 if (value)
-                    PerformWeaponAttack();
+                    await PerformWeaponAttack();
             }).AddTo(this);
 
             _input.RawInputVectorReactive.Subscribe(UpdateWeaponRotation).AddTo(this);
+
+            CurrentWeapon.Subscribe(value =>
+            {
+                foreach (var weapon in _availableWeapons)
+                {
+                    weapon.gameObject.SetActive(weapon.WeaponId == value.WeaponId);
+                }
+            }).AddTo(this);
         }
         
         public override void OnNetworkSpawn()
@@ -31,20 +42,6 @@ namespace Game.Players.Scripts
                 enabled = false;
 
             base.OnNetworkSpawn();
-
-            GetCurrentWeapon();
-        }
-
-        private void GetCurrentWeapon()
-        {
-            var weapons = GetComponentsInChildren<Weapon>();
-            foreach (var weapon in weapons)
-            {
-                _availableWeapons.Add(weapon);
-            }
-
-            if (_availableWeapons.Count > 0)
-                CurrentWeapon.Value = _availableWeapons[0];
         }
 
         private void UpdateWeaponRotation(Vector2 inputDirection)
@@ -55,12 +52,39 @@ namespace Game.Players.Scripts
             CurrentWeapon.Value.Rotate(inputDirection);
         }
         
-        private void PerformWeaponAttack()
+        private async UniTask PerformWeaponAttack()
         {
             if (CurrentWeapon.Value == null)
                 return;
             
-            CurrentWeapon.Value.Attack();
+            await CurrentWeapon.Value.Attack();
+        }
+        
+        public void AddWeapon(Weapon weapon)
+        {
+            if(weapon == null || DoesPlayerHaveWeapon(weapon.WeaponId))
+                return;
+            
+            Transform weaponTransform;
+            (weaponTransform = weapon.transform).SetParent(weaponHolder);
+            weaponTransform.localPosition = Vector3.zero;
+            weaponTransform.localRotation = Quaternion.identity;
+            weapon.gameObject.SetActive(false);
+            _availableWeapons.Add(weapon);
+        }
+        
+        private bool DoesPlayerHaveWeapon(string weaponId)
+        {
+            return _availableWeapons.FirstOrDefault(weapon => weapon.WeaponId == weaponId) != null;
+        }
+        
+        public void EquipWeapon(string weaponId)
+        {
+            var weapon = _availableWeapons.FirstOrDefault(w => w.WeaponId == weaponId);
+            if (weapon == null)
+                return;
+
+            CurrentWeapon.Value = weapon;
         }
     }
 }

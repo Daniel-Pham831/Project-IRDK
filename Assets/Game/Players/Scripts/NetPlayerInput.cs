@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Game.Interfaces;
+using Game.Weapons;
 using ToolBox.Tags;
 using UniRx;
 using Unity.Netcode;
@@ -62,6 +63,10 @@ namespace Game.Players.Scripts
                 SetSmoothInput(new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized);
 
                 IsFirePressed.Value = Input.GetKeyDown(KeyCode.Space);
+                if (Input.GetKeyDown(KeyCode.P))
+                {
+                    new GiveWeaponToLocalPlayerCommand().Execute();
+                }
             }
         }
         

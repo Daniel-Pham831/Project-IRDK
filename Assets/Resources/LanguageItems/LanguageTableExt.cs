@@ -9,6 +9,7 @@ namespace Maniac.LanguageTableSystem
     {
         //[DON'T DELETE THESE COMMENTS]
         //[HERE]
+		public static readonly string Weapon_pistol = "Weapon_pistol";
 		public static readonly string MazeMap_Trader = "MazeMap_Trader";
 		public static readonly string MazeMap_EndCell = "MazeMap_EndCell";
 		public static readonly string MazeMap_StartCell = "MazeMap_StartCell";

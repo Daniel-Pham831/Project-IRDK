@@ -1,8 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using Maniac.CoolDownSystem;
 using Maniac.DataBaseSystem;
-using Maniac.DataBaseSystem.Weapon;
+using Resource.DatabaseConfigs.Weapons;
 using Sirenix.OdinInspector;
+using UniRx;
 using UnityEngine;
 
 namespace Game.Weapons
@@ -17,29 +20,58 @@ namespace Game.Weapons
         [SerializeField] private SpriteRenderer graphics;
         [SerializeField] private Transform firePoint;
 
+        public WeaponData WeaponData { get; private set; } = null;
+        public ReactiveProperty<WeaponTier> Tier { get; private set; } =
+            new ReactiveProperty<WeaponTier>(WeaponTier.Standard);
         public WeaponStats Stats { get; private set; } = null;
 
-        private Cooldown _fireCoolDown;
+        private Cooldown _attackCoolDown;
         private Vector2 _oldInputDirection;
 
-        public void SetStats(WeaponStats stats)
+        private void Awake()
         {
-            Stats = stats;
-            SetupWeaponData();
+            Tier.Subscribe(tier =>
+            {
+                if (WeaponData == null) return;
+
+                Stats = WeaponData.GetStatsByTier(tier);
+                SetupWeaponStats();
+            }).AddTo(this);
         }
 
-        protected virtual void SetupWeaponData()
+        public void SetWeaponData(WeaponData weaponData)
         {
-            _fireCoolDown ??= new Cooldown();
-            _fireCoolDown.ChangeDuration(Stats.TimeBetweenShots);
-        }
-
-        public void Attack()
-        {
-            throw new System.NotImplementedException();
+            WeaponData = weaponData;
+            Tier.SetValueAndForceNotify(WeaponTier.Standard);
         }
         
-        public void Rotate(Vector2 inputDirection)
+        public void SetWeaponTier(WeaponTier tier)
+        {
+            Tier.SetValueAndForceNotify(tier);
+        }
+
+        protected virtual void SetupWeaponStats()
+        {
+            if (Stats == null) return;
+            
+            _attackCoolDown ??= new Cooldown();
+            _attackCoolDown.ChangeDuration(Stats.TimeBetweenShots);
+        }
+
+        public virtual async UniTask Attack()
+        {
+            if(_attackCoolDown.IsOnCooldown) return;
+            
+            await PerformAttack();
+            _attackCoolDown.StartCooldown();
+        }
+
+        protected virtual async UniTask PerformAttack()
+        {
+            
+        }
+        
+        public virtual void Rotate(Vector2 inputDirection)
         {
             if (inputDirection == Vector2.zero)
                 return;
