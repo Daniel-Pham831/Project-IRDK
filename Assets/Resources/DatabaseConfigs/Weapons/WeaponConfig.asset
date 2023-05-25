@@ -53,7 +53,7 @@ MonoBehaviour:
           CriticalChance: 0.25
           CriticalDamageMultiplier: 1.5
           KnockbackDistance: 0.25
-    MagCapacity: -1
+    MagCapacity: 10
     NumOfMags: -1
   - Id: thompson
     Info:
