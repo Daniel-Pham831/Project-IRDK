@@ -1,59 +1,96 @@
 ﻿using System;
+using Cysharp.Threading.Tasks;
 using Maniac.Utils;
+using UniRx;
 using UnityEngine;
 
 namespace Maniac.CoolDownSystem
 {
-    public class Cooldown
+    public class Cooldown : IDisposable
     {
         private CooldownManager cooldownManager => Locator<CooldownManager>.Instance;
-        private bool _isOnCooldown;
-        private float _totalDuration;
-        private float _durationLeft;
-
+        
+        public Action OnEndCooldown;
+        public BoolReactiveProperty IsOnCooldown = new BoolReactiveProperty(false);
+        public FloatReactiveProperty TotalDuration = new FloatReactiveProperty(0);
+        public FloatReactiveProperty DurationLeft = new FloatReactiveProperty(0);
+        public FloatReactiveProperty DurationLeftPercent = new FloatReactiveProperty(0);
+        
         public Cooldown(float totalDuration = 0)
         {
-            this._totalDuration = totalDuration;
+            TotalDuration.Value = totalDuration;
             EndCooldown();
+            DurationLeft.Subscribe(value =>
+            {
+                DurationLeftPercent.Value = TotalDuration.Value != 0 ? value / TotalDuration.Value : 0;
+            });
             cooldownManager.AddToManager(Update);
         }
         
         ~Cooldown()
         {
-            cooldownManager.RemoveFromManager(Update);
+            Dispose(true);
         }
 
-        public Action OnEndCooldown;
-
-        public bool IsOnCooldown => _isOnCooldown;
-        public float TotalDuration => _totalDuration;
-        public float DurationLeft => _durationLeft;
-        public void StartCooldown() => StartCooldown(_totalDuration);
-
-        private void StartCooldown(float duration)
+        public Cooldown StartCooldown(Action onEndCooldownCallback = null)
         {
-            _isOnCooldown = true;
-            _durationLeft = duration;
+            if(onEndCooldownCallback != null)
+                OnEndCooldown = onEndCooldownCallback;
+            
+            return StartCooldown(TotalDuration.Value);
         }
 
-        public void EndCooldown()
+        private Cooldown StartCooldown(float duration)
         {
-            _isOnCooldown = false;
-            _durationLeft = 0;
+            IsOnCooldown.Value = true;
+            DurationLeft.Value = duration;
+            return this;
+        }
+
+        public Cooldown EndCooldown()
+        {
+            IsOnCooldown.Value = false;
+            DurationLeft.Value = 0;
             OnEndCooldown?.Invoke();
+            return this;
         }
 
-        public void ChangeDuration(float newDurationValue) =>
-            _totalDuration = newDurationValue;
+        public Cooldown ChangeDuration(float newDurationValue)
+        { 
+            TotalDuration.Value = newDurationValue;
+            return this;
+        }
 
         private void Update()
         {
-            if (!_isOnCooldown) return;
+            if (!IsOnCooldown.Value) return;
             
-            if (_durationLeft > 0f)
-                _durationLeft = Mathf.Clamp(_durationLeft - Time.deltaTime, 0f, _totalDuration);
+            if (DurationLeft.Value > 0f)
+                DurationLeft.Value = Mathf.Clamp(DurationLeft.Value - Time.deltaTime, 0f, TotalDuration.Value);
             else
                 EndCooldown();
+        }
+
+        private void ReleaseUnmanagedResources()
+        {
+        }
+
+        private void Dispose(bool disposing)
+        {
+            ReleaseUnmanagedResources();
+            if (disposing)
+            {
+                IsOnCooldown?.Dispose();
+                TotalDuration?.Dispose();
+                DurationLeft?.Dispose();
+                DurationLeftPercent?.Dispose();
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 }

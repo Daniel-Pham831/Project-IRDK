@@ -9,6 +9,8 @@ namespace Maniac.LanguageTableSystem
     {
         //[DON'T DELETE THESE COMMENTS]
         //[HERE]
+		public static readonly string Weapon_Reloading = "Weapon_Reloading";
+		public static readonly string AboveNoti_OutOfTotalAmmoWarning = "AboveNoti_OutOfTotalAmmoWarning";
 		public static readonly string Weapon_thompson = "Weapon_thompson";
 		public static readonly string Weapon_pistol = "Weapon_pistol";
 		public static readonly string MazeMap_Trader = "MazeMap_Trader";

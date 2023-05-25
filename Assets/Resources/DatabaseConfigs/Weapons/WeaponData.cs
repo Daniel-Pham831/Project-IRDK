@@ -54,7 +54,8 @@ namespace Resource.DatabaseConfigs.Weapons
         public float CriticalDamageMultiplier; 
         public float KnockbackDistance; 
         
-        public float TimeBetweenShots
+        [JsonIgnore]
+        public float TimeBetweenShotsInSeconds
         {
             get
             {

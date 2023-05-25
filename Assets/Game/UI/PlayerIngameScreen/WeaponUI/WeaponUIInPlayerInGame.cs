@@ -22,8 +22,9 @@ namespace Game.WeaponUI
         [SerializeField] private Image weaponImage;
         [SerializeField] private TMP_Text weaponNameTxt;
         [SerializeField] private TMP_Text weaponAmmoTxt;
+        [SerializeField] private Slider weaponReloadProgressSlider;
 
-        private List<IDisposable> _ammoListeners = new List<IDisposable>();
+        private List<IDisposable> reactiveListeners = new List<IDisposable>();
 
         public async UniTask Init()
         {
@@ -31,40 +32,59 @@ namespace Game.WeaponUI
             _weaponController.CurrentWeapon.Subscribe(SetupWeapon).AddTo(this);
         }
 
+        private void OnDestroy()
+        {
+            DisposeAmmoListeners();
+        }
+
         public void SetupWeapon(Weapon weapon)
         {
-            if(weapon == null || weapon.WeaponData == null) return;
-            
+            if (weapon == null || weapon.WeaponData == null) return;
+
             var weaponData = weapon.WeaponData;
             weaponImage.sprite = weaponData.Info.WeaponSprite;
             weaponNameTxt.text = weaponData.Info.WeaponName;
 
+            SetupEvents(weapon);
+        }
+
+        private void SetupEvents(Weapon weapon)
+        {
             DisposeAmmoListeners();
-            if (weapon.IsWeaponHasInfinityAmmo)
+            // Ammo
+            var ammoListener = weapon.Ammo.Subscribe(value =>
             {
-                weaponAmmoTxt.text = string.Format(_ammoFormat, _infinitySymbol, _infinitySymbol);
-            }
-            else
+                weaponAmmoTxt.text = string.Format(_ammoFormat, value,
+                    weapon.IsWeaponHasInfinityAmmo ? _infinitySymbol : weapon.TotalAmmo.Value);
+            });
+
+            var totalAmmoListener = weapon.TotalAmmo.Subscribe(value =>
             {
-                var ammoListener = weapon.Ammo.Subscribe(value =>
-                {
-                    weaponAmmoTxt.text = string.Format(_ammoFormat, value, weapon.TotalAmmo.Value);
-                });
+                weaponAmmoTxt.text = string.Format(_ammoFormat, weapon.Ammo.Value,
+                    weapon.IsWeaponHasInfinityAmmo ? _infinitySymbol : value);
+            });
+
+            reactiveListeners.Add(ammoListener);
+            reactiveListeners.Add(totalAmmoListener);
             
-                var totalAmmoListener = weapon.TotalAmmo.Subscribe(value =>
-                {
-                    weaponAmmoTxt.text = string.Format(_ammoFormat, weapon.Ammo.Value, value);
-                });
+            // Reload
+            var isReloadProgressListener = weapon.ReloadCooldown.IsOnCooldown.Subscribe(value =>
+            {
+                weaponReloadProgressSlider.gameObject.SetActive(value);
+            });
+            var reloadProgressListener = weapon.ReloadCooldown.DurationLeftPercent.Subscribe(value =>
+            {
+                weaponReloadProgressSlider.value = value;
+            });
             
-                _ammoListeners.Add(ammoListener);
-                _ammoListeners.Add(totalAmmoListener);
-            }
+            reactiveListeners.Add(isReloadProgressListener);
+            reactiveListeners.Add(reloadProgressListener);
         }
 
         public void DisposeAmmoListeners()
         {
-            _ammoListeners.ForEach(x => x.Dispose());
-            _ammoListeners.Clear();
+            reactiveListeners.ForEach(x => x.Dispose());
+            reactiveListeners.Clear();
         }
         
         public void OnNextWeapon()
