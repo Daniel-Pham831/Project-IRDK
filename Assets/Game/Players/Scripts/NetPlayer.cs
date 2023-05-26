@@ -71,7 +71,7 @@ namespace Game.Players.Scripts
 
         public override async void OnNetworkSpawn()
         {
-            var thisClientNetPlayerModel = await GetReactiveModel();
+            var thisClientNetPlayerModel = await _netPlayerModelHandler.GetReactiveModelByClientId(OwnerClientId);
             thisClientNetPlayerModel.Subscribe(UpdateNetPlayer).AddTo(this);
             
             DontDestroyOnLoad(this.gameObject);
@@ -90,19 +90,6 @@ namespace Game.Players.Scripts
             {
                 Locator<NetPlayer>.Remove(this);
             }
-        }
-
-        private async UniTask<ReactiveProperty<NetPlayerModel>> GetReactiveModel()
-        {
-            ReactiveProperty<NetPlayerModel> result = _netPlayerModelHandler.GetReactiveModelByClientId(OwnerClientId);
-            
-            while (result == null)
-            {
-                await UniTask.Delay(100);
-                result = _netPlayerModelHandler.GetReactiveModelByClientId(OwnerClientId);
-            }
-
-            return result;
         }
 
         private void UpdateNetPlayer(NetPlayerModel value)

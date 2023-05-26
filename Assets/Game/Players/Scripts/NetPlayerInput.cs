@@ -17,13 +17,13 @@ namespace Game.Players.Scripts
         
         public Vector2 RawInputVector
         {
-            get => IsOwner ? _rawInput : _rawInputVector.Value;
+            get => IsOwner ? _rawInput : NetRawInputVector.Value;
             private set => _rawInput = value;
         }
 
         public Vector2 SmoothInputVector 
         {
-            get => IsOwner ? _smoothInput : _smoothInputVector.Value;
+            get => IsOwner ? _smoothInput : NetSmoothInputVector.Value;
             private set => _smoothInput = value;
         }
 
@@ -31,10 +31,12 @@ namespace Game.Players.Scripts
         public BoolReactiveProperty IsFirePressed { get; private set; } = new BoolReactiveProperty(false);
         public BoolReactiveProperty IsInteractable { get; private set; } = new BoolReactiveProperty(false);
 
-        private NetworkVariable<Vector2> _rawInputVector = new NetworkVariable<Vector2>(default,
+        [HideInInspector]
+        public NetworkVariable<Vector2> NetRawInputVector = new NetworkVariable<Vector2>(default,
             NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
-        private NetworkVariable<Vector2> _smoothInputVector = new NetworkVariable<Vector2>(default,
+        [HideInInspector]
+        public NetworkVariable<Vector2> NetSmoothInputVector = new NetworkVariable<Vector2>(default,
             NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
         
         private ReactiveCollection<IInteractableMono> _interactables = new ReactiveCollection<IInteractableMono>();
@@ -63,24 +65,20 @@ namespace Game.Players.Scripts
                 SetSmoothInput(new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized);
 
                 IsFirePressed.Value = Input.GetKeyDown(KeyCode.Space);
-                if (Input.GetKeyDown(KeyCode.P))
-                {
-                    new GiveWeaponToLocalPlayerCommand().Execute();
-                }
             }
         }
         
         public void SetRawInput(Vector2 rawInput)
         {
             RawInputVector = rawInput;
-            _rawInputVector.Value = rawInput;
+            NetRawInputVector.Value = rawInput;
             RawInputVectorReactive.Value = rawInput;
         }
         
         public void SetSmoothInput(Vector2 smoothInput)
         {
             SmoothInputVector = smoothInput;
-            _smoothInputVector.Value = smoothInput;
+            NetSmoothInputVector.Value = smoothInput;
         }
 
         private void OnTriggerEnter2D(Collider2D col)

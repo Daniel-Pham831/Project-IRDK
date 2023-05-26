@@ -29,7 +29,7 @@ namespace Game.Scripts
         private Lobby _lobby;
         private Player _lobbyPlayer;
 
-        public void UpdateInfo(Player lobbyPlayer, Lobby lobby)
+        public async void UpdateInfo(Player lobbyPlayer, Lobby lobby)
         {
             _NetPlayerModelHandler ??= _netModelHub.GetHandler<NetPlayerModelHandler>();
             _lobbyPlayer = lobbyPlayer;
@@ -41,7 +41,7 @@ namespace Game.Scripts
             kickButton.SetActive(isLocalPlayerHost && !isLocalPlayerSlot);
             playerSlotImage.color = isLocalPlayerSlot ? localColor : normalColor;
 
-            var netPlayerModel = _NetPlayerModelHandler.GetModelByPlayerId(lobbyPlayer.Id);
+            var netPlayerModel = await _NetPlayerModelHandler.GetModelByPlayerId(lobbyPlayer.Id);
 
             playerName.text = netPlayerModel?.Name ?? "";
         }

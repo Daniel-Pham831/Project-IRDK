@@ -33,7 +33,14 @@ namespace Game.Networking.Network
             NetworkManager.NetworkConfig ??= new NetworkConfig();
             NetworkManager.NetworkConfig.NetworkTransport = UnityTransport;
             await AddAllNetworkPrefabs();
-            NetworkManager.NetworkConfig.NetworkTransport.Initialize(NetworkManager);
+            try
+            {
+                NetworkManager.NetworkConfig.NetworkTransport.Initialize(NetworkManager);
+            }
+            catch (Exception e)
+            {
+                Debug.LogWarning(e);
+            }
             
             if (_buildSettingConfig.GetTargetEnvironmentName == Environment.Develop ||
                 _buildSettingConfig.GetTargetEnvironmentName == Environment.Staging)

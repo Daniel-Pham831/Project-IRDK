@@ -22,9 +22,13 @@ namespace Game.Weapons
         
         public override async UniTask Execute()
         {
-            var weapon = _weaponSystem.GetNewWeapon(_weaponId, _tier);
+            var weapons = _weaponSystem.GetAllWeapon();
             var weaponController = _netPlayer.GetComponent<NetPlayerWeaponController>();
-            weaponController.AddWeapon(weapon);
+
+            foreach (var weapon in weapons)
+            {
+                weaponController.AddWeapon(weapon);
+            }
         }
     }
 }

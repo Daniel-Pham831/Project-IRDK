@@ -73,7 +73,7 @@ namespace Maniac.Utils
             return MemoryPackSerializer.Serialize(objectToSerialize);
         }
 
-        public static T Deserialize<T>(byte[] bytesData) where T : class, new()
+        public static T Deserialize<T>(byte[] bytesData)
         {
             // using var ms = new MemoryStream(bytesData);
             // BinaryFormatter bf = new BinaryFormatter();

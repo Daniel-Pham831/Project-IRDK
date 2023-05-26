@@ -1,9 +1,11 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using Game.Players.Scripts;
 using Maniac.DataBaseSystem;
 using Maniac.SpawnerSystem;
 using Maniac.Utils;
 using Resource.DatabaseConfigs.Weapons;
+using Unity.Tutorials.Core.Editor;
 
 namespace Game.Weapons
 {
@@ -20,6 +22,9 @@ namespace Game.Weapons
 
         public Weapon GetNewWeapon(string weaponId = "", WeaponTier tier = WeaponTier.Standard)
         {
+            if (weaponId.IsNullOrEmpty())
+                weaponId = _weaponConfig.DefaultWeaponId;
+            
             var weaponPrefab = _weaponConfig.GetWeaponPrefab(weaponId);
             if (weaponPrefab == null) return null;
 
@@ -28,6 +33,17 @@ namespace Game.Weapons
 
             spawnedWeapon.SetWeaponData(weaponData);
             return spawnedWeapon;
+        }
+
+        public List<Weapon> GetAllWeapon()
+        {
+            var result = new List<Weapon>();
+            foreach (var weaponId in _weaponConfig.GetAllWeaponIds())
+            {
+                result.Add(GetNewWeapon(weaponId));
+            }
+
+            return result;
         }
 
         public Bullet GetNewBullet(string weaponId = "")

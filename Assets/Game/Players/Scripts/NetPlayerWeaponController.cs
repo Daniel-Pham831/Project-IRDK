@@ -2,8 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using Cysharp.Threading.Tasks;
+using Game.Networking.Network.NetworkModels;
+using Game.Networking.Network.NetworkModels.Handlers.NetPlayerModel;
 using Game.Weapons;
+using Maniac.Utils;
+using Maniac.Utils.Extension;
+using Sirenix.OdinInspector;
 using UniRx;
+using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -11,42 +17,58 @@ namespace Game.Players.Scripts
 {
     public class NetPlayerWeaponController : NetworkBehaviour
     {
+        private NetModelHub _netModelHub => Locator<NetModelHub>.Instance;
+
         [SerializeField] private NetPlayerInput _input;
         [SerializeField] private Transform weaponHolder;
         
         private List<Weapon> _availableWeapons = new List<Weapon>();
         public ReactiveProperty<Weapon> CurrentWeapon { get; private set; } = new ReactiveProperty<Weapon>(null);
-
+        
+        private NetPlayerModelHandler _netPlayerModelHandler;
         private int _currentWeaponIndex = 0;
+        private ReactiveProperty<NetPlayerModel> _localReactivePlayerModel;
 
         public override void OnNetworkSpawn()
         {
-            if (!IsOwner)
-                enabled = false;
-
+            if (IsOwner)
+            {
+                _netPlayerModelHandler = _netModelHub.GetHandler<NetPlayerModelHandler>();
+                _localReactivePlayerModel = _netPlayerModelHandler.LocalClientModel;
+            }
+            
             SubscribeEvents();
+
             base.OnNetworkSpawn();
         }
-        
+
         private void SubscribeEvents()
         {
-            _input.IsFirePressed.Subscribe(async value =>
+            if(IsOwner)
             {
-                if (value)
-                    await PerformWeaponAttack();
-            }).AddTo(this);
-
-            _input.RawInputVectorReactive.Subscribe(UpdateWeaponRotation).AddTo(this);
-
-            CurrentWeapon.Subscribe(value =>
-            {
-                foreach (var weapon in _availableWeapons)
+                _input.IsFirePressed.Subscribe(async value =>
                 {
-                    weapon.gameObject.SetActive(weapon.WeaponId == value.WeaponId);
-                }
-            }).AddTo(this);
-        }
+                    if (value)
+                        await PerformWeaponAttack();
+                }).AddTo(this);
 
+                _input.RawInputVectorReactive.Subscribe(UpdateWeaponRotation).AddTo(this);
+
+                CurrentWeapon.Subscribe(value =>
+                {
+                    foreach (var weapon in _availableWeapons)
+                    {
+                        var isCurrentWeapon = weapon.WeaponId == value.WeaponId;
+                        weapon.gameObject.SetActive(isCurrentWeapon);
+                    }
+
+                    var finalId = value == null ? "" : value.WeaponId;
+                    _localReactivePlayerModel.Value.WeaponGraphicsId = finalId;
+                    _localReactivePlayerModel.SelfNotify();
+                }).AddTo(this);
+            }
+        }
+        
         private void UpdateWeaponRotation(Vector2 inputDirection)
         {
             if(CurrentWeapon.Value == null)

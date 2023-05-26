@@ -11,6 +11,7 @@ namespace Game.Networking.Network.NetworkModels.Handlers.NetPlayerModel
     {
         public string Name { get; set; }
         public string CharacterGraphicsId { get; set; } = "default";
+        public string WeaponGraphicsId { get; set; } = "";
     }
 
     public class NetPlayerModelHandler : NetHandler<NetPlayerModel>

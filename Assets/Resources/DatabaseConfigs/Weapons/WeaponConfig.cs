@@ -26,7 +26,7 @@ namespace Resource.DatabaseConfigs.Weapons
         public WeaponData GetWeaponDataById(string id)
         {
             if (string.IsNullOrEmpty(id))
-                return GetWeaponDataById(DefaultWeaponId);
+                return null;
             
             if (!_weaponDataCache.ContainsKey(id))
             {
@@ -53,7 +53,7 @@ namespace Resource.DatabaseConfigs.Weapons
         public Weapon GetWeaponPrefab(string weaponId)
         {
             if (string.IsNullOrEmpty(weaponId))
-                return GetWeaponPrefab(DefaultWeaponId);
+                return null;
             
             if (!WeaponPrefabs.ContainsKey(weaponId))
             {
@@ -67,7 +67,7 @@ namespace Resource.DatabaseConfigs.Weapons
         public Bullet GetBulletPrefab(string weaponId)
         {
             if (string.IsNullOrEmpty(weaponId))
-                return GetBulletPrefab(DefaultWeaponId);
+                return null;
             
             if (!BulletPrefabs.ContainsKey(weaponId))
             {

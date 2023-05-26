@@ -216,7 +216,24 @@ namespace Game.Networking.Network.NetworkModels.Handlers
             AllClientReactiveModels?.Dispose();
         }
         
-        public T GetModelByPlayerId(string playerId)
+        public async UniTask<T> GetModelByPlayerId(string playerId)
+        {
+            var result = GetModelByPlayerIdHelper(playerId);
+
+            var counter = 0f;
+            while (result == null)
+            {
+                await UniTask.NextFrame();
+                counter += Time.deltaTime;
+                if(counter >= _config.NetworkTimeOut) throw new TimeoutException("GetModelByPlayerId");
+                    
+                result = GetModelByPlayerIdHelper(playerId);
+            }
+
+            return result;
+        }
+
+        private T GetModelByPlayerIdHelper(string playerId)
         {
             if (LocalClientModel.Value?.PlayerId == playerId) return LocalClientModel.Value;
             
@@ -229,7 +246,24 @@ namespace Game.Networking.Network.NetworkModels.Handlers
             return null;
         }
         
-        public T GetModelByClientId(ulong clientId)
+        public async UniTask<T> GetModelByClientId(ulong clientId)
+        {
+            var result = GetModelByClientIdHelper(clientId);
+
+            var counter = 0f;
+            while (result == null)
+            {
+                await UniTask.NextFrame();
+                counter += Time.deltaTime;
+                if(counter >= _config.NetworkTimeOut) throw new TimeoutException("GetModelByClientId");
+                
+                result = GetModelByClientIdHelper(clientId);
+            }
+
+            return result;
+        }
+        
+        private T GetModelByClientIdHelper(ulong clientId)
         {
             if (LocalClientModel.Value?.ClientId == clientId) return LocalClientModel.Value;
             
@@ -242,7 +276,24 @@ namespace Game.Networking.Network.NetworkModels.Handlers
             return null;
         }
 
-        public ReactiveProperty<T> GetReactiveModelByPlayerId(string playerId)
+        public async UniTask<ReactiveProperty<T>> GetReactiveModelByPlayerId(string playerId)
+        {
+            var result = GetReactiveModelByPlayerIdHelper(playerId);
+
+            var counter = 0f;
+            while (result == null)
+            {
+                await UniTask.NextFrame();
+                counter += Time.deltaTime;
+                if(counter >= _config.NetworkTimeOut) throw new TimeoutException("GetReactiveModelByPlayerId");
+                
+                result = GetReactiveModelByPlayerIdHelper(playerId);
+            }
+
+            return result;
+        }
+        
+        private ReactiveProperty<T> GetReactiveModelByPlayerIdHelper(string playerId)
         {
             if (LocalClientModel.Value?.PlayerId == playerId) return LocalClientModel;
             
@@ -255,7 +306,23 @@ namespace Game.Networking.Network.NetworkModels.Handlers
             return null;
         }
 
-        public ReactiveProperty<T> GetReactiveModelByClientId(ulong clientId)
+        public async UniTask<ReactiveProperty<T>> GetReactiveModelByClientId(ulong clientId)
+        {
+            var result = GetReactiveModelByClientIdHelper(clientId);
+            var counter = 0f;
+            while (result == null)
+            {
+                await UniTask.NextFrame();
+                counter += Time.deltaTime;
+                if(counter >= _config.NetworkTimeOut) throw new TimeoutException("GetReactiveModelByClientId");
+                
+                result = GetReactiveModelByClientIdHelper(clientId);
+            }
+
+            return result;
+        }
+
+        private ReactiveProperty<T> GetReactiveModelByClientIdHelper(ulong clientId)
         {
             if (LocalClientModel.Value?.ClientId == clientId) return LocalClientModel;
             

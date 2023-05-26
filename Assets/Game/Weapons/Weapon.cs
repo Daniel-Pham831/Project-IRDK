@@ -6,6 +6,7 @@ using Maniac.CoolDownSystem;
 using Maniac.DataBaseSystem;
 using Maniac.LanguageTableSystem;
 using Maniac.Utils;
+using Maniac.Utils.Extension;
 using Resource.DatabaseConfigs.Weapons;
 using Sirenix.OdinInspector;
 using UniRx;
@@ -162,15 +163,7 @@ namespace Game.Weapons
 
         public virtual void Rotate(Vector2 inputDirection)
         {
-            if (inputDirection == Vector2.zero)
-                return;
-            
-            var angle = Vector2.SignedAngle(rotator.right, inputDirection);
-            rotator.Rotate(Vector3.forward,angle);
-            
-            var localScale = rotator.localScale;
-            localScale = new Vector3( localScale.x,inputDirection.x > 0 ? 1 : inputDirection.x < 0 ? -1 : rotator.localScale.y, localScale.z);
-            rotator.localScale = localScale;
+            rotator.Rotate2D(inputDirection);
         }
 
 #if UNITY_EDITOR
