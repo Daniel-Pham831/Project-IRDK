@@ -17,6 +17,8 @@ namespace Resource.DatabaseConfigs.Weapons
         public List<WeaponData> WeaponDatas;
         [JsonIgnore]
         public SerializedDictionary<string, Weapon> WeaponPrefabs;
+        [JsonIgnore]
+        public SerializedDictionary<string,Bullet> BulletPrefabs;
 
         [JsonIgnore]
         private Dictionary<string, WeaponData> _weaponDataCache = new Dictionary<string, WeaponData>();
@@ -60,6 +62,20 @@ namespace Resource.DatabaseConfigs.Weapons
             }
 
             return WeaponPrefabs[weaponId];
+        }
+
+        public Bullet GetBulletPrefab(string weaponId)
+        {
+            if (string.IsNullOrEmpty(weaponId))
+                return GetBulletPrefab(DefaultWeaponId);
+            
+            if (!BulletPrefabs.ContainsKey(weaponId))
+            {
+                Debug.LogError("BulletPrefab with id: " + weaponId + " not found in WeaponConfig");
+                return null;
+            }
+
+            return BulletPrefabs[weaponId];
         }
     }
 }

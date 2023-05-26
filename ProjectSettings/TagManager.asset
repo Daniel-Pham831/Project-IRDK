@@ -3,7 +3,8 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Path
   layers:
   - Default
   - TransparentFX
@@ -49,6 +50,9 @@ TagManager:
     locked: 0
   - name: Wall
     uniqueID: 2161991093
+    locked: 0
+  - name: Weapon
+    uniqueID: 1618955849
     locked: 0
   - name: Above
     uniqueID: 40588397

@@ -29,5 +29,14 @@ namespace Game.Weapons
             spawnedWeapon.SetWeaponData(weaponData);
             return spawnedWeapon;
         }
+
+        public Bullet GetNewBullet(string weaponId = "")
+        {
+            var bulletPrefab = _weaponConfig.GetBulletPrefab(weaponId);
+            if (bulletPrefab == null) return null;
+
+            var spawnedBullet = _spawnerManager.Get(bulletPrefab);
+            return spawnedBullet;
+        }
     }
 }

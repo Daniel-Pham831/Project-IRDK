@@ -16,6 +16,10 @@ namespace Game.Weapons
 {
     public class Weapon : MonoBehaviour
     {
+        private DataBase _dataBase => Locator<DataBase>.Instance;
+        private WeaponSystem _weaponSystem => Locator<WeaponSystem>.Instance;
+        private WeaponConfig _weaponConfig => _dataBase.GetConfig<WeaponConfig>();
+        
         public string WeaponId => weaponId;
         
         [ValueDropdown("GetAllWeaponIds")]
@@ -42,7 +46,6 @@ namespace Game.Weapons
         
         public bool IsWeaponHasInfinityAmmo => TotalAmmo.Value <= -1;
         public bool IsOutOfTotalAmmo => TotalAmmo.Value == 0;
-
 
         private void Awake()
         {
@@ -78,10 +81,10 @@ namespace Game.Weapons
             if (Stats == null) return;
             
             _shootCooldown ??= new Cooldown();
-            _shootCooldown.ChangeDuration(Stats.TimeBetweenShotsInSeconds);
+            _shootCooldown.UpdateTotalDuration(Stats.TimeBetweenShotsInSeconds);
             
             _reloadCooldown ??= new Cooldown();
-            _reloadCooldown.ChangeDuration(Stats.ReloadTimeInSeconds);
+            _reloadCooldown.UpdateTotalDuration(Stats.ReloadTimeInSeconds);
         }
 
         public virtual async UniTask Attack()
@@ -95,6 +98,13 @@ namespace Game.Weapons
         protected virtual async UniTask PerformAttack()
         {
             // Shoot a bullet
+            var spawnedBullet = _weaponSystem.GetNewBullet(WeaponId);
+            if(spawnedBullet == null) return;
+
+            spawnedBullet.transform.position = firePoint.position;
+            var bulletData = Stats.ToBulletData();
+            bulletData.Direction = rotator.right;
+            await spawnedBullet.Setup(bulletData);
 
             Ammo.Value--;
             if (Ammo.Value <= 0)
@@ -107,7 +117,7 @@ namespace Game.Weapons
                 }
             }
         }
-        
+
         private async UniTask ShowOutOfTotalAmmoCommand()
         {
             if (_outOfTotalAmmoCommand == null)

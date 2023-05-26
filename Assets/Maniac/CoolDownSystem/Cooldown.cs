@@ -55,7 +55,7 @@ namespace Maniac.CoolDownSystem
             return this;
         }
 
-        public Cooldown ChangeDuration(float newDurationValue)
+        public Cooldown UpdateTotalDuration(float newDurationValue)
         { 
             TotalDuration.Value = newDurationValue;
             return this;

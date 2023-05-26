@@ -102,3 +102,9 @@ MonoBehaviour:
       Value: {fileID: 8679526631046478752, guid: 3b1f79edd0e698a41b9f381673f97289, type: 3}
     - Key: thompson
       Value: {fileID: 6551679741268879112, guid: 8baa3b37e196aff45a78168fd1e3155a, type: 3}
+  BulletPrefabs:
+    _serializedList:
+    - Key: pistol
+      Value: {fileID: 8855568365238909152, guid: b39b9af0ccc3759419a43e71f203ee38, type: 3}
+    - Key: thompson
+      Value: {fileID: 8855568365238909152, guid: b39b9af0ccc3759419a43e71f203ee38, type: 3}
