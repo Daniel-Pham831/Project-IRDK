@@ -7,13 +7,20 @@ using Maniac.UISystem;
 using Maniac.Utils;
 using UniRx;
 using UnityEngine.UI;
+using Game.Coin;
+using TMPro;
+using Maniac.LanguageTableSystem;
 
 namespace Game
 {
     public class PlayerInGameScreen : BaseUI
     {
         private NetPlayer _netPlayer  => Locator<NetPlayer>.Instance;
-        
+        private CoinSystem _coinSystem => Locator<CoinSystem>.Instance;
+        private LanguageTable _languageTable => Locator<LanguageTable>.Instance;
+
+        [SerializeField] private TextMeshProUGUI txtSharecoin;
+        [SerializeField] private TextMeshProUGUI txtPrivatecoin;
         [SerializeField] private Button interactButton;
 
         public override void OnSetup(object parameter)
@@ -24,11 +31,24 @@ namespace Game
 
         private void SetupInteractButton()
         {
+           
             _netPlayer.NetPlayerInput.IsInteractable.Subscribe(value =>
                 {
                     interactButton.gameObject.SetActive(value);
                 }
             ).AddTo(this);
+            //update sharecoin to UI
+            _coinSystem.SharedCoin.Subscribe(value => {
+
+                var CoinShare = _languageTable.Get(LanguageTable.PlayerIngameShareCoin);
+                txtSharecoin.text = CoinShare.Format(value);
+            }).AddTo(this);
+            //Update Privatecoin to UI
+            _coinSystem.PrivateCoin.Subscribe(value =>
+            {
+                var privateCoinShare = _languageTable.Get(LanguageTable.PlayerIngameShareCoinPrivate);
+                txtPrivatecoin.text = privateCoinShare.Format(value);// string.Format($" Private Coin :{value.ToString()}");
+            }).AddTo(this);
 
             interactButton.onClick.AddListener(OnInteractClicked);
         }

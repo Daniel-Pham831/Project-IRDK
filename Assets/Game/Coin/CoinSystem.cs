@@ -110,7 +110,9 @@ namespace Game.Coin
 
             _netMessageTransmitter.SendNetMessage(messageToSend);
         }
-
+        /// <summary>
+        /// Chia xử lý tiền từng màn rồi chia ra cho từng người chơi
+        /// </summary>
         public void DivideSharedCoinToClients()
         {
             if (NetworkManager.Singleton.IsHost)

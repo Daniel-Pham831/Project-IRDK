@@ -69,4 +69,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 629b54d8e578c2641a4e9e8a278fd70b, type: 2}
   - {fileID: 11400000, guid: 79b609ec3383b894fa0fe83562af220c, type: 2}
   - {fileID: 11400000, guid: afbb97032fb9a2c448c1ac706b508a53, type: 2}
+  - {fileID: 11400000, guid: 147629dee0f1f7f4f91f1bcd947c2837, type: 2}
+  - {fileID: 11400000, guid: 0c500d166653cb04898561dd4e32b921, type: 2}
+  - {fileID: 11400000, guid: 1eccf2ad59a7bd341a3ce6da4ac75525, type: 2}
+  - {fileID: 11400000, guid: b2d80c9848830904b92e62676e75d8f1, type: 2}
   languageToDelete: English
