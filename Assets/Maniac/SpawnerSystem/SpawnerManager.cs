@@ -27,6 +27,17 @@ namespace Maniac.SpawnerSystem
             {
                 spawner.Reset();
             }
+
+            ResetAllReleaseAfters();
+        }
+
+        private void ResetAllReleaseAfters()
+        {
+            foreach (var timer in _timerForReleaseAfterMonos.Values)
+            {
+                timer.DeActiveTimer();
+            }
+            _timerForReleaseAfterMonos.Clear();
         }
 
         public T Get<T>(T prefab) where T : Object
@@ -36,7 +47,9 @@ namespace Maniac.SpawnerSystem
                 throw new Exception("Null Exception! You can not spawn null object");
             }
 
-            return GetHelper(prefab) as T;
+            var result = GetHelper(prefab) as T;
+            ClearReleaseAfter(result);
+            return result;
         }
 
         private Object GetHelper(Object prefab)
@@ -80,11 +93,21 @@ namespace Maniac.SpawnerSystem
         {
             ReleaseAfterHelper(objToRelease, durationInSeconds);
         }
+        
+        private void ClearReleaseAfter<T>(T objectToClear) where T : Object
+        {
+            CheckReleaseAfter(objectToClear.name);
+        }
 
         private void ReleaseAfterHelper(Object monoToRelease, float duration)
         {
             var key = monoToRelease.name;
             var timer = _timeManager.GetFreeTimer();
+            if (_timerForReleaseAfterMonos.ContainsKey(key))
+            {
+                _timerForReleaseAfterMonos[key].DeActiveTimer();
+                _timerForReleaseAfterMonos.Remove(key);
+            }
             _timerForReleaseAfterMonos.Add(key,timer);
             
             timer.Start(duration, () =>
@@ -99,6 +122,8 @@ namespace Maniac.SpawnerSystem
         {
             if (!_timerForReleaseAfterMonos.ContainsKey(key)) return;
             
+            var timer = _timerForReleaseAfterMonos[key];
+            timer.DeActiveTimer();
             _timerForReleaseAfterMonos.Remove(key,out var freeTimer);
             _timeManager.ReturnFreeTimer(freeTimer);
         }
