@@ -15,6 +15,7 @@ namespace Maniac.DataBaseSystem
     public class NetConfig : DataBaseConfig
     {
         public float SendPingInterval = 0.5f;
+        public float NetworkTimeOut = 15f;
         
         public NetDataTransmitter NetDataTransmitter;
         public List<NetworkBehaviour> NetworkPrefabs = new List<NetworkBehaviour>();

@@ -8,6 +8,7 @@ using Game.Networking.Network.Commands;
 using Game.Networking.Scripts;
 using Game.Players.Scripts;
 using Game.Scenes.MainMenu.Commands;
+using Game.Weapons;
 using Maniac.Command;
 using Maniac.LanguageTableSystem;
 using Maniac.Services;
@@ -37,7 +38,7 @@ namespace Game.Scenes.LobbyRoom.Commands
 
             lobbyRoomCommandsGroup.Add(new CheckDataSyncingCommand());
             lobbyRoomCommandsGroup.Add(new RequestSpawnNetPlayerCommand());
-            lobbyRoomCommandsGroup.Add(new ShowRunTimeNetworkStatsCommand());
+            // lobbyRoomCommandsGroup.Add(new ShowRunTimeNetworkStatsCommand());
             lobbyRoomCommandsGroup.Add(new ApplyHostRandomSeedCommand());
             lobbyRoomCommandsGroup.Add(new GenerateMapCommand());
             lobbyRoomCommandsGroup.Add(new UpdateLobbyReadyStateCommand());

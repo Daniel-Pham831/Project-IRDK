@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Maniac.DataBaseSystem.Weapon;
+using Resource.DatabaseConfigs.Weapons;
 using Sirenix.OdinInspector;
 
 namespace Maniac.DataBaseSystem.Trader

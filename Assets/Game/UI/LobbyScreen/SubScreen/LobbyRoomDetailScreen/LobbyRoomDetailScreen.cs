@@ -102,11 +102,11 @@ namespace Game
             _netLobbyModelHandler.AllClientReactiveModels.Subscribe(UpdatePlayersReadyState).AddTo(this);
         }
 
-        private void UpdatePlayersReadyState(Dictionary<ulong, ReactiveProperty<NetLobbyModel>> lobbyModelDict)
+        private async void UpdatePlayersReadyState(Dictionary<ulong, ReactiveProperty<NetLobbyModel>> lobbyModelDict)
         {
             foreach (var lobbyModel in lobbyModelDict)
             {
-                var netPlayerModel = _NetPlayerModelHandler.GetModelByPlayerId(lobbyModel.Value.Value.PlayerId);
+                var netPlayerModel = await _NetPlayerModelHandler.GetModelByPlayerId(lobbyModel.Value.Value.PlayerId);
 
                 if (netPlayerModel == null) continue;
             }

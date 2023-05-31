@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace ToolBox.Tags
 {
-	[CreateAssetMenu(menuName = "ToolBox/Tags/Tag")]
+	[CreateAssetMenu(menuName = "Tags/Tag")]
 #if ODIN_INSPECTOR
 	[AssetSelector, Required]
 #endif

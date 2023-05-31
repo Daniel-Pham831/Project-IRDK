@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Game.Interfaces;
+using Game.Weapons;
 using ToolBox.Tags;
 using UniRx;
 using Unity.Netcode;
@@ -11,33 +12,35 @@ namespace Game.Players.Scripts
 {
     public class NetPlayerInput : NetworkBehaviour
     {
-        [SerializeField] private Tag interactableTag;
-        
         private Vector2 _rawInput;
         private Vector2 _smoothInput;
         
         public Vector2 RawInputVector
         {
-            get => IsOwner ? _rawInput : _rawInputVector.Value;
+            get => IsOwner ? _rawInput : NetRawInputVector.Value;
             private set => _rawInput = value;
         }
 
         public Vector2 SmoothInputVector 
         {
-            get => IsOwner ? _smoothInput : _smoothInputVector.Value;
+            get => IsOwner ? _smoothInput : NetSmoothInputVector.Value;
             private set => _smoothInput = value;
         }
 
+        public Vector2ReactiveProperty RawInputVectorReactive { get; private set; } = new Vector2ReactiveProperty();
+        public BoolReactiveProperty IsFirePressed { get; private set; } = new BoolReactiveProperty(false);
         public BoolReactiveProperty IsInteractable { get; private set; } = new BoolReactiveProperty(false);
 
-        private NetworkVariable<Vector2> _rawInputVector = new NetworkVariable<Vector2>(default,
+        [HideInInspector]
+        public NetworkVariable<Vector2> NetRawInputVector = new NetworkVariable<Vector2>(default,
             NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
-        private NetworkVariable<Vector2> _smoothInputVector = new NetworkVariable<Vector2>(default,
+        [HideInInspector]
+        public NetworkVariable<Vector2> NetSmoothInputVector = new NetworkVariable<Vector2>(default,
             NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
         
         private ReactiveCollection<IInteractableMono> _interactables = new ReactiveCollection<IInteractableMono>();
-
+        
         private void Awake()
         {
             _interactables.ObserveCountChanged(true).Subscribe(count =>
@@ -60,21 +63,24 @@ namespace Game.Players.Scripts
             {
                 SetRawInput(new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized);
                 SetSmoothInput(new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized);
+
+                IsFirePressed.Value = Input.GetKeyDown(KeyCode.Space);
             }
         }
         
         public void SetRawInput(Vector2 rawInput)
         {
             RawInputVector = rawInput;
-            _rawInputVector.Value = rawInput;
+            NetRawInputVector.Value = rawInput;
+            RawInputVectorReactive.Value = rawInput;
         }
         
         public void SetSmoothInput(Vector2 smoothInput)
         {
             SmoothInputVector = smoothInput;
-            _smoothInputVector.Value = smoothInput;
+            NetSmoothInputVector.Value = smoothInput;
         }
-        
+
         private void OnTriggerEnter2D(Collider2D col)
         {
             if(col.TryGetComponent<IInteractableMono>(out var interactable))

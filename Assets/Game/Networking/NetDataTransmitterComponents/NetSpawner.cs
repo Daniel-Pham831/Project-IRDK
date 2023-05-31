@@ -1,3 +1,5 @@
+using System;
+using System.Runtime.CompilerServices;
 using Game.CloudProfileSystem;
 using Maniac.DataBaseSystem;
 using Maniac.TimeSystem;
@@ -41,16 +43,17 @@ namespace Game.Networking.NetDataTransmitterComponents
             Locator<NetSpawner>.Remove();
         }
 
-        public void RequestServerToSpawn<T>(Vector3 position)
+        public void RequestServerToSpawn<T>(Vector3 position) where T: NetworkBehaviour
         {
-            FixedString64Bytes spawnObjectTypeName = typeof(T).FullName;
-            RequestToSpawnServerRpc(spawnObjectTypeName, position);
+            var typeNameInBytes = Helper.Serialize(typeof(T).FullName);
+            RequestToSpawnServerRpc(typeNameInBytes, position);
         }
         
         [ServerRpc]
-        private void RequestToSpawnServerRpc(FixedString64Bytes spawnTypeName, Vector3 spawnPosition,ServerRpcParams param = default)
+        private void RequestToSpawnServerRpc(byte[] spawnTypeNameInBytes, Vector3 spawnPosition,ServerRpcParams param = default)
         {
-            var prefab = _netConfig.GetNetPrefab(spawnTypeName.ToString());
+            var typeName = Helper.Deserialize<string>(spawnTypeNameInBytes);
+            var prefab = _netConfig.GetNetPrefab(typeName);
         
             var spawnedObject = Instantiate(prefab, spawnPosition, Quaternion.identity);
             spawnedObject.NetworkObject.SpawnWithOwnership(param.Receive.SenderClientId);

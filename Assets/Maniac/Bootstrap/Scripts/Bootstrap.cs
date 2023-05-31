@@ -13,6 +13,7 @@ using Game.Scripts;
 using Game.Services;
 using Game.Services.UnityServices;
 using Game.Trader;
+using Game.Weapons;
 using Maniac.AudioSystem;
 using Maniac.DataBaseSystem;
 using Maniac.LanguageTableSystem;
@@ -97,6 +98,7 @@ namespace Maniac.Bootstrap.Scripts
             bootstrapLoadingServiceGroup.Add(new InitMazeSystemService());
             bootstrapLoadingServiceGroup.Add(new InitTraderSystemService());
             bootstrapLoadingServiceGroup.Add(new InitAboveNotificationSystemService());
+            bootstrapLoadingServiceGroup.Add(new InitWeaponSystemService());
 
             var commandServiceGroup = new SequenceCommandServiceGroup("Command Service Group");
             commandServiceGroup.Add(new PreInitNetMessageCodesCommand());

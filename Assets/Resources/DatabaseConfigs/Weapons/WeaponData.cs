@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using AYellowpaper.SerializedCollections;
 using Maniac.LanguageTableSystem;
+using Newtonsoft.Json;
 using UnityEngine;
 
-namespace Maniac.DataBaseSystem.Weapon
+namespace Resource.DatabaseConfigs.Weapons
 {
     public enum WeaponTier
     {
@@ -17,12 +17,17 @@ namespace Maniac.DataBaseSystem.Weapon
     public class WeaponData
     {
         public string Id;
+        [JsonIgnore]
         public WeaponInfo Info;
-        public List<WeaponStats> AllLevelStats;
+        public SerializedDictionary<WeaponTier,WeaponStats> AllLevelStats;
+        public int MagCapacity;
+        public int NumOfMags;
         
         public WeaponStats GetStatsByTier(WeaponTier tier)
         {
-            return AllLevelStats.FirstOrDefault(x => x.Tier == tier);
+            if (!AllLevelStats.ContainsKey(tier)) return null;
+                
+            return AllLevelStats[tier];
         }
     }
 
@@ -32,29 +37,36 @@ namespace Maniac.DataBaseSystem.Weapon
         public LanguageItem WeaponNameLangItem;
         public string WeaponName => WeaponNameLangItem != null ? WeaponNameLangItem.GetCurrentLanguageText() : "";
 
-        public LanguageItem WeaponDescriptionLangItem;
-
-        public string WeaponDescription =>
-            WeaponDescriptionLangItem != null ? WeaponDescriptionLangItem.GetCurrentLanguageText() : "";
-
         public Sprite WeaponSprite;
     }
 
     [Serializable]
     public class WeaponStats
     {
-        public WeaponTier Tier;
-        
         public float Damage;
-        public int MagCapacity; // Aka num of bullets per mag
-        public int NumOfMags;
         public float ReloadTimeInSeconds;
-        public float FireRate; // How many bullets per second
+        [Tooltip("// How many bullets per second")]
+        public float FireRate; 
         public float BulletSpeed;
         public float FireRange;
         public float Accuracy; // 0-1
         public float CriticalChance; // 0-1
         public float CriticalDamageMultiplier; 
-        public float KnockbackDistance; // 0-1
+        public float KnockbackDistance; 
+        
+        [JsonIgnore]
+        public float TimeBetweenShotsInSeconds
+        {
+            get
+            {
+                if (FireRate != 0)
+                    return 1 / FireRate;
+                else
+                {
+                    Debug.LogError("FireRate is 0");
+                    return 0;
+                }
+            }
+        }
     }
 }

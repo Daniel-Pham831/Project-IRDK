@@ -35,7 +35,7 @@ namespace Game.Networking.Lobby.Commands
             
             var header = _LanguageTable.Get(LanguageTable.Confirmation_KickPlayerHeader);
             var body = _LanguageTable.Get(LanguageTable.Confirmation_KickPlayerBody);
-            var model = _netPlayerModelHandler.GetModelByPlayerId(_playerId);
+            var model = await _netPlayerModelHandler.GetModelByPlayerId(_playerId);
             
             var playerNameWithColor = (model != null ? model.Name : $"player").AddColor(Color.red);
             

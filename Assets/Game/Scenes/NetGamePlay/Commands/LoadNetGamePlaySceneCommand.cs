@@ -3,6 +3,7 @@ using Game.Commands;
 using Game.Networking.Lobby.Commands;
 using Game.Networking.Network.Commands;
 using Game.Players.Commands;
+using Game.Weapons;
 using Maniac.CameraSystem;
 using Maniac.Command;
 using Maniac.LanguageTableSystem;
@@ -29,6 +30,7 @@ namespace Game.Scenes.NetGamePlay.Commands
             netGamePlayCommandsGroup.Add(new UpdatePlayerPositionInGamePlayCommand());
             netGamePlayCommandsGroup.Add(new ShowPlayerInGameScreenCommand());
             netGamePlayCommandsGroup.Add(new SetupCameraCommand());
+            netGamePlayCommandsGroup.Add(new GiveWeaponToLocalPlayerCommand());
             
             _loadingScreen = await _uiManager.Show<LoadingScreen>(netGamePlayCommandsGroup.Progress);
             await netGamePlayCommandsGroup.Run();

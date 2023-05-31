@@ -35,6 +35,7 @@ namespace Game.Players.Scripts
         private string oldCharacterId = "";
         private NetPlayerModelHandler _netPlayerModelHandler;
         private NetPlayerInput _netPlayerInput;
+        private NetPlayerWeaponController _netPlayerWeaponController;
 
         public NetPlayerInput NetPlayerInput
         {
@@ -49,6 +50,19 @@ namespace Game.Players.Scripts
             }
         }
 
+        public NetPlayerWeaponController NetPlayerWeaponController
+        {
+            get
+            {
+                if (_netPlayerWeaponController == null)
+                {
+                    _netPlayerWeaponController = GetComponent<NetPlayerWeaponController>();
+                }
+
+                return _netPlayerWeaponController;
+            }
+        }
+
         private void Awake()
         {
             _characterConfig = _dataBase.GetConfig<CharacterConfig>();
@@ -57,7 +71,7 @@ namespace Game.Players.Scripts
 
         public override async void OnNetworkSpawn()
         {
-            var thisClientNetPlayerModel = await GetReactiveModel();
+            var thisClientNetPlayerModel = await _netPlayerModelHandler.GetReactiveModelByClientId(OwnerClientId);
             thisClientNetPlayerModel.Subscribe(UpdateNetPlayer).AddTo(this);
             
             DontDestroyOnLoad(this.gameObject);
@@ -76,19 +90,6 @@ namespace Game.Players.Scripts
             {
                 Locator<NetPlayer>.Remove(this);
             }
-        }
-
-        private async UniTask<ReactiveProperty<NetPlayerModel>> GetReactiveModel()
-        {
-            ReactiveProperty<NetPlayerModel> result = _netPlayerModelHandler.GetReactiveModelByClientId(OwnerClientId);
-            
-            while (result == null)
-            {
-                await UniTask.Delay(100);
-                result = _netPlayerModelHandler.GetReactiveModelByClientId(OwnerClientId);
-            }
-
-            return result;
         }
 
         private void UpdateNetPlayer(NetPlayerModel value)

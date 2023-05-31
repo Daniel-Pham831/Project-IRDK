@@ -3,6 +3,7 @@ using Maniac;
 using DG.Tweening;
 using Game.Players.Commands;
 using Game.Players.Scripts;
+using Game.WeaponUI;
 using Maniac.UISystem;
 using Maniac.Utils;
 using UniRx;
@@ -22,11 +23,13 @@ namespace Game
         [SerializeField] private TextMeshProUGUI txtSharecoin;
         [SerializeField] private TextMeshProUGUI txtPrivatecoin;
         [SerializeField] private Button interactButton;
+        [SerializeField] private WeaponUIInPlayerInGame weaponUIInPlayerInGame;
 
-        public override void OnSetup(object parameter)
+        public override async void OnSetup(object parameter)
         {
             base.OnSetup(parameter);
             SetupInteractButton();
+            await weaponUIInPlayerInGame.Init();
         }
 
         private void SetupInteractButton()

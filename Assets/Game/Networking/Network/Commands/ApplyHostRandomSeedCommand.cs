@@ -32,7 +32,7 @@ namespace Game.Networking.Network.Commands
             var counter = 0f;
             while (true)
             {
-                hostNetLobbyModel = _netLobbyModelHandler
+                hostNetLobbyModel = await _netLobbyModelHandler
                     .GetModelByPlayerId(lobbySystem.JoinedLobby.Value.HostId);
 
                 if (hostNetLobbyModel != null)
