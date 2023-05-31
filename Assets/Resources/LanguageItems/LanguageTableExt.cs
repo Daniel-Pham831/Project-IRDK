@@ -9,12 +9,12 @@ namespace Maniac.LanguageTableSystem
     {
         //[DON'T DELETE THESE COMMENTS]
         //[HERE]
+		public static readonly string Coin_Private = "Coin_Private";
+		public static readonly string Coin_Shared = "Coin_Shared";
 		public static readonly string Weapon_Reloading = "Weapon_Reloading";
 		public static readonly string AboveNoti_OutOfTotalAmmoWarning = "AboveNoti_OutOfTotalAmmoWarning";
 		public static readonly string Weapon_thompson = "Weapon_thompson";
 		public static readonly string Weapon_pistol = "Weapon_pistol";
-		public static readonly string Coin_Private = "Coin_Private";
-		public static readonly string Coin_Shared = "Coin_Shared";
 		public static readonly string MazeMap_Trader = "MazeMap_Trader";
 		public static readonly string MazeMap_EndCell = "MazeMap_EndCell";
 		public static readonly string MazeMap_StartCell = "MazeMap_StartCell";
