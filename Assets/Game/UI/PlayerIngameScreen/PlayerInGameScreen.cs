@@ -40,13 +40,13 @@ namespace Game
             //update sharecoin to UI
             _coinSystem.SharedCoin.Subscribe(value => {
 
-                var CoinShare = _languageTable.Get(LanguageTable.PlayerIngameShareCoin);
+                var CoinShare = _languageTable.Get(LanguageTable.Coin_Shared);
                 txtSharecoin.text = CoinShare.Format(value);
             }).AddTo(this);
             //Update Privatecoin to UI
             _coinSystem.PrivateCoin.Subscribe(value =>
             {
-                var privateCoinShare = _languageTable.Get(LanguageTable.PlayerIngameShareCoinPrivate);
+                var privateCoinShare = _languageTable.Get(LanguageTable.Coin_Private);
                 txtPrivatecoin.text = privateCoinShare.Format(value);// string.Format($" Private Coin :{value.ToString()}");
             }).AddTo(this);
 

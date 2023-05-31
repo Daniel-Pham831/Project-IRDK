@@ -11,8 +11,6 @@ namespace Maniac.LanguageTableSystem
         //[HERE]
 		public static readonly string Coin_Private = "Coin_Private";
 		public static readonly string Coin_Shared = "Coin_Shared";
-		public static readonly string PlayerIngameShareCoinPrivate = "PlayerIngameShareCoinPrivate";
-		public static readonly string PlayerIngameShareCoin = "PlayerIngameShareCoin";
 		public static readonly string MazeMap_Trader = "MazeMap_Trader";
 		public static readonly string MazeMap_EndCell = "MazeMap_EndCell";
 		public static readonly string MazeMap_StartCell = "MazeMap_StartCell";
