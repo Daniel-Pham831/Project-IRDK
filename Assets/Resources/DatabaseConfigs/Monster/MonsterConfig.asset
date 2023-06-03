@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67c20ebd7fb08c14495a5b0c0b1e19a4, type: 3}
+  m_Name: MonsterConfig
+  m_EditorClassIdentifier: 
+  ID: 
+  DicMonsterStats:
+    _serializedList:
+    - Key: monster_01
+      Value:
+        Level: 1
+        Health: 100
+        MoveSpeed: 5
+        TypeMonter: 1
+    - Key: monster_02
+      Value:
+        Level: 2
+        Health: 110
+        MoveSpeed: 7
+        TypeMonter: 1
+    - Key: monster_03
+      Value:
+        Level: 3
+        Health: 150
+        MoveSpeed: 9
+        TypeMonter: 2
+  DificultyMonster:
+    _serializedList:
+    - Key: 0
+      Value:
+        Range:
+          LowerBound: 0
+          UpperBound: 0
+        DicMonsterInfor:
+          _serializedList: []

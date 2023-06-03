@@ -1,4 +1,5 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using Assets.Game.Monster;
+using Cysharp.Threading.Tasks;
 using Game.Enums;
 using Game.Maze;
 using Game.Players.Commands;
@@ -27,6 +28,8 @@ namespace Game.Scenes.NetGamePlay.Commands
             await new HideTransitionCommand().Execute();
             await new EnablePlayerInputCommand().Execute();
             await new ShowPlayerInGameScreenCommand().Execute();
+
+            await new SpawnMonstersCommand().Execute();
         }
     }
 }

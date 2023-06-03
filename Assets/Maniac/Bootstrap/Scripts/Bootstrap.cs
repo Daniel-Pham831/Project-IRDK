@@ -1,4 +1,5 @@
-﻿using Game;
+﻿using Assets.Game.Monster;
+using Game;
 using Game.CloudProfileSystem;
 using Game.Commands;
 using Game.Maze;
@@ -99,6 +100,7 @@ namespace Maniac.Bootstrap.Scripts
             bootstrapLoadingServiceGroup.Add(new InitTraderSystemService());
             bootstrapLoadingServiceGroup.Add(new InitAboveNotificationSystemService());
             bootstrapLoadingServiceGroup.Add(new InitWeaponSystemService());
+            bootstrapLoadingServiceGroup.Add(new InitMonsterSystemService());
 
             var commandServiceGroup = new SequenceCommandServiceGroup("Command Service Group");
             commandServiceGroup.Add(new PreInitNetMessageCodesCommand());
